@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 import time
+import smbus
 
-TIMEFORMAT = "%m/%d/%y %H:%M:%S"
-INTERVAL = 2
+bus = None
+address = 0x3E
 
 def getTimeList():
     statFile = file("/proc/stat", "r")
@@ -21,6 +22,12 @@ def deltaTime(interval)  :
         y[i] -= x[i]
     return y
 
+def setup():
+    global bus,address
+    bus = smbus.SMBus(0)
+    TIMEFORMAT = "%m/%d/%y %H:%M:%S"
+    INTERVAL = 2
+	
 def loop():
     dt = deltaTime(INTERVAL)
     timeStamp = time.strftime(TIMEFORMAT)
