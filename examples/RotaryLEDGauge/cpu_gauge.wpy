@@ -4,7 +4,9 @@ import time
 import smbus
 
 bus = None
-address = 0x3E
+device_num = 0x3E
+TIMEFORMAT = "%m/%d/%y %H:%M:%S"
+INTERVAL = 2
 
 def getTimeList():
     statFile = file("/proc/stat", "r")
@@ -23,13 +25,13 @@ def deltaTime(interval)  :
     return y
 
 def setup():
-    global bus,address
-    bus = smbus.SMBus(0)
-    TIMEFORMAT = "%m/%d/%y %H:%M:%S"
-    INTERVAL = 2
-	
+    global bus
+    bus = smbus.SMBus(1)
+
 def loop():
     dt = deltaTime(INTERVAL)
     timeStamp = time.strftime(TIMEFORMAT)
     cpuPct = 100 - (dt[len(dt) - 1] * 100.00 / sum(dt))
     print timeStamp + "\t" + str('%.4f' %cpuPct)          
+
+    bus.write_byte(device_num,int(cpuPct))
