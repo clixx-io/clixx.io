@@ -2,8 +2,9 @@
 
 import time
 import smbus
+import ClixxIO_I2C
 
-bus = None
+g = None
 device_num = 0x3E
 TIMEFORMAT = "%m/%d/%y %H:%M:%S"
 INTERVAL = 2
@@ -25,8 +26,8 @@ def deltaTime(interval)  :
     return y
 
 def setup():
-    global bus
-    bus = smbus.SMBus(1)
+    global g
+    g = ClixxIO_I2C.displayRotaryLeds(0x3F,1)
 
 def loop():
     dt = deltaTime(INTERVAL)
@@ -34,4 +35,6 @@ def loop():
     cpuPct = 100 - (dt[len(dt) - 1] * 100.00 / sum(dt))
     print timeStamp + "\t" + str('%.4f' %cpuPct)          
 
-    bus.write_byte(device_num,int(cpuPct))
+    g.display(int(cpuPct),100)
+
+    time.sleep(0.2)
