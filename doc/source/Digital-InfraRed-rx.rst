@@ -15,7 +15,6 @@ control the various appliances that you may have.
 <photo>
 
 Code Examples
--------------
 
 Arduino 
 

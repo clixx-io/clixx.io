@@ -12,6 +12,11 @@ Contents:
    :maxdepth: 2
 
    Digital-Button
+   Digital-LED
+   Digital-InfraRed-tx
+   Digital-InfraRed-rx
+   I2C-RotaryGauge
+   I2C-TempSensor
 
 Indices and tables
 ==================

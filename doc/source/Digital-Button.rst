@@ -13,9 +13,6 @@ them do useful tasks.
 
 <picture>
 
-Code Examples
--------------
-
 Arduino
 
 Raspberry Pi
