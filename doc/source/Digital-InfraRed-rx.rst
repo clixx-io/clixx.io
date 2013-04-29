@@ -1,5 +1,5 @@
-InfraRed Receiver5
-------------------
+InfraRed Receiver
+-----------------
 
 InfraRed remotes are found in most consumer electronics such
 as Televisions, Video Recorders and Air-Conditioners. This board
