@@ -1,0 +1,9 @@
+    <div class="page">
+        <div class="nav-bar">
+            <div class="nav-bar-inner padding10">
+                <span class="element">
+                    &copy; 2013, Village Mowers and Power Tools  by <a class="fg-color-white" href="mailto:itsupport@villagemowers.com.au">Village Mowers</a>
+                </span>
+            </div>
+        </div>
+    </div>

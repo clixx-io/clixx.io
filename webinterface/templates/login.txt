@@ -1,0 +1,13 @@
+<html>
+  <head>
+	  <meta charset="utf-8">
+      </head>  
+  <body>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <form method="post" action="/auth/login">
+  <input type="hidden" name="from_page" value="%(from_page)s" />
+    %(msg)s<br />
+    Username: <input type="text" name="username" value="[M ?+%(username)s" /><br />
+    Password: <input type="password" name="password" /><br />
+  <input type="submit" value="Log in" />
+  </body>
+</html>

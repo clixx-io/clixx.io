@@ -13,6 +13,7 @@ might be needed. This might include:
 
  - Engine RPM Gauge or anything else.
 
+<<<<<<< HEAD
 Introduction
 ------------
 
@@ -119,5 +120,8 @@ def loop():
 
 
 
+=======
+Code Examples
+>>>>>>> 19848c32e0110de87abd2e3bb91777f5f82176d7
 
 
