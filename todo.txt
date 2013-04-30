@@ -1,0 +1,19 @@
+List of Icons Required
+----------------------
+
+Temperature Sensor
+ - there's a few choices
+ - it might be sun, cloud, snow
+ - or a mercury gauge
+
+Button
+ - It's probably a button
+
+LED Board
+ - An LED or a Light Globe
+
+Rotary Gauge
+ - Will have to be drawn in Inkscape
+
+Camera
+ - Icon of a camera
