@@ -80,7 +80,7 @@
             <li><a href="https://github.com/olton/Metro-UI-CSS">Source</a></li>
             <li data-role="dropdown"><a href="#">Sign-In</a>
                 <ul class="dropdown-menu">
-                    <li><a href="editscreen">Log In</a></li>
+                    <li><a href="login">Log In</a></li>
                     <li><a href="editscreen">Create Account</a></li>
                 </ul>
             </li>

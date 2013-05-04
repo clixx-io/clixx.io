@@ -1,13 +1,91 @@
-<html>
-  <head>
-	  <meta charset="utf-8">
-      </head>  
-  <body>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="Metro UI CSS">
+    <meta name="author" content="Sergey Pimenov">
+    <meta name="keywords" content="windows 8, modern style, Metro UI, style, modern, css, framework">
+
+    <link href="css/modern.css" rel="stylesheet">
+    <link href="css/modern-responsive.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet" type="text/css">
+    <link href="js/google-code-prettify/prettify.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="js/assets/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="js/assets/jquery.mousewheel.min.js"></script>
+
+    <script type="text/javascript" src="js/modern/dropdown.js"></script>
+    <script type="text/javascript" src="js/modern/accordion.js"></script>
+    <script type="text/javascript" src="js/modern/buttonset.js"></script>
+    <script type="text/javascript" src="js/modern/carousel.js"></script>
+    <script type="text/javascript" src="js/modern/input-control.js"></script>
+    <script type="text/javascript" src="js/modern/pagecontrol.js"></script>
+    <script type="text/javascript" src="js/modern/rating.js"></script>
+    <script type="text/javascript" src="js/modern/slider.js"></script>
+    <script type="text/javascript" src="js/modern/tile-slider.js"></script>
+    <script type="text/javascript" src="js/modern/tile-drag.js"></script>
+
+    <title>Clixx.io Control Centre</title>
+</head>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <form method="post" action="/auth/login">
-  <input type="hidden" name="from_page" value="%(from_page)s" />
-    %(msg)s<br />
-    Username: <input type="text" name="username" value="[M ?+%(username)s" /><br />
-    Password: <input type="password" name="password" /><br />
-  <input type="submit" value="Log in" />
-  </body>
+<body class="modern-ui" onload="prettyPrint()">
+
+    <div class="page secondary">
+        <div class="page-header">
+            <div class="page-header-content">
+                <h1>System Login<small>screen</small></h1>
+                <a href="/" class="back-button big page-back"></a>
+            </div>
+        </div>
+
+        <div class="page-region">
+            <div class="page-region-content">
+                <div class="grid">
+
+                        <div class="span5">
+                            <h2>System Login</h2>
+                            <form>
+                                <div class="input-control text span5 as-block">
+                                    <input type="text" class="with-helper" placeholder="span5"/>
+                                    <button class="helper"></button>
+                                </div>
+                                <div class="input-control password">
+                                    <input type="password" placeholder="Enter password" />
+                                    <button class="btn-reveal"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="span10">
+<!--                            <h2>Buttons</h2> -->
+                            <form>
+                                <input type="submit" value="Login">
+                                <input type="button" value="Cancel">
+                                <input type="reset" value="Reset">
+                            </form>
+                        </div>
+                    </div>
+<!--
+                    <div class="row">
+                            <div class="input-control text">
+                                <input type="email" placeholder="Enter email" required="required" />
+                                <button class="btn-clear"></button>
+                            </div>
+                        </div>
+                    </div>
+-->
+                <div class="grid">
+                    <div class="row">
+                        <? include("adsense.php")?>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
 </html>
