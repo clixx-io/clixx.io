@@ -1,9 +1,12 @@
 import tornado.ioloop
 import tornado.web
+import tornado.auth
+from tornado import httpclient
+
 from mako import exceptions
 from mako.lookup import TemplateLookup
-from tornado import httpclient
 from mako.template import Template
+
 import os
 
 root = os.path.dirname(os.path.realpath(__file__))
@@ -55,17 +58,92 @@ class Main(tornado.web.RequestHandler):
                 return
 
             username = self.current_user
-            #self.render('templates/index.txt')
-            self.write('Hi there, '+ username)
+            self.render('templates/index.txt',name=username)
+            # self.write('Hi there, '+ username)
 
+def do_auth(name, password):
+  return True
+  with open(auth_file) as f:
+    lines = f.readlines()
+  for l in lines:
+    u,s,h = l.strip().split(':')
+    if name == u:
+      s5 = hashlib.sha512()
+      s5.update(s.decode('hex'))
+      s5.update(password)
+      if h == s5.hexdigest():
+        return True
+  return False
+  
 class Login(Main):
-        def get(self):
-#                self.write("Helps if you login")
-                self.render('templates/login.txt')
-        def post(self):
-                self.set_secure_cookie("user", self.get_argument("username"))
-                self.write('Hi there, '+ username)
-               # self.redirect("/")
+  def get(self):
+    self.render('templates/login.txt')  
+    return
+    self.write('<!DOCTYPE html><html><body><form action="/login" method="post">'
+               'Name: <input type="text" name="name"><br />'
+               'Password: <input type="password" name="password"><br />'
+               '<input type="submit" value="Sign in">'
+               '</form></body></html>')
+
+  def post(self):
+    if do_auth(self.get_argument("name"), self.get_argument("password")):
+      self.set_secure_cookie("user", self.get_argument("name"))
+      self.redirect("/")
+    else:
+      self.redirect("/login")
+
+class BaseHandler(tornado.web.RequestHandler):
+
+  def get_login_url(self):
+    return u"/login"
+
+  def get_current_user(self):
+    user_json = self.get_secure_cookie("user")
+    if user_json:
+      return tornado.escape.json_decode(user_json)
+    else:
+      return None
+      
+class LoginHandler(BaseHandler):
+  def get(self):
+    self.write('<html><body><form action="/login" method="post">'
+               'Name: <input type="text" name="name"><br />'
+               'Password: <input type="password" name="password"><br />'
+               '<input type="submit" value="Sign in">'
+               '</form></body></html>')
+
+  def post(self):
+    if do_auth(self.get_argument("name"), self.get_argument("password")):
+      self.set_secure_cookie("user", self.get_argument("name"))
+      self.redirect("/")
+    else:
+      self.redirect("/login")
+
+class RegisterHandler(LoginHandler):
+
+  def get(self):
+    self.render("register.html", next=self.get_argument("next","/"))
+
+  def post(self):
+    email = self.get_argument("email", "")
+
+    already_taken = self.application.syncdb['users'].find_one( { 'user': email } )
+    if already_taken:
+      error_msg = u"?error=" + tornado.escape.url_escape("Login name already taken")
+      self.redirect(u"/login" + error_msg)
+
+
+    password = self.get_argument("password", "")
+    hashed_pass = bcrypt.hashpw(password, bcrypt.gensalt(8))
+
+    user = {}
+    user['user'] = email
+    user['password'] = hashed_pass
+
+    auth = self.application.syncdb['users'].save(user)
+    self.set_current_user(email)
+
+    self.redirect("hello")
 
 application = tornado.web.Application([
         (r"/", Main),
