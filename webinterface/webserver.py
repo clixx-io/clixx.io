@@ -43,7 +43,8 @@ class MainHandler(DefaultHandler):
     def get(self, filename):
         mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template(filename + '.txt')
-        self.write(mytemplate.render())
+        self.write(mytemplate.render(data="world")
+)
 
 class Main(tornado.web.RequestHandler):
         def get_current_user(self):
@@ -54,11 +55,11 @@ class Main(tornado.web.RequestHandler):
                 # self.redirect("/login")
                 mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
                 mytemplate = mylookup.get_template('index.txt')
-                self.write(mytemplate.render())
+                self.write(mytemplate.render(user="None"))
                 return
 
             username = self.current_user
-            self.render('templates/index.txt',name=username)
+            self.render('templates/index.txt',user=username)
             # self.write('Hi there, '+ username)
 
 def do_auth(name, password):
