@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Clixx.io Control Centre</title>
+		<link href="css/modern.css" rel="stylesheet">
+		<link href="css/modern-responsive.css" rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet" type="text/css">
+		<link href="js/google-code-prettify/prettify.css" rel="stylesheet" type="text/css">
+		
+		<script type="text/javascript" src="js/assets/jquery-1.9.0.min.js"></script>
+		<script type="text/javascript" src="js/assets/jquery.mousewheel.min.js"></script>
+
+		<script type="text/javascript" src="js/modern/dropdown.js"></script>
+		<script type="text/javascript" src="js/modern/accordion.js"></script>
+		<script type="text/javascript" src="js/modern/buttonset.js"></script>
+		<script type="text/javascript" src="js/modern/carousel.js"></script>
+		<script type="text/javascript" src="js/modern/input-control.js"></script>
+		<script type="text/javascript" src="js/modern/pagecontrol.js"></script>
+		<script type="text/javascript" src="js/modern/rating.js"></script>
+		<script type="text/javascript" src="js/modern/slider.js"></script>
+		<script type="text/javascript" src="js/modern/tile-slider.js"></script>
+		<script type="text/javascript" src="js/modern/tile-drag.js"></script>
+    </head>
+    
+<body class="modern-ui">
+    <div class="page secondary">
+        <div class="page-header">
+            <div class="page-header-content">
+                <h1>System Login<small>screen</small></h1>
+                <a href="/" class="back-button big page-back"></a>
+            </div>
+        </div>
+        <div class="page-region">
+            <div class="page-region-content">
+                <div class="grid">
+					<div class="span5">
+						<h2>System Login</h2>
+						<form action="/login" method="post">
+							Name: <input type="text" name="name"><br />
+							Password: <input type="password" name="password"><br />
+								   <input type="submit" value="Sign in">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</body>
+</html>               
