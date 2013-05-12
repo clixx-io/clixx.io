@@ -43,24 +43,21 @@ class MainHandler(DefaultHandler):
     def get(self, filename):
         mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template(filename + '.txt')
-        self.write(mytemplate.render(data="world")
-)
+        self.write(mytemplate.render(data="world"))
 
 class Main(tornado.web.RequestHandler):
         def get_current_user(self):
             return self.get_secure_cookie("user")
 
         def get(self):
+            mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
+            mytemplate = mylookup.get_template('index.txt')
             if not self.current_user:
                 # self.redirect("/login")
-                mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
-                mytemplate = mylookup.get_template('index.txt')
                 self.write(mytemplate.render(user="None"))
                 return
 
-            username = self.current_user
-            self.render('templates/index.txt',user=username)
-            # self.write('Hi there, '+ username)
+            self.write(mytemplate.render(user=self.current_user))
 
 def do_auth(name, password):
   return True
@@ -78,8 +75,14 @@ def do_auth(name, password):
   
 class Login(Main):
   def get(self):
-    self.render('templates/login.txt')  
+    mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
+    mytemplate = mylookup.get_template('login.txt')
+    
+    self.write(mytemplate.render(user=self.current_user))
     return
+
+    Template("hello ${data}!").render(data="world")
+    self.render(Template("hello ${data}!").render(data="world"))  
     self.write('<!DOCTYPE html><html><body><form action="/login" method="post">'
                'Name: <input type="text" name="name"><br />'
                'Password: <input type="password" name="password"><br />'
@@ -146,9 +149,15 @@ class RegisterHandler(LoginHandler):
 
     self.redirect("hello")
 
+class LogoutHandler(BaseHandler):
+    def get(self):
+        self.clear_cookie("user")
+        self.redirect("/")
+
 application = tornado.web.Application([
         (r"/", Main),
         (r"/login", Login),
+        (r"/logout", LogoutHandler),
         (r"/images/(.*)",tornado.web.StaticFileHandler, {"path": "./media/images"},),
         (r"/fonts/(.*)",tornado.web.StaticFileHandler, {"path": "./media/fonts"},),
         (r"/css/(.*)",tornado.web.StaticFileHandler, {"path": "./css"},),
