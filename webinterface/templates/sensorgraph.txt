@@ -35,6 +35,8 @@
     <script src="js/dygraphs/gallery/interaction.js"></script>
     <script src="js/dygraphs/gallery/linear-regression.js"></script>
     <script src="js/dygraphs/gallery/edge-padding.js"></script>
+    
+    <script type="text/javascript" src="http://dygraphs.com/dygraph-combined.js"></script>
 
     <!-- These might not remain in the gallery
     <script src="js/dygraphs/gallery/dygraph-simple.js"></script>
@@ -55,27 +57,23 @@
     <link title="gallery" rel="stylesheet" type="text/css" href="gallery.css"/>
   </head>
 
-  <body>
-    <table>
-      <tr>
-        <td><h2><a class='subdued' href="../index.html">System</a> Upload</h2></td>
-        <td></td>
-        <td id="demotitle"></td>
-      </tr>
-      <tr>
-        <td id='lhs'>
-        <div id="toc"></div>
-        <hr/>
-        <a class='subdued' href="../index.html">Back to Main.</a>
-        </td>
-        <td id='gap'></td>
-        <td id="rhs">
-          <div id="workarea"></div>
-        </td>
-      </tr>
-    </table>
-  <script type="text/javascript">Gallery.start()</script>
-  </body>
+<body>
+<div id="graphdiv"></div>
+<script type="text/javascript">
+  g = new Dygraph(
+
+    // containing div
+    document.getElementById("graphdiv"),
+
+    // CSV or path to a CSV file.
+    "Date,Temperature\n" +
+    "2008-05-07,75\n" +
+    "2008-05-08,70\n" +
+    "2008-05-09,80\n"
+
+  );
+</script>
+</body>
 
 
 </html>
