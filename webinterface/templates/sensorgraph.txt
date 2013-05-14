@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9">
+    <title>Dygraphs Gallery</title>
+    <!--[if IE]>
+    <script type="text/javascript" src="../excanvas.js"></script>
+    <![endif]-->
+
+    <script src="js/dygraphs/dygraph-dev.js"></script>
+    <script src="lib/jquery-1.4.2.js"></script>
+    <script src="../common/textarea.js"></script>
+    <script src="gallery.js"></script>
+    <script src="data.js"></script>
+    <script src="interaction-api.js"></script>
+    <!-- script src='http://www.google.com/jsapi'></script> -->
+
+    <!-- gallery entries. Can these be auto-loaded? -->
+    <script src="js/dygraphs/gallery/annotations.js"></script>
+    <script src="js/dygraphs/gallery/drawing.js"></script>
+    <script src="js/dygraphs/gallery/dynamic-update.js"></script>
+    <script src="js/dygraphs/gallery/highlighted-series.js"></script>
+    <script src="js/dygraphs/gallery/highlighted-region.js"></script>
+    <script src="js/dygraphs/gallery/highlighted-weekends.js"></script>
+    <script src="js/dygraphs/gallery/independent-series.js"></script>
+    <script src="js/dygraphs/gallery/plotter.js"></script>
+    <script src="js/dygraphs/gallery/link-interaction.js"></script>
+    <script src="js/dygraphs/gallery/per-series.js"></script>
+    <script src="js/dygraphs/gallery/synchronize.js"></script>
+    <script src="js/dygraphs/gallery/range-selector.js"></script>
+    <script src="js/dygraphs/gallery/resize.js"></script>
+    <script src="js/dygraphs/gallery/stock.js"></script>
+    <script src="js/dygraphs/gallery/styled-chart-labels.js"></script>
+    <script src="js/dygraphs/gallery/temperature-sf-ny.js"></script>
+    <script src="js/dygraphs/gallery/interaction.js"></script>
+    <script src="js/dygraphs/gallery/linear-regression.js"></script>
+    <script src="js/dygraphs/gallery/edge-padding.js"></script>
+
+    <!-- These might not remain in the gallery
+    <script src="js/dygraphs/gallery/dygraph-simple.js"></script>
+    <script src="js/dygraphs/gallery/demo.js"></script>
+    <script src="js/dygraphs/gallery/border.js"></script>
+    <script src="js/dygraphs/gallery/callbacks.js"></script>
+    <script src="js/dygraphs/gallery/avoid-min-zero.js"></script>
+    <script src="js/dygraphs/gallery/color-cycle.js"></script>
+    <script src="js/dygraphs/gallery/color-visibility.js"></script>
+    <script src="js/dygraphs/gallery/two-axes.js"></script>
+    <script src="js/dygraphs/gallery/number-format.js"></script>
+    <script src="js/dygraphs/gallery/no-range.js"></script>
+    <script src="js/dygraphs/gallery/negative.js"></script>
+    <script src="js/dygraphs/gallery/annotations-gviz.js"></script>
+    <script src="js/dygraphs/gallery/annotations-native.js"></script>
+    -->
+    <link rel="stylesheet" type="text/css" href="../common/textarea.css"/>
+    <link title="gallery" rel="stylesheet" type="text/css" href="gallery.css"/>
+  </head>
+
+  <body>
+    <table>
+      <tr>
+        <td><h2><a class='subdued' href="../index.html">System</a> Upload</h2></td>
+        <td></td>
+        <td id="demotitle"></td>
+      </tr>
+      <tr>
+        <td id='lhs'>
+        <div id="toc"></div>
+        <hr/>
+        <a class='subdued' href="../index.html">Back to Main.</a>
+        </td>
+        <td id='gap'></td>
+        <td id="rhs">
+          <div id="workarea"></div>
+        </td>
+      </tr>
+    </table>
+  <script type="text/javascript">Gallery.start()</script>
+  </body>
+
+
+</html>
