@@ -1,3 +1,32 @@
-#/usr/bin/wpy
+'''
+  SensorLog
+  Turns on an LED on for one second, off for one second, repeatedly.
 
-# A Driver for the MCP9808 Temperature sensor
+  This example code is in the public domain.
+ '''
+
+import time
+import sys
+
+sys.path.append("../src")
+from ClixxIO_I2C import *
+
+ts = None
+
+# the setup routine runs once when you press reset:
+def setup():
+  global ts
+
+  # initialize the digital pin as an output.
+  print "Temperature Logger is starting"
+
+  ts = tempSensorMCP9808(0x18,1)
+
+# the loop routine runs over and over again forever:
+def loop():
+  global ts
+
+  print ts.read_temperature()
+
+  sleep(1)             # wait for a second
+
