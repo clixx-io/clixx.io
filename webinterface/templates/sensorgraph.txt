@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<%include file="header.txt"/>
+
+    <!--[if IE]>
+    <script type="text/javascript" src="../excanvas.js"></script>
+    <![endif]-->
+
+    <script src="js/dygraphs/dygraph-dev.js"></script>
+    <script src="lib/jquery-1.4.2.js"></script>
+    <script src="js/dygraphs/textarea.js"></script>
+    <script src="js/dygraphs/interaction-api.js"></script>
+    <!-- script src='http://www.google.com/jsapi'></script> -->
+
+    
+    <script type="text/javascript" src="http://dygraphs.com/dygraph-combined.js"></script>
+
+  </head>
+
+<body class="modern-ui">
+    <div class="page secondary">
+        <div class="page-header">
+        </div>
+        <div class="page-region">
+            <div class="page-region-content">
+
+            <div class="page-header-content">
+                <h1>Sensor<small>demo</small></h1>
+                <a href="/" class="back-button big page-back"></a>
+            </div>
+        </div>
+
+        <div class="page-region">
+            <div class="page-region-content">
+                <div class="span10">
+                <h2>Temperatures</h2>
+				</div>
+			
+			<div id="graphdiv"></div>
+
+			<script type="text/javascript">
+				g = new Dygraph(
+
+				// containing div
+				document.getElementById("graphdiv"),
+
+				// CSV or path to a CSV file.
+			<!--	"sensor/temp1.csv", -->
+			    "Date,Temperature\n" +
+				"2008-05-02,75\n" +
+				"2008-05-03,72\n" +
+				"2008-05-04,70\n" +
+				"2008-05-05,71\n" +
+				"2008-05-06,70\n" +
+				"2008-05-07,72\n" +
+				"2008-05-08,75\n" +
+				"2008-05-08,76\n" +
+				"2008-05-09,80\n" 
+
+			  );
+			</script>
+
+
+			<br/>
+			<table class="hovered">
+				<thead>
+					<tr>
+						<th>Log Datestamp</th>
+						<th class="right">Values</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr><td>2013-06-14</td><td class="right">0,1 Mb</td></tr>
+					<tr><td>2013-06-13</td><td class="right">0,1 Mb</td></tr>
+					<tr><td>2013-06-13</td><td class="right">0,1 Mb</td></tr>
+					<tr><td>2013-06-11</td><td class="right">0,1 Mb</td></tr>
+					<tr><td>2013-06-10</td><td class="right">0,1 Mb</td></tr>
+					<tr><td>2013-06-09</td><td class="right">0,1 Mb</td></tr>
+				</tbody>
+
+				<tfoot></tfoot>
+			</table>
+		</div>
+	</div>
+		
+</body>
+
+</html>

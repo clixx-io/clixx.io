@@ -9,6 +9,11 @@ from mako.template import Template
 
 import os
 
+
+from tornado.options import define, options
+
+define("port", default=8888, help="run on the given port", type=int)
+
 root = os.path.dirname(os.path.realpath(__file__))
 # print "Directory is %s" % root
 template_root = os.path.join(root, 'templates')
@@ -158,6 +163,7 @@ application = tornado.web.Application([
         (r"/", Main),
         (r"/login", Login),
         (r"/logout", LogoutHandler),
+        (r"/icons/(.*)",tornado.web.StaticFileHandler, {"path": "./media/icons"},),
         (r"/images/(.*)",tornado.web.StaticFileHandler, {"path": "./media/images"},),
         (r"/fonts/(.*)",tornado.web.StaticFileHandler, {"path": "./media/fonts"},),
         (r"/css/(.*)",tornado.web.StaticFileHandler, {"path": "./css"},),
@@ -169,6 +175,7 @@ application = tornado.web.Application([
 
 if __name__ == "__main__":
 
-    application.listen(8888)
+    tornado.options.parse_command_line()
+    application.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
 

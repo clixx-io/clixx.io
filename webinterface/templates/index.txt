@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
 <%include file="header.txt"/>
+
 <body class="modern-ui" onload="prettyPrint()">
 <div class="page">
 <div class="nav-bar">
@@ -87,11 +88,12 @@
 
                     <div class="tile icon">
                         <div class="tile-content">
-                            <img src="images/Mail128.png"/>
+                            <img src="icons/temperature.png" onClick="window.location = '/sensorgraph'"/>
+<!--							<img src="icons/temperature.png" alt="bottle" class="thumbnails" onclick="imageClick('sensorgraph')"/> -->
                         </div>
                         <div class="brand">
                             <div class="badge">10</div>
-                            <div class="name">Mail</div>
+                            <div class="name">Temperature</div>
                         </div>
                     </div>
 

@@ -15,14 +15,19 @@ def spawntask(cmdline):
     proc = subprocess.Popen(cmdline, \
         shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     return_code = proc.wait()
+
+    output = []
     # Read from pipes
     for line in proc.stdout:
-        print("stdout: " + line.rstrip())
+        output += line
     for line in proc.stderr:
         print("stderr: " + line.rstrip())
+        
+    return (return_code,output)
 
 # General i2c device class so that other devices can be added easily
 class i2c_device:
+   
  def __init__(self, addr, port):
   self.addr = addr
   self.bus = smbus.SMBus(port)
@@ -38,56 +43,63 @@ class i2c_device:
 
 class i2c_system:
 
- def install(self):
-   """
-   Function to install the necessary software to run I2C
+    def install(self):
+      """
+      Function to install the necessary software to run I2C
 
-   Based on http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step2/Enable-I2C/
+      Based on http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step2/Enable-I2C/
 
-   """
+      """
 
-   # Update module blacklist file
-   blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf")
-   lines = blacklist_conf.readlines()
-   blacklist_conf.close()
-   new_content = []
-   for l in lines:
-       if l.rstrip() == 'blacklist i2c-bcm2708':
-           new_content.append('#blacklist i2c-bcm2708\n')
-       else:
-           new_content.append(l.rstrip())
+      # Update module blacklist file
+      blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf")
+      lines = blacklist_conf.readlines()
+      blacklist_conf.close()
+      new_content = []
+      for l in lines:
+          if l.rstrip() == 'blacklist i2c-bcm2708':
+              new_content.append('#blacklist i2c-bcm2708\n')
+          else:
+              new_content.append(l.rstrip())
 
-   blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf",'w')
-   blacklist_conf.write('\n'.join(new_content))
+      blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf",'w')
+      blacklist_conf.write('\n'.join(new_content))
 
-   # Update /etc/modules
-   etc_modules = open("/etc/modules")
-   lines = etc_modules.readlines()
-   etc_modules.close()
-   new_content = []
-   i2c_found = False
-   for l in lines:
-       if 'i2c-dev' in l:
-           i2c_found = True
-   if not i2c_found:
-       etc_modules = open("/etc/modules",'w+')
-       etc_modules.write(''.join(lines)+'\ni2c-dev\n')
-       etc_modules.close()
+      # Update /etc/modules
+      etc_modules = open("/etc/modules")
+      lines = etc_modules.readlines()
+      etc_modules.close()
+      new_content = []
+      i2c_found = False
+      for l in lines:
+          if 'i2c-dev' in l:
+              i2c_found = True
+      if not i2c_found:
+          etc_modules = open("/etc/modules",'w+')
+          etc_modules.write(''.join(lines)+'\ni2c-dev\n')
+          etc_modules.close()
 
-   # http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step4/Install-Necessary-Packages/
-   if not os.path.exists("/usr/sbin/i2cdetect"):
-     spawntask("apt-get install -y i2c-tools")
-     
-   spawntask("apt-get install -y python-smbus")
-   
-   spawntask("adduser pi i2c")
+      # http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step4/Install-Necessary-Packages/
+      if not os.path.exists("/usr/sbin/i2cdetect"):
+        spawntask("apt-get install -y i2c-tools")
+        
+      spawntask("apt-get install -y python-smbus")
+      
+      spawntask("adduser pi i2c")
 
- def scan(self):
-   print "i2cdetect -y 1"
-   return
+    def scan(self):
+       """ P
+       erform a scan on the I2C Bus
+       """
+       devices = []
+       rcode,o = spawntask("i2cdetect -y 1")
+       if (rcode == 0):
+         for l in o:
+            r = s[3:].replace(' --','')
+       return devices
 
- def probe(self):    
-   return
+    def probe(self):    
+      return
 
 class mcp23017:
     """
@@ -102,15 +114,34 @@ class displayRotaryLeds(i2c_device):
         self.write( 0xff ^ value)
         return
 
+    def display(self, value, maximum):
+        v = (value * 8) / maximum
+        if v < 1:
+            self.setbits(0x00)
+        if v < 2:
+            self.setbits(0x01)
+        elif v < 3:
+            self.setbits(0x03)
+        elif v < 4:
+            self.setbits(0x07)
+        elif v < 5:
+            self.setbits(0x0f)
+        elif v < 6:
+            self.setbits(0x1f)
+        elif v < 7:
+            self.setbits(0x3f)
+        elif v < 8:
+            self.setbits(0x7f)
+        elif v < 9:
+            self.setbits(0xff)
+
 class tempSensorMCP9808(i2c_device):
     """ 
     MCP9808 is an I2C Temperature sensor
     """
     def read_temperature(self):
-        self.write(0x05)
-        s = 0
-        b = self.read_nbytes_data(s,3)
-        t = b[1] & 0x0f + b[2]
+        b = self.read_nbytes_data(5,3)
+        t = (b[1] / 16) + b[2] * 16
         return t
 
 class lcd:

@@ -21,8 +21,8 @@ def setup():
 def loop():
   global button, button_state
   
-  i = digitalInput(button)      # turn the LED on (HIGH is the voltage level)
+  i = digitalRead(button)      # turn the LED on (HIGH is the voltage level)
   if i != button_state:
-      print "Button is now " i
+      print "Button is now %d" % i
       button_state = i
       
