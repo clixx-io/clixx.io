@@ -1,0 +1,27 @@
+'''
+  Motion Detection
+  
+  Detects motion on a webcam using the 'motion' debian package.
+
+  This example code is in the public domain.
+ '''
+
+import time
+
+# Pin 13 has an LED connected on most Arduino boards.
+# give it a name:
+sourcedir = "/tmp/motion"
+
+# the setup routine runs once when you press reset:
+def setup():
+  global sourcedir
+
+  # initialize the digital pin as an output.
+  print "Motion Detection Sensor is starting"
+
+# the loop routine runs over and over again forever:
+def loop():
+  global sourcedir
+
+  time.sleep(1)             # wait for a second
+
