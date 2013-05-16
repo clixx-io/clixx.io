@@ -114,15 +114,34 @@ class displayRotaryLeds(i2c_device):
         self.write( 0xff ^ value)
         return
 
+    def display(self, value, maximum):
+        v = (value * 8) / maximum
+        if v < 1:
+            self.setbits(0x00)
+        if v < 2:
+            self.setbits(0x01)
+        elif v < 3:
+            self.setbits(0x03)
+        elif v < 4:
+            self.setbits(0x07)
+        elif v < 5:
+            self.setbits(0x0f)
+        elif v < 6:
+            self.setbits(0x1f)
+        elif v < 7:
+            self.setbits(0x3f)
+        elif v < 8:
+            self.setbits(0x7f)
+        elif v < 9:
+            self.setbits(0xff)
+
 class tempSensorMCP9808(i2c_device):
     """ 
     MCP9808 is an I2C Temperature sensor
     """
     def read_temperature(self):
-        self.write(0x05)
-        s = 0
-        b = self.read_nbytes_data(s,3)
-        t = b[1] & 0x0f + b[2]
+        b = self.read_nbytes_data(5,3)
+        t = (b[1] / 16) + b[2] * 16
         return t
 
 class lcd:
