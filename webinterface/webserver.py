@@ -12,8 +12,13 @@ import os
 
 from tornado.options import define, options
 
-define("port", default=8888, help="run on the given port", type=int)
-
+if os.geteuid() != 0:
+    # Non root
+    define("port", default=8888, help="run on the given port", type=int)
+else:
+    # Able to use Port-80
+    define("port", default=80, help="run on the given port", type=int)
+    
 root = os.path.dirname(os.path.realpath(__file__))
 # print "Directory is %s" % root
 template_root = os.path.join(root, 'templates')
@@ -86,20 +91,12 @@ class Login(Main):
     self.write(mytemplate.render(user=self.current_user))
     return
 
-    Template("hello ${data}!").render(data="world")
-    self.render(Template("hello ${data}!").render(data="world"))  
-    self.write('<!DOCTYPE html><html><body><form action="/login" method="post">'
-               'Name: <input type="text" name="name"><br />'
-               'Password: <input type="password" name="password"><br />'
-               '<input type="submit" value="Sign in">'
-               '</form></body></html>')
-
   def post(self):
     if do_auth(self.get_argument("name"), self.get_argument("password")):
-      self.set_secure_cookie("user", self.get_argument("name"))
-      self.redirect("/")
+        self.set_secure_cookie("user", self.get_argument("name"))
+        self.redirect("/")
     else:
-      self.redirect("/login")
+        self.redirect("/login")
 
 class BaseHandler(tornado.web.RequestHandler):
 
@@ -141,7 +138,6 @@ class RegisterHandler(LoginHandler):
       error_msg = u"?error=" + tornado.escape.url_escape("Login name already taken")
       self.redirect(u"/login" + error_msg)
 
-
     password = self.get_argument("password", "")
     hashed_pass = bcrypt.hashpw(password, bcrypt.gensalt(8))
 
@@ -159,10 +155,25 @@ class LogoutHandler(BaseHandler):
         self.clear_cookie("user")
         self.redirect("/")
 
+class GPIOHandler(BaseHandler):
+    def get(self):
+        self.redirect("/")
+        return
+        
+    def post(self):
+        return
+        
+        if do_auth(self.get_argument("name"), self.get_argument("password")):
+          self.set_secure_cookie("user", self.get_argument("name"))
+          self.redirect("/")
+        else:
+          self.redirect("/login")
+
 application = tornado.web.Application([
         (r"/", Main),
         (r"/login", Login),
         (r"/logout", LogoutHandler),
+        (r"/gpio", GPIOHandler),
         (r"/icons/(.*)",tornado.web.StaticFileHandler, {"path": "./media/icons"},),
         (r"/images/(.*)",tornado.web.StaticFileHandler, {"path": "./media/images"},),
         (r"/fonts/(.*)",tornado.web.StaticFileHandler, {"path": "./media/fonts"},),
@@ -176,6 +187,7 @@ application = tornado.web.Application([
 if __name__ == "__main__":
 
     tornado.options.parse_command_line()
+    
     application.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
 

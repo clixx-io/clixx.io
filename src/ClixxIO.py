@@ -16,13 +16,15 @@ Digital_3_i = 1
 Digital_3_o = 11
 Digital_3_s = 10
 
+SensorLogDir = "SensorLogs"
+
 import os
 
 import logging
 clixxIOlogger = logging.getLogger()
 clixxIOlogger.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter('%(asctime)s, %(message)s')
+formatter = logging.Formatter('"%(asctime)s", %(message)s')
 # Console Logging Handler
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
@@ -35,8 +37,8 @@ def sensorLogPath(sensorname):
     """
     Returns the full path of a Log file for a particular sensor
     """
-    f = os.path.join("~/",sensorname + ".csv")
-    f = os.path.join(sensorname + ".csv")
+    f = os.path.join(os.getenv("HOME"),SensorLogDir,sensorname + ".csv")
+
     return f
 
 def sensorLog(value,sensorname):
@@ -54,7 +56,6 @@ def sensorLog(value,sensorname):
         clixxIOlogger.addHandler(fh)
 
         logginghandlers[sensorname] = fh
-
 
     clixxIOlogger.info(value)
 
