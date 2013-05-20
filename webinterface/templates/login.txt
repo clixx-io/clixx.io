@@ -25,6 +25,22 @@
     </head>
 -->    
 <body class="modern-ui">
+<div class="page">
+<div class="nav-bar">
+    <div class="nav-bar-inner padding10">
+        <span class="pull-menu"></span>
+
+        <a href="/"><span class="element brand">
+            <img class="place-left" src="images/logo-clixx.png" style="height: 20px"/>
+            Clixx.io Control Centre <small><?= include("version.phtml")?></small>
+        </span></a>
+
+        <div class="divider"></div>
+
+    </div>
+</div>
+</div>
+
     <div class="page secondary">
         <div class="page-header">
             <div class="page-header-content">
@@ -35,18 +51,37 @@
         <div class="page-region">
             <div class="page-region-content">
                 <div class="grid">
+                        <div class="tile-content">
+                            <img src="icons/user.png" alt="">
+                        </div>
 					<div class="span5">
-						<h2>System Login</h2>
-						<p>${user}</p>
+						<!-- <h2>System Login</h2> -->
 						<form action="/login" method="post">
-							Name: <input type="text" name="name"><br />
-							Password: <input type="password" name="password"><br />
+							<br/><br/>
+							Name: </br><input type="text" name="name"><br />
+							<br/>
+							Password: <br/><input type="password" name="password"><br />
+							<br/><br/>
 							<input type="submit" value="Sign in">
+							<br/><br/>
+							<br/><br/>
+							<br/><br/>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
     </div>
+
+    <div class="page">
+        <div class="nav-bar">
+            <div class="nav-bar-inner padding10">
+                <span class="element">
+                    &copy; 2013 Clixx.io Control Centre  by <a class="fg-color-white" href="mailto:david.lyon@hackerpads.com">David Lyon</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>               
