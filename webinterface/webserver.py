@@ -156,8 +156,25 @@ class LogoutHandler(BaseHandler):
         self.redirect("/")
 
 class GPIOHandler(BaseHandler):
-    def get(self):
-        self.redirect("/")
+    def get(self, filename):
+        if filename.endswith('.json'):
+            self.content_type = 'application/json'
+            # Just some test data
+            self.write ("Timestamp=\"2013-03-01\",Value=21\n")
+        else:
+            self.content_type = 'text/csv'
+            #self.set_header ('Content-Disposition', 'attachment; filename=export.csv')
+            # Just some test data
+            self.write ("Timestamp,Value\n"
+                "2008-05-02,75\n" +
+                "2008-05-03,72\n" +
+                "2008-05-04,70\n" +
+                "2008-05-05,71\n" +
+                "2008-05-06,70\n" +
+                "2008-05-07,72\n" +
+                "2008-05-08,75\n" +
+                "2008-05-08,76\n" +
+                "2008-05-09,80\n")
         return
         
     def post(self):
@@ -173,7 +190,7 @@ application = tornado.web.Application([
         (r"/", Main),
         (r"/login", Login),
         (r"/logout", LogoutHandler),
-        (r"/gpio", GPIOHandler),
+        (r"/sensors/(.*)", GPIOHandler),
         (r"/icons/(.*)",tornado.web.StaticFileHandler, {"path": "./media/icons"},),
         (r"/images/(.*)",tornado.web.StaticFileHandler, {"path": "./media/images"},),
         (r"/fonts/(.*)",tornado.web.StaticFileHandler, {"path": "./media/fonts"},),
