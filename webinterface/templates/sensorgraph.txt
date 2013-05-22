@@ -45,8 +45,8 @@
 				document.getElementById("graphdiv"),
 
 				// CSV or path to a CSV file.
-			<!--	"sensor/temp1.csv", -->
-			    "Date,Temperature\n" +
+				"http:127.0.0.1:8888/sensors/temp1.csv" 
+			<!--    "Date,Temperature\n" +
 				"2008-05-02,75\n" +
 				"2008-05-03,72\n" +
 				"2008-05-04,70\n" +
@@ -55,7 +55,7 @@
 				"2008-05-07,72\n" +
 				"2008-05-08,75\n" +
 				"2008-05-08,76\n" +
-				"2008-05-09,80\n" 
+				"2008-05-09,80\n" -->
 
 			  );
 			</script>
