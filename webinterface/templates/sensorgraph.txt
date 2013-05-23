@@ -13,7 +13,7 @@
     <!-- script src='http://www.google.com/jsapi'></script> -->
 
     
-    <script type="text/javascript" src="http://dygraphs.com/dygraph-combined.js"></script>
+    <script type="text/javascript" src="js/dygraphs/dygraph-combined.js"></script>
 
   </head>
 
@@ -43,23 +43,10 @@
 
 				// containing div
 				document.getElementById("graphdiv"),
-
-				// CSV or path to a CSV file.
-				"http:127.0.0.1:8888/sensors/temp1.csv" 
-			<!--    "Date,Temperature\n" +
-				"2008-05-02,75\n" +
-				"2008-05-03,72\n" +
-				"2008-05-04,70\n" +
-				"2008-05-05,71\n" +
-				"2008-05-06,70\n" +
-				"2008-05-07,72\n" +
-				"2008-05-08,75\n" +
-				"2008-05-08,76\n" +
-				"2008-05-09,80\n" -->
+				"sensors/Temp1.csv"
 
 			  );
 			</script>
-
 
 			<br/>
 			<table class="hovered">
@@ -72,11 +59,6 @@
 
 				<tbody>
 					<tr><td>2013-06-14</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-13</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-13</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-11</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-10</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-09</td><td class="right">0,1 Mb</td></tr>
 				</tbody>
 
 				<tfoot></tfoot>
