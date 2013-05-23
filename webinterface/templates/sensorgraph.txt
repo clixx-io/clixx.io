@@ -18,6 +18,20 @@
   </head>
 
 <body class="modern-ui">
+<div class="page">
+	<div class="nav-bar">
+		<div class="nav-bar-inner padding10">
+			<span class="pull-menu"></span>
+
+			<a href="/"><span class="element brand">
+				<img class="place-left" src="images/logo-clixx.png" style="height: 20px"/>
+				Clixx.io Control Centre <small><?= include("version.phtml")?></small>
+			</span></a>
+
+			<div class="divider"></div>
+
+		</div>
+	</div>
     <div class="page secondary">
         <div class="page-header">
         </div>
@@ -65,7 +79,16 @@
 			</table>
 		</div>
 	</div>
-		
+    <div class="page">
+        <div class="nav-bar">
+            <div class="nav-bar-inner padding10">
+                <span class="element">
+                    &copy; 2013 Clixx.io Control Centre  by <a class="fg-color-white" href="mailto:david.lyon@hackerpads.com">David Lyon</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>		
 </body>
 
 </html>
