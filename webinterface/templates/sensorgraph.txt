@@ -13,11 +13,25 @@
     <!-- script src='http://www.google.com/jsapi'></script> -->
 
     
-    <script type="text/javascript" src="http://dygraphs.com/dygraph-combined.js"></script>
+    <script type="text/javascript" src="js/dygraphs/dygraph-combined.js"></script>
 
   </head>
 
 <body class="modern-ui">
+<div class="page">
+	<div class="nav-bar">
+		<div class="nav-bar-inner padding10">
+			<span class="pull-menu"></span>
+
+			<a href="/"><span class="element brand">
+				<img class="place-left" src="images/logo-clixx.png" style="height: 20px"/>
+				Clixx.io Control Centre <small><?= include("version.phtml")?></small>
+			</span></a>
+
+			<div class="divider"></div>
+
+		</div>
+	</div>
     <div class="page secondary">
         <div class="page-header">
         </div>
@@ -43,23 +57,10 @@
 
 				// containing div
 				document.getElementById("graphdiv"),
-
-				// CSV or path to a CSV file.
-				"http:127.0.0.1:8888/sensors/temp1.csv" 
-			<!--    "Date,Temperature\n" +
-				"2008-05-02,75\n" +
-				"2008-05-03,72\n" +
-				"2008-05-04,70\n" +
-				"2008-05-05,71\n" +
-				"2008-05-06,70\n" +
-				"2008-05-07,72\n" +
-				"2008-05-08,75\n" +
-				"2008-05-08,76\n" +
-				"2008-05-09,80\n" -->
+				"sensors/Temp1.csv"
 
 			  );
 			</script>
-
 
 			<br/>
 			<table class="hovered">
@@ -72,18 +73,22 @@
 
 				<tbody>
 					<tr><td>2013-06-14</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-13</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-13</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-11</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-10</td><td class="right">0,1 Mb</td></tr>
-					<tr><td>2013-06-09</td><td class="right">0,1 Mb</td></tr>
 				</tbody>
 
 				<tfoot></tfoot>
 			</table>
 		</div>
 	</div>
-		
+    <div class="page">
+        <div class="nav-bar">
+            <div class="nav-bar-inner padding10">
+                <span class="element">
+                    &copy; 2013 Clixx.io Control Centre  by <a class="fg-color-white" href="mailto:david.lyon@hackerpads.com">David Lyon</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>		
 </body>
 
 </html>

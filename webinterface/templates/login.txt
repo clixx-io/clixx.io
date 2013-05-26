@@ -26,19 +26,19 @@
 -->    
 <body class="modern-ui">
 <div class="page">
-<div class="nav-bar">
-    <div class="nav-bar-inner padding10">
-        <span class="pull-menu"></span>
+	<div class="nav-bar">
+		<div class="nav-bar-inner padding10">
+			<span class="pull-menu"></span>
 
-        <a href="/"><span class="element brand">
-            <img class="place-left" src="images/logo-clixx.png" style="height: 20px"/>
-            Clixx.io Control Centre <small><?= include("version.phtml")?></small>
-        </span></a>
+			<a href="/"><span class="element brand">
+				<img class="place-left" src="images/logo-clixx.png" style="height: 20px"/>
+				Clixx.io Control Centre <small><?= include("version.phtml")?></small>
+			</span></a>
 
-        <div class="divider"></div>
+			<div class="divider"></div>
 
-    </div>
-</div>
+		</div>
+	</div>
 </div>
 
     <div class="page secondary">
@@ -82,6 +82,6 @@
             </div>
         </div>
     </div>
-
+</div>
 </body>
 </html>               

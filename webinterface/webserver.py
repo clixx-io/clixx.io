@@ -21,6 +21,8 @@ else:
     
 root = os.path.dirname(os.path.realpath(__file__))
 # print "Directory is %s" % root
+sensor_log_directory = "../My Sensor Logs"
+
 template_root = os.path.join(root, 'templates')
 blacklist_templates = ('layouts',)
 template_lookup = TemplateLookup(input_encoding='utf-8',
@@ -165,16 +167,20 @@ class GPIOHandler(BaseHandler):
             self.content_type = 'text/csv'
             #self.set_header ('Content-Disposition', 'attachment; filename=export.csv')
             # Just some test data
-            self.write ("Timestamp,Value\n"
-                "2008-05-02,75\n" +
-                "2008-05-03,72\n" +
-                "2008-05-04,70\n" +
-                "2008-05-05,71\n" +
-                "2008-05-06,70\n" +
-                "2008-05-07,72\n" +
-                "2008-05-08,75\n" +
-                "2008-05-08,76\n" +
-                "2008-05-09,80\n")
+            l = open(os.path.join(sensor_log_directory,filename))
+            self.write (l.read())
+            l.close()
+            
+            #self.write ("Timestamp,Value\n"
+            #    "2008-05-02,75\n" +
+            #    "2008-05-03,72\n" +
+            #    "2008-05-04,70\n" +
+            #    "2008-05-05,71\n" +
+            #    "2008-05-06,70\n" +
+            #    "2008-05-07,72\n" +
+            #    "2008-05-08,75\n" +
+            #    "2008-05-08,76\n" +
+            #    "2008-05-09,80\n")
         return
         
     def post(self):
