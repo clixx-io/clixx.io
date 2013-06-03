@@ -62,6 +62,7 @@ class Main(tornado.web.RequestHandler):
             return self.get_secure_cookie("user")
 
         def get(self):
+            
             mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
             mytemplate = mylookup.get_template('index.txt')
             if not self.current_user:
@@ -168,19 +169,10 @@ class GPIOHandler(BaseHandler):
             #self.set_header ('Content-Disposition', 'attachment; filename=export.csv')
             # Just some test data
             l = open(os.path.join(sensor_log_directory,filename))
-            self.write (l.read())
+            c = l.read()
             l.close()
+            self.write(c)
             
-            #self.write ("Timestamp,Value\n"
-            #    "2008-05-02,75\n" +
-            #    "2008-05-03,72\n" +
-            #    "2008-05-04,70\n" +
-            #    "2008-05-05,71\n" +
-            #    "2008-05-06,70\n" +
-            #    "2008-05-07,72\n" +
-            #    "2008-05-08,75\n" +
-            #    "2008-05-08,76\n" +
-            #    "2008-05-09,80\n")
         return
         
     def post(self):
