@@ -8,10 +8,8 @@
 
     <script src="js/dygraphs/dygraph-dev.js"></script>
     <script src="lib/jquery-1.4.2.js"></script>
-    <script src="js/dygraphs/textarea.js"></script>
-    <script src="js/dygraphs/interaction-api.js"></script>
-    <!-- script src='http://www.google.com/jsapi'></script> -->
-
+    <script src="js/dygraphs/common/textarea.js"></script>
+    <script src="js/dygraph-interaction-model.js"></script>
     
     <script type="text/javascript" src="js/dygraphs/dygraph-combined.js"></script>
 

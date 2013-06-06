@@ -1,5 +1,8 @@
 #
 
+import os
+import logging
+
 # Pin Definitions for the RaspberryPi WiringPi2
 Serial_1_i = 2
 Serial_1_o = 3
@@ -33,12 +36,19 @@ clixxIOlogger.addHandler(ch)
 
 logginghandlers = {}
 
+if sys.platform == "linux2":
+    clixxIOLogDir    = "/var/log"
+    clixxIOConfigDir = "/etc"
+
+clixxIOConfigName= "clixx.io.conf"
+SensorLogDir     = "My Sensor Logs"
+
 def sensorLogPath(sensorname):
     """
     Returns the full path of a Log file for a particular sensor
     """
     f = os.path.join(os.getenv("HOME"),SensorLogDir,sensorname + ".csv")
-    f = os.path.join(os.getenv("HOME"),"clixx.io",SensorLogDir,sensorname + ".csv")
+    f = os.path.join("../",SensorLogDir,sensorname + ".csv")
 
     return f
 
@@ -59,4 +69,16 @@ def sensorLog(value,sensorname):
     clixxIOlogger.info(value)
 
     return
+
+def configPath():
+    """
+    Provides the location of the configuration file
+    """
+    return os.path.join(clixxIOConfigDir,clixxIOConfigName)
+
+def sensorPin(pinnumber):
+    """
+    Reads a sensor Pin number from the configuration file
+    """
+    return None
 
