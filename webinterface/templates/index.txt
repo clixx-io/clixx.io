@@ -88,7 +88,7 @@
 
                     <div class="tile icon">
                         <div class="tile-content">
-                            <img src="icons/temperature.png" onClick="window.location = '/sensorgraph'"/>
+                            <img src="icons/temperature.png" onClick="window.location = '/sensors/Temp1'"/>
 <!--							<img src="icons/temperature.png" alt="bottle" class="thumbnails" onclick="imageClick('sensorgraph')"/> -->
                         </div>
                         <div class="brand">

@@ -6,12 +6,12 @@
     <script type="text/javascript" src="../excanvas.js"></script>
     <![endif]-->
 
-    <script src="js/dygraphs/dygraph-dev.js"></script>
-    <script src="lib/jquery-1.4.2.js"></script>
-    <script src="js/dygraphs/common/textarea.js"></script>
-    <script src="js/dygraph-interaction-model.js"></script>
+    <script src="/js/dygraphs/dygraph-dev.js"></script>
+    <script src="/lib/jquery-1.4.2.js"></script>
+    <script src="/js/dygraphs/common/textarea.js"></script>
+    <script src="/js/dygraph-interaction-model.js"></script>
     
-    <script type="text/javascript" src="js/dygraphs/dygraph-combined.js"></script>
+    <script type="/text/javascript" src="js/dygraphs/dygraph-combined.js"></script>
 
   </head>
 
@@ -22,7 +22,7 @@
 			<span class="pull-menu"></span>
 
 			<a href="/"><span class="element brand">
-				<img class="place-left" src="images/logo-clixx.png" style="height: 20px"/>
+				<img class="place-left" src="/images/logo-clixx.png" style="height: 20px"/>
 				Clixx.io Control Centre <small><?= include("version.phtml")?></small>
 			</span></a>
 
@@ -37,7 +37,7 @@
             <div class="page-region-content">
 
             <div class="page-header-content">
-                <h1>Sensor<small>demo</small></h1>
+                <h1>Sensor<small>${sensorName}</small></h1>
                 <a href="/" class="back-button big page-back"></a>
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="page-region">
             <div class="page-region-content">
                 <div class="span10">
-                <h2>Temperatures</h2>
+                <h2>${sensorDescription}</h2>
 				</div>
 			
 			<div id="graphdiv"></div>
@@ -55,7 +55,7 @@
 
 				// containing div
 				document.getElementById("graphdiv"),
-				"sensors/Temp1.csv"
+				"sensors/${sensorName}.csv"
 
 			  );
 			</script>

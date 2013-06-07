@@ -164,14 +164,22 @@ class GPIOHandler(BaseHandler):
             self.content_type = 'application/json'
             # Just some test data
             self.write ("Timestamp=\"2013-03-01\",Value=21\n")
-        else:
+        elif filename.endswith('.csv'):
             self.content_type = 'text/csv'
-            #self.set_header ('Content-Disposition', 'attachment; filename=export.csv')
             # Just some test data
             l = open(os.path.join(sensor_log_directory,filename))
             c = l.read()
             l.close()
             self.write(c)
+        else:
+            longName = "Long Sensor Name"
+            mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
+            mytemplate = mylookup.get_template('sensorgraph.txt')
+            if not self.current_user:
+                self.write(mytemplate.render(sensorName=filename,sensorDescription=longName,user="None"))
+                return
+
+            self.write(mytemplate.render(user=self.current_user))
             
         return
         
