@@ -1,0 +1,65 @@
+<div class="nav-bar">
+    <div class="nav-bar-inner padding10">
+        <span class="pull-menu"></span>
+
+        <a href="/"><span class="element brand">
+            <img class="place-left" src="images/logo-clixx.png" style="height: 20px"/>
+            Clixx.io Control Centre <small><?= include("version.phtml")?></small>
+        </span></a>
+
+        <div class="divider"></div>
+
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li data-role="dropdown">
+                <a href="#">Information</a>
+                <ul class="dropdown-menu">
+                    <li><a href="global.php">Pages</a></li>
+                    <li><a href="layout.php">Sensors</a></li>
+                </ul>
+            </li>
+            <li data-role="dropdown"><a href="#">Projects</a>
+                <ul class="dropdown-menu">
+                    <li><a href="editscreen">Editor</a></li>
+                </ul>
+            </li>
+            <li data-role="dropdown"><a href="#">Customise</a>
+                <ul class="dropdown-menu">
+                    <li><a href="forms">Form Entry</a></li>
+                    <li><a href="tiles">Tiles</a></li>
+                    <li><a href="menus">Menu and Navigation</a></li>
+                    <li><a href="sidebar">Sidebar</a></li>
+                    <li><a href="pagecontrol">Page control</a></li>
+                    <li><a href="accordion">Accordion</a></li>
+                    <li><a href="buttons-set">Buttons set</a></li>
+                    <li><a href="rating">Rating</a></li>
+                    <li><a href="progress">Progress bars</a></li>
+                    <li><a href="carousel">Carousel</a></li>
+                    <li><a href="listview">List view</a></li>
+                    <li><a href="slider">Slider</a></li>
+                    <li class="divider"></li>
+                    <li><a href="dialog">Dialog box</a></li>
+                    <li class="divider"></li>
+                    <li><a href="notices">Notices and Replies</a></li>
+                </ul>
+            </li>
+
+            <li><a href="https://github.com/clixx-io/clixx.io">Source</a></li>
+% if user=='None':
+            <li data-role="dropdown"><a href="#">Sign-In</a>
+                <ul class="dropdown-menu">
+                    <li><a href="login">Log In</a></li>
+                    <li><a href="editscreen">Create Account</a></li>
+% else:
+            <li data-role="dropdown"><a href="#">${user}</a>
+                <ul class="dropdown-menu">
+                    <li><a href="logout">Log Out</a></li>
+% endif                
+                    <li></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</div>
+</div>
