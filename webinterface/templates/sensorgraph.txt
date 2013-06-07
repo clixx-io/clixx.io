@@ -55,7 +55,7 @@
 
 				// containing div
 				document.getElementById("graphdiv"),
-				"sensors/${sensorName}.csv"
+				"${sensorName}.csv"
 
 			  );
 			</script>
