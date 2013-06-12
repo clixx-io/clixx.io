@@ -55,7 +55,10 @@ class MainHandler(DefaultHandler):
     def get(self, filename):
         mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
         mytemplate = mylookup.get_template(filename + '.txt')
-        self.write(mytemplate.render(data="world"))
+        if not self.current_user:
+            self.write(mytemplate.render(user="None"))
+        else:
+            self.write(mytemplate.render(user=self.current_user))
 
 class Main(tornado.web.RequestHandler):
         def get_current_user(self):
@@ -172,14 +175,20 @@ class GPIOHandler(BaseHandler):
             l.close()
             self.write(c)
         else:
-            longName = "Long Sensor Name"
+            sensorArray = {}
+            sensorArray["sensorId"] = filename
+            sensorArray["sensorDescription"] = "Long Sensor Name"
+            sensorArray["sensorStatus"] = "Not Connected"
+            sensorArray["logDateTime"] = "2013-05-06"
+            sensorArray["logFileSize"] = 3459
+            
             mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
             mytemplate = mylookup.get_template('sensorgraph.txt')
             if not self.current_user:
-                self.write(mytemplate.render(sensorName=filename,sensorDescription=longName,user="None"))
+                self.write(mytemplate.render(sensorValues=sensorArray,user="None"))
                 return
 
-            self.write(mytemplate.render(user=self.current_user))
+            self.write(mytemplate.render(sensorValues=sensorArray,user=self.current_user))
             
         return
         

@@ -25,9 +25,7 @@
 				<img class="place-left" src="/images/logo-clixx.png" style="height: 20px"/>
 				Clixx.io Control Centre <small><?= include("version.phtml")?></small>
 			</span></a>
-
 			<div class="divider"></div>
-
 		</div>
 	</div>
     <div class="page secondary">
@@ -37,7 +35,7 @@
             <div class="page-region-content">
 
             <div class="page-header-content">
-                <h1>Sensor<small>${sensorName}</small></h1>
+                <h1>${sensorValues["sensorDescription"]}</h1>
                 <a href="/" class="back-button big page-back"></a>
             </div>
         </div>
@@ -45,7 +43,7 @@
         <div class="page-region">
             <div class="page-region-content">
                 <div class="span10">
-                <h2>${sensorDescription}</h2>
+                <h2>${sensorValues["sensorStatus"]}</h2>
 				</div>
 			
 			<div id="graphdiv"></div>
@@ -55,7 +53,7 @@
 
 				// containing div
 				document.getElementById("graphdiv"),
-				"${sensorName}.csv"
+				"${sensorValues["sensorId"]}.csv"
 
 			  );
 			</script>

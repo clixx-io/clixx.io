@@ -4,71 +4,7 @@
 
 <body class="modern-ui" onload="prettyPrint()">
 <div class="page">
-<div class="nav-bar">
-    <div class="nav-bar-inner padding10">
-        <span class="pull-menu"></span>
-
-        <a href="/"><span class="element brand">
-            <img class="place-left" src="images/logo-clixx.png" style="height: 20px"/>
-            Clixx.io Control Centre <small><?= include("version.phtml")?></small>
-        </span></a>
-
-        <div class="divider"></div>
-
-        <ul class="menu">
-            <li><a href="/">Home</a></li>
-            <li data-role="dropdown">
-                <a href="#">Information</a>
-                <ul class="dropdown-menu">
-                    <li><a href="global.php">Pages</a></li>
-                    <li><a href="layout.php">Sensors</a></li>
-                </ul>
-            </li>
-            <li data-role="dropdown"><a href="#">Projects</a>
-                <ul class="dropdown-menu">
-                    <li><a href="editscreen">Editor</a></li>
-                </ul>
-            </li>
-            <li data-role="dropdown"><a href="#">Customise</a>
-                <ul class="dropdown-menu">
-                    <li><a href="tiles.php">Tiles</a></li>
-                    <li><a href="menus.php">Menu and Navigation</a></li>
-                    <li><a href="sidebar.php">Sidebar</a></li>
-                    <li><a href="pagecontrol.php">Page control</a></li>
-                    <li><a href="accordion.php">Accordion</a></li>
-                    <li><a href="buttons-set.php">Buttons set</a></li>
-                    <li><a href="rating.php">Rating</a></li>
-                    <li><a href="progress.php">Progress bars</a></li>
-                    <li><a href="carousel.php">Carousel</a></li>
-                    <li><a href="listview.php">List view</a></li>
-                    <li><a href="slider.php">Slider</a></li>
-                    <li><a href="dialog.php">Dialog box</a></li>
-                    <li class="divider"></li>
-                    <li><a href="notices.php">Notices and Replies</a></li>
-                    <li class="divider"></li>
-                    <li><a href="cards.php">Bonus - Deck of Cards</a></li>
-                </ul>
-            </li>
-
-            <li><a href="https://github.com/clixx-io/clixx.io">Source</a></li>
-% if user=='None':
-            <li data-role="dropdown"><a href="#">Sign-In</a>
-                <ul class="dropdown-menu">
-                    <li><a href="login">Log In</a></li>
-                    <li><a href="editscreen">Create Account</a></li>
-% else:
-            <li data-role="dropdown"><a href="#">${user}</a>
-                <ul class="dropdown-menu">
-                    <li><a href="logout">Log Out</a></li>
-% endif                
-                    <li></li>
-                </ul>
-            </li>
-        </ul>
-
-    </div>
-</div>
-</div>
+<%include file="nav-bar.txt"/>
 
 <div class="page" id="page-index">
     <div class="page-region">

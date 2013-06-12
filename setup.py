@@ -11,7 +11,7 @@ setup(
     version = "0.0.2",
     url = "http://github.com/clixx-io/clixx.io",
     license = "BSD",
-    description = "A python library for controlling clixx.io peripherals",
+    description = "A python library for Clixx.io peripherals",
     author = "David Lyon",
     author_email = "david.lyon@hackerpads.com",
     package_dir = {'': 'src'},
