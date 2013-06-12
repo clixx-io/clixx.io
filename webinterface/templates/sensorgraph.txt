@@ -44,7 +44,11 @@
             <div class="page-region-content">
                 <div class="span10">
                 <h2>${sensorValues["sensorStatus"]}</h2>
-				</div>
+			</div>
+
+			<button>Today<i class="icon-*"></i></button>
+			<button>Year<i class="icon-*"></i></button>
+			<button disabled>Live<i class="icon-*"></i></button>
 			
 			<div id="graphdiv"></div>
 
@@ -75,6 +79,7 @@
 			</table>
 		</div>
 	</div>
+
     <div class="page">
         <div class="nav-bar">
             <div class="nav-bar-inner padding10">
@@ -84,6 +89,7 @@
             </div>
         </div>
     </div>
+
 </div>		
 </body>
 

@@ -177,7 +177,7 @@ class GPIOHandler(BaseHandler):
         else:
             sensorArray = {}
             sensorArray["sensorId"] = filename
-            sensorArray["sensorDescription"] = "Long Sensor Name"
+            sensorArray["sensorDescription"] = "Ambient Temperature"
             sensorArray["sensorStatus"] = "Not Connected"
             sensorArray["logDateTime"] = "2013-05-06"
             sensorArray["logFileSize"] = 3459
