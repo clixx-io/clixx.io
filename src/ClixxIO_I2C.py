@@ -87,6 +87,12 @@ class i2c_system:
       
       spawntask("adduser pi i2c")
 
+    def status(self):
+      if os.path.exists("/usr/sbin/i2cdetect"):
+        return("Installed")
+      else:
+        return("Not Installed")
+
     def scan(self):
        """ P
        erform a scan on the I2C Bus
@@ -265,8 +271,17 @@ class lcd:
 
 if __name__ == "__main__":
     print "I2C module"
-    #import pylcdlib
-    lcd = lcd(0x21,0)
-    lcd.lcd_puts("Raspberry Pi",1)  #display "Raspberry Pi" on line 1
-    lcd.lcd_puts("  Take a byte!",2)  #display "Take a byte!" on line 2
 
+    s = i2c_system()
+    if s.status()=="Not Installed":
+        r = raw_input("Do you wish to install ? (Y/N)")
+        if r in "Yy":
+            s.install()
+            print "You will need to reboot the machine"
+
+    # import pylcdlib
+    # lcd = lcd(0x21,0)
+    # lcd.lcd_puts("Raspberry Pi",1)  #display "Raspberry Pi" on line 1
+    # lcd.lcd_puts("  Take a byte!",2)  #display "Take a byte!" on line 2
+
+  
