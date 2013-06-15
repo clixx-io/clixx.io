@@ -22,8 +22,9 @@ Digital_3_s = 10
 SensorLogDir = "My Sensor Logs"
 
 import os
-
+import sys
 import logging
+
 clixxIOlogger = logging.getLogger()
 clixxIOlogger.setLevel(logging.DEBUG)
 
