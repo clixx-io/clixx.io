@@ -7,10 +7,10 @@ from mako import exceptions
 from mako.lookup import TemplateLookup
 from mako.template import Template
 
-import os,sys
+import os, sys, time
 
 sys.path.append("../src")
-import ClixxIO
+from ClixxIO import *
 
 from tornado.options import define, options
 
@@ -67,7 +67,7 @@ class Main(tornado.web.RequestHandler):
             return self.get_secure_cookie("user")
 
         def get(self):
-            
+
             mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
             mytemplate = mylookup.get_template('index.txt')
             if not self.current_user:
@@ -165,6 +165,9 @@ class LogoutHandler(BaseHandler):
 
 class GPIOHandler(BaseHandler):
     def get(self, filename):
+
+        global clixxIODevices
+
         if filename.endswith('.json'):
             self.content_type = 'application/json'
             # Just some test data
@@ -177,25 +180,33 @@ class GPIOHandler(BaseHandler):
             l.close()
             self.write(c)
         else:
+            global clixxIODevices
+
             sensorDevice = {}
-            if filename not in clixxIODevices[filename]:
+            if filename not in clixxIODevices.keys():
                 clixxIOHistoryFill(filename,sensorDevice)
             else:
                 sensorDevice = clixxIODevices[filename]
-            
-            sensorArray["sensorId"] = filename
-            sensorArray["sensorDescription"] = "Ambient Temperature"
-            sensorArray["sensorStatus"] = "Not Connected"
-            sensorArray["logDateTime"] = "2013-05-06"
-            sensorArray["logFileSize"] = 3459
 
             pageInfoArray = {}
-            sensorArray["userName"] = ""
-            
+            if not self.current_user:
+                pageInfoArray["userName"] = ""
+            else:
+                pageInfoArray["userName"] = self.current_user
+
+            sensorDevice["sensorStatus"] = "Not connected"
+            sensorDevice["sensorId"] = filename
+            sensorDevice["sensorDescription"] = "Ambient Temperature"
+
+            csv_name = os.path.join(sensor_log_directory,filename + ".csv")
+
+            (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(csv_name)
+
+            sensorDevice["logDateTime"] = time.ctime(mtime)
+            sensorDevice["logFileSize"] = size
+
             mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
             mytemplate = mylookup.get_template('sensorgraph.txt')
-            if not self.current_user:
-                sensorArray["userName"] = user=self.current_user
 
             self.write(mytemplate.render(pageInfo=pageInfoArray,sensorValues=sensorDevice))
 

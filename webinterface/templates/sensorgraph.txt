@@ -7,11 +7,11 @@
     <![endif]-->
 
     <script src="/js/dygraphs/dygraph-dev.js"></script>
-    <script src="/lib/jquery-1.4.2.js"></script>
+    <script src="/js/assets/jquery-1.9.0.min.js"></script>
     <script src="/js/dygraphs/common/textarea.js"></script>
-    <script src="/js/dygraph-interaction-model.js"></script>
+    <script src="/js/dygraphs/dygraph-interaction-model.js"></script>
     
-    <script type="/text/javascript" src="js/dygraphs/dygraph-combined.js"></script>
+    <script type="/text/javascript" src="/js/dygraphs/dygraph-combined.js"></script>
 
   </head>
 
@@ -47,7 +47,7 @@
 			</div>
 
 			<button>Today<i class="icon-*"></i></button>
-			<button>Year<i class="icon-*"></i></button>
+			<button>All<i class="icon-*"></i></button>
 			<button disabled>Live<i class="icon-*"></i></button>
 			
 			<div id="graphdiv"></div>
@@ -67,12 +67,12 @@
 				<thead>
 					<tr>
 						<th>Log Datestamp</th>
-						<th class="right">Values</th>
+						<th class="right">Filesize</th>
 					</tr>
 				</thead>
 
 				<tbody>
-					<tr><td>2013-06-14</td><td class="right">0,1 Mb</td></tr>
+					<tr><td>${sensorValues["logDateTime"]}</td><td class="right">${sensorValues["logFileSize"]}</td></tr>
 				</tbody>
 
 				<tfoot></tfoot>
