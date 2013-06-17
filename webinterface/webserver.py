@@ -7,8 +7,10 @@ from mako import exceptions
 from mako.lookup import TemplateLookup
 from mako.template import Template
 
-import os
+import os,sys
 
+sys.path.append("../src")
+import ClixxIO
 
 from tornado.options import define, options
 
@@ -175,21 +177,28 @@ class GPIOHandler(BaseHandler):
             l.close()
             self.write(c)
         else:
-            sensorArray = {}
+            sensorDevice = {}
+            if filename not in clixxIODevices[filename]:
+                clixxIOHistoryFill(filename,sensorDevice)
+            else:
+                sensorDevice = clixxIODevices[filename]
+            
             sensorArray["sensorId"] = filename
             sensorArray["sensorDescription"] = "Ambient Temperature"
             sensorArray["sensorStatus"] = "Not Connected"
             sensorArray["logDateTime"] = "2013-05-06"
             sensorArray["logFileSize"] = 3459
+
+            pageInfoArray = {}
+            sensorArray["userName"] = ""
             
             mylookup = TemplateLookup(directories=['./templates'], output_encoding='utf-8', encoding_errors='replace')
             mytemplate = mylookup.get_template('sensorgraph.txt')
             if not self.current_user:
-                self.write(mytemplate.render(sensorValues=sensorArray,user="None"))
-                return
+                sensorArray["userName"] = user=self.current_user
 
-            self.write(mytemplate.render(sensorValues=sensorArray,user=self.current_user))
-            
+            self.write(mytemplate.render(pageInfo=pageInfoArray,sensorValues=sensorDevice))
+
         return
         
     def post(self):
