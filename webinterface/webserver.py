@@ -196,7 +196,7 @@ class GPIOHandler(BaseHandler):
 
             sensorDevice["sensorStatus"] = "Not connected"
             sensorDevice["sensorId"] = filename
-            sensorDevice["sensorDescription"] = "Ambient Temperature"
+            #sensorDevice["sensorDescription"] = "Ambient Temperature"
 
             csv_name = os.path.join(sensor_log_directory,filename + ".csv")
 

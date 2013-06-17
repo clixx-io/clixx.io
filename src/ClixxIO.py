@@ -118,12 +118,23 @@ def clixxIOHistoryFill(sensorname,device):
     """
     Fills in the details of a device from configuration/log files
     """
+    global clixxIOConfig
     
+    clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
+
     for k in clixxIODeviceKeys:
         device[k] = None
 
     device["status"] = clixxIODeviceStatus["not_connected"]
 
+    section_name = 'Device-' + sensorname
+    print clixxIOConfig._sections.keys()
+
+    if section_name in clixxIOConfig._sections.keys():
+		if "sensordescription" in clixxIOConfig._sections[section_name].keys():
+			device["sensorDescription"] = "Ambient Temperature"
+    else:
+        device["sensorDescription"] = "Ambient Temperature"
     return
 
 def clixxIODeviceUpdate(sensorname,device):
