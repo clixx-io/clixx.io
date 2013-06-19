@@ -1,8 +1,7 @@
 #
 
-import os
+import os, sys, mmap, ctypes, struct, json
 import logging
-import sys
 from ConfigParser import ConfigParser
 
 # Internationalisation
@@ -30,9 +29,13 @@ SensorLogDir = "My Sensor Logs"
 clixxIOlogger = logging.getLogger()
 clixxIOlogger.setLevel(logging.DEBUG)
 
+clixxIOshmPath = '/tmp/clixx.io.SHM'
+clixxIOshmfd = None         # Shared Memory File Descriptor used by mmap
+clixxIOshmBuff = None       # Shared Memory Handle
+
 clixxIODevices = {}
 clixxIODeviceKeys = ["status","value","recentHistory","lastActive","driverName",
-                     "sensorId","sensorDescription","logDateTime","logFileSize"]
+                     "deviceId","sensorDescription","logDateTime","logFileSize"]
 clixxIODeviceStatus = {"connected":_("Connected"),"not_connected":_("Not Connected"),"running":_("Running")}
 
 clixxIOBranding = {}
@@ -131,8 +134,8 @@ def clixxIOHistoryFill(sensorname,device):
     print clixxIOConfig._sections.keys()
 
     if section_name in clixxIOConfig._sections.keys():
-		if "sensordescription" in clixxIOConfig._sections[section_name].keys():
-			device["sensorDescription"] = "Ambient Temperature"
+        if "sensordescription" in clixxIOConfig._sections[section_name].keys():
+            device["sensorDescription"] = "Ambient Temperature"
     else:
         device["sensorDescription"] = "Ambient Temperature"
     return
@@ -154,4 +157,88 @@ def clixxIOLoadBrandingData(pageholder):
         clixxIOBranding[k] = clixxIOConfig._sections[clixxIOBrandingSection][k]
     return
 
+def clixxIOSetupSHM():
+    
+    global clixxIOshmfd, clixxIOshmBuff
 
+    if clixxIOshmfd == None:
+    
+        # Create new empty file to back memory map on disk
+        if not os.path.exists(clixxIOshmPath):
+            clixxIOshmfd = os.open(clixxIOshmPath, os.O_CREAT | os.O_TRUNC | os.O_RDWR)
+
+            # Zero out the file to insure it's the right size
+            os.write(clixxIOshmfd, ' ' * mmap.PAGESIZE)
+            os.lseek(clixxIOshmfd,0,os.SEEK_SET)
+            os.write(clixxIOshmfd, '\n')
+ 
+        else:
+            clixxIOshmfd = os.open(clixxIOshmPath, os.O_RDWR)
+ 
+        # Create the mmap instace with the following params:
+        # fd: File descriptor which backs the mapping or -1 for anonymous mapping
+        # length: Must in multiples of PAGESIZE (usually 4 KB)
+        # flags: MAP_SHARED means other processes can share this mmap
+        # prot: PROT_WRITE means this process can write to this mmap
+        clixxIOshmBuff = mmap.mmap(clixxIOshmfd, mmap.PAGESIZE, mmap.MAP_SHARED, mmap.PROT_WRITE)
+ 
+        
+def clixxIOWriteSHM(value):
+    # Now ceate a string containing 'foo' by first creating a c_char array
+    s_type = ctypes.c_char * len(value)
+ 
+    # Now create the ctypes instance
+    s = s_type.from_buffer(clixxIOshmBuff, 0)
+ 
+    # And finally set it
+    s.raw = value
+    # Zero out the file to insure it's the right size
+    
+    # global clixxIOshmfd, clixxIOshmBuff
+
+    os.lseek(clixxIOshmfd,0,os.SEEK_SET)
+    os.write(clixxIOshmfd,value + '\n')
+    
+    return
+ 
+def clixxIOReadSHM():
+
+    # global clixxIOshmfd, clixxIOshmBuff
+
+    os.lseek(clixxIOshmfd,0,os.SEEK_SET)
+    s = os.read(clixxIOshmfd,mmap.PAGESIZE)
+    
+    # And finally set it
+    return s[:s.index("\n")]
+
+def clixxIOReadDevice(deviceID):
+    
+    alldevices = json.loads(clixxIOReadSHM())
+    
+    if deviceID not in alldevices.keys():
+        
+        # Return an initialised device
+        device = {}
+        for k in clixxIODeviceKeys:
+            device[k] = None
+            
+        device["deviceId"] = deviceID
+        return device
+        
+    else:
+        
+        return alldevices[deviceID]
+
+def clixxIOReadDevices():
+    
+    alldevices = json.loads(clixxIOReadSHM())
+    
+def clixxIOUpdateDevice(deviceInfo):
+    
+    alldevices = json.loads(clixxIOReadSHM())
+    
+    alldevices[deviceInfo["deviceId"]] = deviceInfo
+    
+    clixxIOWriteSHM(json.dumps(alldevices))
+    
+    return
