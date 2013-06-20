@@ -213,6 +213,9 @@ def clixxIOReadSHM():
 
 def clixxIOReadDevice(deviceID):
     
+    if clixxIOshmfd == None:
+        clixxIOSetupSHM()
+
     alldevices = json.loads(clixxIOReadSHM())
     
     if deviceID not in alldevices.keys():

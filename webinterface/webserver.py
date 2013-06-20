@@ -7,7 +7,7 @@ from mako import exceptions
 from mako.lookup import TemplateLookup
 from mako.template import Template
 
-import os, sys, time
+import os, sys, time, json
 
 sys.path.append("../src")
 from ClixxIO import *
@@ -171,7 +171,12 @@ class GPIOHandler(BaseHandler):
         if filename.endswith('.json'):
             self.content_type = 'application/json'
             # Just some test data
-            self.write ("Timestamp=\"2013-03-01\",Value=21\n")
+            deviceid = filename[:-5]
+            
+            dv = clixxIOReadDevice(deviceid)
+            
+            self.write (json.dumps(dv))
+            
         elif filename.endswith('.csv'):
             self.content_type = 'text/csv'
             # Just some test data
