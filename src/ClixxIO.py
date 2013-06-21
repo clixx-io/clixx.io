@@ -97,7 +97,11 @@ def sensorLog(value,sensorname):
         
         clixxIODevices[sensorname]["status"] = clixxIODeviceStatus["running"]
         clixxIODevices[sensorname]["value"]  = value
-        
+ 
+        clixxIODevices[sensorname] = clixxIOReadDevice(deviceID)
+        clixxIOUpdateDevice(clixxIODevices[sensorname])
+ 
+       
     clixxIOlogger.info(value)
 
     return
@@ -114,7 +118,7 @@ def sensorPin(pinnumber):
     """
     return None
 
-def clixxIOHistoryFillAll(sensorname):
+def clixxIOHistoryFillAll():
     return
 
 def clixxIOHistoryFill(sensorname,device):
@@ -205,6 +209,9 @@ def clixxIOReadSHM():
 
     # global clixxIOshmfd, clixxIOshmBuff
 
+    if clixxIOshmfd == None:
+        clixxIOSetupSHM()
+
     os.lseek(clixxIOshmfd,0,os.SEEK_SET)
     s = os.read(clixxIOshmfd,mmap.PAGESIZE)
     
@@ -233,11 +240,22 @@ def clixxIOReadDevice(deviceID):
         return alldevices[deviceID]
 
 def clixxIOReadDevices():
-    
-    alldevices = json.loads(clixxIOReadSHM())
+
+    clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
+
+    alldevices = []
+
+    for k in clixxIOConfig._sections.keys():
+        if k.startswith('Device-'):
+            alldevices.append(k[7:])
+        
+    return alldevices
     
 def clixxIOUpdateDevice(deviceInfo):
     
+    if clixxIOshmfd == None:
+		clixxIOSetupSHM()
+
     alldevices = json.loads(clixxIOReadSHM())
     
     alldevices[deviceInfo["deviceId"]] = deviceInfo

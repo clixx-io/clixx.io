@@ -1,10 +1,6 @@
+
 Web Interface 
 -------------
-
-Temperature Sensor
- - there's a few choices
- - it might be sun, cloud, snow
- - or a mercury gauge
 
 Button
  - It's probably a button
