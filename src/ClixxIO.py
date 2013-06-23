@@ -97,11 +97,10 @@ def sensorLog(value,sensorname):
         
         clixxIODevices[sensorname]["status"] = clixxIODeviceStatus["running"]
         clixxIODevices[sensorname]["value"]  = value
- 
-        clixxIODevices[sensorname] = clixxIOReadDevice(deviceID)
+
+        clixxIODevices[sensorname] = clixxIOReadDevice(sensorname)
         clixxIOUpdateDevice(clixxIODevices[sensorname])
- 
-       
+
     clixxIOlogger.info(value)
 
     return
@@ -223,10 +222,13 @@ def clixxIOReadDevice(deviceID):
     if clixxIOshmfd == None:
         clixxIOSetupSHM()
 
-    alldevices = json.loads(clixxIOReadSHM())
-    
+    alldevices = {}
+    js = clixxIOReadSHM()
+    if len(js)>0:
+        alldevices = json.loads(js)
+
     if deviceID not in alldevices.keys():
-        
+
         # Return an initialised device
         device = {}
         for k in clixxIODeviceKeys:
@@ -248,18 +250,21 @@ def clixxIOReadDevices():
     for k in clixxIOConfig._sections.keys():
         if k.startswith('Device-'):
             alldevices.append(k[7:])
-        
-    return alldevices
-    
-def clixxIOUpdateDevice(deviceInfo):
-    
-    if clixxIOshmfd == None:
-		clixxIOSetupSHM()
 
-    alldevices = json.loads(clixxIOReadSHM())
-    
+    return alldevices
+
+def clixxIOUpdateDevice(deviceInfo):
+
+    if clixxIOshmfd == None:
+        clixxIOSetupSHM()
+
+    alldevices = {}
+    js = clixxIOReadSHM()
+    if len(js)>0:
+        alldevices = json.loads(js)
+
     alldevices[deviceInfo["deviceId"]] = deviceInfo
-    
+
     clixxIOWriteSHM(json.dumps(alldevices))
     
     return

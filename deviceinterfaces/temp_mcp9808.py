@@ -9,11 +9,11 @@ if os.path.exists("../../WiringPy"):
 if os.path.exists("../../../WiringPy"):
     sys.path.append("../../../WiringPy/WiringPy")
 
-try:
-    from wiringpi2 import *
-    from libwiringpi2 import *
-except ImportError:
-    from librpigpio import *
+#try:
+#    from wiringpi2 import *
+#    from libwiringpi2 import *
+#except ImportError:
+#    from librpigpio import *
 
 '''
   SensorLog
