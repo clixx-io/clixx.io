@@ -40,4 +40,6 @@ if __name__ == "__main__":
 		
     if sys.argv[1]=="list":
         print clixxIOReadDevices()
+    elif sys.argv[1]=='history':
+		print clixxIOLatestValues(sys.argv[2])
  

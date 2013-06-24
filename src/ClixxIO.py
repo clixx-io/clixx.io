@@ -66,8 +66,8 @@ def sensorLogPath(sensorname):
     """
     Returns the full path of a Log file for a particular sensor
     """
-    f = os.path.join(os.getenv("HOME"),SensorLogDir,sensorname + ".csv")
-    f = os.path.join("../",SensorLogDir,sensorname + ".csv")
+    f = os.path.join(os.getenv("HOME"),"clixx.io",SensorLogDir,sensorname + ".csv")
+#   f = os.path.join("../",SensorLogDir,sensorname + ".csv")
 
     return f
 
@@ -281,7 +281,11 @@ def clixxIOLatestValues(deviceId,when='today'):
 
     today = datetime.now().strftime('%Y-%m-%d')
 
+    lf = open(sensorLogPath(deviceId))
+
     results = []
-    if l.startswith(today):
-        results.append(l)
+    
+    for l in lf.readlines():
+        if l.startswith(today):
+            results.append(l)
         
