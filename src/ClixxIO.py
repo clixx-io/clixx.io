@@ -3,6 +3,7 @@
 import os, sys, mmap, ctypes, struct, json
 import logging
 from ConfigParser import ConfigParser
+from datetime import datetime
 
 # Internationalisation
 import gettext
@@ -96,12 +97,17 @@ def sensorLog(value,sensorname):
     else:
         
         clixxIODevices[sensorname]["status"] = clixxIODeviceStatus["running"]
-        clixxIODevices[sensorname]["value"]  = value
 
         clixxIODevices[sensorname] = clixxIOReadDevice(sensorname)
-        clixxIOUpdateDevice(clixxIODevices[sensorname])
 
-    clixxIOlogger.info(value)
+    if value != clixxIODevices[sensorname]["value"]:
+        clixxIOlogger.info(clixxIODevices[sensorname]["value"])
+        clixxIOlogger.info(value)
+        
+        clixxIODevices[sensorname]["value"] = value
+
+    clixxIODevices[sensorname]["lastActive"] = datetime.now()
+    clixxIOUpdateDevice(clixxIODevices[sensorname])
 
     return
 
