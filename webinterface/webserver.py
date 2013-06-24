@@ -199,7 +199,7 @@ class GPIOHandler(BaseHandler):
             else:
                 pageInfoArray["userName"] = self.current_user
 
-            sensorDevice["sensorStatus"] = "Not connected"
+            sensorDevice["sensorStatus"] = "Active"
             sensorDevice["sensorId"] = filename
             #sensorDevice["sensorDescription"] = "Ambient Temperature"
 

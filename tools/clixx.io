@@ -37,9 +37,10 @@ if __name__ == "__main__":
     if len(sys.argv) == 0:
         print useage
         sys.exit(0)
-		
+
     if sys.argv[1]=="list":
         print clixxIOReadDevices()
     elif sys.argv[1]=='history':
-		print clixxIOLatestValues(sys.argv[2])
- 
+        print clixxIOLatestValues(sys.argv[2])
+    elif sys.argv[2]=="status":
+        print clixxIOReadDevice(sys.argv[2]) 

@@ -86,27 +86,29 @@ def sensorLog(value,sensorname):
         logginghandlers[sensorname] = fh
 
     if sensorname not in clixxIODevices.keys():
-        
+
         device = {}
-        
+
         clixxIOHistoryFill(sensorname,device)
         device["status"] = clixxIODeviceStatus["running"]
-        
+
         clixxIODevices[sensorname] = device
 
     else:
-        
+
         clixxIODevices[sensorname]["status"] = clixxIODeviceStatus["running"]
 
         clixxIODevices[sensorname] = clixxIOReadDevice(sensorname)
 
     if value != clixxIODevices[sensorname]["value"]:
-        clixxIOlogger.info(clixxIODevices[sensorname]["value"])
+
+        if clixxIODevices[sensorname]["value"] is not None:
+            clixxIOlogger.info(clixxIODevices[sensorname]["value"])
         clixxIOlogger.info(value)
-        
+
         clixxIODevices[sensorname]["value"] = value
 
-    clixxIODevices[sensorname]["lastActive"] = datetime.now()
+    clixxIODevices[sensorname]["lastActive"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     clixxIOUpdateDevice(clixxIODevices[sensorname])
 
     return
@@ -131,7 +133,7 @@ def clixxIOHistoryFill(sensorname,device):
     Fills in the details of a device from configuration/log files
     """
     global clixxIOConfig
-    
+
     clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
 
     for k in clixxIODeviceKeys:
@@ -140,7 +142,6 @@ def clixxIOHistoryFill(sensorname,device):
     device["status"] = clixxIODeviceStatus["not_connected"]
 
     section_name = 'Device-' + sensorname
-    print clixxIOConfig._sections.keys()
 
     if section_name in clixxIOConfig._sections.keys():
         if "sensordescription" in clixxIOConfig._sections[section_name].keys():
@@ -154,7 +155,7 @@ def clixxIODeviceUpdate(sensorname,device):
     Updates the information in the memory buffer
     """
     return
-    
+
 def clixxIOLoadBrandingData(pageholder):
     """
     Loads all local branding information.
@@ -167,11 +168,11 @@ def clixxIOLoadBrandingData(pageholder):
     return
 
 def clixxIOSetupSHM():
-    
+
     global clixxIOshmfd, clixxIOshmBuff
 
     if clixxIOshmfd == None:
-    
+
         # Create new empty file to back memory map on disk
         if not os.path.exists(clixxIOshmPath):
             clixxIOshmfd = os.open(clixxIOshmPath, os.O_CREAT | os.O_TRUNC | os.O_RDWR)
@@ -190,8 +191,7 @@ def clixxIOSetupSHM():
         # flags: MAP_SHARED means other processes can share this mmap
         # prot: PROT_WRITE means this process can write to this mmap
         clixxIOshmBuff = mmap.mmap(clixxIOshmfd, mmap.PAGESIZE, mmap.MAP_SHARED, mmap.PROT_WRITE)
- 
-        
+
 def clixxIOWriteSHM(value):
     # Now ceate a string containing 'foo' by first creating a c_char array
     s_type = ctypes.c_char * len(value)
@@ -202,14 +202,14 @@ def clixxIOWriteSHM(value):
     # And finally set it
     s.raw = value
     # Zero out the file to insure it's the right size
-    
+
     # global clixxIOshmfd, clixxIOshmBuff
 
     os.lseek(clixxIOshmfd,0,os.SEEK_SET)
     os.write(clixxIOshmfd,value + '\n')
-    
+
     return
- 
+
 def clixxIOReadSHM():
 
     # global clixxIOshmfd, clixxIOshmBuff
@@ -219,12 +219,12 @@ def clixxIOReadSHM():
 
     os.lseek(clixxIOshmfd,0,os.SEEK_SET)
     s = os.read(clixxIOshmfd,mmap.PAGESIZE)
-    
+
     # And finally set it
     return s[:s.index("\n")]
 
 def clixxIOReadDevice(deviceID):
-    
+
     if clixxIOshmfd == None:
         clixxIOSetupSHM()
 
@@ -239,12 +239,12 @@ def clixxIOReadDevice(deviceID):
         device = {}
         for k in clixxIODeviceKeys:
             device[k] = None
-            
+
         device["deviceId"] = deviceID
         return device
-        
+
     else:
-        
+
         return alldevices[deviceID]
 
 def clixxIOReadDevices():
@@ -277,15 +277,23 @@ def clixxIOUpdateDevice(deviceInfo):
 
 def clixxIOLatestValues(deviceId,when='today'):
     
-    entry_date = datetime.strptime('2013-05-23 10:48:46','%Y-%m-%j %H:%M:%S')
 
     today = datetime.now().strftime('%Y-%m-%d')
 
     lf = open(sensorLogPath(deviceId))
 
     results = []
-    
+
     for l in lf.readlines():
-        if l.startswith(today):
-            results.append(l)
-        
+        if l.strip().startswith(today):
+            results.append(l.rstrip())
+
+    # Use this to convert back to datetime
+    entry_date = datetime.strptime('2013-05-23 10:48:46','%Y-%m-%j %H:%M:%S')
+
+    return results
+
+def clixxIOInfo(deviceId):
+
+
+    return results
