@@ -274,3 +274,14 @@ def clixxIOUpdateDevice(deviceInfo):
     clixxIOWriteSHM(json.dumps(alldevices))
     
     return
+
+def clixxIOLatestValues(deviceId,when='today'):
+    
+    entry_date = datetime.strptime('2013-05-23 10:48:46','%Y-%m-%j %H:%M:%S')
+
+    today = datetime.now().strftime('%Y-%m-%d')
+
+    results = []
+    if l.startswith(today):
+        results.append(l)
+        
