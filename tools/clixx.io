@@ -1,9 +1,21 @@
 #!/usr/bin/python
 
+import argparse
 import sys
 sys.path.append("src")
 
 from ClixxIO import *
+
+parser = argparse.ArgumentParser(description='Command Line Device Interface.')
+#parser.add_argument('integers', metavar='N', type=int, nargs='+',
+#                   help='an integer for the accumulator')
+#parser.add_argument('--sum', dest='accumulate', action='store_const',
+#                   const=sum, default=max,
+#                   help='sum the integers (default: find the max)')
+#
+#args = parser.parse_args()
+#print(args.accumulate(args.integers))
+
 
 useage = """
 clixx.io Command Line
@@ -30,6 +42,9 @@ sensors.
  clixx.io server start            # TcpIP server 
  clixx.io server stop
 
+ clixx.io add button d1
+ clixx.io add led d1
+ clixx.io rm L
 """
 
 if __name__ == "__main__":
