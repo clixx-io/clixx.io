@@ -44,7 +44,10 @@ sensors.
 
  clixx.io add button d1
  clixx.io add led d1
- clixx.io rm L
+ clixx.io rm Temp1
+ clixx.io start Temp1
+ clixx.io stop Temp1
+ 
 """
 
 if __name__ == "__main__":
