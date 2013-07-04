@@ -13,3 +13,11 @@ Rotary Gauge
 
 Camera
  - Icon of a camera
+
+3D Parts View
+-------------
+
+ - http://www.geek.com/geek-cetera/a-javascript-3d-model-viewer-in-your-browser-1309599/
+ - https://github.com/tbuser/thingiview.js
+
+
