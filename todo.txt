@@ -20,4 +20,21 @@ Camera
  - http://www.geek.com/geek-cetera/a-javascript-3d-model-viewer-in-your-browser-1309599/
  - https://github.com/tbuser/thingiview.js
 
+Presentation
+------------
+
+ - Rapid Computer Prototyping Architecture
+ 
+Works on most common system boards
+ - Arduino
+ - Raspberry-Pi
+ 
+Lots of easy to use modules
+
+Easy to use Web Interface
+
+Mobile Interface for Android/iPhone 
+
+Arduino compatable programming Language
+
 
