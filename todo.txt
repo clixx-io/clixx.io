@@ -28,6 +28,7 @@ Presentation
 Works on most common system boards
  - Arduino
  - Raspberry-Pi
+ - Pic
  
 Lots of easy to use modules
 
