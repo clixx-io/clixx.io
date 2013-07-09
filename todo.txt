@@ -20,22 +20,38 @@ Camera
  - http://www.geek.com/geek-cetera/a-javascript-3d-model-viewer-in-your-browser-1309599/
  - https://github.com/tbuser/thingiview.js
 
+Jabber
+------
+
+http://prosody.im/
+http://spectrum.im/
+
 Presentation
 ------------
 
- - Rapid Computer Prototyping Architecture
- 
+clixx.io
+
+Rapid Computer Prototyping Architecture
+
+Boards work anywhere on the Internet
+ - connectable by Jabber
+  
 Works on most common system boards
  - Arduino
  - Raspberry-Pi
  - Pic
  
 Lots of easy to use modules
-
+ - buttons
+ - leds
+ - motor controllers
+ 
 Easy to use Web Interface
-
-Mobile Interface for Android/iPhone 
+ - based on jquerymobile
+ - Works well on Android/iPhone 
 
 Arduino compatable programming Language
+ - based on Wiring
+ - implemented in Python
 
 
