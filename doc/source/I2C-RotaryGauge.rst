@@ -13,7 +13,6 @@ might be needed. This might include:
 
  - Engine RPM Gauge or anything else.
 
-<<<<<<< HEAD
 Introduction
 ------------
 
@@ -70,58 +69,52 @@ Arduino/Wiring Example
 ----------------------
 
 
-
 Raspberry-Pi/Python Example
 ---------------------------
 
-#!/usr/bin/wpy
+.. code-block:: python
 
-import time
-import smbus
-import ClixxIO_I2C
+    #!/usr/bin/wpy
 
-g = None
-device_num = 0x3E
-TIMEFORMAT = "%m/%d/%y %H:%M:%S"
-INTERVAL = 2
+    import time
+    import smbus
+    import ClixxIO_I2C
 
-def getTimeList():
-    statFile = file("/proc/stat", "r")
-    timeList = statFile.readline().split(" ")[2:6]
-    statFile.close()
-    for i in range(len(timeList))  :
-        timeList[i] = int(timeList[i])
-    return timeList
+    g = None
+    device_num = 0x3E
+    TIMEFORMAT = "%m/%d/%y %H:%M:%S"
+    INTERVAL = 2
 
-def deltaTime(interval)  :
-    x = getTimeList()
-    time.sleep(interval)
-    y = getTimeList()
-    for i in range(len(x))  :
-        y[i] -= x[i]
-    return y
+    def getTimeList():
+        statFile = file("/proc/stat", "r")
+        timeList = statFile.readline().split(" ")[2:6]
+        statFile.close()
+        for i in range(len(timeList))  :
+            timeList[i] = int(timeList[i])
+        return timeList
 
-def setup():
-    global g
-    g = ClixxIO_I2C.displayRotaryLeds(0x3F,1)
+    def deltaTime(interval)  :
+        x = getTimeList()
+        time.sleep(interval)
+        y = getTimeList()
+        for i in range(len(x))  :
+            y[i] -= x[i]
+        return y
 
-def loop():
-    global g
-    dt = deltaTime(INTERVAL)
-    timeStamp = time.strftime(TIMEFORMAT)
-    cpuPct = 100 - (dt[len(dt) - 1] * 100.00 / sum(dt))
-    print timeStamp + "\t" + str('%.4f' %cpuPct)          
+    def setup():
+        global g
+        g = ClixxIO_I2C.displayRotaryLeds(0x3F,1)
 
-    g.display(int(cpuPct),100)
+    def loop():
+        global g
+        dt = deltaTime(INTERVAL)
+        timeStamp = time.strftime(TIMEFORMAT)
+        cpuPct = 100 - (dt[len(dt) - 1] * 100.00 / sum(dt))
+        print timeStamp + "\t" + str('%.4f' %cpuPct)          
 
-    time.sleep(0.2)
+        g.display(int(cpuPct),100)
 
+        time.sleep(0.2)
 
-
-
-
-=======
-Code Examples
->>>>>>> 19848c32e0110de87abd2e3bb91777f5f82176d7
 
 

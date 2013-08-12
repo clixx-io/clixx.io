@@ -21,10 +21,12 @@ Camera
  - https://github.com/tbuser/thingiview.js
 
 Jabber
-------
 
 http://prosody.im/
 http://spectrum.im/
+
+Windows-8 Tile Updates
+ - p://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.notifications.tileupdater.update.aspx
 
 Presentation
 ------------
