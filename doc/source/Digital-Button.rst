@@ -6,12 +6,19 @@ The Digital Button is a handy general purpose button board.
 It can be used in any circuit requiring a button and can be mounted either
 directly to the circuit board via a digital or analog input.
 
+Any programming language can be used depending on your platform and the
+button works as a Digital Input device meaning that a value of 0 indicates
+off and a non-zero value means that the button is depressed.
+
 You can typically add more than one Digital Button to a circuit and
 combine them with other electronics such as LED's or switches to make
 them do useful tasks.
 
 .. image:: M1418C6-HE2.png
-      
+
+Code Example
+------------
+
 .. code-block:: python
 
 	'''

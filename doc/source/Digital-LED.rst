@@ -1,12 +1,15 @@
-Digital LED Baord
+Digital LED Board
 -----------------
 
-The Digital LED Board is one of the simplest but sometimes most
-entertaining board of the set. It has two states on and off and
-can be made to flash, turn-on or vary in intensity according to
-microprocessor control.
+The Digital LED Board is a very simple board that's commonly used as a 
+status indicator on digital devices.
 
-<photo>
+It's implemented within clixx.io as a board because there are many times
+when having a board can be handy. It attaches as an output device and can
+be made to turn on or off according to the output pin status.
+
+It has two states on and off and can be made to flash, turn-on 
+or vary in intensity according to microprocessor control.
 
 .. code-block:: python
 
