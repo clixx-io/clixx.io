@@ -1,21 +1,27 @@
-Clixx.io
---------
+.. Clixx.io documentation master file, created by
+   sphinx-quickstart on Wed Apr 24 11:50:20 2013.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-Welcome to Clixx.io, a collection of fun and easy-to-use high-level computing 
-components that remove the complexities of having to implement low-level electronics
-and allow you to get systems built fast.
+Welcome to the Clixx.io Documentation
+=====================================
 
-This documentation is divided into sections and an example and description
-of each board is given.
+Contents:
 
-     Digital Input Board        InfraRed Transmitter
+.. toctree::
+   :maxdepth: 2
 
-     LED Output Board           InfraRed Receiver
+   Digital-Button
+   Digital-LED
+   Digital-InfraRed-tx
+   Digital-InfraRed-rx
+   I2C-RotaryGauge
+   I2C-TempSensor
 
-     Rotary LED Gauge           Temperature Sensor
+Indices and tables
+==================
 
-
-
-
-
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
