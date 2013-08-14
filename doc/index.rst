@@ -10,7 +10,8 @@
 Welcome to clixx.io's documentation!
 ====================================
 
-Interface Boards:
+IO Boards
+---------
 
 .. toctree::
    :maxdepth: 2
@@ -21,12 +22,35 @@ Interface Boards:
    source/Digital-InfraRed-rx
    source/I2C-RotaryGauge
    source/I2C-TempSensor
-   source/Digital-soic8.rst
+   source/Digital-soic8
 
-Indices and tables
-==================
+Interface Adaptors
+------------------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+   :maxdepth: 2
 
+   source/Interface-RaspberryPi
+   source/Interface-ArduinoDuemilanove
+
+Processor Boards
+------------------
+
+.. toctree::
+   :maxdepth: 2
+
+   source/PIC 8-Pin
+   source/Attiny
+
+Software Support
+----------------
+
+.. toctree::
+   :maxdepth: 2
+
+   source/Socket-Interface
+   source/Jabber-Interface
+   source/RSS-Interface
+   source/Web-Interface
+   source/Python-Module
+   source/Command-Line-Interface
