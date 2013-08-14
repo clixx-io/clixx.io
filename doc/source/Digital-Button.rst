@@ -14,11 +14,6 @@ You can typically add more than one Digital Button to a circuit and
 combine them with other electronics such as LED's or switches to make
 them do useful tasks.
 
-.. image:: M1418C6-HE2.png
-
-Code Example
-------------
-
 .. code-block:: python
 
 	'''

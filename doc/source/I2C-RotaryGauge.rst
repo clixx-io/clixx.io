@@ -1,5 +1,5 @@
 Rotary Gauge
-------------
+============
 
 The Rotary Gauge is a twin-tab board that has 9 LED's that can
 be used in various applications where some sort of rotary gauge
@@ -28,18 +28,21 @@ to the value that is received from the Microprocessor.
 Each bit of the Shift-Register then maps out onto the following LED
 of the Gauge:
 
--------------------------
-Bit    Hex        | Color
--------------------------
-1   |  0x01       | Green
-2   |  0x02       | Green
-3   |  0x04       | White
-4   |  0x08       | White
-3   |  0x10       | Orange
-4   |  0x20       | Orange
-3   |  0x40       | Red
-4   |  0x80       | Red
---------------------------
+.. table:: LED Bit-Flags
+
+    ==== ============= ==========
+    Bit  Hex           Color
+    ==== ============= ==========
+    1    0x01          Green
+    2    0x02          Green
+    3    0x04          White
+    4    0x08          White
+    3    0x10          Orange
+    4    0x20          Orange
+    3    0x40          Red
+    4    0x80          Red
+    ==== ============= ==========
+
 
 Installation
 ------------
@@ -51,26 +54,6 @@ By default the board is configured to exist at the I2C address of 0x3F.
 
 On a Linux board, such as the Raspberry-Pi, you will need to install I2C
 modules and drivers and that process is described >here<. 
-
-You can find the board by connecting it up and typing the following command 
-at the command shell:
-
-> i2cdetect -y 1
-
-
-Programming
------------
-
-This board can be programmed in any language that your microprocessor
-supports. For example, C/C++, Python, Java and will work on a range
-of Microprocessors.
-
-Arduino/Wiring Example
-----------------------
-
-
-Raspberry-Pi/Python Example
----------------------------
 
 .. code-block:: python
 
@@ -115,6 +98,5 @@ Raspberry-Pi/Python Example
         g.display(int(cpuPct),100)
 
         time.sleep(0.2)
-
 
 
