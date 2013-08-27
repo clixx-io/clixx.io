@@ -24,16 +24,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="267.85338"
-     inkscape:cy="478.61654"
+     inkscape:zoom="2.8"
+     inkscape:cx="325.82985"
+     inkscape:cy="478.02663"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1369"
      inkscape:window-height="802"
-     inkscape:window-x="173"
-     inkscape:window-y="201"
+     inkscape:window-x="181"
+     inkscape:window-y="39"
      inkscape:window-maximized="0"
      inkscape:snap-global="false" />
   <metadata
@@ -85,10 +85,10 @@
        rx="10.629921" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.70043236px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 129.44196,574.79318 1.5e-4,294.75313 26.28782,-0.35079 0,31.88976 36,0 0,-31.88976 36,0 0,31.88976 36,0 0,-31.88976 36,0 0,31.88976 36.00001,0 0,-31.88976 36,0 0,31.88976 36,0 0,-31.88976 c 7.4619,0.39614 26.8335,-0.61299 26.8335,-0.61299 l 0,-293.48004 -26.8335,0 0,-31.88977 -36,0 0,31.88977 -36,0 0,-31.88977 -36.00001,0 0,31.88977 -36,0 0,-31.88977 -36,0 0,31.88977 -36,0 0,-31.88977 -18,0 -18,0 0,15.94488 0,15.94489 z"
+       d="m 129.44196,574.79318 1.5e-4,294.75313 9.85925,0.006 0,32.24691 29.21428,0 -0.35714,-32.96119 12.78572,0 0.71428,32.2469 57.42857,0.71429 -0.35714,-33.31834 12.07143,-0.35714 0.71428,33.67548 59.92859,0 0.71428,-34.03262 11.71429,0 -0.35715,34.03262 59.92858,0 0.99125,-33.458 12.63848,-0.30043 -0.5758,33.62814 37.70814,0.12754 1.07143,-359.55147 -38.05961,-0.35714 -0.20247,34.28571 -11.78571,-0.10406 0.42857,-33.92857 -61.07143,0.4612 -0.28574,32.5 -13.21429,0.25308 0.42857,-32.85713 -57.5,-0.25309 0.0714,32.85714 -13.92857,0.25308 0.42857,-33.21428 -58.92857,0.10405 -0.28574,33.21429 -13.92858,0.25309 -0.14285,-32.5 -28.51994,0.29586 0,15.64902 0.35714,15.64903 z"
        id="path2989-3"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccc" />
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccc" />
     <rect
        style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.5988189;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3050-2"
