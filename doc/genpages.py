@@ -69,12 +69,9 @@ if __name__ == "__main__":
 
     generate_product_pages()
 
-#    di = {"Petrol" : {"Mowers": {"0123" : {"Text":"Subdiv", "Page":"Sometext"},
-#                                 "2065" : {"Text":"AnotherDiv","Page":"Lost"}}}}
-
-#    t = Template(filename='templates/home.html')
-
-    ci = {"CompanyName" : "Village Mowers"}
+    ci = {"CompanyName"   : "Clixx.io",
+          "SystemTitle"   : "Documentation for Clixx.io",
+          "SystemSummary" : "Welcome to the clixx.io documentation.", }
 
     t = Template(filename='templates/jqueryexample.mako')
     open('m.html','w').write(t.render(di=di,ci=ci))

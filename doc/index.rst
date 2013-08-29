@@ -14,7 +14,7 @@ IO Boards
 ---------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    source/Digital-Button
    source/Digital-LED
@@ -23,8 +23,8 @@ IO Boards
    source/I2C-RotaryGauge
    source/I2C-TempSensor
    source/Digital-soic8
-
-Interface Adaptors
+   
+Docks
 ------------------
 
 .. toctree::
@@ -54,3 +54,12 @@ Software Support
    source/Web-Interface
    source/Python-Module
    source/Command-Line-Interface
+
+..
+	Examples
+	--------
+
+	.. toctree::
+	   :maxdepth: 2
+
+	   source/Socket-Interface

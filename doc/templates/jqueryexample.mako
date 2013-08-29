@@ -16,9 +16,9 @@
     <div data-role="content">
         <div class="article">
             <p><img src="../../_assets/img/bike.jpg" alt="Fixed Gear bike"></p>
-            <h2>Village Mowers Mobile</h2>
-            <p>This system allows you to look up prices on all the products currently stocked by Village Mowers</p>
-            <p><small>Copyright 2012 Village Mowers and Power Tools</small></p>
+            <h2>${ci["SystemTitle"]}</h2>
+            <p>${ci["SystemSummary"]}</p>
+            <p><small>Copyright 2013 ${ci["CompanyName"]}</small></p>
             <p><a href="#right-panel" data-role="button" data-theme="b" data-inline="true" data-mini="true" data-shadow="false">Share</a>
                <a href="#right-panel" data-role="button" data-theme="b" data-inline="true" data-mini="true" data-shadow="false">Login</a></p>
         </div><!-- /article -->
