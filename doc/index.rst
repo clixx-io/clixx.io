@@ -24,14 +24,14 @@ IO Boards
    source/I2C-TempSensor
    source/Digital-soic8
 
-Interface Adaptors
-------------------
+Docks
+-----
 
 .. toctree::
    :maxdepth: 2
 
-   source/Interface-RaspberryPi
-   source/Interface-ArduinoDuemilanove
+   source/Dock-RaspberryPi
+   source/Dock-Arduino-Duemilanove
 
 Processor Boards
 ------------------
@@ -39,8 +39,8 @@ Processor Boards
 .. toctree::
    :maxdepth: 2
 
-   source/PIC 8-Pin
-   source/Attiny
+   source/Processor-PIC 8-Pin
+   source/Processor-Attiny
 
 Software Support
 ----------------
