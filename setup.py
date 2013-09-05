@@ -7,11 +7,11 @@ if sys.version_info < (2, 5):
 from setuptools import setup
 
 setup(
-    name = "clixx-io",
+    name = "clixx.io",
     version = "0.0.2",
     url = "http://github.com/clixx-io/clixx.io",
     license = "BSD",
-    description = "A python library for Clixx.io peripherals",
+    description = "A python library for clixx.io peripherals",
     author = "David Lyon",
     author_email = "david.lyon@clixx.io",
     package_dir = {'': 'src'},
