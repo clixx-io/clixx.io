@@ -1,9 +1,8 @@
 
 import sys
-sys.path.append('../src')
-
 import unittest
 
+from clixxIO import *
 
 # Here's our "unit tests".
 class LineModeTests(unittest.TestCase):

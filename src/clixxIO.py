@@ -9,26 +9,19 @@ from datetime import datetime
 import gettext
 _ = gettext.gettext
 
-# Pin Definitions for the RaspberryPi WiringPi2
-Serial_1_i = 2
-Serial_1_o = 3
-
-Digital_1_i = 5
-Digital_1_o = 6
-Digital_1_s = 4
-
-Digital_2_i = 2
-Digital_2_o = 3
-Digital_2_s = 0
-
-Digital_3_i = 1
-Digital_3_o = 11
-Digital_3_s = 10
+from time import *
 
 SensorLogDir = "My Sensor Logs"
 
+formatter = logging.Formatter('%(asctime)s, %(message)s',"%Y-%m-%d %H:%M:%S")
+# Console Logging Handler
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+ch.setFormatter(formatter)
+
 clixxIOlogger = logging.getLogger()
 clixxIOlogger.setLevel(logging.DEBUG)
+clixxIOlogger.addHandler(ch)
 
 clixxIOshmPath = '/tmp/clixx.io.SHM'
 clixxIOshmfd = None         # Shared Memory File Descriptor used by mmap
@@ -45,14 +38,174 @@ clixxIOBrandingKeys = ["systemname","ownername","providername","provideraddress"
 
 clixxIOConfig = ConfigParser()
 
-formatter = logging.Formatter('%(asctime)s, %(message)s',"%Y-%m-%d %H:%M:%S")
-# Console Logging Handler
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-ch.setFormatter(formatter)
-clixxIOlogger.addHandler(ch)
 
 logginghandlers = {}
+
+def spawntask(cmdline):
+    # Put stderr and stdout into pipes
+    proc = subprocess.Popen(cmdline, \
+        shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    return_code = proc.wait()
+
+    output = []
+    # Read from pipes
+    for line in proc.stdout:
+        output += line
+    for line in proc.stderr:
+        print("stderr: " + line.rstrip())
+        
+    return (return_code,output)
+
+class i2c_system:
+
+    def __init__(self, busnumber = 1):
+        
+        self.busnumber = busnumber
+        
+        try:
+            import smbus
+        except ImportError:
+            sys.stderr.write("Warning: smbus module is not installed...")
+        
+    def install(self):
+      """
+      Function to install the necessary software to run I2C
+
+      Based on http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step2/Enable-I2C/
+
+      """
+
+      # Update module blacklist file
+      blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf")
+      lines = blacklist_conf.readlines()
+      blacklist_conf.close()
+      new_content = []
+      for l in lines:
+          if l.rstrip() == 'blacklist i2c-bcm2708':
+              new_content.append('#blacklist i2c-bcm2708\n')
+          else:
+              new_content.append(l.rstrip())
+
+      blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf",'w')
+      blacklist_conf.write('\n'.join(new_content))
+
+      # Update /etc/modules
+      etc_modules = open("/etc/modules")
+      lines = etc_modules.readlines()
+      etc_modules.close()
+      new_content = []
+      i2c_found = False
+      for l in lines:
+          if 'i2c-dev' in l:
+              i2c_found = True
+      if not i2c_found:
+          etc_modules = open("/etc/modules",'w+')
+          etc_modules.write(''.join(lines)+'\ni2c-dev\n')
+          etc_modules.close()
+
+      # http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step4/Install-Necessary-Packages/
+      if not os.path.exists("/usr/sbin/i2cdetect"):
+        spawntask("apt-get install -y i2c-tools")
+        
+      spawntask("apt-get install -y python-smbus")
+      
+      spawntask("adduser pi i2c")
+
+    def installed(self):        
+    
+      return os.path.exists("/usr/sbin/i2cdetect")
+
+    def scan(self):
+       """ P
+       erform a scan on the I2C Bus
+       """
+       devices = []
+       rcode,o = spawntask("i2cdetect -y %d" % self.busnumber)
+       if (rcode == 0):
+         for l in o:
+            r = s[3:].replace(' --','')
+       return devices
+
+    def probe(self):    
+      return
+
+# General i2c device class so that other devices can be added easily
+class i2c_device:
+   
+    def __init__(self, addr, port):
+        
+        try:
+            import smbus
+        except ImportError:
+            sys.stderr.write("Warning: smbus module is not installed...")
+
+        self.addr = addr
+        self.bus = smbus.SMBus(port)
+
+    def write(self, byte):
+        self.bus.write_byte(self.addr, byte)
+
+    def read(self):
+        return self.bus.read_byte(self.addr)
+
+    def read_nbytes_data(self, data, n): # For sequential reads > 1 byte
+        return self.bus.read_i2c_block_data(self.addr, data, n)
+
+class mcp23017:
+    """
+    http://hertaville.com/2013/04/01/interfacing-an-i2c-gpio-expander-mcp23017-to-the-raspberry-pi-using-c/
+    """
+
+class displayRotaryLeds(i2c_device):
+    """ 
+    Rotary LED display based on the PCF8574
+    """
+    def setbits(self,value):
+        self.write( 0xff ^ value)
+        return
+
+    def display(self, value, maximum):
+        v = (value * 8) / maximum
+        if v < 1:
+            self.setbits(0x00)
+        if v < 2:
+            self.setbits(0x01)
+        elif v < 3:
+            self.setbits(0x03)
+        elif v < 4:
+            self.setbits(0x07)
+        elif v < 5:
+            self.setbits(0x0f)
+        elif v < 6:
+            self.setbits(0x1f)
+        elif v < 7:
+            self.setbits(0x3f)
+        elif v < 8:
+            self.setbits(0x7f)
+        elif v < 9:
+            self.setbits(0xff)
+
+class tempSensorMCP9808(i2c_device):
+    """ 
+    MCP9808 is an I2C Temperature sensor
+    """
+    def read_temperature(self):
+        b = self.read_nbytes_data(5,3)
+        t = (b[1] / 16) + b[2] * 16
+        return t
+
+class RaspberryPiPinOuts:
+    # Pin Definitions for the RaspberryPi WiringPi2
+    
+    pins = {'Serial_1' : {'i':2, 'o':3},
+            'Digital_1' : {'i':5, 'o':6, '*':4},
+            'Digital_2' : {'i':2, 'o':3, '*':0},
+            'Digital_3' : {'i':1, 'o':11, '*':10}
+           }
+    
+    def pin(portname,portpin):
+        return pins[portname,portpin]
+
 
 if sys.platform == "linux2":
     clixxIOLogDir    = "/var/log"
