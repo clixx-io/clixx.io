@@ -10,6 +10,14 @@
 Welcome to clixx.io's documentation!
 ====================================
 
+About
+---------
+
+.. toctree::
+   :maxdepth: 1
+
+   source/About.rst
+
 IO Boards
 ---------
 
