@@ -46,20 +46,17 @@ sensors.
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
+  #  parser.add_argument('--add', nargs=2)
+    parser.add_argument('device', nargs='+')
+
     parser.add_argument("-v", "--verbose", help="increase output verbosity",
                     action="store_true")
-
+   
     args = parser.parse_args()
-    if args.verbose:
-        print "verbosity turned on"
-
-    if len(sys.argv) == 0:
-        print useage
-        sys.exit(0)
-
-    if sys.argv[1]=="list":
+    
+    if args.device[0]=="list":
         print clixxIOReadDevices()
-    elif sys.argv[1]=='history':
-        print clixxIOLatestValues(sys.argv[2])
-    elif sys.argv[2]=="status":
-        print clixxIOReadDevice(sys.argv[2]) 
+    elif args.device[0]=='history':
+        print clixxIOLatestValues(args.device[1])
+    elif args.device[0]=="status":
+        print clixxIOReadDevice(args.device[1]) 
