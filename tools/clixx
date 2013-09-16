@@ -46,17 +46,16 @@ sensors.
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-  #  parser.add_argument('--add', nargs=2)
-    parser.add_argument('device', nargs='+')
+    parser.add_argument('operation', nargs='+', help="Perform an operation on a device [add/remove/activate/deactive/list/history/status]")
 
     parser.add_argument("-v", "--verbose", help="increase output verbosity",
                     action="store_true")
    
     args = parser.parse_args()
     
-    if args.device[0]=="list":
+    if args.operation[0]=="list":
         print clixxIOReadDevices()
-    elif args.device[0]=='history':
+    elif args.operation[0]=='history':
         print clixxIOLatestValues(args.device[1])
-    elif args.device[0]=="status":
+    elif args.operation[0]=="status":
         print clixxIOReadDevice(args.device[1]) 
