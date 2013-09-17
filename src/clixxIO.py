@@ -1,17 +1,23 @@
 #
 
-import os, sys, mmap, ctypes, struct, json
+import os, sys, mmap, ctypes, struct, json, platform
 import logging
 from ConfigParser import ConfigParser
 from datetime import datetime
+from time import *
 
 # Internationalisation
 import gettext
 _ = gettext.gettext
 
-from time import *
 
-SensorLogDir = "My Sensor Logs"
+if sys.platform == "linux2":
+    clixxIOLogDir    = "/var/log"
+    clixxIOConfigDir = "/etc"
+clixxIOConfigDir = os.path.join(os.getenv("HOME"),".clixx.io")
+
+clixxIOConfigName= "clixx.io.conf"
+SensorLogDir = "Sensor Logs"
 
 formatter = logging.Formatter('%(asctime)s, %(message)s',"%Y-%m-%d %H:%M:%S")
 # Console Logging Handler
@@ -38,7 +44,6 @@ clixxIOBrandingKeys = ["systemname","ownername","providername","provideraddress"
 
 clixxIOConfig = ConfigParser()
 
-
 logginghandlers = {}
 
 def spawntask(cmdline):
@@ -56,7 +61,48 @@ def spawntask(cmdline):
         
     return (return_code,output)
 
+def GetConfigDir():
+	""" 
+	Return: The Location for configuration files
+	"""
+	
+    homedir = ''
+
+    if platform.system()=='Windows':	
+        try:
+            from win32com.shell import shellcon, shell            
+            homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
+	 
+        except ImportError: # quick semi-nasty fallback for non-windows/win32com case
+	        homedir = os.path.expanduser("~")
+	        
+	    homedir = os.path.join(homedir,"clixx.io")
+	    
+	else:
+        homedir = os.path.join(os.path.expanduser("~"),".clixx.io")
+    
+    return homedir 
+
+def sensorLogPath(sensorname):
+    """
+    Returns the full path of a Log file for a particular sensor
+    """
+    f = os.path.join(GetConfigDir(),SensorLogDir,sensorname + ".csv")
+
+    return f
+
+class ow_system:
+	""" 
+	Provided to extend access to the Dallas One Communication Bus
+	"""
+
+    def rpi_install(self):
+        spawntask("apt-get install -y owfs")
+
 class i2c_system:
+	""" 
+	Provided to extend access to the I2C Bus.
+	"""
 
     def __init__(self, busnumber = 1):
         
@@ -67,7 +113,7 @@ class i2c_system:
         except ImportError:
             sys.stderr.write("Warning: smbus module is not installed...")
         
-    def install(self):
+    def rpi_install(self):
       """
       Function to install the necessary software to run I2C
 
@@ -206,24 +252,6 @@ class RaspberryPiPinOuts:
     def pin(portname,portpin):
         return pins[portname,portpin]
 
-
-if sys.platform == "linux2":
-    clixxIOLogDir    = "/var/log"
-    clixxIOConfigDir = "/etc"
-clixxIOConfigDir = os.path.join(os.getenv("HOME"),"clixx.io")
-
-clixxIOConfigName= "clixx.io.conf"
-SensorLogDir     = "My Sensor Logs"
-
-def sensorLogPath(sensorname):
-    """
-    Returns the full path of a Log file for a particular sensor
-    """
-    f = os.path.join(os.getenv("HOME"),"clixx.io",SensorLogDir,sensorname + ".csv")
-#   f = os.path.join("../",SensorLogDir,sensorname + ".csv")
-
-    return f
-
 def sensorLog(value,sensorname):
     """
     Sends a Sensor Value to the logging system
@@ -321,7 +349,11 @@ def clixxIOLoadBrandingData(pageholder):
     return
 
 def clixxIOSetupSHM():
-
+    """
+    Sensor Data is exchanged using Shared Memory on Linux. This
+    method configures the shared memory space so that multiple
+    clients can read/write to the space.
+    """
     global clixxIOshmfd, clixxIOshmBuff
 
     if clixxIOshmfd == None:
@@ -346,24 +378,26 @@ def clixxIOSetupSHM():
         clixxIOshmBuff = mmap.mmap(clixxIOshmfd, mmap.PAGESIZE, mmap.MAP_SHARED, mmap.PROT_WRITE)
 
 def clixxIOWriteSHM(value):
-    # Now ceate a string containing 'foo' by first creating a c_char array
+    """
+    Low Level routine to write to the shared-memory-value area
+    """
+    # Now ceate a pointer to the shared memory area
     s_type = ctypes.c_char * len(value)
  
     # Now create the ctypes instance
     s = s_type.from_buffer(clixxIOshmBuff, 0)
- 
     # And finally set it
     s.raw = value
-    # Zero out the file to insure it's the right size
-
-    # global clixxIOshmfd, clixxIOshmBuff
-
+ 
     os.lseek(clixxIOshmfd,0,os.SEEK_SET)
     os.write(clixxIOshmfd,value + '\n')
 
     return
 
 def clixxIOReadSHM():
+    """
+    Low Level routine to read from the shared-memory-value area
+    """
 
     # global clixxIOshmfd, clixxIOshmBuff
 
@@ -377,6 +411,9 @@ def clixxIOReadSHM():
     return s[:s.index("\n")]
 
 def clixxIOReadDevice(deviceID):
+    """
+    Low Level routine to read values for a particular device
+    """
 
     if clixxIOshmfd == None:
         clixxIOSetupSHM()
@@ -401,6 +438,9 @@ def clixxIOReadDevice(deviceID):
         return alldevices[deviceID]
 
 def clixxIOReadDevices():
+    """
+    Low Level routine to read values for all devices
+    """
 
     clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
 
@@ -413,6 +453,9 @@ def clixxIOReadDevices():
     return alldevices
 
 def clixxIOUpdateDevice(deviceInfo):
+    """
+    Low Level routine to update the Share-Memory-Space for one device
+    """
 
     if clixxIOshmfd == None:
         clixxIOSetupSHM()
@@ -429,7 +472,9 @@ def clixxIOUpdateDevice(deviceInfo):
     return
 
 def clixxIOLatestValues(deviceId,when='today'):
-    
+    """
+    Read the latest values for a particular device from the device log file
+    """
 
     today = datetime.now().strftime('%Y-%m-%d')
 
@@ -447,6 +492,8 @@ def clixxIOLatestValues(deviceId,when='today'):
     return results
 
 def clixxIOInfo(deviceId):
-
+    """
+    Read known summary metadata for a device
+    """
 
     return results
