@@ -8,7 +8,7 @@ from setuptools import setup
 
 setup(
     name = "clixx.io",
-    version = "0.0.2",
+    version = "0.1.0",
     url = "http://github.com/clixx-io/clixx.io",
     license = "BSD",
     description = "A python library for clixx.io peripherals",
@@ -16,7 +16,7 @@ setup(
     author_email = "david.lyon@clixx.io",
     package_dir = {'': 'src'},
     packages = [''],
-    scripts=['tools/clixx.io'],
+    scripts=['tools/clixx'],
 # use_2to3 = True,
     test_suite = "tests.tests",
     install_requires = ['setuptools'],
