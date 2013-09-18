@@ -62,25 +62,24 @@ def spawntask(cmdline):
     return (return_code,output)
 
 def GetConfigDir():
-	""" 
-	Return: The Location for configuration files
-	"""
-	
+    """ 
+    Return: The Location for configuration files
+    """
+
     homedir = ''
 
     if platform.system()=='Windows':	
         try:
             from win32com.shell import shellcon, shell            
             homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-	 
+ 
         except ImportError: # quick semi-nasty fallback for non-windows/win32com case
-	        homedir = os.path.expanduser("~")
-	        
-	    homedir = os.path.join(homedir,"clixx.io")
-	    
-	else:
-        homedir = os.path.join(os.path.expanduser("~"),".clixx.io")
-    
+            homedir = os.path.expanduser("~")
+            homedir = os.path.join(homedir,"clixx.io")
+
+        else:
+            homedir = os.path.join(os.path.expanduser("~"),".clixx.io")
+
     return homedir 
 
 def sensorLogPath(sensorname):
@@ -92,27 +91,27 @@ def sensorLogPath(sensorname):
     return f
 
 class ow_system:
-	""" 
-	Provided to extend access to the Dallas One Communication Bus
-	"""
+    """ 
+    Provided to extend access to the Dallas One Communication Bus
+    """
 
     def rpi_install(self):
         spawntask("apt-get install -y owfs")
 
 class i2c_system:
-	""" 
-	Provided to extend access to the I2C Bus.
-	"""
+    """ 
+    Provided to extend access to the I2C Bus.
+    """
 
     def __init__(self, busnumber = 1):
-        
+
         self.busnumber = busnumber
-        
+
         try:
             import smbus
         except ImportError:
             sys.stderr.write("Warning: smbus module is not installed...")
-        
+
     def rpi_install(self):
       """
       Function to install the necessary software to run I2C
