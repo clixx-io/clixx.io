@@ -2,17 +2,10 @@
 Web Interface 
 -------------
 
-Button
- - It's probably a button
-
-LED Board
- - An LED or a Light Globe
 
 Rotary Gauge
  - Will have to be drawn in Inkscape
 
-Camera
- - Icon of a camera
 
 3D Parts View
 -------------
@@ -20,12 +13,21 @@ Camera
  - http://www.geek.com/geek-cetera/a-javascript-3d-model-viewer-in-your-browser-1309599/
  - https://github.com/tbuser/thingiview.js
 
-Jabber
+Growl and Ubuntu Notifications
+------------------------------
+
+ - https://github.com/kfdm/gntp/
+ - http://ubuntuforums.org/showthread.php?t=642997 
+
+Jabber Notifications
+--------------------
 
 http://prosody.im/
 http://spectrum.im/
 
 Windows-8 Tile Updates
+----------------------
+
  - p://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.notifications.tileupdater.update.aspx
 
 Processor Boards
@@ -39,12 +41,10 @@ HDMI connectors
 Stencils
 --------
 
-http://www.oshstencils.com/
+ - http://www.oshstencils.com/
 
-Presentation
-------------
-
-clixx.io
+Discover Page
+-------------
 
 Rapid Computer Prototyping Architecture
 
@@ -77,3 +77,10 @@ http://www11.ocn.ne.jp/~maracas/avrfuse.html
 http://arduinoexplained.blogspot.com.au/search?updated-min=2012-01-01T00:00:00-05:00&updated-max=2013-01-01T00:00:00-05:00&max-results=20
 http://ubuntuforums.org/showthread.php?t=1985915
 
+PIC Programming
+---------------
+
+ - https://www.mixdown.ca/redmine/projects/picjug/wiki
+ USB M-Stack
+  - https://github.com/mixdownengineering/m-stack
+  
