@@ -22,16 +22,26 @@
 #define F_CPU 1000000UL
 #include <util/delay.h>
 
-int main(void)
-{
-	DDRB |= (1 << 1);		/* Set PORTB bit 1 to output. */
+#define D1_I PB2 // Tested
+#define D1_O PB1 // Tested
+#define D1_S PB5 // 
 
+#define D2_I PB4
+#define D2_O PB3
+#define D2_S PB0
+
+#define LED_PIN D2_O
+
+int main(void) {
+
+	// Configure LED_PIN as output
+	DDRB |= _BV(LED_PIN);
 	while (1) {
-		PORTB &= ~(1 << 1);	/* LED on */
-		_delay_ms(1000);
-		PORTB |= (1 << 1);	/* LED off */
-		_delay_ms(1000);
+		PORTB |=  _BV( LED_PIN );
+		_delay_ms(200);
+		PORTB &=~ _BV( LED_PIN );
+		_delay_ms(200);
 	}
-
+ 
 	return 0;
 }
