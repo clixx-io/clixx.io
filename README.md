@@ -1,5 +1,4 @@
-clixx.io
-========
+![logo](doc/source/svg/g3170.png)
 
 Rapid Configuration and Prototyping System
 ------------------------------------------
