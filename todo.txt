@@ -2,10 +2,13 @@
 Web Interface 
 -------------
 
-
 Rotary Gauge
  - Will have to be drawn in Inkscape
 
+Boards to do
+------------
+
+ - LM317-VREG, DS18B0 Temperature sensor, RGB-LED, AA-Battery, CR2032-Battery, BaseTwinTab, BaseSingleTab
 
 3D Parts View
 -------------
