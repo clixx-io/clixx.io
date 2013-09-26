@@ -29,15 +29,15 @@ clixx.io boards can be used on different projects with little wasteage. If
 a project doesn't work, just reconfigure the parts a different way on a
 different project. 
 
-CommandLine Interface
----------------------
+Bring your favourite programming Language
+-----------------------------------------
 
-Most of the Sensor and Interfaces can be driven directly from the Command-Line
-Interface.
+We don't force a language or a framework on you, so bring your own.
 
-For example, to turn an LED on:
+The system does come with a Python library for the Raspberry-Pi but most
+of the time you can just use your favourite programming language.
 
-clixx LED1 On
+Typically this would be C/C++, Python or anything else you choose.
 
 Use your projects at Work or Home
 ---------------------------------
