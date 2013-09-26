@@ -40,6 +40,8 @@ clixx LED1 On
 Use your projects at Work or Home
 ---------------------------------
 
+![logo](doc/images/work-anywhere-on-the-internet-\(600-x-85\)-01.png)
+
 clixx.io modules are designed for Industrial use. They have solid mounting
 capabilities and are suitable for mounting in area's demanding a higher level
 of robustness.
