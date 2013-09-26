@@ -3,6 +3,8 @@
 Rapid Configuration and Prototyping System
 ------------------------------------------
 
+![circuit-graphic](doc/images/make-a-circuit-in-seconds-01.png)
+
 If there's an electronics or computing project that you've wanted to make 
 then clixx.io offers a collection of computer and electronics boards and software
 to allow you to easily get it done.
@@ -13,7 +15,7 @@ the hard work of wiring them all together is already done. It's ready to program
 Experiment with different Processors
 ------------------------------------
 
-![logo](doc/images/work-on-common-system-board-01.png)
+![different-processors](doc/images/work-on-common-system-board-01.png)
 
 There's so many good processor boards available these days.
 
