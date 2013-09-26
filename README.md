@@ -29,8 +29,8 @@ clixx.io boards can be used on different projects with little wasteage. If
 a project doesn't work, just reconfigure the parts a different way on a
 different project. 
 
-Bring along your own favourite programming Language
----------------------------------------------------
+Bring along your favourite programming Language
+-----------------------------------------------
 
 We don't force a language or a framework on you, so bring your own.
 
