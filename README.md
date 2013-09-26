@@ -13,7 +13,7 @@ the hard work of wiring them all together is already done. It's ready to program
 Experiment with different Processors
 ------------------------------------
 
-cd ![logo](doc/images/work-on-common-system-board-01.png)
+![logo](doc/images/work-on-common-system-board-01.png)
 
 There's so many good processor boards available these days.
 
