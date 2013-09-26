@@ -22,15 +22,15 @@ There's so many good processor boards available these days.
 We create peripheral boards that allow you to explore the features 
 of the various different processor boards more easily.
 
-ReUse Boards on Different Projects
-----------------------------------
+Re-Use your Boards on Different Projects
+----------------------------------------
 
 clixx.io boards can be used on different projects with little wasteage. If
 a project doesn't work, just reconfigure the parts a different way on a
 different project. 
 
-Bring your favourite programming Language
------------------------------------------
+Bring along your own favourite programming Language
+---------------------------------------------------
 
 We don't force a language or a framework on you, so bring your own.
 
