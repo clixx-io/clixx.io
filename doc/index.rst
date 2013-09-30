@@ -26,20 +26,23 @@ IO Boards
 
    source/Digital-Button
    source/Digital-LED
-   source/Digital-InfraRed-tx
-   source/Digital-InfraRed-rx
-   source/I2C-RotaryGauge
-   source/I2C-TempSensor
-   source/Digital-soic8
+   source/Digital-InfraRed
+   source/Display-RotaryGauge
+   source/Analog-Potentiometer
+   source/Sensor-I2C-Temp
+   source/Digital-soic8-Breakout
+   source/Power-LM317-VReg
+   source/Power-Voltmeter
+   source/Power-CR2032-Battery
    
 Docks
-------------------
+-----
 
 .. toctree::
    :maxdepth: 2
 
-   source/Interface-RaspberryPi
-   source/Interface-ArduinoDuemilanove
+   source/Dock-RaspberryPi-Prototyping
+   source/Dock-ArduinoDuemilanove
 
 Processor Boards
 ------------------
@@ -47,8 +50,9 @@ Processor Boards
 .. toctree::
    :maxdepth: 2
 
-   source/PIC 8-Pin
-   source/Attiny
+   source/PIC-8SOIC
+   source/Attiny-8SOIC
+   source/Processor-ICSP-Programmer
 
 Software Support
 ----------------
