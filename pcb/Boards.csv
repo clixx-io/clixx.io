@@ -1,0 +1,16 @@
+BoardName,Status
+Digital-Button,0
+Digital-LED,0
+Digital-InfraRed,1
+Display-RotaryGauge,1
+Analog-Potentiometer,2
+Sensor-I2C-Temp,0
+Digital-soic8-Breakout,0
+Power-LM317-VReg,1
+Power-Voltmeter,1
+Power-CR2032-Battery,1
+Dock-RaspberryPi,0
+Dock-ArduinoDuemilanove,0
+mpu-PIC-8SOIC,0
+mpu-Attiny-8SOIC,0
+mpu-ICSP-Programmer,0
