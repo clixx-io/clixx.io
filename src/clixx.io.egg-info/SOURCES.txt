@@ -1,0 +1,11 @@
+setup.py
+src/ClixxIO_I2C.py
+src/__init__.py
+src/clixxIO.py
+src/clixxIOBusServer.py
+src/clixx.io.egg-info/PKG-INFO
+src/clixx.io.egg-info/SOURCES.txt
+src/clixx.io.egg-info/dependency_links.txt
+src/clixx.io.egg-info/requires.txt
+src/clixx.io.egg-info/top_level.txt
+tools/clixx

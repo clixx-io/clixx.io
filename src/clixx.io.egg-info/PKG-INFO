@@ -1,0 +1,18 @@
+Metadata-Version: 1.1
+Name: clixx.io
+Version: 0.1.0
+Summary: A python library for clixx.io peripherals
+Home-page: http://github.com/clixx-io/clixx.io
+Author: David Lyon
+Author-email: david.lyon@clixx.io
+License: BSD
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: System :: Logging
