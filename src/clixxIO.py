@@ -11,7 +11,7 @@ import gettext
 _ = gettext.gettext
 
 
-if sys.platform == "linux2":
+if platform.system() == "linux2":
     clixxIOLogDir    = "/var/log"
     clixxIOConfigDir = "/etc"
 clixxIOConfigDir = os.path.join(os.getenv("HOME"),".clixx.io")
@@ -78,7 +78,11 @@ def GetConfigDir():
             homedir = os.path.join(homedir,"clixx.io")
 
         else:
-            homedir = os.path.join(os.path.expanduser("~"),".clixx.io")
+            homedir = os.path.join(os.path.expanduser("~"),"clixx.io")
+            
+    elif platform.system()=='Linux2':	
+		
+		clixxIOConfigDir = os.path.join(os.getenv("HOME"),".clixx.io")
 
     return homedir 
 
@@ -93,10 +97,14 @@ def sensorLogPath(sensorname):
 class ow_system:
     """ 
     Provided to extend access to the Dallas One Communication Bus
+	
+    For Ubuntu, here's a list of packages: https://launchpad.net/ubuntu/+source/owfs
     """
 
-    def rpi_install(self):
+    def linux_install(self):
+	
         spawntask("apt-get install -y owfs")
+        spawntask("apt-get install -y python-ow")
 
 class i2c_system:
     """ 
