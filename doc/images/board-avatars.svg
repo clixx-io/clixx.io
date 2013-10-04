@@ -15,7 +15,7 @@
    id="svg4499"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="New document 6">
+   sodipodi:docname="board-avatars.svg">
   <defs
      id="defs4501" />
   <sodipodi:namedview
@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="359.69668"
-     inkscape:cy="525.95231"
+     inkscape:cx="115.89396"
+     inkscape:cy="490.5751"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1049"
-     inkscape:window-height="964"
-     inkscape:window-x="475"
-     inkscape:window-y="34"
+     inkscape:window-width="1022"
+     inkscape:window-height="551"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata4504">
@@ -57,13 +57,19 @@
        inkscape:connector-curvature="0"
        id="path3818"
        d="m 271.98481,210.90004 79.97897,-2.85715 3.05141,156.13702 -22.93692,-1.47707 3.72292,18.16703 -0.14343,22.74371 -37.16812,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
-       style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#f2f2f2;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 285.08273,256.49743 56.56854,-2.02031 2.0203,66.83891 -58.58883,3.87177 z"
        id="path3820"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:type="arc"
        style="fill:#241c1c;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -73,7 +79,10 @@
        sodipodi:rx="16.162441"
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
-       transform="translate(822.48388,-169.57018)" />
+       transform="translate(822.48388,-169.57018)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        transform="matrix(0.49314999,0,0,0.60467336,566.03483,104.44996)"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
@@ -83,13 +92,19 @@
        sodipodi:cx="-509.11688"
        id="path3824"
        style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 154.98481,210.90004 79.97897,-2.85715 3.05141,156.13702 -22.93692,-1.47707 3.72292,18.16703 -0.14343,22.74371 -37.16812,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
        id="path4505"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccccc" />
+       sodipodi:nodetypes="cccccccccc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/LED-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:type="arc"
        style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -99,20 +114,29 @@
        sodipodi:rx="16.162441"
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
-       transform="matrix(0.49314999,0,0,0.60467336,451.03483,106.44996)" />
+       transform="matrix(0.49314999,0,0,0.60467336,451.03483,106.44996)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/LED-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <image
        y="260.01999"
        x="164.51082"
        id="image4576"
        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAA1ZJREFU eJzt2r+LHGUcx/HXXi4/LmC8I2o8kEBAo4bYSLAwFiHprGJhk0JtBYv4FyT/gWChpRcJNjYWtlqI phCsBIOxSCP+IAZyLJw5NTsW3++SKBdvd+eZfS44b1iYY28+n898n5lnvvPMDsyHRTyBF3EGx/A4 DuX3v+IXfIfPcAU/4q855euMAZ7ERXyLIZptPsP834u576DrgF3xEF7Dm3gWC7iD3/ADfs5teASr eCq3d2GEq3gfH4rCPDCs4j1siFG9jS9wHs9jBUviQHfl9kp+dz7/93buu5Faq3M9ghYcxiditBsx im+5e71PwqHc52pq3EnNw0WTdsAK1sTpOxIT2okWeidSY6y3lh47kkVcwB9i1D7FkQK6R1KrSe0L 6bXjOImfRNBvcLyg9vHUbNLjZEHtIiyJmbrBLZztwONsajfptdSBx8ycEre0BpexvwOP/andpNep EqILJURwGgexjg/Eras0G6m9nl6nO/CYiWV8LkbmKxGuKw6mR5Oey20FS5wBq3gmt6/gZgHN+3Ez PaRn6+aoRAEeExNSg+sF9LbjenotpXcrShTgUezDJm4U0NuOG+m1L71bUaIAB0Rj8qeYoLpmPb0W 07sVJQqwIJ4qG9Guds0ovQYK5C91G3xg6QtQO0Bt+gLUDlCbvgC1A9SmRAGa+2x3RVG/WZaWHsZL YqmqEaszA+zBK+IhpaszaySW2Pek5xnREg/EM8KXOu5GV8Qz+SQvOOb9GWa2qRZNp30x8iouiSex oejJx23wLHqzcq9fg93iRczveB0fTyo07SVwVBz8LbyN79WfSEd4Gu+IBZKj0+w8bQHGB7uJr8XL zJ3AusjElAPSZvTmdbpPwsxZap++1ekLUDtAbdoUYB5d36TMnGXau8B4yWsvXhBdYe2zaHwb3HvP 3xMzbQGuiWZjGe+62whtRanmaDudfzdC11r6/Sf/+1aYfz4MbbX/CM/hDfHzl49E0zTtpTISl9k5 8QuRNfHjqa10xi9lOn8YmpSXxYhsigOYlXOpMUzN4nQ1gXXRJXbSedaewavTF6B2gNr0BagdoDZ9 AWoHqE1fgNoBatMXoHaA2vQFqB2gNn0BageoTV+A2gFq0xegdoDa9AWoHaA2fQFqB6jN3+lW9nAQ ufs5AAAAAElFTkSuQmCC "
        height="64"
-       width="64" />
+       width="64"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/LED-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:nodetypes="cccccccccc"
        inkscape:connector-curvature="0"
        id="path4585"
        d="m 511.98481,208.90004 79.97897,-2.85715 3.05141,156.13702 -22.93692,-1.47707 3.72292,18.16703 -0.14343,22.74371 -37.16812,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
-       style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Mosfet.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        transform="matrix(0.49314999,0,0,0.60467336,808.03483,103.44996)"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
@@ -122,13 +146,19 @@
        sodipodi:cx="-509.11688"
        id="path4587"
        style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Mosfet.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:nodetypes="cccccccccc"
        inkscape:connector-curvature="0"
        id="path6247"
        d="m 157.97045,471.97829 79.97897,-2.85715 3.05141,156.13702 -22.93692,-1.47707 3.72292,18.16703 -0.14343,22.74371 -37.16812,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
-       style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        transform="matrix(0.49314999,0,0,0.60467336,454.02047,366.52821)"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
@@ -138,10 +168,16 @@
        sodipodi:cx="-509.11688"
        id="path6249"
        style="fill:#eeeeec;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
        transform="translate(354.73908,322.20051)"
-       id="g6253">
+       id="g6253"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <path
          style="fill:#333333;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m -191,219.36218 0,62 11,-1 -1,-64 z"
@@ -199,8 +235,11 @@
          transform="matrix(0.28571429,0,0,0.28,-134.71429,204.70077)" />
     </g>
     <g
-       transform="translate(414.73908,302.29239)"
-       id="g6267">
+       transform="translate(414.02479,295.14953)"
+       id="g6267"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <path
          inkscape:connector-curvature="0"
          id="path6269"
@@ -262,7 +301,10 @@
        d="m 392.2777,208.48583 79.97897,-2.85715 3.05141,156.13702 -22.93692,-1.47707 3.72292,18.16703 -0.14343,22.74371 -37.16812,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
        id="path6640"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccccc" />
+       sodipodi:nodetypes="cccccccccc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Temp-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:type="arc"
        style="fill:#eeeeec;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -272,13 +314,19 @@
        sodipodi:rx="16.162441"
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
-       transform="matrix(0.49314999,0,0,0.60467336,689.03483,104.44997)" />
+       transform="matrix(0.49314999,0,0,0.60467336,689.03483,104.44997)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Temp-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:nodetypes="cccccccccc"
        inkscape:connector-curvature="0"
        id="path6698"
        d="m 280.55624,471.61433 79.97897,-2.85715 3.05141,156.13702 -22.93692,-1.47707 3.72292,18.16703 -0.14343,22.74371 -37.16812,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
-       style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:#ace8fc;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/RadioTX-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        transform="matrix(0.49314999,0,0,0.60467336,576.60626,368.16425)"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
@@ -288,24 +336,36 @@
        sodipodi:cx="-509.11688"
        id="path6700"
        style="fill:#eeeeec;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/RadioTX-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <image
        y="481.71347"
        x="291.15332"
        id="image9081"
        xlink:href="data:image/png;base64,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 "
        height="59.757359"
-       width="59.050251" />
+       width="59.050251"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/RadioTX-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <image
        y="224.19156"
        x="403.87479"
        id="image10455"
        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABOCAYAAACOqiAdAAAABHNCSVQICAgIfAhkiAAAAd5JREFU eJztnMFuAyEMREuV///l7aGJFEUJYYexx7DzzkWYV4MXCm3HcfywaK1NtT8Gg2mzHf33NdX+NhsA g1Fhrz/PEIjyq+r4wVlprLazSMUxBq6SJxPHHLBCnkRcxECz5cnXuB7tjjqOd6SLG8mMV2GjAjOz rlzG9QRVyr5S4kbEVJFXStxKWBzIkuJ60zWrQCwprgIWB1LidKQHMvW+tWFUZmccyCXFMQrIJcUx uKQ4r3FCyldVJsx97pbiMg4CPFVBLA7E4kAsDmTL4uC9amEuKc57VSGXFOc1TsiWVfUT3qt+wXvV wlgciMWBWByIxYGkilPeEmeTJi5TWkZfKeJGr68i7Wb6nCFcnHJ6RvYdKi7zbdZsDGcJEzcrrfoD EtleNUNYJCEZh5z5H3ci4hmJ6SwlPoBXybJn6OLOZtuq33epGaeUxmaLZ5cKqOJ6Mp6zbYeP4pKv B1egRFVdEYsD8XkciDMOZMuDzAyccSAWB2JxIFRxVf7RQA9WjM44EIsDoYurPF2ZsTnjQELEVcw6 dkzOOJAwcZWyLiKW0IyrIC8qhvCpqpQX2XfKGqeQF91nWnHIlLfddf2MAWX9gtIv3TwGxj7YzF4O 5LeVZgWqio/8SRLyh+oKnzl/qe/WszzvDXUAAAAASUVORK5CYII= "
        height="59"
-       width="57" />
+       width="57"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Temp-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
        id="g10523"
-       transform="translate(841.44619,126.36345)">
+       transform="translate(841.44619,126.36345)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <path
          sodipodi:nodetypes="ccccc"
          style="fill:#333333;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -339,13 +399,19 @@
        id="image4500"
        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABOCAYAAACOqiAdAAAABHNCSVQICAgIfAhkiAAAAkZJREFU eJzt3EFu1DAYBeD3W9OTwA0SibsAC8SCooqygHPAglaoZUFBoj2NcwLgIlDNYzMsmCI6fjaTWH3f riMntZ5m4rxIcZBEC+M4HgB4COAYwDXJs4i4zDn/7GF8qVWLkwAAyScR8eH33xHxgGQAuOhhfKnU 4iQAEBGHN06e0lEv40s1Cw7AsP0BybGj8UVaBnenODiRgxM5OJGDE7W8Hcl/+XjqZXypZsGt1+v3 25+RPO9lfKlmzSEivpBkRDzfnPckIq56GV8qWnXVu8aLg8jBiaqucRERwzC8BPACwP02U/rvvgE4 nabpHSuuU1XXuHEcXwF4I59gXq9zzm/Vg2t/qs0e08ygau6rcRwPSD5OKR3947HLRPI8Ij5tPUG9 V/PPZ/bH3EtzWJF8FBEfb/nJDpunqT8AfG408UUpzSFtbhB3dVw3veUqzSGhbGW9LpxPT4pySABO dh1N8qx8Pt0oyiEBuCL5DLc8aSD5NCIuW8xwoYpyqL2P67ro5pxDPdaVS+TgRA5O5OBEDk5U21WL 1Kxiu6hZ5d1VRe6qIndVnbuqyF1VtNyuurRV1V11Bg5O5OBEDk7k4ER77apL5q4qclcVuavq3FVF 7qqi5XbVpXFXnYGDEzk4kYMTOTiRu+qGu6rIXVXkrqpzVxW5q4r22lW/op+X37Z9zznLc6+9jzut PH5ON149L1H1jfNrl1bMlUvk4ETNts9Y2g6E3rFwT+NLecdCkXcsFHlxEDk4kYMTOTiRgxN5x0KR dywUecdC0S+RnLFXcW1ffwAAAABJRU5ErkJggg== "
        height="41.928932"
-       width="34.928932" />
+       width="34.928932"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#fcfcfc;stroke:#000000;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 181.02282,285.99796 0.63639,-22.22736 c 11.03215,-11.13072 21.21192,-10.96888 30.54701,0.38323 l 0.6364,21.84413 z"
        id="path3573"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/LED-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:type="arc"
        style="fill:#2e3436;fill-rule:evenodd;stroke:#000000;stroke-width:2.16720676px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -355,7 +421,10 @@
        sodipodi:rx="16.162441"
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
-       transform="matrix(0.23065001,0,0,0.27526162,411.88556,188.64903)" />
+       transform="matrix(0.23065001,0,0,0.27526162,411.88556,188.64903)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        transform="matrix(0.23065001,0,0,0.27526162,451.48354,186.52771)"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
@@ -365,7 +434,10 @@
        sodipodi:cx="-509.11688"
        id="path3577"
        style="fill:#2e3436;fill-rule:evenodd;stroke:#000000;stroke-width:2.16720676px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:type="arc"
        style="fill:#2e3436;fill-rule:evenodd;stroke:#000000;stroke-width:2.16720676px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -375,7 +447,10 @@
        sodipodi:rx="16.162441"
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
-       transform="matrix(0.23065001,0,0,0.27526162,410.47135,139.15156)" />
+       transform="matrix(0.23065001,0,0,0.27526162,410.47135,139.15156)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        transform="matrix(0.23065001,0,0,0.27526162,450.77644,137.73734)"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
@@ -385,10 +460,16 @@
        sodipodi:cx="-509.11688"
        id="path3581"
        style="fill:#2e3436;fill-rule:evenodd;stroke:#000000;stroke-width:2.16720676px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       sodipodi:type="arc" />
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
        id="g4494"
-       transform="translate(840.75344,57.836544)">
+       transform="translate(840.75344,57.836544)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Temp-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <image
          style="fill:#eeeeec"
          width="37"
@@ -417,7 +498,10 @@
     </g>
     <g
        transform="translate(593.32488,57.836544)"
-       id="g4457">
+       id="g4457"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/RadioTX-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <image
          y="505.5459"
          x="-290.14871"
@@ -445,7 +529,10 @@
     </g>
     <g
        transform="translate(840.75344,58.122258)"
-       id="g4490">
+       id="g4490"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Mosfet.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <image
          width="64"
          height="64"
@@ -545,5 +632,60 @@
          y="763.69562"
          id="tspan4704"
          style="text-align:center;text-anchor:middle">TX</tspan></text>
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Mosfet.png"
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path3270"
+       d="m 527.02512,214.34924 52.12805,-0.78687 1.86171,26.0322 -53.98975,1.50797 z"
+       style="fill:#f2f2f2;stroke:#000000;stroke-width:0.59908575px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Mosfet.png"
+       transform="matrix(0.39963195,0,0,0.41415048,745.39778,38.74418)"
+       d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
+       sodipodi:ry="17.172594"
+       sodipodi:rx="16.162441"
+       sodipodi:cy="457.38232"
+       sodipodi:cx="-509.11688"
+       id="path3272"
+       style="fill:#916f6f;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#916f6f;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3274"
+       sodipodi:cx="-509.11688"
+       sodipodi:cy="457.38232"
+       sodipodi:rx="16.162441"
+       sodipodi:ry="17.172594"
+       d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
+       transform="matrix(0.39963195,0,0,0.41415048,766.11207,38.029894)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Mosfet.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#f9f9f9"
+       id="rect3276"
+       width="11.428571"
+       height="2.8571429"
+       x="536.21936"
+       y="226.43869"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Mosfet.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       y="225.72441"
+       x="556.93365"
+       height="2.8571429"
+       width="11.428571"
+       id="rect3278"
+       style="fill:#f9f9f9"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Mosfet.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>
