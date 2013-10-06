@@ -1,6 +1,8 @@
 Digital Button
 ==============
 
+.. image:: images/Button-Board.png
+
 The Digital Button is a handy general purpose button board. 
 
 It can be used in any circuit requiring a button and can be mounted either
@@ -13,6 +15,22 @@ off and a non-zero value means that the button is depressed.
 You can typically add more than one Digital Button to a circuit and
 combine them with other electronics such as LED's or switches to make
 them do useful tasks.
+
+Usage
+^^^^^
+
+Any project where you need to add one or more Push Buttons.
+
+When pressed, it turns the Output Pin (marked 'o' on the Button board
+and 'i' on the Dock) high. 
+
+Connection
+^^^^^^^^^^
+
+This board can be plugged into any Digital-Slot.
+
+Code Example
+^^^^^^^^^^^^
 
 .. code-block:: python
 

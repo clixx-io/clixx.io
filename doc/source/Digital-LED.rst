@@ -1,6 +1,8 @@
 Digital LED Board
 -----------------
 
+.. image:: images/LED-Board.png
+
 The Digital LED Board is a very simple board that's commonly used as a 
 status indicator on digital devices.
 
