@@ -34,7 +34,7 @@ different project.
 Bring along your favourite programming Language
 -----------------------------------------------
 
-![languages](doc/images/bring-along-your-favourite-programming-language.png
+![languages](doc/images/bring-along-your-favourite-programming-language.png)
 
 We don't force a language or a framework on you, so bring your own.
 
