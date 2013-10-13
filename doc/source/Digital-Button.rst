@@ -3,10 +3,13 @@ Digital Button
 
 .. image:: images/Button-Board.png
 
-The Digital Button is a handy general purpose button board. 
+The Digital Button is a handy general purpose button board for using
+in places where you need to add one or more input-buttons to a project.
 
-It can be used in any circuit requiring a button and can be mounted either
-directly to the circuit board via a digital or analog input.
+The advantages of this Button board is that it can plug directly into
+a Clixx.IO Dock or be attached with an extension cable and be mounted
+in a convenient physical location such as on any flat surface, like next
+to a door for instance.
 
 Any programming language can be used depending on your platform and the
 button works as a Digital Input device meaning that a value of 0 indicates
@@ -62,3 +65,12 @@ Code Example
 		  print "Button is now %d" % i
 		  button_state = i
 		  
+Circuit
+^^^^^^^
+
+The circuit includes a Button with a 2K Resistor.
+
+Modifications
+^^^^^^^^^^^^^
+
+This board includes a work-area at the top for soldering on extra components.
