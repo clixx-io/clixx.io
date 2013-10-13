@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="168.73856"
-     inkscape:cy="791.04303"
+     inkscape:cx="321.96554"
+     inkscape:cy="533.90018"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1503"
-     inkscape:window-height="989"
-     inkscape:window-x="61"
-     inkscape:window-y="24"
+     inkscape:window-width="1038"
+     inkscape:window-height="873"
+     inkscape:window-x="76"
+     inkscape:window-y="86"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata4504">
@@ -54,7 +54,10 @@
      id="layer1">
     <g
        id="g4469"
-       transform="translate(222.14286,-3.5714286)">
+       transform="translate(222.14286,-3.5714286)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <path
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"
@@ -125,7 +128,7 @@
        height="23.233509"
        x="162.63455"
        y="364.9534"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -135,7 +138,7 @@
        width="4.0406103"
        id="rect3448"
        style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -145,7 +148,7 @@
        height="23.233509"
        x="221.72847"
        y="363.18564"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -155,7 +158,7 @@
        width="4.0406103"
        id="rect3452"
        style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -164,7 +167,7 @@
        id="path3820"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -177,7 +180,7 @@
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
        transform="translate(822.48388,-161.48896)"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -186,7 +189,7 @@
        id="path4505"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccccc"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -199,7 +202,7 @@
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
        transform="matrix(0.49314999,0,0,0.60467336,451.03483,106.44996)"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <image
@@ -209,7 +212,7 @@
        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAA1ZJREFU eJzt2r+LHGUcx/HXXi4/LmC8I2o8kEBAo4bYSLAwFiHprGJhk0JtBYv4FyT/gWChpRcJNjYWtlqI phCsBIOxSCP+IAZyLJw5NTsW3++SKBdvd+eZfS44b1iYY28+n898n5lnvvPMDsyHRTyBF3EGx/A4 DuX3v+IXfIfPcAU/4q855euMAZ7ERXyLIZptPsP834u576DrgF3xEF7Dm3gWC7iD3/ADfs5teASr eCq3d2GEq3gfH4rCPDCs4j1siFG9jS9wHs9jBUviQHfl9kp+dz7/93buu5Faq3M9ghYcxiditBsx im+5e71PwqHc52pq3EnNw0WTdsAK1sTpOxIT2okWeidSY6y3lh47kkVcwB9i1D7FkQK6R1KrSe0L 6bXjOImfRNBvcLyg9vHUbNLjZEHtIiyJmbrBLZztwONsajfptdSBx8ycEre0BpexvwOP/andpNep EqILJURwGgexjg/Eras0G6m9nl6nO/CYiWV8LkbmKxGuKw6mR5Oey20FS5wBq3gmt6/gZgHN+3Ez PaRn6+aoRAEeExNSg+sF9LbjenotpXcrShTgUezDJm4U0NuOG+m1L71bUaIAB0Rj8qeYoLpmPb0W 07sVJQqwIJ4qG9Guds0ovQYK5C91G3xg6QtQO0Bt+gLUDlCbvgC1A9SmRAGa+2x3RVG/WZaWHsZL YqmqEaszA+zBK+IhpaszaySW2Pek5xnREg/EM8KXOu5GV8Qz+SQvOOb9GWa2qRZNp30x8iouiSex oejJx23wLHqzcq9fg93iRczveB0fTyo07SVwVBz8LbyN79WfSEd4Gu+IBZKj0+w8bQHGB7uJr8XL zJ3AusjElAPSZvTmdbpPwsxZap++1ekLUDtAbdoUYB5d36TMnGXau8B4yWsvXhBdYe2zaHwb3HvP 3xMzbQGuiWZjGe+62whtRanmaDudfzdC11r6/Sf/+1aYfz4MbbX/CM/hDfHzl49E0zTtpTISl9k5 8QuRNfHjqa10xi9lOn8YmpSXxYhsigOYlXOpMUzN4nQ1gXXRJXbSedaewavTF6B2gNr0BagdoDZ9 AWoHqE1fgNoBatMXoHaA2vQFqB2gNn0BageoTV+A2gFq0xegdoDa9AWoHaA2fQFqB6jN3+lW9nAQ ufs5AAAAAElFTkSuQmCC "
        height="64"
        width="64"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -238,13 +241,13 @@
        sodipodi:nodetypes="cccccccccc"
        inkscape:connector-curvature="0"
        id="path6247"
-       d="m 157.97045,471.97829 79.97897,-2.85715 3.05141,156.13702 -22.93692,-1.47707 3.72292,18.16703 -0.14343,22.74371 -37.16812,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
-       style="fill:#077398;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:0.18431373"
+       d="m 393.68474,472.69258 79.97897,-2.85715 3.05141,156.13702 -22.93692,-1.47707 3.72292,18.16703 -0.14343,22.74371 -37.16812,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
+       style="fill:#077398;fill-opacity:0.18431373;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       transform="matrix(0.49314999,0,0,0.60467336,454.02047,366.52821)"
+       transform="matrix(0.49314999,0,0,0.60467336,688.30618,367.95678)"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
        sodipodi:ry="17.172594"
        sodipodi:rx="16.162441"
@@ -257,9 +260,9 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <g
-       transform="translate(354.73908,322.20051)"
+       transform="translate(248.31051,330.05765)"
        id="g6253"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/ProcessorAttiny.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <path
@@ -317,68 +320,6 @@
          sodipodi:ry="12.5"
          d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
          transform="matrix(0.28571429,0,0,0.28,-134.71429,204.70077)" />
-    </g>
-    <g
-       transform="translate(414.02479,295.14953)"
-       id="g6267"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <path
-         inkscape:connector-curvature="0"
-         id="path6269"
-         d="m -191,219.36218 0,62 11,-1 -1,-64 z"
-         style="fill:#333333;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         transform="matrix(0.28571429,0,0,0.28,-135.71429,159.70077)"
-         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
-         sodipodi:ry="12.5"
-         sodipodi:rx="14"
-         sodipodi:cy="239.86218"
-         sodipodi:cx="-176"
-         id="path6271"
-         style="fill:#b3b3b3"
-         sodipodi:type="arc" />
-      <path
-         sodipodi:type="arc"
-         style="fill:#b3b3b3"
-         id="path6273"
-         sodipodi:cx="-176"
-         sodipodi:cy="239.86218"
-         sodipodi:rx="14"
-         sodipodi:ry="12.5"
-         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
-         transform="matrix(0.28571429,0,0,0.28,-135.71429,170.70077)" />
-      <path
-         transform="matrix(0.28571429,0,0,0.28,-135.71429,182.70077)"
-         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
-         sodipodi:ry="12.5"
-         sodipodi:rx="14"
-         sodipodi:cy="239.86218"
-         sodipodi:cx="-176"
-         id="path6275"
-         style="fill:#b3b3b3"
-         sodipodi:type="arc" />
-      <path
-         sodipodi:type="arc"
-         style="fill:#b3b3b3"
-         id="path6277"
-         sodipodi:cx="-176"
-         sodipodi:cy="239.86218"
-         sodipodi:rx="14"
-         sodipodi:ry="12.5"
-         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
-         transform="matrix(0.28571429,0,0,0.28,-135.71429,193.70077)" />
-      <path
-         transform="matrix(0.28571429,0,0,0.28,-134.71429,204.70077)"
-         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
-         sodipodi:ry="12.5"
-         sodipodi:rx="14"
-         sodipodi:cy="239.86218"
-         sodipodi:cx="-176"
-         id="path6279"
-         style="fill:#b3b3b3"
-         sodipodi:type="arc" />
     </g>
     <path
        style="fill:#077398;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:0.18431373"
@@ -446,8 +387,8 @@
        inkscape:export-ydpi="90" />
     <g
        id="g10523"
-       transform="translate(841.44619,126.36345)"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       transform="translate(735.01762,134.22059)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/ProcessorAttiny.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <path
@@ -478,13 +419,13 @@
          sodipodi:type="arc" />
     </g>
     <image
-       y="530.35156"
-       x="181.32278"
+       y="538.20868"
+       x="74.894211"
        id="image4500"
        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABOCAYAAACOqiAdAAAABHNCSVQICAgIfAhkiAAAAkZJREFU eJzt3EFu1DAYBeD3W9OTwA0SibsAC8SCooqygHPAglaoZUFBoj2NcwLgIlDNYzMsmCI6fjaTWH3f riMntZ5m4rxIcZBEC+M4HgB4COAYwDXJs4i4zDn/7GF8qVWLkwAAyScR8eH33xHxgGQAuOhhfKnU 4iQAEBGHN06e0lEv40s1Cw7AsP0BybGj8UVaBnenODiRgxM5OJGDE7W8Hcl/+XjqZXypZsGt1+v3 25+RPO9lfKlmzSEivpBkRDzfnPckIq56GV8qWnXVu8aLg8jBiaqucRERwzC8BPACwP02U/rvvgE4 nabpHSuuU1XXuHEcXwF4I59gXq9zzm/Vg2t/qs0e08ygau6rcRwPSD5OKR3947HLRPI8Ij5tPUG9 V/PPZ/bH3EtzWJF8FBEfb/nJDpunqT8AfG408UUpzSFtbhB3dVw3veUqzSGhbGW9LpxPT4pySABO dh1N8qx8Pt0oyiEBuCL5DLc8aSD5NCIuW8xwoYpyqL2P67ro5pxDPdaVS+TgRA5O5OBEDk5U21WL 1Kxiu6hZ5d1VRe6qIndVnbuqyF1VtNyuurRV1V11Bg5O5OBEDk7k4ER77apL5q4qclcVuavq3FVF 7qqi5XbVpXFXnYGDEzk4kYMTOTiRu+qGu6rIXVXkrqpzVxW5q4r22lW/op+X37Z9zznLc6+9jzut PH5ON149L1H1jfNrl1bMlUvk4ETNts9Y2g6E3rFwT+NLecdCkXcsFHlxEDk4kYMTOTiRgxN5x0KR dywUecdC0S+RnLFXcW1ffwAAAABJRU5ErkJggg== "
        height="41.928932"
        width="34.928932"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Processor8Pin.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/ProcessorAttiny.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -493,7 +434,7 @@
        id="path3573"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -506,7 +447,7 @@
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
        transform="matrix(0.23065001,0,0,0.27526162,411.88556,196.73025)"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -519,7 +460,7 @@
        id="path3577"
        style="fill:#2e3436;fill-rule:evenodd;stroke:#000000;stroke-width:2.16720676px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        sodipodi:type="arc"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -532,7 +473,7 @@
        sodipodi:ry="17.172594"
        d="m -492.95444,457.38232 a 16.162441,17.172594 0 1 1 -32.32488,0 16.162441,17.172594 0 1 1 32.32488,0 z"
        transform="matrix(0.23065001,0,0,0.27526162,410.47135,147.23278)"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -545,7 +486,7 @@
        id="path3581"
        style="fill:#2e3436;fill-rule:evenodd;stroke:#000000;stroke-width:2.16720676px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        sodipodi:type="arc"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <g
@@ -684,20 +625,20 @@
        transform="scale(1.0368648,0.96444589)"
        sodipodi:linespacing="125%"
        id="text4694"
-       y="724.55151"
-       x="189.3951"
+       y="731.21704"
+       x="95.017174"
        style="font-size:31.31528091px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
-         y="724.55151"
-         x="152.95744"
+         y="731.21704"
+         x="95.017174"
          id="tspan4696"
          sodipodi:role="line"
-         style="text-anchor:middle;text-align:center">AVR/</tspan><tspan
-         y="763.69562"
-         x="152.95744"
+         style="text-align:center;text-anchor:middle">AVR/</tspan><tspan
+         y="770.36115"
+         x="95.017174"
          sodipodi:role="line"
          id="tspan4698"
-         style="text-anchor:middle;text-align:center">PIC</tspan></text>
+         style="text-align:center;text-anchor:middle">PIC</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:31.31528091px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -773,7 +714,7 @@
        inkscape:export-ydpi="90" />
     <g
        id="g4412"
-       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <path
@@ -1061,5 +1002,184 @@
          inkscape:export-xdpi="90"
          inkscape:export-ydpi="90" />
     </g>
+    <g
+       id="g3272"
+       transform="translate(1.4285714,-2.1428571)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/ProcessorAttiny.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+         sodipodi:nodetypes="cccccccccccccc"
+         inkscape:connector-curvature="0"
+         id="path3254"
+         d="m 51.357516,474.59402 19.994744,-0.71429 -0.0053,37.85714 34.28309,-1.07143 -0.71691,-37.49999 26.42331,-1.42858 3.05141,156.13702 -22.93692,-1.47707 2.29435,18.88132 1.28514,22.02942 -37.168127,1.54672 0.68887,-39.20945 -25.66344,-1.33128 z"
+         style="fill:#077398;fill-opacity:0.18264842;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+         y="628.6474"
+         x="57.744568"
+         height="23.233509"
+         width="4.0406103"
+         id="rect3256"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect3258"
+         width="4.0406103"
+         height="23.233509"
+         x="66.835938"
+         y="628.8999" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+         y="626.87964"
+         x="116.83849"
+         height="23.233509"
+         width="4.0406103"
+         id="rect3260"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect3262"
+         width="4.0406103"
+         height="22.519224"
+         x="126.1824"
+         y="627.34137" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Button-Board.png"
+         transform="matrix(0.49314999,0,0,0.60467336,345.89231,369.38633)"
+         d="m -492.95444,457.38232 c 0,9.48417 -7.23617,17.1726 -16.16244,17.1726 -8.92627,0 -16.16244,-7.68843 -16.16244,-17.1726 0,-9.48416 7.23617,-17.17259 16.16244,-17.17259 8.92627,0 16.16244,7.68843 16.16244,17.17259 z"
+         sodipodi:ry="17.172594"
+         sodipodi:rx="16.162441"
+         sodipodi:cy="457.38232"
+         sodipodi:cx="-509.11688"
+         id="path3264"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/ProcessorAttiny.png"
+       id="g3280"
+       transform="translate(307.59622,326.48622)">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3282"
+         d="m -191,219.36218 0,62 11,-1 -1,-64 z"
+         style="fill:#333333;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         transform="matrix(0.28571429,0,0,0.28,-135.71429,159.70077)"
+         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
+         sodipodi:ry="12.5"
+         sodipodi:rx="14"
+         sodipodi:cy="239.86218"
+         sodipodi:cx="-176"
+         id="path3284"
+         style="fill:#b3b3b3"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="arc"
+         style="fill:#b3b3b3"
+         id="path3286"
+         sodipodi:cx="-176"
+         sodipodi:cy="239.86218"
+         sodipodi:rx="14"
+         sodipodi:ry="12.5"
+         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
+         transform="matrix(0.28571429,0,0,0.28,-135.71429,170.70077)" />
+      <path
+         transform="matrix(0.28571429,0,0,0.28,-135.71429,182.70077)"
+         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
+         sodipodi:ry="12.5"
+         sodipodi:rx="14"
+         sodipodi:cy="239.86218"
+         sodipodi:cx="-176"
+         id="path3288"
+         style="fill:#b3b3b3"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="arc"
+         style="fill:#b3b3b3"
+         id="path3290"
+         sodipodi:cx="-176"
+         sodipodi:cy="239.86218"
+         sodipodi:rx="14"
+         sodipodi:ry="12.5"
+         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
+         transform="matrix(0.28571429,0,0,0.28,-135.71429,193.70077)" />
+      <path
+         transform="matrix(0.28571429,0,0,0.28,-134.71429,204.70077)"
+         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
+         sodipodi:ry="12.5"
+         sodipodi:rx="14"
+         sodipodi:cy="239.86218"
+         sodipodi:cx="-176"
+         id="path3292"
+         style="fill:#b3b3b3"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/ProcessorAttiny.png"
+       transform="translate(794.30333,130.64916)"
+       id="g3294">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3296"
+         d="m -678,355.36218 0,25.93755 10.29289,0.41421 L -668,352.36218 z"
+         style="fill:#333333;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         transform="matrix(0.28571429,0,0,0.28,-622.71429,295.70077)"
+         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
+         sodipodi:ry="12.5"
+         sodipodi:rx="14"
+         sodipodi:cy="239.86218"
+         sodipodi:cx="-176"
+         id="path3298"
+         style="fill:#b3b3b3"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="arc"
+         style="fill:#b3b3b3"
+         id="path3300"
+         sodipodi:cx="-176"
+         sodipodi:cy="239.86218"
+         sodipodi:rx="14"
+         sodipodi:ry="12.5"
+         d="m -162,239.86218 c 0,6.90356 -6.26801,12.5 -14,12.5 -7.73199,0 -14,-5.59644 -14,-12.5 0,-6.90356 6.26801,-12.5 14,-12.5 7.73199,0 14,5.59644 14,12.5 z"
+         transform="matrix(0.28571429,0,0,0.28,-622.71429,306.70077)" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:19.73530579px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="85.996918"
+       y="535.98621"
+       id="text3302"
+       sodipodi:linespacing="125%"
+       transform="scale(0.88248192,1.1331677)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/images/ProcessorAttiny.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan3304"
+         x="85.996918"
+         y="535.98621">AVR</tspan></text>
   </g>
 </svg>
