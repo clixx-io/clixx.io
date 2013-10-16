@@ -25,12 +25,16 @@ of the various different processor boards more easily.
 Re-Use your Boards on Different Projects
 ----------------------------------------
 
+![reuse](doc/images/reuse-your-boards-on-different-projects.png)
+
 clixx.io boards can be used on different projects with little wasteage. If
 a project doesn't work, just reconfigure the parts a different way on a
 different project. 
 
 Bring along your favourite programming Language
 -----------------------------------------------
+
+![languages](doc/images/bring-along-your-favourite-programming-language.png)
 
 We don't force a language or a framework on you, so bring your own.
 
