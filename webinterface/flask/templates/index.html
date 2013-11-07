@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+<div data-role="header">
+  <h1>Raspberry Pi Controller</h1>
+</div>
+
+<div data-role="content">
+
+<form method="post" action="change">
+  <label for="slider-1">Message to Send:</label>
+  <input type="text" name="lcd" id="lcd" />  
+  <br />
+  
+  <input type="submit" value="Submit" />
+</form>
+
+{% if value %}
+<p>Message sent: {{ value }}</p>
+{% endif %}
+
+</div>
+{% endblock %}
+
+
