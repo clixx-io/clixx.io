@@ -273,9 +273,6 @@ class lcd2:
 
 class lcd:
 
-    # LCD Address
-    ADDRESS = 0x3f
-
     # commands
     LCD_CLEARDISPLAY = 0x01
     LCD_RETURNHOME = 0x02
@@ -331,21 +328,21 @@ class lcd:
        self.lcd_write(0x03)
        self.lcd_write(0x02)
 
-       self.lcd_write(LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
-       self.lcd_write(LCD_DISPLAYCONTROL | LCD_DISPLAYON)
-       self.lcd_write(LCD_CLEARDISPLAY)   
-       self.lcd_write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)
+       self.lcd_write(self.LCD_FUNCTIONSET | self.LCD_2LINE | self.LCD_5x8DOTS | self.LCD_4BITMODE)
+       self.lcd_write(self.LCD_DISPLAYCONTROL | self.LCD_DISPLAYON)
+       self.lcd_write(self.LCD_CLEARDISPLAY)
+       self.lcd_write(self.LCD_ENTRYMODESET | self.LCD_ENTRYLEFT)
        sleep(0.2)
 
     # clocks EN to latch command
     def lcd_strobe(self, data):
-       self.write(data | En | LCD_BACKLIGHT)
+       self.write(data | En | self.LCD_BACKLIGHT)
        sleep(.0005)
-       self.lcd_device.write(((data & ~En) | LCD_BACKLIGHT))
+       self.lcd_device.write(((data & ~En) | self.LCD_BACKLIGHT))
        sleep(.0001)
 
     def lcd_write_four_bits(self, data):
-       self.lcd_device.write(data | LCD_BACKLIGHT)
+       self.lcd_device.write(data | self.LCD_BACKLIGHT)
        self.lcd_strobe(data)
 
     # write a command to lcd
