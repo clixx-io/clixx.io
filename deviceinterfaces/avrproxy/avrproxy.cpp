@@ -12,6 +12,10 @@
 
 //# Configuration stored in Flash
 // one byte per gpio
+
+// Try with this library http://forum.arduino.cc/index.php?PHPSESSID=fhhtg23ignjfqgg9isggtk9cr3&topic=190285.0
+//                       http://alum.wpi.edu/~tfraser/Software/Arduino/tinyserial.html
+
 struct gpioPin {unsigned char pinout:1,
                       poll:1,
                       intr:1,
