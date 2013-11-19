@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="139.591"
+   height="202.5685"
+   id="svg2"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="twintab-pcb.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="908"
+     inkscape:window-height="804"
+     id="namedview3972"
+     showgrid="true"
+     inkscape:zoom="10.757835"
+     inkscape:cx="21.710151"
+     inkscape:cy="16.611864"
+     inkscape:window-x="62"
+     inkscape:window-y="24"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer4"
+     inkscape:document-units="in"
+     fit-margin-top="0.3"
+     fit-margin-left="0.3"
+     fit-margin-right="0.3"
+     fit-margin-bottom="0.3">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4018"
+       units="mm"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       originx="18.311017mm"
+       originy="2.0846667mm" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="board"
+     transform="translate(64.527225,20.03622)">
+    <g
+       transform="matrix(-1,0,0,-1,7.7415294,1058.6832)"
+       id="board">
+      <path
+         d="m 23.33208,-0.41126659 -1.771654,1.77165359 0,28.346457 -1.771653,1.771653 -35.433071,0 -1.771654,-1.771653 0,-28.346457 -1.771653,-1.77165359 -28.346457,0 -1.771653,1.77165359 0,28.346457 -1.771654,1.771653 -14.173228,0 -1.771654,1.771654 0,166.535429 1.771654,1.77166 134.645669,0 1.771654,-1.77166 0,-166.535429 -1.771654,-1.771654 -14.173228,0 -1.771654,-1.771653 0,-28.346457 -1.771653,-1.77165359 z"
+         transform="translate(0,876.86219)"
+         id="boardoutline"
+         style="fill:#338040;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccccccccccccccccccccccc" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer6"
+       inkscape:label="silkscreen" />
+  </g>
+</svg>
