@@ -101,8 +101,7 @@ class ow_system:
 
     def linux_install(self):
 	
-        spawntask("apt-get install -y owfs")
-        spawntask("apt-get install -y python-ow")
+        spawntask("apt-get install -y owfs ow-shell python-ow")
 
 class i2c_system:
     """ 
