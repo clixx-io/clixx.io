@@ -502,3 +502,15 @@ def clixxIOInfo(deviceId):
     """
 
     return results
+
+def clixxIOAddProject(projectname):
+    
+def clixxIOAddProjectDevice(projectname):
+
+def clixxIOStartProject(projectname):
+        
+def clixxIOListProjects():
+        
+def clixxIOStopProject(projectname):
+
+    
