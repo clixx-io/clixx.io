@@ -36,11 +36,6 @@ Windows-8 Tile Updates
 Processor Boards
 ----------------
 
-HDMI connectors
-
- - http://au.element14.com/multicomp/60s019p-301n-b1-fec/plug-mini-hdmi/dp/1708476
- - http://au.element14.com/jsp/search/browse.jsp?N=2101+203437&Ntk=gensearch&Ntt=hdmi&Ntx=mode+matchallpartial
-
 Stencils
 --------
 
@@ -58,11 +53,6 @@ Works on most common system boards
  - Arduino
  - Raspberry-Pi
  - Pic
- 
-Lots of easy to use modules
- - buttons
- - leds
- - motor controllers
  
 Easy to use Web Interface
  - based on jquerymobile
@@ -87,3 +77,18 @@ PIC Programming
  USB M-Stack
   - https://github.com/mixdownengineering/m-stack
   
+E14 tobuy list
+---------------
+
+ Attiny 45/85
+ 
+ Battery Holders
+ - http://au.element14.com/keystone/1028c/battery-holder-aa-pcb/dp/2027288
+ 
+ P-Terminal
+ - http://au.element14.com/keystone/590/battery-contact/dp/1339844
+ - http://au.element14.com/keystone/5219/male-battery-contact-aa-cell/dp/1888411
+
+ HDMI connectors
+ - http://au.element14.com/multicomp/60s019p-301n-b1-fec/plug-mini-hdmi/dp/1708476
+ - http://au.element14.com/jsp/search/browse.jsp?N=2101+203437&Ntk=gensearch&Ntt=hdmi&Ntx=mode+matchallpartial
