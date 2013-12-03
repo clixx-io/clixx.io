@@ -204,10 +204,17 @@ class rtc():
 
 def main():
     ds = rtc(1, 0x68)
-    print(ds.read_datetime())
-    #ds.write_now()
+
+    try:
+        # Attempt to read from the RTC
+        print(ds.read_datetime())
+    except ValueError:
+        print "Error reading from the RTC. It looks like it has not been initialised."
+        print "Initialising the RTC with current time and date"
+        # Update the rtc with now
+        ds.write_now()
 
 
 if __name__ == '__main__':
+
     main()
-    
