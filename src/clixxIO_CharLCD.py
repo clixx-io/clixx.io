@@ -51,36 +51,36 @@ class i2cLCD():
     """ Write command or data to the LCD
     """
     # Make Sure "EN" is 0 or low
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO, 0x00)
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, 0x00)
     # Set "R/S" to 0 for a command, or 1 for data/characters
     out = 0x00
     if not cmd:
       out = out | self.LCD_COMMAND
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO, out)
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out)
     # Put the HIGH BYTE of the data/command on D7-4
     out = out | ((value >> 4) & self.LCD_DATA)
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO, out)
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out)
     # Set "EN" (EN= 1 or High)
     out = out | self.LCD_ENABLE
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO, out)
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out)
     # Wait At Least 450 ns!!!
     sleep(self.PULSE)
     # Clear "EN" (EN= 0 or Low)
     out = out & ~self.LCD_ENABLE
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO, out)
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out)
     # Wait 5ms for command writes, and 200us for data writes.
     sleep(self.DELAY)
     # Put the LOW BYTE of the data/command on D7-4
     out = (out & ~self.LCD_DATA) | (value & self.LCD_DATA)
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO, out)
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out)
     # Set "EN" (EN= 1 or High)
     out = out | self.LCD_ENABLE
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO, out)
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out)
     # Wait At Least 450 ns!!!
     sleep(self.PULSE)
     # Clear "EN" (EN= 0 or Low)
     out = out & ~self.LCD_ENABLE
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO, out)
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out)
     # Wait 5ms for command writes, and 200us for data writes.
     sleep(self.DELAY)
 
@@ -102,10 +102,10 @@ class i2cLCD():
     """ Set up the connection to the device
     """
     # Set up the IO expander
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPIO,  0x00) # Clear outputs
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.IODIR, 0x00) # Direction
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.GPPU,  0x00) # Pull ups
-    wiringpi2.wiringPiI2CWriteReg8(dev, self.IPOL,  0x00) # Polarity
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO,  0x00) # Clear outputs
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.IODIR, 0x00) # Direction
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPPU,  0x00) # Pull ups
+    wiringpi2.wiringPiI2CWriteReg8(self.device, self.IPOL,  0x00) # Polarity
     # Initialise the display in 4 bit mode
     self._writeLCD(0x33, True)
     self._writeLCD(0x32, True)

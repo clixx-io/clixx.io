@@ -4,14 +4,22 @@
 
 from flask import Flask
 from flask import render_template, request
-# from adafruit.Adafruit_CharLCD import Adafruit_CharLCD
+from clixxIO_CharLCD import i2cLCD
+import wiringpi2
 
 app = Flask(__name__)
 
 # Initialise the LCD class
-# lcd = Adafruit_CharLCD()
-# lcd.begin(16,2)
+wiringpi2.wiringPiSetupPhys()
+dev = wiringpi2.wiringPiI2CSetup(0x20)
+if dev < 0:
+  print "ERROR: Could not connect to device!"
+  exit(1)
 
+lcd = i2cLCD(dev)
+lcd.setup()
+lcd.clear()
+lcd.write('clixx.io WebLCD')
 
 @app.route("/")
 def index():
@@ -24,10 +32,10 @@ def change():
         # Get the value from the submitted form
         lcdText = request.form['lcd']
         print "---Message is", lcdText
-        
+
         # Send the message to the LCD
-#        lcd.clear()
-#        lcd.message(lcdText)
+        lcd.gotoXY(0,1)
+        lcd.write(lcdText)
     else:
         lcdText = None
     return render_template('index.html', value=lcdText)
