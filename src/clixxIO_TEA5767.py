@@ -25,17 +25,15 @@ class fmreceiver():
     self.Stations = { 0 : [96.1, "One-FM"],
                       1 : [96.9, "Nova"],
                       2 : [101.7, "WFS FM"],
-                      3 : [102.1, "Radio Orlik"],
-                      4 : [102.5, "Radio Orlik"],
+                      3 : [102.5, "2MBS FM"],
+                      4 : [103.2, "FM 103.2"],
                       5 : [104.1, "2-Day FM"],
                       6 : [104.9, "TRIPLE M"],
                       7 : [106.4, "Czech Radio"] }
-    
-    
-    
 
     self.freq = 87.5
     self.station = 0
+    self.strength = 0
 
   def next_preset(self):
 
@@ -43,7 +41,7 @@ class fmreceiver():
     if self.station >= len(self.Stations):
       self.station = 0
 
-    self.tune_f(self.Stations[self.station][0])
+    return self.tune_f(self.Stations[self.station][0])
 
   # ================================================
   # Subroutine for prime setting the desired frequency
@@ -76,8 +74,9 @@ class fmreceiver():
       print "frequency =" + str (freq) + "MHz", "\t DATA:" + str (data [0:5]) + "\t (signal strength:" + str (data [3] >> 4) + ")"
 
       self.freq = freq
+      self.strength = data [3] >> 4
 
-    return (self.freq)
+    return ([self.freq,self.strength])
 
   def frequency():
     return self.freq
