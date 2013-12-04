@@ -22,14 +22,17 @@ class fmreceiver():
     # Bus = smbus.SMBus (0) # older versions RASP (256MB)
 
     # A list of stations and their frequencies
-    self.Stations = {}
-    self.Stations[0] = [93.1, "Radiozurnal"]
-    self.Stations[1] = [97.7, "Kiss JC"]
-    self.Stations[2] = [102.1, "Radio Orlik"]
-    self.Stations[3] = [102.7, "Radio Orlik"]
-    self.Stations[4] = [104.1, "Radio 2 - Praha"]
-    self.Stations[5] = [104.9, "Europe 2"]
-    self.Stations[6] = [106.4, "Czech Radio"]
+    self.Stations = { 0 : [96.1, "One-FM"],
+                      1 : [96.9, "Nova"],
+                      2 : [101.7, "WFS FM"],
+                      3 : [102.1, "Radio Orlik"],
+                      4 : [102.5, "Radio Orlik"],
+                      5 : [104.1, "2-Day FM"],
+                      6 : [104.9, "TRIPLE M"],
+                      7 : [106.4, "Czech Radio"] }
+    
+    
+    
 
     self.freq = 87.5
     self.station = 0
@@ -270,7 +273,7 @@ if __name__ == "__main__":
   except:
     parameter = ""
 
-  fmradio = tea5767()
+  fmradio = fmreceiver()
 
   if (parameter == "-f"): # prime set to a specific frequency
     try:
