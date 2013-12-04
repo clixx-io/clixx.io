@@ -129,6 +129,19 @@ class i2cLCD():
     # Refresh
     self._update()
 
+  def writeline(self, lineno, text):
+    """ Write a line of text justified
+    """
+    self.gotoXY(0,lineno)
+  
+    text = text.ljust(16)
+
+    for ch in text:
+      self.lines[self.where[1]][self.where[0]] = ch
+      self.gotoXY(self.where[0] + 1, self.where[1])
+    # Refresh
+    self._update()
+
   def clear(self):
     """ Clear the display
     """
