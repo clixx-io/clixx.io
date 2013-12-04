@@ -41,11 +41,11 @@ class fmreceiver():
     if self.station >= len(self.Stations):
       self.station = 0
 
-    return self.tune_f(self.Stations[self.station][0])
+    return self.tune_f(self.Stations[self.station][0],self.Stations[self.station][1])
 
   # ================================================
   # Subroutine for prime setting the desired frequency
-  def tune_f (self,freq):
+  def tune_f (self,freq, stationname=''):
 
     if (freq >= 87.5 and freq <= 108): # when frequency is within acceptable limits, subscribe to the circuit
 
@@ -76,7 +76,7 @@ class fmreceiver():
       self.freq = freq
       self.strength = data [3] >> 4
 
-    return ([self.freq,self.strength])
+    return ([stationname,self.freq,self.strength])
 
   def frequency():
     return self.freq
