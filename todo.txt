@@ -1,9 +1,8 @@
 
-Web Interface 
+LCD for Arduino
 -------------
 
-Rotary Gauge
- - Will have to be drawn in Inkscape
+http://magnusglad.wordpress.com/2013/03/16/arduino-lcd/
 
 Boards to do
 ------------
