@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 
-"""Chat Server Example
+"""SocketController 
 
-This example demonstrates how to create a very simple telnet-style chat
-server that supports many connecting clients.
+This program connect disparate systems over a tcp/ip port and provides
+a server that supports many connecting producer/consumers.
 """
 
 from optparse import OptionParser
-
 
 from circuits.net.events import write
 from circuits import Component, Debugger
@@ -42,10 +41,10 @@ def parse_options():
     return opts, args
 
 
-class ChatServer(Component):
+class SocketController(Component):
 
     def init(self, args, opts):
-        """Initialize our ``ChatServer`` Component.
+        """Initialize our ``socketcontroller`` Component.
 
         This uses the convenience ``init`` method which is called after the
         component is proeprly constructed and initialized and passed the
@@ -88,8 +87,8 @@ class ChatServer(Component):
             }
         }
 
-        self.fire(write(sock, "Welcome to the circuits Chat Server!\n"))
-        self.fire(write(sock, "Please enter a desired nickname: "))
+        self.fire(write(sock, "Welcome to the clixx.io socket bus\n"))
+        self.fire(write(sock, "Please enter a desired node name: "))
 
     def disconnect(self, sock):
         """Disconnect Event -- Triggered for disconnecting clients"""
@@ -98,7 +97,7 @@ class ChatServer(Component):
             return
 
         nickname = self.clients[sock]["state"]["nickname"]
-        self.broadcast("!!! {0:s} has left !!!\n".format(nickname),
+        self.broadcast("node=\"{0:s}\", connected=false\n".format(nickname),
                        exclude=[sock])
         del self.clients[sock]
 
@@ -109,11 +108,11 @@ class ChatServer(Component):
             nickname = data.strip()
             self.clients[sock]["state"]["registered"] = True
             self.clients[sock]["state"]["nickname"] = nickname
-            self.broadcast("!!! {0:s} has joined !!!\n".format(nickname),
+            self.broadcast("node=\"{0:s}\", connected=true\n".format(nickname),
                            exclude=[sock])
         else:
             nickname = self.clients[sock]["state"]["nickname"]
-            self.broadcast("<{0:s}> {1:s}\n".format(nickname, data.strip()),
+            self.broadcast("node=\"{0:s}\", {1:s}\n".format(nickname, data.strip()),
                            exclude=[sock])
 
 
@@ -121,7 +120,7 @@ def main():
     opts, args = parse_options()
 
     # Configure and "run" the System.
-    ChatServer(args, opts).run()
+    SocketController(args, opts).run()
 
 
 if __name__ == "__main__":
