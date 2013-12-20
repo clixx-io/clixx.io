@@ -8,6 +8,7 @@ a server that supports many connecting producer/consumers.
 
 from optparse import OptionParser
 
+from circuits.app import Daemon
 from circuits.net.events import write
 from circuits import Component, Debugger
 from circuits.net.sockets import TCPServer
@@ -30,7 +31,13 @@ def parse_options():
     )
 
     parser.add_option(
-        "-d", "--debug",
+        "-d", "--daemon",
+        action="store_true", default=False, dest="daemon",
+        help="Enable daemon mode (fork into the background)"
+    )
+
+    parser.add_option(
+        "-x", "--debug",
         action="store_true",
         default=False, dest="debug",
         help="Enable debug mode"
@@ -119,8 +126,12 @@ class SocketController(Component):
 def main():
     opts, args = parse_options()
 
+    system = SocketController(args, opts)
+    if opts.daemon:
+        Daemon("clixxIOsocketcontroller.pid").register(system)
+
     # Configure and "run" the System.
-    SocketController(args, opts).run()
+    system.run()
 
 
 if __name__ == "__main__":
