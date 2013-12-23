@@ -4,20 +4,15 @@
 A trivial simple example of using circuits and timers.
 */
 
-// #include "clixxIO_EventQ.hpp"
-
 #include <stdio.h>
 #include "clixxIO.hpp"
 
 class App : public clixxIOApp{
 
-    public:
-    
     int timerevent(){
         /* hello Event handler
 
          Fired once every second.
-
         */
 
         printf("Timer Event");
@@ -29,13 +24,12 @@ class App : public clixxIOApp{
         Setup a simple timer to fire every second.
         */
 
-        // Timer(seconds, event, persist=False)
-        // Timer(1, Event.create("timerevent"),persist=True).register(self)
+        addTimerEvent(5, &timerevent());
     };
     
 };
 
-// App().run()
+// Final statement should be => App().run()
 
 main(){
   App m;

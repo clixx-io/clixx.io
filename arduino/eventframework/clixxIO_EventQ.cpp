@@ -3,9 +3,8 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include <setjmp.h>
 
-#define INTERVAL 5
+#define INTERVAL 2
 
 int howmany = 0;
 
@@ -25,7 +24,7 @@ class clixxIOMsgQ {
 //    int peekMsg() const;
 //    int getMsg();
     
-    int run();					// Main event for running
+    int run();  // Main event for running
     
  private:                   // begin private section
     int itsAge;              // member variable
@@ -43,7 +42,6 @@ clixxIOMsgQ::clixxIOMsgQ(int initialAge)
 clixxIOMsgQ::~clixxIOMsgQ()                 // destructor, just an example
 {
 }
-
 
 // GetAge, Public accessor function
 // returns value of itsAge member
@@ -95,7 +93,7 @@ int main ()
   
   signal(SIGINT,exit_func);
   
-  alarm_setup(5);
+  alarm_setup(2);
   
   while (1)
   {
