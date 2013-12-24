@@ -43,11 +43,11 @@ ISR(ADC_vect)
 {
    if(ADCH < 128)
    {
-      PORTB |=  _BV( LED_PIN );
+     PORTB |=  _BV( LED_PIN );
    }
      
    else
    {
-  	  PORTB &=~ _BV( LED_PIN );
+     PORTB &=~ _BV( LED_PIN );
    }
 }
