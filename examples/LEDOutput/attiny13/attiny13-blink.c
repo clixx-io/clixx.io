@@ -22,12 +22,12 @@
 #define F_CPU 1000000UL
 #include <util/delay.h>
 
-#define D1_I PB2 // Tested
-#define D1_O PB1 // Tested
-#define D1_S PB5 // 
+#define D1_I PB2
+#define D1_O PB1
+#define D1_S PB5
 
-#define D2_I PB4
-#define D2_O PB3
+#define D2_I PB3
+#define D2_O PB4
 #define D2_S PB0
 
 #define LED_PIN D2_O

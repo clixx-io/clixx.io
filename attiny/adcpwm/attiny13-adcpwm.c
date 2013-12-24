@@ -3,6 +3,16 @@
 #define F_CPU 1000000UL
 #include <util/delay.h>
 
+#define D1_I PB2
+#define D1_O PB1
+#define D1_S PB5
+
+#define D2_I PB3
+#define D2_O PB4
+#define D2_S PB0
+
+#define LED_PIN D2_O
+
 int main (void)
 {
    DDRB |= (1 << 1); // my change here - use pb1
@@ -13,7 +23,8 @@ int main (void)
    ADMUX |= (0 << REFS0); // Set ADC ref to INTERNAL 5v
    ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
 
-   ADMUX |= (1 << MUX1); //use ADC2 on PB4
+   // ADMUX |= (1 << MUX1); //use ADC2 on PB4
+   ADMUX |= (1 << MUX1)|(1 << MUX0); //use ADC2 on PB3
 
    ADCSRA |= (1 << ADATE);  // My change.. Tiny free-Running Mode enabled.
    ADCSRA |= (1 << ADEN);  // Enable ADC
@@ -32,13 +43,11 @@ ISR(ADC_vect)
 {
    if(ADCH < 128)
    {
-      PORTB |= (1 << 1); // my change here
-      PORTB &= ~(1 << 0); // Turn off LED2
+      PORTB |=  _BV( LED_PIN );
    }
      
    else
    {
-      PORTB &= ~(1 << 1); // my change here
-      PORTB |= (1 << 0); // Turn on LED2
+  	  PORTB &=~ _BV( LED_PIN );
    }
 }
