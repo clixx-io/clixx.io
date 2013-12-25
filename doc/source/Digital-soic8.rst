@@ -1,40 +1,23 @@
 SOIC-8 Adaptor
 ==============
 
-This board is an adaptor for SOIC-8 IC's and allows you add additional
-components.
 
-It can be used in any circuit requiring a button and can be mounted either
-directly to the circuit board via a digital or analog input.
+.. image:: images/soic8.jpg
 
-.. raw:: html
+There might be times when you whish to make a board with an IC that isn't
+included on any of the standard clixx.io tabs. For these situations the
+SOIC-8 Adaptor board exists to provide an easy way to make up new boards
+with parts to suit your liking.
 
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
-	
-	<a href="#popupBasic" data-rel="popup" data-role="button" data-inline="true" data-transition="pop">Basic Popup</a>
-	<div data-role="popup" id="popupBasic">
-		<p>This is a completely basic popup, no options set.</p>
-	</div>
-	<p> should be here </p>
+With this board it's possible to solder on many popular IC's in SOIC8
+format and then use them in projects like any standard board.
 
+Wiring the pins of the components can be done on either the front or the
+back. It's neater when the wiring attached to the back of the board as 
+it will be hidden from view.
 
-.. image:: M1418C6-HE2.png
-      
-.. code-block:: python
-   :emphasize-lines: 3,5
-
-   def some_function():
-       interesting = False
-       print 'This line is highlighted.'
-       print 'This one is not...'
-       print '...but this one is.'
-
-Arduino
-
-Raspberry Pi
-
-PIC
-
-Mounting
+To make your board work, you'll need to use the positive and negative
+terminals to power, and the input and output terminals to receive and
+send data/pulses back to your microprossor. These pins are clearly
+labelled at the bottom of the board.
 

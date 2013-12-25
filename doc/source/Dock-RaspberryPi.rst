@@ -1,46 +1,32 @@
-Raspberry-Pi
-============
+Raspberry-Pi Dock
+=================
 
-The Digital Button is a handy general purpose button board. 
+The Raspberry-Pi Dock provides an easy to use interface to the clixx.io
+tabs. It allows you to plug in clixx.io tabs quickly so that your project is ready
+to begin. 
 
-It can be used in any circuit requiring a button and can be mounted either
-directly to the circuit board via a digital or analog input.
+Digital IO Ports
+----------------
 
-Any programming language can be used depending on your platform and the
-button works as a Digital Input device meaning that a value of 0 indicates
-off and a non-zero value means that the button is depressed.
+There are three (3) Digital IO Connectors 
 
-You can typically add more than one Digital Button to a circuit and
-combine them with other electronics such as LED's or switches to make
-them do useful tasks.
+I2C Ports
+---------
 
-.. code-block:: python
+There are two (x2) I2C Ports for using I2C Tabs.
 
-	'''
-	  ButtonInput
-	  Scans the input button and waits for a change, repeatedly.
+SPI Port
+--------
 
-	  This example code is in the public domain.
-	 '''
+The Raspberry-Pi's SPI ports are broken out to the
+SPI connector.
 
-	# Pin 2 has an Input button connected to it.
-	# give it a name:
-	button = 2
-	button_state = False
+Serial Port
+-----------
 
-	# the setup routine runs once when you press reset:
-	def setup():
-	  global button, button_state
-	  
-	  # initialize the digital pin as an output.
-	  pinMode(button, INPUT)
+The TTL-level Raspberry-Pi serial port is broken out into a 5-wire socket
+and is located on the left of the board. It can accept double-tab and single-tab
+boards.
 
-	# the loop routine runs over and over again forever:
-	def loop():
-	  global button, button_state
-	  
-	  i = digitalRead(button)      # turn the LED on (HIGH is the voltage level)
-	  if i != button_state:
-		  print "Button is now %d" % i
-		  button_state = i
-		  
+You can also connect boards to the Serial Port socket with an extension cable.
+ 

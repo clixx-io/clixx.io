@@ -1,46 +1,49 @@
 AVR Attiny
 ==========
 
-The Digital Button is a handy general purpose button board. 
+This is provided as a minimal processor board that will suite deployable applications where
+simple functionality and low cost is required. 
 
-It can be used in any circuit requiring a button and can be mounted either
-directly to the circuit board via a digital or analog input.
+This board provides support for the AVR Attiny 8-pin SOIC series of processors.
 
-Any programming language can be used depending on your platform and the
-button works as a Digital Input device meaning that a value of 0 indicates
-off and a non-zero value means that the button is depressed.
+It doesn't include any form of power-regulation which makes itself suitable for use in extreme low current applications where including a regulator would consume too much current. So if you do need regulation, you can easily attach a power-regulator board to provide that function.
 
-You can typically add more than one Digital Button to a circuit and
-combine them with other electronics such as LED's or switches to make
-them do useful tasks.
+In many situations you can often use this board directly with a battery and run the processor directly. If you are needing calibrated A->D convertors, you will require power regulation to set the ADC reference voltage correctly.
 
-.. code-block:: python
+Power
+-----
 
-	'''
-	  ButtonInput
-	  Scans the input button and waits for a change, repeatedly.
+There's no built in regulator or power control on this Tab which makes it
+more versatile. This board accepts power input anywhere between 3.0-5V which
+means that for development you can plug it directly into a Raspberry-Pi or
+Arduino Dock directly and use the 3.3V or 5v from there.
 
-	  This example code is in the public domain.
-	 '''
+This board can be powered from Lithium-Ion Batteries which typically provide
+3.6V.
 
-	# Pin 2 has an Input button connected to it.
-	# give it a name:
-	button = 2
-	button_state = False
+Programming
+-----------
 
-	# the setup routine runs once when you press reset:
-	def setup():
-	  global button, button_state
-	  
-	  # initialize the digital pin as an output.
-	  pinMode(button, INPUT)
+The easiest way to develop programs for these boards is using GCC and C++.
 
-	# the loop routine runs over and over again forever:
-	def loop():
-	  global button, button_state
-	  
-	  i = digitalRead(button)      # turn the LED on (HIGH is the voltage level)
-	  if i != button_state:
-		  print "Button is now %d" % i
-		  button_state = i
-		  
+Connecting the ISP Programming Adaptor
+--------------------------------------
+
+This board is typically programmed using an ISP programming adaptor. These
+are readily available on the market. We provide an optional programming adaptor
+that sits ontop the processor tab that allows you to program via a standard
+6 pin ISP programming cable.
+
+To program the board, first remove all Tabs/Peripherals that you have connected
+to the processor board and connect the programming adaptor.
+
+Connect the ISP-Programming adaptor ontop and then proceed to use the avrdude
+either from the command line or make file.
+
+If you have your Make file setup you can use the following method:
+
+sudo make flash
+
+That will upload your program to the Attiny processor. Now disconnect the
+the programming adaptor and reconnect your peripherals and your system
+should be ready to deploy.

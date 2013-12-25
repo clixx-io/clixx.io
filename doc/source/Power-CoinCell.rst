@@ -1,41 +1,25 @@
 Coin Cell Battery Board
------------------------
+=======================
 
 .. image:: images/LED-Board.png
 
-The Digital LED Board is a very simple board that's commonly used as a 
-status indicator on digital devices.
+The Coin Cell Battery Board provides a power source for the
+clixx.io range of processor boards.
 
-It's implemented within clixx.io as a board because there are many times
-when having a board can be handy. It attaches as an output device and can
-be made to turn on or off according to the output pin status.
+Normally, most Coin Cell batteries provide a voltage of 3.0v
+at very low current. It's usually enough to run one of the
+processor boards for a considerable amount of time, provided
+that the low power usage is enabled in the software.
 
-It has two states on and off and can be made to flash, turn-on 
-or vary in intensity according to microprocessor control.
+Connection
+----------
 
-.. code-block:: python
+The battery board simply plugs into the processor board
+in at either the top or bottom.
 
-	'''
-	  Blink
-	  Turns on an LED on for one second, off for one second, repeatedly.
+Special Considerations
+----------------------
 
-	  This example code is in the public domain.
-	 '''
-
-	# Pin 13 has an LED connected on most Arduino boards.
-	# give it a name:
-	led = 13
-
-	# the setup routine runs once when you press reset:
-	def setup():
-	  # initialize the digital pin as an output.
-	  pinMode(led, OUTPUT)
-
-
-	# the loop routine runs over and over again forever:
-	def loop():
-	  digitalWrite(led, HIGH)   # turn the LED on (HIGH is the voltage level)
-	  delay(1000)               # wait for a second
-	  digitalWrite(led, LOW)    # turn the LED off by making the voltage LOW
-	  delay(1000)               # wait for a second
-
+The output-pin is connected through a current-blocking resistor
+to enable the battery voltage to be read with an ADC port if
+you need to monitor the voltage to determine the battery condition.
