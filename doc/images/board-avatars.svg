@@ -106,9 +106,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="349.17768"
-     inkscape:cy="613.89285"
+     inkscape:zoom="1.979899"
+     inkscape:cx="500.67108"
+     inkscape:cy="939.18221"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -6616,5 +6616,709 @@
          id="tspan9764"
          x="283.14462"
          y="570.73419">3.3v</tspan></text>
+    <g
+       id="g9868"
+       transform="translate(-334.28571,-197.14286)">
+      <rect
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect9866"
+         width="4.0406103"
+         height="23.233509"
+         x="641.33215"
+         y="358.0603"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         y="358.0603"
+         x="648.4032"
+         height="23.233509"
+         width="4.0406103"
+         id="rect9834"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect9836"
+         width="4.0406103"
+         height="23.233509"
+         x="655.97937"
+         y="358.31284" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         y="357.80777"
+         x="627.19006"
+         height="23.233509"
+         width="4.0406103"
+         id="rect9838"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect9840"
+         width="4.0406103"
+         height="22.519224"
+         x="634.51361"
+         y="358.7746" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         sodipodi:nodetypes="cccccccccccccc"
+         inkscape:connector-curvature="0"
+         id="path9842"
+         d="m 572.0631,206.53234 132.5069,-1.847 0.021,155.63194 -13.43665,0.13582 2.37305,39.46385 -29.44675,0.0679 c -0.26991,-18.62009 0.97541,-25.66835 0.7055,-39.26014 l -41.72092,0.64089 1.78927,18.88132 0.78007,20.51419 -27.0666,0.0315 0.68887,-39.20945 -25.66344,-1.33128 z"
+         style="fill:#53b2f4;fill-opacity:1;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         transform="matrix(0.44910305,0,0,0.46027625,840.88986,171.1574)"
+         d="m -492.95444,457.38232 c 0,9.48417 -7.23617,17.1726 -16.16244,17.1726 -8.92627,0 -16.16244,-7.68843 -16.16244,-17.1726 0,-9.48416 7.23617,-17.17259 16.16244,-17.17259 8.92627,0 16.16244,7.68843 16.16244,17.17259 z"
+         sodipodi:ry="17.172594"
+         sodipodi:rx="16.162441"
+         sodipodi:cy="457.38232"
+         sodipodi:cx="-509.11688"
+         id="path9844"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <text
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         xml:space="preserve"
+         style="font-size:10.72934532px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+         x="680.46924"
+         y="328.00275"
+         id="text9846"
+         sodipodi:linespacing="125%"
+         transform="scale(0.91915998,1.0879499)"><tspan
+           sodipodi:role="line"
+           id="tspan9848"
+           x="680.46924"
+           y="328.00275">- +</tspan></text>
+      <text
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         transform="scale(0.99596405,1.0040523)"
+         sodipodi:linespacing="125%"
+         id="text9850"
+         y="354.9809"
+         x="650.367"
+         style="font-size:8.83308125px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+         xml:space="preserve"><tspan
+           y="354.9809"
+           x="650.367"
+           id="tspan9852"
+           sodipodi:role="line">o  i</tspan></text>
+      <path
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path9864"
+         sodipodi:cx="-509.11688"
+         sodipodi:cy="457.38232"
+         sodipodi:rx="16.162441"
+         sodipodi:ry="17.172594"
+         d="m -492.95444,457.38232 c 0,9.48417 -7.23617,17.1726 -16.16244,17.1726 -8.92627,0 -16.16244,-7.68843 -16.16244,-17.1726 0,-9.48416 7.23617,-17.17259 16.16244,-17.17259 8.92627,0 16.16244,7.68843 16.16244,17.17259 z"
+         transform="matrix(0.44910305,0,0,0.46027625,905.53963,171.66248)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
+    <g
+       transform="translate(-7.3879568,30.896307)"
+       id="g9882"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-I2C-16x2CharLCD.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         y="358.0603"
+         x="641.33215"
+         height="23.233509"
+         width="4.0406103"
+         id="rect9884"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <rect
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect9886"
+         width="4.0406103"
+         height="23.233509"
+         x="648.4032"
+         y="358.0603"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <rect
+         y="358.31284"
+         x="655.97937"
+         height="23.233509"
+         width="4.0406103"
+         id="rect9888"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <rect
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect9890"
+         width="4.0406103"
+         height="23.233509"
+         x="627.19006"
+         y="357.80777"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <rect
+         y="358.7746"
+         x="634.51361"
+         height="22.519224"
+         width="4.0406103"
+         id="rect9892"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#53b2f4;fill-opacity:1;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 572.0631,206.53234 132.5069,-1.847 0.021,155.63194 -13.43665,0.13582 2.37305,39.46385 -29.44675,0.0679 c -0.26991,-18.62009 0.97541,-25.66835 0.7055,-39.26014 l -41.72092,0.64089 1.78927,18.88132 0.78007,20.51419 -27.0666,0.0315 0.68887,-39.20945 -25.66344,-1.33128 z"
+         id="path9894"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccc"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path9896"
+         sodipodi:cx="-509.11688"
+         sodipodi:cy="457.38232"
+         sodipodi:rx="16.162441"
+         sodipodi:ry="17.172594"
+         d="m -492.95444,457.38232 c 0,9.48417 -7.23617,17.1726 -16.16244,17.1726 -8.92627,0 -16.16244,-7.68843 -16.16244,-17.1726 0,-9.48416 7.23617,-17.17259 16.16244,-17.17259 8.92627,0 16.16244,7.68843 16.16244,17.17259 z"
+         transform="matrix(0.44910305,0,0,0.46027625,840.88986,171.1574)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <text
+         transform="scale(0.91915998,1.0879499)"
+         sodipodi:linespacing="125%"
+         id="text9898"
+         y="328.00275"
+         x="680.46924"
+         style="font-size:10.72934532px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+         xml:space="preserve"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90"><tspan
+           y="328.00275"
+           x="680.46924"
+           id="tspan9900"
+           sodipodi:role="line">- +</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:8.83308125px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+         x="650.367"
+         y="354.9809"
+         id="text9902"
+         sodipodi:linespacing="125%"
+         transform="scale(0.99596405,1.0040523)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90"><tspan
+           sodipodi:role="line"
+           id="tspan9904"
+           x="650.367"
+           y="354.9809">o  i</tspan></text>
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         transform="matrix(0.44910305,0,0,0.46027625,905.53963,171.66248)"
+         d="m -492.95444,457.38232 c 0,9.48417 -7.23617,17.1726 -16.16244,17.1726 -8.92627,0 -16.16244,-7.68843 -16.16244,-17.1726 0,-9.48416 7.23617,-17.17259 16.16244,-17.17259 8.92627,0 16.16244,7.68843 16.16244,17.17259 z"
+         sodipodi:ry="17.172594"
+         sodipodi:rx="16.162441"
+         sodipodi:cy="457.38232"
+         sodipodi:cx="-509.11688"
+         id="path9906"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <rect
+       style="fill:#888a85;fill-opacity:1;stroke:#555753;stroke-width:5.92533684;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect9908"
+       width="171.98895"
+       height="73.774666"
+       x="549.11749"
+       y="259.76404"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-I2C-16x2CharLCD.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-I2C-16x2CharLCD.png"
+       transform="scale(0.92233293,1.0842072)"
+       sodipodi:linespacing="125%"
+       id="text9910"
+       y="265.71375"
+       x="682.25507"
+       style="font-size:21.93137169px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#8ae234;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="265.71375"
+         x="682.25507"
+         id="tspan9912"
+         sodipodi:role="line">I2C 16x2</tspan><tspan
+         y="293.12796"
+         x="682.25507"
+         sodipodi:role="line"
+         id="tspan9914">CharLCD</tspan></text>
+    <rect
+       style="fill:#3465a4;fill-opacity:1;stroke:#729fcf;stroke-width:7.19999981;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect9916"
+       width="24.285715"
+       height="20"
+       x="662.612"
+       y="354.68707"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-I2C-16x2CharLCD.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <image
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-I2C-16x2CharLCD.png"
+       width="26.357504"
+       height="34.786076"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABOCAYAAACOqiAdAAAABHNCSVQICAgIfAhkiAAAAkZJREFU eJzt3EFu1DAYBeD3W9OTwA0SibsAC8SCooqygHPAglaoZUFBoj2NcwLgIlDNYzMsmCI6fjaTWH3f riMntZ5m4rxIcZBEC+M4HgB4COAYwDXJs4i4zDn/7GF8qVWLkwAAyScR8eH33xHxgGQAuOhhfKnU 4iQAEBGHN06e0lEv40s1Cw7AsP0BybGj8UVaBnenODiRgxM5OJGDE7W8Hcl/+XjqZXypZsGt1+v3 25+RPO9lfKlmzSEivpBkRDzfnPckIq56GV8qWnXVu8aLg8jBiaqucRERwzC8BPACwP02U/rvvgE4 nabpHSuuU1XXuHEcXwF4I59gXq9zzm/Vg2t/qs0e08ygau6rcRwPSD5OKR3947HLRPI8Ij5tPUG9 V/PPZ/bH3EtzWJF8FBEfb/nJDpunqT8AfG408UUpzSFtbhB3dVw3veUqzSGhbGW9LpxPT4pySABO dh1N8qx8Pt0oyiEBuCL5DLc8aSD5NCIuW8xwoYpyqL2P67ro5pxDPdaVS+TgRA5O5OBEDk5U21WL 1Kxiu6hZ5d1VRe6qIndVnbuqyF1VtNyuurRV1V11Bg5O5OBEDk7k4ER77apL5q4qclcVuavq3FVF 7qqi5XbVpXFXnYGDEzk4kYMTOTiRu+qGu6rIXVXkrqpzVxW5q4r22lW/op+X37Z9zznLc6+9jzut PH5ON149L1H1jfNrl1bMlUvk4ETNts9Y2g6E3rFwT+NLecdCkXcsFHlxEDk4kYMTOTiRgxN5x0KR dywUecdC0S+RnLFXcW1ffwAAAABJRU5ErkJggg== "
+       id="image9918"
+       x="588.93481"
+       y="349.10501" />
+    <g
+       transform="translate(-13.057205,-185.02103)"
+       id="g9924"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         y="358.0603"
+         x="641.33215"
+         height="23.233509"
+         width="4.0406103"
+         id="rect9926"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <rect
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect9928"
+         width="4.0406103"
+         height="23.233509"
+         x="648.4032"
+         y="358.0603"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <rect
+         y="358.31284"
+         x="655.97937"
+         height="23.233509"
+         width="4.0406103"
+         id="rect9930"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <rect
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect9932"
+         width="4.0406103"
+         height="23.233509"
+         x="627.19006"
+         y="357.80777"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <rect
+         y="358.7746"
+         x="634.51361"
+         height="22.519224"
+         width="4.0406103"
+         id="rect9934"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#53b2f4;fill-opacity:1;stroke:#555753;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 572.0631,206.53234 132.5069,-1.847 0.021,155.63194 -13.43665,0.13582 2.37305,39.46385 -29.44675,0.0679 c -0.26991,-18.62009 0.97541,-25.66835 0.7055,-39.26014 l -41.72092,0.64089 1.78927,18.88132 0.78007,20.51419 -27.0666,0.0315 0.68887,-39.20945 -25.66344,-1.33128 z"
+         id="path9936"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccc"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="path9938"
+         sodipodi:cx="-509.11688"
+         sodipodi:cy="457.38232"
+         sodipodi:rx="16.162441"
+         sodipodi:ry="17.172594"
+         d="m -492.95444,457.38232 c 0,9.48417 -7.23617,17.1726 -16.16244,17.1726 -8.92627,0 -16.16244,-7.68843 -16.16244,-17.1726 0,-9.48416 7.23617,-17.17259 16.16244,-17.17259 8.92627,0 16.16244,7.68843 16.16244,17.17259 z"
+         transform="matrix(0.44910305,0,0,0.46027625,840.88986,171.1574)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <text
+         transform="scale(0.91915998,1.0879499)"
+         sodipodi:linespacing="125%"
+         id="text9940"
+         y="328.00275"
+         x="680.46924"
+         style="font-size:10.72934532px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+         xml:space="preserve"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90"><tspan
+           y="328.00275"
+           x="680.46924"
+           id="tspan9942"
+           sodipodi:role="line">- +</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:8.83308125px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+         x="650.367"
+         y="354.9809"
+         id="text9944"
+         sodipodi:linespacing="125%"
+         transform="scale(0.99596405,1.0040523)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90"><tspan
+           sodipodi:role="line"
+           id="tspan9946"
+           x="650.367"
+           y="354.9809">o  i</tspan></text>
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/LED-Board.png"
+         transform="matrix(0.44910305,0,0,0.46027625,905.53963,171.66248)"
+         d="m -492.95444,457.38232 c 0,9.48417 -7.23617,17.1726 -16.16244,17.1726 -8.92627,0 -16.16244,-7.68843 -16.16244,-17.1726 0,-9.48416 7.23617,-17.17259 16.16244,-17.17259 8.92627,0 16.16244,7.68843 16.16244,17.17259 z"
+         sodipodi:ry="17.172594"
+         sodipodi:rx="16.162441"
+         sodipodi:cy="457.38232"
+         sodipodi:cx="-509.11688"
+         id="path9948"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="g9956"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         sodipodi:type="arc"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="path9952"
+         sodipodi:cx="474.7717"
+         sodipodi:cy="549.30621"
+         sodipodi:rx="36.36549"
+         sodipodi:ry="42.426407"
+         d="m 511.13719,549.30621 a 36.36549,42.426407 0 1 1 -72.73098,0 36.36549,42.426407 0 1 1 72.73098,0 z"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#d3d7cf;stroke:none"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         id="path9954"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
+    <g
+       id="g9960"
+       transform="translate(0,35.355339)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         d="m 511.13719,549.30621 c 0,23.43146 -16.28139,42.42641 -36.36549,42.42641 -20.08411,0 -36.36549,-18.99495 -36.36549,-42.42641 0,-23.43145 16.28138,-42.4264 36.36549,-42.4264 20.0841,0 36.36549,18.99495 36.36549,42.4264 z"
+         sodipodi:ry="42.426407"
+         sodipodi:rx="36.36549"
+         sodipodi:cy="549.30621"
+         sodipodi:cx="474.7717"
+         id="path9962"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:connector-curvature="0"
+         id="path9964"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         style="fill:#d3d7cf;stroke:none" />
+    </g>
+    <g
+       transform="translate(0,69.700526)"
+       id="g9966"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         sodipodi:type="arc"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="path9968"
+         sodipodi:cx="474.7717"
+         sodipodi:cy="549.30621"
+         sodipodi:rx="36.36549"
+         sodipodi:ry="42.426407"
+         d="m 511.13719,549.30621 c 0,23.43146 -16.28139,42.42641 -36.36549,42.42641 -20.08411,0 -36.36549,-18.99495 -36.36549,-42.42641 0,-23.43145 16.28138,-42.4264 36.36549,-42.4264 20.0841,0 36.36549,18.99495 36.36549,42.4264 z"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#d3d7cf;stroke:none"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         id="path9970"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
+    <g
+       id="g9972"
+       transform="translate(-1.0101525,103.54064)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         d="m 511.13719,549.30621 c 0,23.43146 -16.28139,42.42641 -36.36549,42.42641 -20.08411,0 -36.36549,-18.99495 -36.36549,-42.42641 0,-23.43145 16.28138,-42.4264 36.36549,-42.4264 20.0841,0 36.36549,18.99495 36.36549,42.4264 z"
+         sodipodi:ry="42.426407"
+         sodipodi:rx="36.36549"
+         sodipodi:cy="549.30621"
+         sodipodi:cx="474.7717"
+         id="path9974"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:connector-curvature="0"
+         id="path9976"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         style="fill:#d3d7cf;stroke:none" />
+    </g>
+    <g
+       transform="translate(44.446712,-1.0101484)"
+       id="g9978"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         sodipodi:type="arc"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="path9980"
+         sodipodi:cx="474.7717"
+         sodipodi:cy="549.30621"
+         sodipodi:rx="36.36549"
+         sodipodi:ry="42.426407"
+         d="m 511.13719,549.30621 c 0,23.43146 -16.28139,42.42641 -36.36549,42.42641 -20.08411,0 -36.36549,-18.99495 -36.36549,-42.42641 0,-23.43145 16.28138,-42.4264 36.36549,-42.4264 20.0841,0 36.36549,18.99495 36.36549,42.4264 z"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#d3d7cf;stroke:none"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         id="path9982"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
+    <g
+       id="g9984"
+       transform="translate(86.368043,-1.0101484)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         d="m 511.13719,549.30621 c 0,23.43146 -16.28139,42.42641 -36.36549,42.42641 -20.08411,0 -36.36549,-18.99495 -36.36549,-42.42641 0,-23.43145 16.28138,-42.4264 36.36549,-42.4264 20.0841,0 36.36549,18.99495 36.36549,42.4264 z"
+         sodipodi:ry="42.426407"
+         sodipodi:rx="36.36549"
+         sodipodi:cy="549.30621"
+         sodipodi:cx="474.7717"
+         id="path9986"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:connector-curvature="0"
+         id="path9988"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         style="fill:#d3d7cf;stroke:none" />
+    </g>
+    <g
+       transform="translate(87.378196,33.840114)"
+       id="g9990"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         sodipodi:type="arc"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="path9992"
+         sodipodi:cx="474.7717"
+         sodipodi:cy="549.30621"
+         sodipodi:rx="36.36549"
+         sodipodi:ry="42.426407"
+         d="m 511.13719,549.30621 c 0,23.43146 -16.28139,42.42641 -36.36549,42.42641 -20.08411,0 -36.36549,-18.99495 -36.36549,-42.42641 0,-23.43145 16.28138,-42.4264 36.36549,-42.4264 20.0841,0 36.36549,18.99495 36.36549,42.4264 z"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#d3d7cf;stroke:none"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         id="path9994"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
+    <g
+       id="g9996"
+       transform="translate(87.378196,69.700529)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         d="m 511.13719,549.30621 c 0,23.43146 -16.28139,42.42641 -36.36549,42.42641 -20.08411,0 -36.36549,-18.99495 -36.36549,-42.42641 0,-23.43145 16.28138,-42.4264 36.36549,-42.4264 20.0841,0 36.36549,18.99495 36.36549,42.4264 z"
+         sodipodi:ry="42.426407"
+         sodipodi:rx="36.36549"
+         sodipodi:cy="549.30621"
+         sodipodi:cx="474.7717"
+         id="path9998"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:connector-curvature="0"
+         id="path10000"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         style="fill:#d3d7cf;stroke:none" />
+    </g>
+    <g
+       transform="translate(88.893425,103.54064)"
+       id="g10002"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         sodipodi:type="arc"
+         style="fill:#eeeeec;fill-opacity:1;stroke:#eeeeec;stroke-width:0.52899998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="path10004"
+         sodipodi:cx="474.7717"
+         sodipodi:cy="549.30621"
+         sodipodi:rx="36.36549"
+         sodipodi:ry="42.426407"
+         d="m 511.13719,549.30621 c 0,23.43146 -16.28139,42.42641 -36.36549,42.42641 -20.08411,0 -36.36549,-18.99495 -36.36549,-42.42641 0,-23.43145 16.28138,-42.4264 36.36549,-42.4264 20.0841,0 36.36549,18.99495 36.36549,42.4264 z"
+         transform="matrix(0.26422863,0,0,0.22891233,454.20471,-84.354194)"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         style="fill:#d3d7cf;stroke:none"
+         d="m 588.93256,38.330288 c -4.00367,7.642986 -8.4077,9.8085 -8.4077,9.8085 0,0 0.26691,0.509532 -2.80257,1.019065 -3.06948,0.509534 -1.60147,1.146449 -1.60147,1.146449 0,0 0.78976,0.998599 3.46985,0.891681 2.9994,-0.119656 4.8344,-1.29865 5.9907,-2.083166 1.17011,-0.793881 1.77401,-1.312466 2.57474,-3.09583 0.80074,-1.783365 1.18813,-3.241744 1.224,-4.141829 0.0553,-1.387083 -0.44755,-3.672254 -0.44755,-3.54487 z"
+         id="path10006"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccscssssc"
+         inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Power-coincell.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+    </g>
+    <g
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/source/images/Display-rotaryled.png"
+       transform="translate(1033.2202,-153.43103)"
+       id="g10008">
+      <image
+         y="243.54591"
+         x="-425.14871"
+         id="image10010"
+         xlink:href="data:image/png;base64,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 "
+         height="37"
+         width="37"
+         style="fill:#eeeeec" />
+      <rect
+         style="fill:#eeeeec;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect10012"
+         width="23.375"
+         height="32.875"
+         x="-418.375"
+         y="245.4872" />
+      <path
+         sodipodi:type="arc"
+         style="fill:#2e3436;fill-opacity:1;stroke:#050504;stroke-width:0.59299999;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="path10014"
+         sodipodi:cx="-280.0625"
+         sodipodi:cy="511.79968"
+         sodipodi:rx="0.9375"
+         sodipodi:ry="0.9375"
+         d="m -279.125,511.79968 c 0,0.51777 -0.41973,0.9375 -0.9375,0.9375 -0.51777,0 -0.9375,-0.41973 -0.9375,-0.9375 0,-0.51776 0.41973,-0.9375 0.9375,-0.9375 0.51777,0 0.9375,0.41974 0.9375,0.9375 z"
+         transform="translate(-134.99999,-261.99999)" />
+    </g>
   </g>
 </svg>
