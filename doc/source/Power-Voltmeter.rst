@@ -1,7 +1,7 @@
 Voltmeter
 ---------
 
-.. image:: images/LED-Board.png
+.. image:: images/Power-voltmeter.png
 
 The Voltmeter board is an extremely useful board for debugging
 embedded systems. It has a switch that controls it's two modes

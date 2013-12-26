@@ -2,7 +2,7 @@ SOIC-8 Adaptor
 ==============
 
 
-.. image:: images/soic8.jpg
+.. image:: images/Breakout-soic8.png
 
 There might be times when you whish to make a board with an IC that isn't
 included on any of the standard clixx.io tabs. For these situations the

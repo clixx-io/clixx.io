@@ -1,7 +1,7 @@
 Coin Cell Battery Board
 =======================
 
-.. image:: images/LED-Board.png
+.. image:: images/Power-coincell.png
 
 The Coin Cell Battery Board provides a power source for the
 clixx.io range of processor boards.

@@ -1,6 +1,8 @@
 AVR Attiny
 ==========
 
+.. image:: images/Processor-Attiny.png
+
 This is provided as a minimal processor board that will suite deployable applications where
 simple functionality and low cost is required. 
 

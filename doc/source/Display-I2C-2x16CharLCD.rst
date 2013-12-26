@@ -1,7 +1,7 @@
 I2C 2x16 CharLCD
 ================
 
-.. image:: images/CharLCD2x16.png
+.. image:: images/Display-I2C-16x2CharLCD.png
 
 The Clixx.io character LCD is an easy to use display ideal
 for many projects. It uses a standard Hitachi HD44780 or
