@@ -53,7 +53,7 @@ Processor Boards
 ----------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1ovve
 
    source/PIC-8SOIC
    source/Processor-Attiny
@@ -63,7 +63,7 @@ Power
 -----
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    source/Power-Voltmeter
    source/Power-CoinCell
@@ -75,7 +75,7 @@ Software Support
 ----------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    source/Python-Circuits
    source/C++-Interface

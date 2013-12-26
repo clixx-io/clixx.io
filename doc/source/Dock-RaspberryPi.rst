@@ -1,6 +1,8 @@
 Raspberry-Pi Dock
 =================
 
+.. image:: images/DockRasbpi.png
+
 The Raspberry-Pi Dock provides an easy to use interface to the clixx.io
 tabs. It allows you to plug in clixx.io tabs quickly so that your project is ready
 to begin. 
