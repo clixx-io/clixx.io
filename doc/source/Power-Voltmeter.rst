@@ -3,39 +3,18 @@ Voltmeter
 
 .. image:: images/LED-Board.png
 
-The Digital LED Board is a very simple board that's commonly used as a 
-status indicator on digital devices.
+The Voltmeter board is an extremely useful board for debugging
+embedded systems. It has a switch that controls it's two modes
+that can measure:
 
-It's implemented within clixx.io as a board because there are many times
-when having a board can be handy. It attaches as an output device and can
-be made to turn on or off according to the output pin status.
+ - the power line voltage
+ 
+ - the output line voltage
 
-It has two states on and off and can be made to flash, turn-on 
-or vary in intensity according to microprocessor control.
+This board doesn't need any programming, it simply needs to
+be connected to another component and it will display the
+voltage found on the line.
 
-.. code-block:: python
-
-	'''
-	  Blink
-	  Turns on an LED on for one second, off for one second, repeatedly.
-
-	  This example code is in the public domain.
-	 '''
-
-	# Pin 13 has an LED connected on most Arduino boards.
-	# give it a name:
-	led = 13
-
-	# the setup routine runs once when you press reset:
-	def setup():
-	  # initialize the digital pin as an output.
-	  pinMode(led, OUTPUT)
-
-
-	# the loop routine runs over and over again forever:
-	def loop():
-	  digitalWrite(led, HIGH)   # turn the LED on (HIGH is the voltage level)
-	  delay(1000)               # wait for a second
-	  digitalWrite(led, LOW)    # turn the LED off by making the voltage LOW
-	  delay(1000)               # wait for a second
-
+It's useful for seeing the exact voltage on a line. This can
+be really useful in diagnosing a range of problems that might
+exist while you are developing a system.
