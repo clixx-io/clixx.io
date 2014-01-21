@@ -1,5 +1,5 @@
 I2C Temperature Sensor
-----------------------
+======================
 
 .. image:: images/Temp-Board.png
 
@@ -8,14 +8,14 @@ and provides a sensor that runs off the I2C bus meaning that you can
 share the pins of with multiple devices.
 
 Connection
-----------
+^^^^^^^^^^
 
 To be used, this device needs to be plugged into the I2C bus interface on your
 microprocessor. It can also be daisy-chained along with other I2C devices.
 
 
 Code Examples
--------------
+^^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -35,14 +35,14 @@ Code Examples
         print "Temperature is %f degrees celcius" % t.tempC()
         
 Linux
------
+^^^^^
 
 This device can be detected via the command line using the i2cdetect command.
 
 run 'i2cdetect -y 1' and it should appear as address 0x48
 
 Changing the I2C Address
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 The board by default comes with a preset I2C address of 0x48. For most users
 this will suffice.
