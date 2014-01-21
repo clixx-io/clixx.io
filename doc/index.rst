@@ -29,7 +29,7 @@ IO Boards
    source/Digital-soic8
    source/Analog-Potentiometer
    source/Digital-InfraRed
-   source/Sensor-I2C-Temp
+   source/Sensor-Temp-I2C
 
 Displays
 --------
