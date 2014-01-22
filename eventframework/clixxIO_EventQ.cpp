@@ -4,6 +4,8 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+#include "clixxIO.hpp"
+
 #define INTERVAL 2
 
 int howmany = 0;
@@ -50,11 +52,11 @@ int clixxIOMsgQ::run()
    return itsAge;
 }
 
-void alarm_wakeup (int interval)
+void timer_wakeup (int interval)
 {
    struct itimerval tout_val;
 
-   signal(SIGALRM,alarm_wakeup);
+   signal(SIGALRM,timer_wakeup);
 
    howmany += INTERVAL;
    
@@ -68,7 +70,7 @@ void alarm_wakeup (int interval)
    
 }
 
-void alarm_setup (int interval)
+void timer_setup (int interval)
 {
   struct itimerval tout_val;
   
@@ -77,9 +79,10 @@ void alarm_setup (int interval)
   tout_val.it_value.tv_sec = INTERVAL;  // 10 seconds timer 
   tout_val.it_value.tv_usec = 0;
   setitimer(ITIMER_REAL, &tout_val,0);
-  signal(SIGALRM,alarm_wakeup); // set the Alarm signal capture 
+  signal(SIGALRM,timer_wakeup); // set the Alarm signal capture 
  
 }
+
 
 void exit_func (int i)
 {
@@ -88,12 +91,12 @@ void exit_func (int i)
     exit(0);
 }
 
-int main ()
+int main0 ()
 {
   
   signal(SIGINT,exit_func);
   
-  alarm_setup(2);
+  timer_setup(2);
   
   while (1)
   {
@@ -102,4 +105,45 @@ int main ()
   
   return 0;
 
+}
+
+clixxIOApp::clixxIOApp()
+{
+  
+  signal(SIGINT,exit_func);
+ 
+}
+
+clixxIOApp::~clixxIOApp()
+{
+  
+}
+
+int clixxIOApp::run()
+{ 
+  for (;;)
+    if (loopmethod != NULL)
+      loopmethod(1);
+}
+
+int clixxIOApp::addLoopEvent(void (*function)(int))
+{
+
+}
+
+int clixxIOApp::addTimerEvent(int secs, void (*function)(int))
+{
+  
+  timer_setup(secs);
+  
+}
+
+int clixxIOApp::addInterruptEvent(int secs, void (*function)(int,int))
+{
+  
+}
+
+int clixxIOApp::addSerialInterruptEvent(int secs, void (*function)(int,int))
+{
+  
 }
