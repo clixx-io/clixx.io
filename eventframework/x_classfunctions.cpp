@@ -1,28 +1,44 @@
- #include <iostream> 
- class Base { 
+#include <iostream> 
+
+class clixxIO_App { 
      public: 
-     virtual void WhoAmI() const; 
-     typedef void (Base::*WhoPtr)() const; 
+     virtual void loop() const; 
+     typedef void (clixxIO_App::*loopPtr)() const; 
      
 }; 
 
-class Derived: public Base { 
-    public: virtual void WhoAmI() const; }; void Base::WhoAmI() 
- const { std::cout << "I am the Base" << std::endl; 
- 
+class myApp: public clixxIO_App { 
+    
+    public: 
+    
+    virtual void loop() const 
+    { 
+		std::cout << "I am the loop() - Derived" << std::endl; 
+	}
+    
+}; 
+
+void clixxIO_App::loop() const 
+{ 
+	std::cout << "I am the loop - clixxIO_App" << std::endl; 
 } 
 
-void Derived:: WhoAmI() const 
-{ 
-    std::cout << "I am the Derived" << std::endl; 
-}
- 
- int main( int argc, char **argv ) {
+int main( int argc, char **argv ) {
      
-     Base::WhoPtr func = &Base::WhoAmI; 
+     clixxIO_App::loopPtr func = &clixxIO_App::loop; 
      
-     Base theBase; (theBase.*func)(); 
+     clixxIO_App theBase; 
      
-     Derived theDerived; (theDerived.*func)(); return 0; 
+     theBase.loop();
+     
+     (theBase.*func)(); 
+     
+     myApp theDerived; 
+     
+     theDerived.loop();
+     
+     (theDerived.*func)(); 
+     
+     return 0; 
      
 }
