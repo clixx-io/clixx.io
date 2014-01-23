@@ -9,6 +9,7 @@
 #define INTERVAL 2
 
 int howmany = 0;
+void *pMainClass;	
 
 class clixxIOTimer {
   public:
@@ -58,8 +59,11 @@ void timer_wakeup (int interval)
    signal(SIGALRM,timer_wakeup);
 
    howmany += INTERVAL;
+
+   //--Trigger the users callback   
+   C_timerevent(pMainClass);
    
-   printf("\n%d sec up partner, Wakeup!!!\n",howmany);
+   //--Setup for the next event
    tout_val.it_interval.tv_sec = 0;
    tout_val.it_interval.tv_usec = 0;
    tout_val.it_value.tv_sec = interval; /* 10 seconds timer */
@@ -85,7 +89,7 @@ void timer_setup (int interval)
 void exit_func (int i)
 {
     signal(SIGINT,exit_func);
-    printf("\nBye Bye!!!\n");
+    printf("\nApplication shutdown signal - Shutting down\n");
     exit(0);
 }
 
@@ -101,8 +105,6 @@ clixxIOApp::~clixxIOApp()
 {
   
 }
-
-void *pMainClass;	
 
 int clixxIOApp::run()
 {

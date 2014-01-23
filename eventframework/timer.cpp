@@ -37,10 +37,8 @@ main(){
 
   App m;
 
-  // A single fire of m.timerevent() as a test 
-  C_timerevent(&m);
-  
   m.run();
+
 }
 
 // This method will be hidden somewhere later
