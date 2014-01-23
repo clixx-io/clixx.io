@@ -9,7 +9,7 @@ A trivial simple example of using circuits and timers.
 
 class App : public clixxIOApp{
 
-    int timerevent(){
+    void timerevent(){
         /* hello Event handler
 
          Fired once every second.
@@ -24,7 +24,12 @@ class App : public clixxIOApp{
         Setup a simple timer to fire every second.
         */
 
-        addTimerEvent(5, &timerevent());
+		void *(dp)() = dynamic_cast<void (class App::*)()>(&timerevent);
+		
+		// if (dp != null)
+		//	dp->methodInDerivedClass();
+        
+        // addTimerEvent(5, &timerevent);
     };
     
 };

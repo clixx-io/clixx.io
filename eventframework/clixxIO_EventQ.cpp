@@ -131,19 +131,19 @@ int clixxIOApp::addLoopEvent(void (*function)(int))
 
 }
 
-int clixxIOApp::addTimerEvent(int secs, void (*function)(int))
+int clixxIOApp::addTimerEvent(int secs, void (*function)())
 {
   
   timer_setup(secs);
   
 }
 
-int clixxIOApp::addInterruptEvent(int secs, void (*function)(int,int))
+int clixxIOApp::addInterruptEvent(int secs, void (*function)())
 {
   
 }
 
-int clixxIOApp::addSerialInterruptEvent(int secs, void (*function)(int,int))
+int clixxIOApp::addSerialInterruptEvent(int secs, void (*function)())
 {
   
 }

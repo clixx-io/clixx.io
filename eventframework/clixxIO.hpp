@@ -9,8 +9,8 @@ class clixxIOApp{
      
     public:
      int run();
-     int addLoopEvent(void (*function)(int));
-     int addTimerEvent(int secs, void (*function)(int,int));
+     int addLoopEvent(void (* function)(int));
+     int addTimerEvent(int secs, void (*function)());
      int addInterruptEvent(int secs, void (*function)(int,int));
      int addSerialInterruptEvent(int secs, void (*function)(int,int));
      
