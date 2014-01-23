@@ -1,4 +1,13 @@
 
+int addLoopEvent(void (* function)(int));
+int addTimerEvent(int secs, void (*function)());
+int addInterruptEvent(int secs, void (*function)(int,int));
+int addSerialInterruptEvent(int secs, void (*function)(int,int));
+
+void setMainAppPtr(void *mainClass);
+void C_timerevent( void* appC);
+void C_startedevent( void* appC);
+
 class clixxIOApp{
 
     private:
@@ -9,10 +18,6 @@ class clixxIOApp{
      
     public:
      int run();
-     int addLoopEvent(void (* function)(int));
-     int addTimerEvent(int secs, void (*function)());
-     int addInterruptEvent(int secs, void (*function)(int,int));
-     int addSerialInterruptEvent(int secs, void (*function)(int,int));
      
      clixxIOApp();
      ~clixxIOApp();

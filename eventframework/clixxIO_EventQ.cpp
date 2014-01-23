@@ -16,7 +16,6 @@ class clixxIOTimer {
     int durationmSecs;
 };
 
-
 class clixxIOMsgQ {
 
   public:                    // begin public section
@@ -83,7 +82,6 @@ void timer_setup (int interval)
  
 }
 
-
 void exit_func (int i)
 {
     signal(SIGINT,exit_func);
@@ -91,6 +89,64 @@ void exit_func (int i)
     exit(0);
 }
 
+clixxIOApp::clixxIOApp()
+{
+  
+  // Setup a signal handler for exit
+  signal(SIGINT,exit_func);
+  
+}
+
+clixxIOApp::~clixxIOApp()
+{
+  
+}
+
+void *pMainClass;	
+
+int clixxIOApp::run()
+{
+	
+  C_startedevent(pMainClass);
+  
+  puts("Application now in main loop");
+  
+  for (;;);
+  
+}
+
+// Set the object address of the App class in main() 
+// Pointer to the address of the Users Application Object
+void setMainAppPtr(void *mainClass)
+{
+  pMainClass = mainClass;	
+
+  printf("MainClass set to %p\n",mainClass);
+}
+
+int addLoopEvent(void (*function)(int))
+{
+
+}
+
+int addTimerEvent(int secs, void (*function)())
+{
+  
+  timer_setup(secs);
+  
+}
+
+int addInterruptEvent(int secs, void (*function)())
+{
+  
+}
+
+int addSerialInterruptEvent(int secs, void (*function)())
+{
+  
+}
+
+//--Dummy main function
 int main0 ()
 {
   
@@ -105,45 +161,4 @@ int main0 ()
   
   return 0;
 
-}
-
-clixxIOApp::clixxIOApp()
-{
-  
-  signal(SIGINT,exit_func);
- 
-}
-
-clixxIOApp::~clixxIOApp()
-{
-  
-}
-
-int clixxIOApp::run()
-{ 
-  for (;;)
-    if (loopmethod != NULL)
-      loopmethod(1);
-}
-
-int clixxIOApp::addLoopEvent(void (*function)(int))
-{
-
-}
-
-int clixxIOApp::addTimerEvent(int secs, void (*function)())
-{
-  
-  timer_setup(secs);
-  
-}
-
-int clixxIOApp::addInterruptEvent(int secs, void (*function)())
-{
-  
-}
-
-int clixxIOApp::addSerialInterruptEvent(int secs, void (*function)())
-{
-  
 }

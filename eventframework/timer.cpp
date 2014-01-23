@@ -9,35 +9,42 @@ A trivial simple example of using circuits and timers.
 
 class App : public clixxIOApp{
 
+public:
+
     void timerevent(){
         /* hello Event handler
 
          Fired once every second.
         */
 
-        printf("Timer Event");
+        printf("Timer Callback\n");
     };
     
-    int started(){
+    void started(){
         /* started Event handler
 
         Setup a simple timer to fire every second.
         */
+        printf("Application in startup event\n");
 
-		void *(dp)() = dynamic_cast<void (class App::*)()>(&timerevent);
-		
-		// if (dp != null)
-		//	dp->methodInDerivedClass();
-        
-        // addTimerEvent(5, &timerevent);
+        // addTimerEvent(5, (void (*)()) &App::timerevent);
     };
     
 };
 
 // Final statement should be => App().run()
-
 main(){
+
+  puts("Application started");
+
   App m;
+
+  // A single fire of m.timerevent() as a test 
+  C_timerevent(&m);
+  
   m.run();
 }
 
+// This method will be hidden somewhere later
+void C_timerevent( void* appC) { static_cast<App*>(appC)->timerevent(); }
+void C_startedevent( void* appC) { static_cast<App*>(appC)->started(); }
