@@ -9,8 +9,8 @@ A trivial simple example of using circuits and timers.
 
 class App : public clixxIOApp{
 
-public:
-
+  public:
+  
     void timerevent(){
         /* hello Event handler
 
@@ -27,15 +27,13 @@ public:
         */
         printf("Application in startup event\n");
 
-        // addTimerEvent(5, (void (*)()) &App::timerevent);
+        addTimerEvent(5, (void (*)()) &App::timerevent);
     };
     
 };
 
 // Final statement should be => App().run()
 main(){
-
-  puts("Application started");
 
   App m;
 
