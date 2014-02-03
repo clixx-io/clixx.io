@@ -27,7 +27,7 @@ class App : public clixxIOApp{
         */
         printf("Application in startup event\n");
 
-        addTimerEvent(5, (void (*)()) &App::timerevent);
+        addTimerEvent(1, (void (*)()) &App::timerevent);
     };
     
 };
@@ -41,6 +41,4 @@ main(){
 
 }
 
-// This method will be hidden somewhere later
-void C_timerevent( void* appC) { static_cast<App*>(appC)->timerevent(); }
-void C_startedevent( void* appC) { static_cast<App*>(appC)->started(); }
+#include "timer-App.cpp"

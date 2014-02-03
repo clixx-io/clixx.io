@@ -29,7 +29,7 @@ class App : public clixxIOApp{
         */
 
         addLoopEvent(&loopevent());
-        addInterruptEvent(GPIO_PIN16, RISING, &ISR());
+        addPinChangeEvent(GPIO_PIN16, RISING, &ISR());
     };
     
     int ISR(){

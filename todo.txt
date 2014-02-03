@@ -36,21 +36,10 @@ Stencils
 
  - http://www.oshstencils.com/
 
-Carasoul
---------
-
-Small system components for big project idea's
-
- - Introducting project components that go together easily
- - start with a processor
- - add Inputs, buttons or sensors
- - add outputs, LED's, Motors, Displays
- - Work with different processors and interchange parts
- - Suitable for commercial, educational or hobby projects
-
-
 AVR Programming
 ---------------
+
+http://nerdralph.blogspot.ca/2014/01/nrf24l01-control-with-3-attiny85-pins.html
 
 GUI for avrdude
  - http://aef-embedded.blogspot.com.au/2009/06/avrdude-gui-for-ubuntu.html
@@ -72,7 +61,7 @@ E14 tobuy list
 ---------------
 
  Attiny 45/85
- 
+
  Battery Holders
  - http://au.element14.com/keystone/1028c/battery-holder-aa-pcb/dp/2027288
  
@@ -90,3 +79,7 @@ E14 tobuy list
  - http://www.geek.com/geek-cetera/a-javascript-3d-model-viewer-in-your-browser-1309599/
  - https://github.com/tbuser/thingiview.js
 
+Raspberry Pi Camera
+-------------------
+
+ - http://blog.miguelgrinberg.com/post/stream-video-from-the-raspberry-pi-camera-to-web-browsers-even-on-ios-and-android
