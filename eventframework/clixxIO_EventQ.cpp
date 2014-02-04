@@ -35,7 +35,6 @@ class clixxIOMsgQ {
     
 };
 
-// constructor of Cat,
 clixxIOMsgQ::clixxIOMsgQ(int initialAge)
 {
   itsAge = initialAge;
@@ -45,8 +44,6 @@ clixxIOMsgQ::~clixxIOMsgQ()                 // destructor, just an example
 {
 }
 
-// GetAge, Public accessor function
-// returns value of itsAge member
 int clixxIOMsgQ::run()
 {
    return itsAge;
@@ -109,7 +106,7 @@ clixxIOApp::~clixxIOApp()
 int clixxIOApp::run()
 {
 	
-  C_startedevent(pMainClass);
+  C_startupevent(pMainClass);
   
   puts("Application now in main loop");
   
@@ -148,19 +145,3 @@ int addSerialInterruptEvent(int secs, void (*function)())
   
 }
 
-//--Dummy main function
-int main0 ()
-{
-  
-  signal(SIGINT,exit_func);
-  
-  timer_setup(2);
-  
-  while (1)
-  {
-    //printf("!");
-  }
-  
-  return 0;
-
-}

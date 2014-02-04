@@ -6,7 +6,7 @@ int addSerialInterruptEvent(int secs, void (*function)(int,int));
 
 void setMainAppPtr(void *mainClass);
 void C_timerevent( void* appC);
-void C_startedevent( void* appC);
+void C_startupevent( void* appC);
 
 class clixxIOApp{
 
