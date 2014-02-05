@@ -50,6 +50,11 @@ http://www11.ocn.ne.jp/~maracas/avrfuse.html
 http://arduinoexplained.blogspot.com.au/search?updated-min=2012-01-01T00:00:00-05:00&updated-max=2013-01-01T00:00:00-05:00&max-results=20
 http://ubuntuforums.org/showthread.php?t=1985915
 
+Linux GPIO
+----------
+
+ - http://www.avrfreaks.net/wiki/index.php/Documentation:Linux/GPIO
+
 PIC Programming
 ---------------
 
