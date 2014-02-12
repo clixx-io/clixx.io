@@ -1,6 +1,8 @@
 About Clixx.io
 ==============
 
+.. image:: images/make-a-circuit-in-seconds-01.png
+
 Clixx.io is a 5-wire system developed by David Lyon for prototyping
 and building small computer systems easily and quickly. In fact
 most of the parts just click together and then become ready
