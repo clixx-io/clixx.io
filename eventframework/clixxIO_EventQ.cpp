@@ -88,22 +88,11 @@ int clixxIOMsgQ::run()
  */
 void timer_wakeup (int interval)
 {
-   struct itimerval tout_val;
 
    signal(SIGALRM,timer_wakeup);
 
-   howmany += interval;
-
    //--Trigger the users callback   
    C_timerevent(pMainClass);
-   
-   //--Setup for the next event
-   tout_val.it_interval.tv_sec = 0;
-   tout_val.it_interval.tv_usec = 0;
-   tout_val.it_value.tv_sec = interval; /* 10 seconds timer */
-   tout_val.it_value.tv_usec = 0;
-   
-   setitimer(ITIMER_REAL, &tout_val,0);
    
 }
 
@@ -115,13 +104,13 @@ void timer_wakeup (int interval)
  */
 void timer_setup (int interval)
 {
-  struct itimerval tout_val;
+  struct itimerval itimer;
   
-  tout_val.it_interval.tv_sec = 0;
-  tout_val.it_interval.tv_usec = 0;
-  tout_val.it_value.tv_sec = interval;  // 10 seconds timer 
-  tout_val.it_value.tv_usec = 0;
-  setitimer(ITIMER_REAL, &tout_val,0);
+  itimer.it_interval.tv_sec = interval;
+  itimer.it_interval.tv_usec = 0;
+  itimer.it_value.tv_sec = interval;  // 10 seconds timer 
+  itimer.it_value.tv_usec = 0;
+  setitimer(ITIMER_REAL, &itimer,0);
   signal(SIGALRM,timer_wakeup); 		// set the Alarm signal capture 
  
 }

@@ -29,7 +29,7 @@ class App : public clixxIOApp{
         */
         printf("Application in startup event\n");
 
-        addTimerEvent(1, (void (*)()) &App::timerevent);
+        addTimerEvent(2, (void (*)()) &App::timerevent);
     };
     
 };
