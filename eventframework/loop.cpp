@@ -1,4 +1,3 @@
-
 /* Simple Loop
 
 A trivial simple example of using circuits and timers.
@@ -32,8 +31,7 @@ class App : public clixxIOApp{
     
 };
 
-// Final statement should be => App().run()
-
+// Traditional main that is called by linker
 main(){
   App m;
   m.run();
