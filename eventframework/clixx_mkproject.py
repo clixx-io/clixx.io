@@ -28,6 +28,7 @@
  *
 """
 
+import sys, os, platform
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
@@ -109,8 +110,15 @@ can then customise to suit your needs.
 		print("Selections are :", self.selections)
 		print("Peripherals are:", self.peripherals)
 		
+	def create_projectdir(self):
+		
+		if not os.path.exists(self.project_name):
+			os.makedirs(self.project_name)
+			
 	def render_files(self):
 		
+		self.create_projectdir()
+			
 		self.render_makefile()
 			
 		self.render_maincppfile()
@@ -121,8 +129,10 @@ can then customise to suit your needs.
 
 	def render_makefile(self):
 	
+		makefile = open(os.path.join(self.project_name,'Makefile'), 'w')	
+		
 		mytemplate = Template(filename='templates/makefile-avr.tmpl')
-		print mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform)
+		makefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 
 	def render_maincppfile(self):
 		
@@ -141,7 +151,7 @@ if __name__ == "__main__":
 
 	project = clixxIOEventTemplateBuilder('myproject','attiny85')
     
-	project.render_makefile()
+	project.render_files()
     
 	# project.user_prompts()
 
