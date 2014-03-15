@@ -31,7 +31,7 @@ class App : public clixxIOApp{
     
 };
 
-// Traditional main that is called by linker
+// Traditional main with Application object
 main(){
   App m;
   m.run();

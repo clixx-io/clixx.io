@@ -29,10 +29,10 @@ class App : public clixxIOApp{
         */
 
         addLoopEvent(&loopevent());
-        addPinChangeEvent(GPIO_PIN16, RISING, &ISR());
+        addPinChangeEvent(GPIO_PIN16, RISING, &PinChangeInterrupt());
     };
     
-    int ISR(){
+    int PinChangeInterrupt(){
         /* Interrupt service routine
         Handles a hardware interrupt of some sort
         */
@@ -41,7 +41,7 @@ class App : public clixxIOApp{
 	}
 };
 
-// Final statement should be => App().run()
+// Traditional main with Application object
 
 main(){
   App m;
