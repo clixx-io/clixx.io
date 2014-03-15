@@ -73,6 +73,9 @@ can then customise to suit your needs.
 		return
 		
 	def user_prompts(self):
+		"""
+		Prompts the user for project settings via the command line.
+		"""
 
 		self.selections = []
 		self.peripherals = []
@@ -97,7 +100,8 @@ can then customise to suit your needs.
 						else:
 							print("Sorry, no further information on that item.")
 
-		print("\nPeripheral Entry (What is connected to the processor).\n---------------------------------------------\n")
+		print("\nPeripheral Entry (What is connected to the processor).\n---------------------------------------------\n"
+		      "\nEnter <blank> to finish\n")
 		peripheral_name = '-'
 		while not peripheral_name is '':
 			peripheral_name = raw_input("Enter the name or type of peripheral that you wish to connect ? ")
@@ -111,11 +115,17 @@ can then customise to suit your needs.
 		print("Peripherals are:", self.peripherals)
 		
 	def create_projectdir(self):
+		"""
+		Create the Project Directory if it doesn't already exist
+		"""
 		
 		if not os.path.exists(self.project_name):
 			os.makedirs(self.project_name)
 			
 	def render_files(self):
+		"""
+		Render all the files from templates with project settings held in memory
+		"""
 		
 		self.create_projectdir()
 			
@@ -126,8 +136,13 @@ can then customise to suit your needs.
 		self.render_mainhppfile()
 			
 		self.render_maincallbackfile()
+		
+		print("Project files successfully rendered to %s" % os.path.abspath(self.project_name))
 
 	def render_makefile(self):
+		"""
+		Render a standard gnu Makefile using a template with the settings held in memory
+		"""
 	
 		makefile = open(os.path.join(self.project_name,'Makefile'), 'w')	
 		
@@ -135,15 +150,24 @@ can then customise to suit your needs.
 		makefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 
 	def render_maincppfile(self):
+		"""
+		Render the main .cpp file using a template with the settings held in memory
+		"""
 		
 		pass
 		
 	def render_mainhppfile(self):
+		"""
+		Render the main .hpp file using a template with the settings held in memory
+		"""
 		
 		pass
 		
 	def render_maincallbackfile(self):
-		
+		"""
+		Render the main callback .cpp file using a template with the settings held in memory
+		"""
+	
 		pass
 		
 		
@@ -151,7 +175,8 @@ if __name__ == "__main__":
 
 	project = clixxIOEventTemplateBuilder('myproject','attiny85')
     
+	project.user_prompts()
+	
 	project.render_files()
     
-	# project.user_prompts()
 
