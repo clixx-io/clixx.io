@@ -28,7 +28,7 @@
  *
 """
 
-import sys, os, platform
+import sys, os, platform, shutil
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
@@ -122,6 +122,9 @@ can then customise to suit your needs.
 		if not os.path.exists(self.project_name):
 			os.makedirs(self.project_name)
 			
+		if not os.path.exists(os.path.join(self.project_name,'clixxIO.hpp')):
+			shutil.copyfile('clixxIO.hpp', os.path.join(self.project_name,'clixxIO.hpp'))
+			
 	def render_files(self):
 		"""
 		Render all the files from templates with project settings held in memory
@@ -153,22 +156,29 @@ can then customise to suit your needs.
 		"""
 		Render the main .cpp file using a template with the settings held in memory
 		"""
+		mainfile = open(os.path.join(self.project_name,self.project_name+'.cpp'), 'w')	
 		
-		pass
+		mytemplate = Template(filename='templates/main-cpp.tmpl')
+		mainfile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 		
 	def render_mainhppfile(self):
 		"""
 		Render the main .hpp file using a template with the settings held in memory
 		"""
+		mainincludefile = open(os.path.join(self.project_name,self.project_name+'-config.hpp'), 'w')	
 		
-		pass
+		mytemplate = Template(filename='templates/main-hpp.tmpl')
+		mainincludefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 		
 	def render_maincallbackfile(self):
 		"""
 		Render the main callback .cpp file using a template with the settings held in memory
 		"""
 	
-		pass
+		mainincludefile = open(os.path.join(self.project_name,self.project_name+'-callbacks.cpp'), 'w')	
+		
+		mytemplate = Template(filename='templates/main-callbacks.tmpl')
+		mainincludefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 		
 		
 if __name__ == "__main__":
