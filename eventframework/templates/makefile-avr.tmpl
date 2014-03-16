@@ -44,7 +44,7 @@ $(PROGRAM).hex: $(PROGRAM).elf
 	@printf "  OBJCOPY $(subst $(shell pwd)/,,$(@))\n"
 	$(Q)$(OBJCOPY) -O ihex $< $@
 
-${'%.o: %.c'}
+${'%.o: %.cpp'}
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
 	$(Q)$(CC) $(CFLAGS) -o $@ -c $<
 
