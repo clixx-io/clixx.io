@@ -107,7 +107,7 @@ void timer_wakeup (int interval)
  * @param interval - the number of seconds between callbacks
  * @return the CRC
  */
-void timer_setup (int interval)
+int timer_setup (int interval)
 {
 
 #ifdef TARGET_LINUX
@@ -118,9 +118,12 @@ void timer_setup (int interval)
   itimer.it_interval.tv_usec = 0;
   itimer.it_value.tv_sec = interval;  // 10 seconds timer 
   itimer.it_value.tv_usec = 0;
-  setitimer(ITIMER_REAL, &itimer,0);
+  rc = setitimer(ITIMER_REAL, &itimer,0);
   signal(SIGALRM,timer_wakeup); 		// set the Alarm signal capture 
   
+  return rc
+#else
+  return 1;
 #endif
  
 }
@@ -223,7 +226,7 @@ int addLoopEvent(void (*function)(int))
 int addTimerEvent(int secs, void (*function)())
 {
   
-  timer_setup(secs);
+  return timer_setup(secs);
   
 }
 
@@ -235,7 +238,7 @@ int addTimerEvent(int secs, void (*function)())
  */
 int addPinChangeEvent(int pin, int changetype, void (*function)())
 {
-	return 0;
+	return 1;
 }
 
 /**
@@ -246,6 +249,6 @@ int addPinChangeEvent(int pin, int changetype, void (*function)())
  */
 int addSerialInterruptEvent(int secs, void (*function)())
 {
-  
+	return 1;
 }
 
