@@ -1,0 +1,59 @@
+##
+## This file is part of the clixx.io library for avr project.
+##
+## Copyright (C) 2014 David Lyon <david.lyon at clixx.io>
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+##
+
+MCU = attiny13
+LIBRARY = clixxIO_AVR_$(MCU)
+CC = avr-gcc
+OBJCOPY = avr-objcopy
+CFLAGS += -Wall -g -Os -mmcu=$(MCU) -DTARGET_AVR
+LDFLAGS +=
+OBJS = $(PROGRAM).o
+
+# Be silent per default, but 'make V=1' will show all compiler calls.
+ifneq ($(V),1)
+Q := @
+endif
+
+all: $(LIBRARY).a
+
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o
+
+clixxIO_EventQ_AVR_$(MCU).o: ../clixxIO_EventQ.cpp
+	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_AVR_$(MCU).o ../clixxIO_EventQ.cpp
+   
+$(PROGRAM).elf: $(PROGRAM).o
+	@printf "  LD      $(subst $(shell pwd)/,,$(@))\n"
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+
+$(PROGRAM).hex: $(PROGRAM).elf
+	@printf "  OBJCOPY $(subst $(shell pwd)/,,$(@))\n"
+	$(Q)$(OBJCOPY) -O ihex $< $@
+
+%.o: %.c
+	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
+	$(Q)$(CC) $(CFLAGS) -o $@ -c $<
+
+clean:
+	@printf "  CLEAN   *.o\n"
+	$(Q)rm -f *.o
+	@printf "  CLEAN   *.a\n"
+	$(Q)rm -f *.a
+

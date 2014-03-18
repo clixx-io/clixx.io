@@ -26,10 +26,13 @@
  */
 
 #include <stdlib.h>
-#include <signal.h>
 #include <stdio.h>
-#include <sys/time.h>
-#include <unistd.h>
+
+#ifdef TARGET_LINUX
+  #include <signal.h>
+  #include <unistd.h>
+  #include <sys/time.h>
+#endif
 
 #include "clixxIO.hpp"
 
@@ -89,7 +92,9 @@ int clixxIOMsgQ::run()
 void timer_wakeup (int interval)
 {
 
+#ifdef TARGET_LINUX
    signal(SIGALRM,timer_wakeup);
+#endif
 
    //--Trigger the users callback   
    C_timerevent(pMainClass);
@@ -104,6 +109,9 @@ void timer_wakeup (int interval)
  */
 void timer_setup (int interval)
 {
+
+#ifdef TARGET_LINUX
+
   struct itimerval itimer;
   
   itimer.it_interval.tv_sec = interval;
@@ -112,6 +120,8 @@ void timer_setup (int interval)
   itimer.it_value.tv_usec = 0;
   setitimer(ITIMER_REAL, &itimer,0);
   signal(SIGALRM,timer_wakeup); 		// set the Alarm signal capture 
+  
+#endif
  
 }
 
@@ -124,8 +134,14 @@ void timer_setup (int interval)
  */
 void exit_func (int i)
 {
+
+#ifdef TARGET_LINUX
+
     signal(SIGINT,exit_func);
     printf("\nApplication shutdown signal - Shutting down\n");
+
+#endif
+
     exit(0);
 }
 
@@ -136,8 +152,11 @@ void exit_func (int i)
 clixxIOApp::clixxIOApp()
 {
   
+#ifdef TARGET_LINUX
   // Setup a signal handler for exit
   signal(SIGINT,exit_func);
+  
+#endif
   
 }
 
@@ -158,7 +177,7 @@ clixxIOApp::~clixxIOApp()
  */
 void clixxIOApp::run()
 {
-	
+
   C_startupevent(pMainClass);
   
   puts("Application now in main loop");
