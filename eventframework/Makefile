@@ -20,7 +20,6 @@
 
 LIBRARY = clixxIO_Linux
 CC = g++
-OBJCOPY = avr-objcopy
 CFLAGS += -Wall -g -Os -DTARGET_LINUX
 LDFLAGS +=
 OBJS = $(PROGRAM).o
