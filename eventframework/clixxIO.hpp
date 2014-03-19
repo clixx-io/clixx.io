@@ -48,3 +48,24 @@ class clixxIOApp{
      ~clixxIOApp();
 };
 
+#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
+
+  #include <windows.h>
+  inline void delay( unsigned long ms ){ Sleep( ms ); }
+
+#else  /* presume POSIX */
+
+  #include <unistd.h>
+
+  inline void delay( unsigned long ms ){ usleep( ms * 1000 ); }
+
+#endif 
+
+class clixxIOSerial(){
+
+	
+}
+
+extern int serial_feed_setup(const char *portname);
+extern int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars = 0);
+extern int serial_feed_close(int tty_fd);
