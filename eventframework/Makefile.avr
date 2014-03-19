@@ -18,7 +18,11 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-MCU = attiny13
+# Be silent per default, but 'make V=1' will show all compiler calls.
+ifeq ($(MCU),)
+MCU := atmega328p
+endif
+
 LIBRARY = clixxIO_AVR_$(MCU)
 CC = avr-gcc
 OBJCOPY = avr-objcopy
@@ -31,13 +35,19 @@ ifneq ($(V),1)
 Q := @
 endif
 
-all: $(LIBRARY).a
+all: ../lib $(LIBRARY).a
 
-$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o
+../lib: 
+	@printf "  CREATE ../lib\n"
+	$(Q)mkdir ../lib
+ 
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o 
 	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o
+	@printf "  COPY $(LIBRARY).a ../lib\n"
+	$(Q)cp $(LIBRARY).a ../lib
 
-clixxIO_EventQ_AVR_$(MCU).o: ../clixxIO_EventQ.cpp
-	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_AVR_$(MCU).o ../clixxIO_EventQ.cpp
+clixxIO_EventQ_AVR_$(MCU).o: clixxIO_EventQ.cpp clixxIO.hpp
+	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_AVR_$(MCU).o clixxIO_EventQ.cpp
    
 $(PROGRAM).elf: $(PROGRAM).o
 	@printf "  LD      $(subst $(shell pwd)/,,$(@))\n"
@@ -56,4 +66,3 @@ clean:
 	$(Q)rm -f *.o
 	@printf "  CLEAN   *.a\n"
 	$(Q)rm -f *.a
-
