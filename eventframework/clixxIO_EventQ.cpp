@@ -187,6 +187,7 @@ int clixxIOApp::run()
   
   for (;;);
   
+  return 0;
 }
 
 /**
