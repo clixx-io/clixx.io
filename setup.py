@@ -14,7 +14,7 @@ setup(
     description = "A python library for clixx.io peripherals",
     author = "David Lyon",
     author_email = "david.lyon@clixx.io",
-    package_dir = {'': 'src'},
+    package_dir = {'': 'python'},
     packages = [''],
     scripts=['tools/clixx'],
 # use_2to3 = True,
