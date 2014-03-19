@@ -31,6 +31,7 @@ endif
 
 all: ../lib $(LIBRARY).a
 
+# The library gets built and the filename shows the target platform
 $(LIBRARY).a: clixxIO_EventQ_Linux.o 
 	ar -cr $(LIBRARY).a clixxIO_EventQ_Linux.o
 	@printf "  COPY $(LIBRARY).a ../lib\n"
@@ -40,9 +41,11 @@ $(LIBRARY).a: clixxIO_EventQ_Linux.o
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
 	$(Q)$(CC) $(CFLAGS) -o $@ -c $<
 
+# The main source file gets compiled to a result showing the target platform
 clixxIO_EventQ_Linux.o: clixxIO_EventQ.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_Linux.o clixxIO_EventQ.cpp
-   
+
+# A seperate directory for holding libraries is used   
 ../lib: 
 	@printf "  CREATE ../lib\n"
 	$(Q)mkdir ../lib
