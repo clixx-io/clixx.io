@@ -42,7 +42,7 @@ class clixxIOApp{
      unsigned int (*timermethod)(unsigned int);
      
     public:
-     void run();
+     int run();
      
      clixxIOApp();
      ~clixxIOApp();

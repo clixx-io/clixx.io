@@ -118,10 +118,10 @@ int timer_setup (int interval)
   itimer.it_interval.tv_usec = 0;
   itimer.it_value.tv_sec = interval;  // 10 seconds timer 
   itimer.it_value.tv_usec = 0;
-  rc = setitimer(ITIMER_REAL, &itimer,0);
+  int rc = setitimer(ITIMER_REAL, &itimer,0);
   signal(SIGALRM,timer_wakeup); 		// set the Alarm signal capture 
   
-  return rc
+  return rc;
 #else
   return 1;
 #endif
@@ -178,7 +178,7 @@ clixxIOApp::~clixxIOApp()
  * here and sent to the application.
  *
  */
-void clixxIOApp::run()
+int clixxIOApp::run()
 {
 
   C_startupevent(pMainClass);

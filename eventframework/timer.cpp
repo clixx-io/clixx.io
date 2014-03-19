@@ -35,11 +35,11 @@ class App : public clixxIOApp{
 };
 
 // Main program Section. Simply setup an App class and let it run
-main(){
+int main(){
  
   App m;
   
-  m.run();
+  return m.run();
 
 }
 
