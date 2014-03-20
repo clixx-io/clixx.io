@@ -6,6 +6,9 @@ The clixx.io EventFramework is a streamlined rethink of C/C++ traditions
 with respect to making small mpu's ever easier to program. It's inspired
 by Wiring, and Python "Circuits".
 
+The idea is to move all hardware dependencies to libraries and have
+code that will easily run on different processors.
+
 ### The easy coding style of the clixx.io Event-Framework
 
 The clixx.io Eventframework is based on having an 'Application'
@@ -51,17 +54,16 @@ particular hardware or software events occur).
 The setup() function is executed once at start of the program and
 is normally used to initialise devices.
 
-    int loop(){
-        // loop - this runs repeatedly
-        if (getTemperature() > 24)
-			setAirconditioning(On);
-		else
-			setAirconditioning(Off);
-		delay(1000);
-    };
 	void setup(){
 		// setup - create a timer callback every 2 seconds
 		addTimerEvent(2, (void (*)()) &App::timerevent);
+
+        // Setup all of the devices that are needed by the application		
+		lcd = clixxIO_i2cCharlcd();
+		button1 = clixxIO_Button('button1');
+		button2 = clixxIO_Button('button2');
+		motor1  = clixxIO_Motor('motor1');
+		 
 	};
 
 ### Loop
@@ -95,7 +97,7 @@ are coded to use the timing hardware of a particular platform rather
 than get on with the job of actually doing the timing functions.
 
     void timerevent(){
-        // timerevernt - this is run every second
+        // timerevent - this is run every second
         if (getTemperature() > 24)
 			setAirconditioning(On);
 		else
