@@ -1,8 +1,6 @@
-clixx.io EventFramework
------------------------
+# clixx.io EventFramework
 
-Rethinking C/C++
-~~~~~~~~~~~~~~~~
+## Rethinking C/C++
 
 The clixx.io EventFramework is rethink of programming traditions with
 respect to small mpu's and the C/C++ programming language.
@@ -21,13 +19,13 @@ code. These 'hacks', which include handlers for interrupts, timers and
 serial-port data all sit in the C/C++ body of engineers code and the
 way that they are done has never been rationalised.
 
-The easy coding style of the clixx.io Event-Framework
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## The easy coding style of the clixx.io Event-Framework
 
 The clixx.io Eventframework is based on having an 'Application'
 class which then passes program execution to event-handlers when
 particular hardware or software events occur).
 
+	```c++
 	/* Simple Loop
 	 * 
 	 *  A trivial simple example of a clixx.io loop.
