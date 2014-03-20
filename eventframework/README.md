@@ -1,6 +1,6 @@
 ## clixx.io EventFramework
 
-### Rethinking C/C++
+### Rethinking C/C++ for Embedded devices and the Internet-of-Things
 
 The clixx.io EventFramework is rethink of programming traditions with
 respect to small mpu's and the C/C++ programming language.
@@ -25,7 +25,6 @@ The clixx.io Eventframework is based on having an 'Application'
 class which then passes program execution to event-handlers when
 particular hardware or software events occur).
 
-	```c++
 	/* Simple Loop
 	 * 
 	 *  A trivial simple example of a clixx.io loop.
