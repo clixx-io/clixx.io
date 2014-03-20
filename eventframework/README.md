@@ -96,6 +96,11 @@ it has led to a huge amount of program incompatability as programs
 are coded to use the timing hardware of a particular platform rather
 than get on with the job of actually doing the timing functions.
 
+The following example shows the same functionality of the above
+example only here the checking is done by timer callbacks which
+are non-blocking rather than using a blocking delay() call in
+the previous example:
+
     void timerevent(){
         // timerevent - this is run every second
         if (getTemperature() > 24)
