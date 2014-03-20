@@ -1,8 +1,8 @@
 clixx.io EventFramework
 -----------------------
 
-History of C/C++
-----------------
+Rethinking C/C++
+~~~~~~~~~~~~~~~~
 
 The clixx.io EventFramework is rethink of programming traditions with
 respect to small mpu's and the C/C++ programming language.
@@ -22,9 +22,12 @@ serial-port data all sit in the C/C++ body of engineers code and the
 way that they are done has never been rationalised.
 
 The easy coding style of the clixx.io Event-Framework
------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    [lang=c++]
+The clixx.io Eventframework is based on having an 'Application'
+class which then passes program execution to event-handlers when
+particular hardware or software events occur).
+
 	/* Simple Loop
 	 * 
 	 *  A trivial simple example of a clixx.io loop.
@@ -54,17 +57,14 @@ The easy coding style of the clixx.io Event-Framework
 	  m.run();
 	}
 
-The Application Object
-----------------------
-
 Setup
------
+~~~~~
 
 The setup() function is executed once at start of the program and
 is normally used to initialise devices.
 
 Loop
-----
+~~~~
 
 The loop() function is an optional method that can be repeatedly
 run. It's not necessary to have a program loop() if the program
@@ -72,7 +72,7 @@ is running on other events, such as interrupts or serial-data
 for example.
 
 Timers
-------
+~~~~~~
 
 The vast majority of embedded applications all need timers for some
 purpose. Traditionally it's been left to the engineer to interface
@@ -82,7 +82,6 @@ it has led to a huge amount of program incompatability as programs
 are coded to use the timing hardware of a particular platform rather
 than get on with the job of actually doing the timing functions.
 
-    [lang=c++]
 	/* Simple Timer
 	 * A simple example of using timers.
 	*/
@@ -134,7 +133,6 @@ expected to be.
 With this structure, handling interrupts becomes part of the main application
 functionality.
 
-    [lang=c++]
 	/* Simple Interrupt counter
 	 * 
 	 *  A trivial example showing counting pin interrupts per second.
@@ -181,7 +179,7 @@ functionality.
 	}
 
 Serial Port Data
-----------------
+~~~~~~~~~~~~~~~~
 
 One of the very first things that computers ever did was send data over
 serial ports. Unfortunately, until the Wiring language, there's never been
@@ -225,7 +223,7 @@ when the data is available.
 	}
 
 Network (Socket) Data
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 In the EventFramework, Network data can be handled as easily as serial. 
 
