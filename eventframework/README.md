@@ -105,10 +105,10 @@ the previous example:
 
     void timerevent(){
         // timerevent - this is run every second
-        if (getTemperature() > 24)
-			setAirconditioning(On);
+		if (getTemperature() > 24)
+			aircon.On();
 		else
-			setAirconditioning(Off);
+			aircon.Off();
     };
 	void setup(){
 		// setup - create a timer to check the temperature every 2 seconds
