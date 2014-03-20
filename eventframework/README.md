@@ -2,22 +2,13 @@
 
 ### Rethinking C/C++ for Embedded devices and the Internet-of-Things
 
-The clixx.io EventFramework is rethink of programming traditions with
-respect to small mpu's and the C/C++ programming language.
+The clixx.io EventFramework is a streamlined rethink of C/C++ traditions 
+with respect to making small mpu's easier to program, which in turn
+cuts down development time and cost.
 
 What has happened with C/C++ is that as new requirements have come
-along over the years, the first solution by engineers to get a new
-feature working would be to place the request to the compiler maker.
-
-If the feature request was good enough, the chances were that it would
-be implemented. After that, there was then a chance that standards bodies
-would enshrine a particular feature in the C++ standard.
-
-What this has led to is that there are a number of 'hacks' from the
-very early days of computers that are now accepted into mainstream
-code. These 'hacks', which include handlers for interrupts, timers and 
-serial-port data all sit in the C/C++ body of engineers code and the
-way that they are done has never been rationalised.
+along over the years, various C/C++ 'hacks' from the very early days 
+of computers have made their way into mainstream Language definitions.
 
 ### The easy coding style of the clixx.io Event-Framework
 
