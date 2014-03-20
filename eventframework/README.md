@@ -172,7 +172,6 @@ In the EventFramework, serial data can be received and passed to the
 application either in blocks or lines with a callback able to be setup
 when the data is available.
 
-    [lang=c++]
 	/* Simple Serial Handler
 	 * 
 	 *  A trivial example showing counting pin interrupts per second.
