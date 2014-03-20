@@ -51,10 +51,16 @@ particular hardware or software events occur).
 The setup() function is executed once at start of the program and
 is normally used to initialise devices.
 
+    int loop(){
+        // loop - this runs repeatedly
+        if (getTemperature() > 24)
+			setAirconditioning(On);
+		else
+			setAirconditioning(Off);
+		delay(1000);
+    };
 	void setup(){
 		// setup - create a timer callback every 2 seconds
-		printf("Application in setup event\n");
-
 		addTimerEvent(2, (void (*)()) &App::timerevent);
 	};
 
@@ -88,19 +94,18 @@ it has led to a huge amount of program incompatability as programs
 are coded to use the timing hardware of a particular platform rather
 than get on with the job of actually doing the timing functions.
 
-
-	void timerevent(){
-		// Timer Event handler - This will get called every two seconds.
-		printf("Timer Callback\n");
-	};
-	
+    void timerevent(){
+        // timerevernt - this is run every second
+        if (getTemperature() > 24)
+			setAirconditioning(On);
+		else
+			setAirconditioning(Off);
+    };
 	void setup(){
-		// setup - create a timer callback every 2 seconds
-		printf("Application in startup event\n");
-
-		addTimerEvent(2, (void (*)()) &App::timerevent);
+		// setup - create a timer to check the temperature every 2 seconds
+		addTimerEvent(1, (void (*)()) &App::timerevent);
 	};
-	
+
 
 ### Interrupts
 
