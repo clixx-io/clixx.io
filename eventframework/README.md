@@ -28,15 +28,17 @@ particular hardware or software events occur).
 		int loop(){
 			// loop handler - This runs repeatedly
 			if (getTemperature() > 24)
-				setAirconditioning(On);
+				aircon.On();
 			else
-				setAirconditioning(Off);
+				aircon.Off();
 			delay(1000);
 		};
 		
 		int setup(){
 			// Setup - register the loop event for continuously running. 
 			printf("Program is running");
+			
+			aircon = clixxIO_Motor('motor1');
 			addLoopEvent(&loop());
 		};
 		
@@ -171,12 +173,4 @@ when the data is available.
 		printf(buffer)
 
 	}
-
-### Network (Socket) Data
-
-In the EventFramework, Network data can be handled as easily as serial. 
-
-Network data can be received and passed to the application either in 
-blocks or lines with a callback able to be setup when the data is available.
-
 
