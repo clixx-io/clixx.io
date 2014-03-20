@@ -12,9 +12,9 @@ The clixx.io Eventframework is based on having an 'Application'
 class which then passes program execution to event-handlers when
 particular hardware or software events occur).
 
-	/* Simple Loop
+	/* Simple Application
 	 * 
-	 *  A trivial simple example of a clixx.io loop.
+	 *  A trivial simple example of an clixx.io Application.
 	 * 
 	*/
 	#include <stdio.h>
@@ -24,11 +24,16 @@ particular hardware or software events occur).
 
 		int loop(){
 			// loop handler - This runs repeatedly
-			printf("Program is running");
+			if (getTemperature() > 24)
+				setAirconditioning(On);
+			else
+				setAirconditioning(Off);
+			delay(1000);
 		};
 		
 		int setup(){
 			// Setup - register the loop event for continuously running. 
+			printf("Program is running");
 			addLoopEvent(&loop());
 		};
 		
@@ -39,7 +44,7 @@ particular hardware or software events occur).
 	  App m;
 	  return m.run();
 	} 
-	#include "loop-callbacks.cpp"	// 
+	#include "app-callbacks.cpp"	// 
 
 ### Setup
 
@@ -68,6 +73,7 @@ for example.
 			setAirconditioning(Off);
 		delay(1000);
     };
+    
 	void setup(){
         addLoopEvent((void (*)()) &App::loop);
     };
@@ -82,37 +88,19 @@ it has led to a huge amount of program incompatability as programs
 are coded to use the timing hardware of a particular platform rather
 than get on with the job of actually doing the timing functions.
 
-	/* Simple Timer
-	 * A simple example of using timers.
-	*/
 
-	#include <stdio.h>
-	#include "clixxIO.hpp"
-
-	class App : public clixxIOApp{
-
-	  public:
-	  
-		void timerevent(){
-			// Timer Event handler - This will get called every two seconds.
-			printf("Timer Callback\n");
-		};
-		
-		void setup(){
-			// setup - create a timer callback every 2 seconds
-			printf("Application in startup event\n");
-
-			addTimerEvent(2, (void (*)()) &App::timerevent);
-		};
-		
+	void timerevent(){
+		// Timer Event handler - This will get called every two seconds.
+		printf("Timer Callback\n");
 	};
+	
+	void setup(){
+		// setup - create a timer callback every 2 seconds
+		printf("Application in startup event\n");
 
-	// -- Main program Section. Simply setup an App class and let it run
-	int main(){
-	  App m;
-	  return m.run();
-	} 
-	#include "timer-callbacks.cpp"	// 
+		addTimerEvent(2, (void (*)()) &App::timerevent);
+	};
+	
 
 ### Interrupts
 
@@ -127,50 +115,28 @@ expected to be.
 With this structure, handling interrupts becomes part of the main application
 functionality.
 
-	/* Simple Interrupt counter
-	 * 
-	 *  A trivial example showing counting pin interrupts per second.
-	 *  ie this is a very simple example of an RPS counter
-	 * 
-	*/
-
-	#include <stdio.h>
-	#include "clixxIO.hpp"
-
-	class App : public clixxIOApp{
-
-		volatile int counter = 0;
-		
-		int setup(){
-			// Setup - create a timer that displays data every second
-			//         as well as a pin change interrupt handler
-			addTimerEvent(1, (void (*)()) &App::timerevent);
-			addPinChangeEvent(GPIO_PIN16, RISING, (void (*)()) &App::PinChangeInterrupt());
-		};
-		
-		int timerevent(){
-			// timerevent - fired every second to display the value
-			int v = counter; counter = 0;
-			if (v == 0)
-				printf('.')
-			else
-				printf("rps = %d\n", v);
-		};
-		
-		int PinChangeInterrupt(){
-			/* Interrupt service routine
-			Handles a hardware interrupt of some sort
-			*/
-			++counter;
-		}
+	int setup(){
+		// Setup - create a timer that displays data every second
+		//         as well as a pin change interrupt handler
+		addTimerEvent(1, (void (*)()) &App::timerevent);
+		addPinChangeEvent(GPIO_PIN16, RISING, (void (*)()) &App::PinChangeInterrupt());
 	};
-
-	// -- Main program Section. Simply setup an App class and let it run
-	int main(){
-	  App m;
-	  return m.run();
-	} 
-	#include "interrupt-callbacks.cpp"	// 
+	
+	int timerevent(){
+		// timerevent - fired every second to display the value
+		int v = counter; counter = 0;
+		if (v == 0)
+			printf('.')
+		else
+			printf("rps = %d\n", v);
+	};
+	
+	int PinChangeInterrupt(){
+		/* Interrupt service routine
+		Handles a hardware interrupt of some sort
+		*/
+		++counter;
+	}
 
 ### Serial Port Data
 
@@ -182,37 +148,17 @@ In the EventFramework, serial data can be received and passed to the
 application either in blocks or lines with a callback able to be setup
 when the data is available.
 
-	/* Simple Serial Handler
-	 * 
-	 *  A trivial example showing counting pin interrupts per second.
-	 *  ie this is a very simple example of an RPS counter
-	 * 
-	*/
-
-	#include <stdio.h>
-	#include "clixxIO.hpp"
-
-	class App : public clixxIOApp{
-
-		int setup(){
-			// Setup - create an event that prints out serial data from a port
-			//         as well as a pin change interrupt handler
-			addSerialDataEvent(GPIO_PIN1, 9600, (void (*)()) &App::serialData());
-		};
-	   
-		int serialData(const char* buffer, const int bufflen){
-			//* SerialData - Print out the data received on the port
-			printf(buffer)
-
-		}
+	int setup(){
+		// Setup - create an event that prints out serial data from a port
+		//         as well as a pin change interrupt handler
+		addSerialDataEvent(GPIO_PIN1, 9600, (void (*)()) &App::serialData());
 	};
+   
+	int serialData(const char* buffer, const int bufflen){
+		//* SerialData - Print out the data received on the port
+		printf(buffer)
 
-	// -- Main program Section. Simply setup an App class and let it run
-	int main(){
-	  App m;
-	  return m.run();
-	} 
-	#include "serial-callbacks.cpp"	// 
+	}
 
 ### Network (Socket) Data
 
