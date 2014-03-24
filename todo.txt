@@ -39,6 +39,8 @@ Stencils
 AVR Programming
 ---------------
 
+http://www.instructables.com/id/How-to-program-ATtiny85-with-Raspberry-Pi/
+
 http://extremeelectronics.co.in/avr-tutorials/using-the-analog-to-digital-converter/
 http://winavr.scienceprog.com/avr-gcc-tutorial/avr-microcontroller-interrupts-handling-using-winavr.html
 http://nerdralph.blogspot.ca/2014/01/nrf24l01-control-with-3-attiny85-pins.html
