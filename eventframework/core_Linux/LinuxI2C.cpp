@@ -55,6 +55,22 @@ All rights reserved.
         "to write a value [value] to register [register]\n" \
     ""
 
+clixxIO_I2C_device::clixxIO_I2C_device(int addr, int port){
+	
+}
+
+int clixxIO_I2C_device::write(self, char byte){
+	
+}
+
+char clixxIO_I2C_device::read(){
+	
+}
+
+int clixxIO_I2C_device::read_nbytes_data(char *data, int n){
+	
+}
+
 static int set_i2c_register(int file,
                             unsigned char addr,
                             unsigned char reg,

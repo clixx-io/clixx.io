@@ -128,6 +128,26 @@ class clixxIOSerial : public Stream
     using print::write; // pull in write(str) and write(buf, size) from Print
 };
 
+/*
+ * General i2c device class so that other devices can be added easily
+ *
+ */
+class clixxIO_I2C_device {
+
+  public:
+	clixxIO_I2C_device(int addr, int port);
+
+    int write(self, char byte);
+    char read();
+    int read_nbytes_data(char *data, int n);
+
+}
+
+class clixxIO_I2C_system{
+	
+}
+
+
 #if (defined(UBRRH) || defined(UBRR0H)) && ! DEFAULT_TO_TINY_DEBUG_SERIAL
   extern HardwareSerial Serial;
 #elif defined(USBCON)
