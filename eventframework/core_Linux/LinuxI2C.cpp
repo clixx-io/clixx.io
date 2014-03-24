@@ -1,119 +1,173 @@
 /*
- * Tiny I2C Adapter Driver
- * 
- * Further documentation can be found at http://www.linuxjournal.com/article/7136
- *
- * Copyright (C) 2003 Greg Kroah-Hartman (greg@kroah.com)
- *
- *	This program is free software; you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, version 2 of the License.
- *
- * This driver shows how to create a minimal I2C bus and algorithm driver.
- *
- * Compile this driver with:
+ This software uses a BSD license.
 
-	echo "obj-m := tiny_i2c_adap.o" > Makefile
-	make -C <path/to/kernel/src> SUBDIRS=$PWD modules
+Copyright (c) 2010, Sean Cross / chumby industries
+All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+
+ * Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the
+   distribution.  
+ * Neither the name of Sean Cross / chumby industries nor the names
+   of its contributors may be used to endorse or promote products
+   derived from this software without specific prior written
+   permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+ AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+
+ See: http://e2e.ti.com/support/embedded/linux/f/354/t/196935.aspx
+*  
  */
 
-
-#include <linux/kernel.h>
-#include <linux/config.h>
-#include <linux/module.h>
-#include <linux/stddef.h>
+#include <stdio.h>
 #include <linux/i2c.h>
-#include <linux/init.h>
+#include <linux/i2c-dev.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <string.h>
 
 
-static s32 tiny_access(struct i2c_adapter *adap, u16 addr,
-		       unsigned short flags, char read_write,
-		       u8 command, int size, union i2c_smbus_data *data)
-{
-	int i;
-	int len;
+#define I2C_FILE_NAME "/dev/i2c-0"
+#define USAGE_MESSAGE \
+    "Usage:\n" \
+    "  %s r [addr] [register]   " \
+        "to read value from [register]\n" \
+    "  %s w [addr] [register] [value]   " \
+        "to write a value [value] to register [register]\n" \
+    ""
 
-	dev_info(&adap->dev, "%s was called with the following parameters:\n",
-		 __FUNCTION__);
-	dev_info(&adap->dev, "addr = %.4x\n", addr);
-	dev_info(&adap->dev, "flags = %.4x\n", flags);
-	dev_info(&adap->dev, "read_write = %s\n",
-		 read_write == I2C_SMBUS_WRITE ? "write" : "read");
-	dev_info(&adap->dev, "command = %d\n", command);
-	
-	switch (size) {
-	case I2C_SMBUS_PROC_CALL:
-		dev_info(&adap->dev, "size = I2C_SMBUS_PROC_CALL\n");
-		break;
-	case I2C_SMBUS_QUICK:
-		dev_info(&adap->dev, "size = I2C_SMBUS_QUICK\n");
-		break;
-	case I2C_SMBUS_BYTE:
-		dev_info(&adap->dev, "size = I2C_SMBUS_BYTE\n");
-		break;
-	case I2C_SMBUS_BYTE_DATA:
-		dev_info(&adap->dev, "size = I2C_SMBUS_BYTE_DATA\n");
-		if (read_write == I2C_SMBUS_WRITE)
-			dev_info(&adap->dev, "data = %.2x\n", data->byte);
-		break;
-	case I2C_SMBUS_WORD_DATA:
-		dev_info(&adap->dev, "size = I2C_SMBUS_WORD_DATA\n");
-		if (read_write == I2C_SMBUS_WRITE)
-			dev_info(&adap->dev, "data = %.4x\n", data->word);
-		break;
-	case I2C_SMBUS_BLOCK_DATA:
-		dev_info(&adap->dev, "size = I2C_SMBUS_BLOCK_DATA\n");
-		if (read_write == I2C_SMBUS_WRITE) {
-			dev_info(&adap->dev, "data = %.4x\n", data->word);
-			len = data->block[0];
-			if (len < 0)
-				len = 0;
-			if (len > 32)
-				len = 32;
-			for (i = 1; i <= len; i++)
-				dev_info(&adap->dev, "data->block[%d] = %.2x\n",
-					 i, data->block[i]);
-		}
-		break;
-	}
+static int set_i2c_register(int file,
+                            unsigned char addr,
+                            unsigned char reg,
+                            unsigned char value) {
 
-	return 0;
+    unsigned char outbuf[2];
+    struct i2c_rdwr_ioctl_data packets;
+    struct i2c_msg messages[1];
+
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = sizeof(outbuf);
+    messages[0].buf   = outbuf;
+
+    /* The first byte indicates which register we'll write */
+    outbuf[0] = reg;
+
+    /* 
+     * The second byte indicates the value to write.  Note that for many
+     * devices, we can write multiple, sequential registers at once by
+     * simply making outbuf bigger.
+     */
+    outbuf[1] = value;
+
+    /* Transfer the i2c packets to the kernel and verify it worked */
+    packets.msgs  = messages;
+    packets.nmsgs = 1;
+    if(ioctl(file, I2C_RDWR, &packets) < 0) {
+        perror("Unable to send data");
+        return 1;
+    }
+
+    return 0;
 }
 
-static u32 tiny_func(struct i2c_adapter *adapter)
-{
-	return I2C_FUNC_SMBUS_QUICK | I2C_FUNC_SMBUS_BYTE |
-		I2C_FUNC_SMBUS_BYTE_DATA | I2C_FUNC_SMBUS_WORD_DATA |
-		I2C_FUNC_SMBUS_BLOCK_DATA;
+
+static int get_i2c_register(int file,
+                            unsigned char addr,
+                            unsigned char reg,
+                            unsigned char *val) {
+    unsigned char inbuf, outbuf;
+    struct i2c_rdwr_ioctl_data packets;
+    struct i2c_msg messages[2];
+
+    /*
+     * In order to read a register, we first do a "dummy write" by writing
+     * 0 bytes to the register we want to read from.  This is similar to
+     * the packet in set_i2c_register, except it's 1 byte rather than 2.
+     */
+    outbuf = reg;
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = sizeof(outbuf);
+    messages[0].buf   = &outbuf;
+
+    /* The data will get returned in this structure */
+    messages[1].addr  = addr;
+    messages[1].flags = I2C_M_RD/* | I2C_M_NOSTART*/;
+    messages[1].len   = sizeof(inbuf);
+    messages[1].buf   = &inbuf;
+
+    /* Send the request to the kernel and get the result back */
+    packets.msgs      = messages;
+    packets.nmsgs     = 2;
+    if(ioctl(file, I2C_RDWR, &packets) < 0) {
+        perror("Unable to send data");
+        return 1;
+    }
+    *val = inbuf;
+
+    return 0;
 }
 
-static struct i2c_algorithm tiny_algorithm = {
-	.name		= "tiny algorithm",
-	.id		= I2C_ALGO_SMBUS,
-	.smbus_xfer	= tiny_access,
-	.functionality	= tiny_func,
-};
 
-static struct i2c_adapter tiny_adapter = {
-	.owner		= THIS_MODULE,
-	.class		= I2C_ADAP_CLASS_SMBUS,
-	.algo		= &tiny_algorithm,
-	.name		= "tiny adapter",
-};
+int main(int argc, char **argv) {
+    int i2c_file;
 
-static int __init tiny_init(void)
-{
-	return i2c_add_adapter(&tiny_adapter);
+    // Open a connection to the I2C userspace control file.
+    if ((i2c_file = open(I2C_FILE_NAME, O_RDWR)) < 0) {
+        perror("Unable to open i2c control file");
+        exit(1);
+    }
+
+
+    if(argc > 3 && !strcmp(argv[1], "r")) {
+        int addr = strtol(argv[2], NULL, 0);
+        int reg = strtol(argv[3], NULL, 0);
+        unsigned char value;
+        if(get_i2c_register(i2c_file, addr, reg, &value)) {
+            printf("Unable to get register!\n");
+        }
+        else {
+            printf("Register %d: %d (%x)\n", reg, (int)value, (int)value);
+        }
+    }
+    else if(argc > 4 && !strcmp(argv[1], "w")) {
+        int addr = strtol(argv[2], NULL, 0);
+        int reg = strtol(argv[3], NULL, 0);
+        int value = strtol(argv[4], NULL, 0);
+        if(set_i2c_register(i2c_file, addr, reg, value)) {
+            printf("Unable to get register!\n");
+        }
+        else {
+            printf("Set register %x: %d (%x)\n", reg, value, value);
+        }
+    }
+    else {
+        fprintf(stderr, USAGE_MESSAGE, argv[0], argv[0]);
+    }
+
+
+    close(i2c_file);
+
+
+    return 0;
 }
-
-static void __exit tiny_exit(void)
-{
-	i2c_del_adapter(&tiny_adapter);
-}
-
-MODULE_AUTHOR("Greg Kroah-Hartman <greg@kroah.com>");
-MODULE_DESCRIPTION("Tiny i2c adapter");
-MODULE_LICENSE("GPL");
-
-module_init(tiny_init);
-module_exit(tiny_exit);
