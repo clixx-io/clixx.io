@@ -90,11 +90,15 @@ extern int serial_feed_close(int tty_fd);
 #include <inttypes.h>
 
 // #include "core_build_options.h"
-#include "Stream.h"
+// #include "Stream.h"
 
 struct ring_buffer;
 
+#ifdef Stream
 class clixxIOSerial : public Stream
+#else
+class clixxIOSerial
+#endif
 {
   private:
     ring_buffer *_rx_buffer;
@@ -125,9 +129,22 @@ class clixxIOSerial : public Stream
     virtual int read(void);
     virtual void flush(void);
     virtual size_t write(uint8_t);
+#ifdef Stream
     using print::write; // pull in write(str) and write(buf, size) from Print
+#endif
 };
 
+/*
+ * General i2c bus class. Correspends to a physical 
+ *
+ */
+class clixxIO_I2C_bus {
+	
+	clixxIO_I2C_bus(int bus = 1);
+	
+	public:
+		int i2c_file;	
+};
 /*
  * General i2c device class so that other devices can be added easily
  *
@@ -137,15 +154,11 @@ class clixxIO_I2C_device {
   public:
 	clixxIO_I2C_device(int addr, int port);
 
-    int write(self, char byte);
+    int write(char byte);
     char read();
     int read_nbytes_data(char *data, int n);
 
-}
-
-class clixxIO_I2C_system{
-	
-}
+};
 
 
 #if (defined(UBRRH) || defined(UBRR0H)) && ! DEFAULT_TO_TINY_DEBUG_SERIAL
