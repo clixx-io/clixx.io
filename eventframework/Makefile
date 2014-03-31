@@ -23,6 +23,7 @@ CC = g++
 CFLAGS += -Wall -g -Os -DTARGET_LINUX
 LDFLAGS +=
 OBJS = $(PROGRAM).o
+SRC = core_Linux
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifneq ($(V),1)
@@ -32,7 +33,7 @@ endif
 all: ../lib $(LIBRARY).a
 
 # The library gets built and the filename shows the target platform
-$(LIBRARY).a: clixxIO_EventQ_Linux.o 
+$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C.o 
 	ar -cr $(LIBRARY).a clixxIO_EventQ_Linux.o
 	@printf "  COPY $(LIBRARY).a ../lib\n"
 	$(Q)cp $(LIBRARY).a ../lib
@@ -44,6 +45,9 @@ $(LIBRARY).a: clixxIO_EventQ_Linux.o
 # The main source file gets compiled to a result showing the target platform
 clixxIO_EventQ_Linux.o: clixxIO_EventQ.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_Linux.o clixxIO_EventQ.cpp
+
+clixxIO_I2C.o: $(SRC)/LinuxI2C.cpp
+	$(CC) -c $(CFLAGS) -o clixxIO_I2C.o $(SRC)/LinuxI2C.cpp
 
 # A seperate directory for holding libraries is used   
 ../lib: 

@@ -1,3 +1,4 @@
+#include "clixxIO.hpp"
 
 /* ----------------------------------------------------------------------------
    #  Description
@@ -16,18 +17,18 @@ class ClixxIO_i2cLCD():
   GPIO  = 0x09;
 
   // Command bits
-  LCD_ENABLE  = 0x10; # Enable line
-  LCD_COMMAND = 0x20; # Command/Data select
-  LCD_DATA    = 0x0F; # Data bits
+  LCD_ENABLE  = 0x10; // Enable line
+  LCD_COMMAND = 0x20; // Command/Data select
+  LCD_DATA    = 0x0F; // Data bits
 
   // Addresses
-  LCD_LINE_1 = 0x80; # LCD RAM address for the 1st line
-  LCD_LINE_2 = 0xC0; # LCD RAM address for the 2nd line
+  LCD_LINE_1 = 0x80;  // LCD RAM address for the 1st line
+  LCD_LINE_2 = 0xC0;  // LCD RAM address for the 2nd line
 
   /*" This class wraps control of the display and provides a simple set of
       methods to manage output.
   "*/
-  ClixxIO_i2cLCD(device):
+  ClixxIO_i2cLCD::ClixxIO_i2cLCD(device):
     //" Constructor
     //"
     self.device = device;
@@ -37,44 +38,46 @@ class ClixxIO_i2cLCD():
       ];
     self.where = [ 0, 0 ];
 
+    i2cbus = new ClixxIO_i2cBus(bus)
   /*--------------------------------------------------------------------------
   * Internal helpers
   *--------------------------------------------------------------------------*/
 
   void ClixxIO_i2cLCD::_writeLCD(value, cmd = False):
-    """ Write command or data to the LCD
-    """
+    /*
+     * Write command or data to the LCD
+    */ 
     // Make Sure "EN" is 0 or low
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, 0x00);
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPIO, 0x00);
     // Set "R/S" to 0 for a command, or 1 for data/characters
     out = 0x00
     if (!cmd)
-      out := out | self.LCD_COMMAND;
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out);
+      out = out | self.LCD_COMMAND;
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPIO, out);
     # Put the HIGH BYTE of the data/command on D7-4
-    out := out | ((value >> 4) & self.LCD_DATA);
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out);
+    out = out | ((value >> 4) & self.LCD_DATA);
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPIO, out);
     # Set "EN" (EN= 1 or High)
-    out := out | self.LCD_ENABLE;
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out);
+    out = out | self.LCD_ENABLE;
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPIO, out);
     # Wait At Least 450 ns!!!
     sleep(self.PULSE);
     # Clear "EN" (EN= 0 or Low)
-    out := out & ~self.LCD_ENABLE;
+    out = out & ~self.LCD_ENABLE;
     wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out);
     # Wait 5ms for command writes, and 200us for data writes.
     sleep(self.DELAY);
     # Put the LOW BYTE of the data/command on D7-4
     out := (out & ~self.LCD_DATA) | (value & self.LCD_DATA);
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out);
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPIO, out);
     # Set "EN" (EN= 1 or High)
     out := out | self.LCD_ENABLE;
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out);
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPIO, out);
     # Wait At Least 450 ns!!!
     sleep(self.PULSE);
     # Clear "EN" (EN= 0 or Low)
     out = out & ~self.LCD_ENABLE;
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO, out)
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPIO, out)
     # Wait 5ms for command writes, and 200us for data writes.
     sleep(self.DELAY);
 
@@ -82,12 +85,12 @@ class ClixxIO_i2cLCD():
     /* 
      * Update the display with the contents of the buffer
     */
-    self._writeLCD(self.LCD_LINE_1, True)
+    i2cbus->_writeLCD(self.LCD_LINE_1, True)
     for ch in self.lines[0]:
-      self._writeLCD(ord(ch), False);
+      i2cbus->_writeLCD(ord(ch), False);
     self._writeLCD(self.LCD_LINE_2, True);
     for ch in self.lines[1]:
-      self._writeLCD(ord(ch), False);
+      i2cbus->_writeLCD(ord(ch), False);
     }
 
   #--------------------------------------------------------------------------
@@ -100,18 +103,18 @@ class ClixxIO_i2cLCD():
      * Set up the connection to the device
      */
     # Set up the IO expander
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPIO,  0x00); # Clear outputs
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.IODIR, 0x00); # Direction
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.GPPU,  0x00); # Pull ups
-    wiringpi2.wiringPiI2CWriteReg8(self.device, self.IPOL,  0x00); # Polarity
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPIO,  0x00); // Clear outputs
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.IODIR, 0x00); // Direction
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.GPPU,  0x00); // Pull ups
+    i2cbus->wiringPiI2CWriteReg8(self.device, self.IPOL,  0x00); // Polarity
     # Initialise the display in 4 bit mode
-    self._writeLCD(0x33, True);
-    self._writeLCD(0x32, True);
-    self._writeLCD(0x28, True);
+    _writeLCD(0x33, True);
+    _writeLCD(0x32, True);
+    _writeLCD(0x28, True);
     # Set up initial state
-    self._writeLCD(0x0C, True);
-    self._writeLCD(0x06, True);
-    self._writeLCD(0x01, True);
+    _writeLCD(0x0C, True);
+    _writeLCD(0x06, True);
+    _writeLCD(0x01, True);
     }
 
   void ClixxIO_i2cLCD::gotoXY(self, x, y){
@@ -165,26 +168,26 @@ void ClixxIO_i2cLCD::clear(self){
 int main(){
 
   // Set up WiringPi and connect to the IO expander
-  wiringpi2.wiringPiSetupPhys()
-  dev = wiringpi2.wiringPiI2CSetup(0x20)
+  i2cbus->wiringPiSetupPhys()
+  dev = i2cbus->wiringPiI2CSetup(0x20)
   if (dev < 0){
     print "ERROR: Could not connect to device!"
     exit(1);
   }
   // Now create the LCD interface
   lcd = i2cLCD(dev);
-  lcd.setup();
-  lcd.gotoXY(0, 0);
-  lcd.write("clixx.io I2C-LCD");
-  lcd.gotoXY(7, 1);
-  lcd.write("It works!");
+  lcd->setup();
+  lcd->gotoXY(0, 0);
+  lcd->write("clixx.io I2C-LCD");
+  lcd->gotoXY(7, 1);
+  lcd->write("It works!");
   sleep(3);
-  lcd.gotoXY(0, 1);
-  lcd.write(" " * 16);
+  lcd->gotoXY(0, 1);
+  lcd->write(" " * 16);
   padding = "";
   while (1){
-    lcd.gotoXY(0, 1);
-    lcd.write(padding + "It works!");
+    lcd->gotoXY(0, 1);
+    lcd->write(padding + "It works!");
     padding = padding + " ";
     if len(padding) > 16:
       padding = " ";

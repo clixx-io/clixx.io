@@ -45,7 +45,6 @@ All rights reserved.
 #include <sys/ioctl.h>
 #include <string.h>
 
-
 #define I2C_FILE_NAME "/dev/i2c-0"
 #define USAGE_MESSAGE \
     "Usage:\n" \
@@ -55,15 +54,91 @@ All rights reserved.
         "to write a value [value] to register [register]\n" \
     ""
 
-clixxIO_I2C_device::clixxIO_I2C_device(int addr, int port){
-	
+clixxIO_I2C_device::clixxIO_I2C_device(int addr, int bus = 1){
 }
 
-int clixxIO_I2C_device::write(self, char byte){
+clixxIO_I2C_bus::clixxIO_I2C_bus(int bus){
+
+	char i2cbusname[30];
+	
+	vsprintf(i2cbusname, "/dev/i2c-%d", bus);
+	
+    // Open a connection to the I2C userspace control file.
+    if ((i2c_file = open(I2C_FILE_NAME, O_RDWR)) < 0) {
+        perror("Unable to open i2c control file");
+        i2c_file = -1;
+    }
+
+}
+
+int clixxIO_I2C_device::write(self, unsigned char reg, unsigned char value){
+
+    unsigned char outbuf[2];
+    struct i2c_rdwr_ioctl_data packets;
+    struct i2c_msg messages[1];
+
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = sizeof(outbuf);
+    messages[0].buf   = outbuf;
+
+    /* The first byte indicates which register we'll write */
+    outbuf[0] = reg;
+
+    /* 
+     * The second byte indicates the value to write.  Note that for many
+     * devices, we can write multiple, sequential registers at once by
+     * simply making outbuf bigger.
+     */
+    outbuf[1] = value;
+
+    /* Transfer the i2c packets to the kernel and verify it worked */
+    packets.msgs  = messages;
+    packets.nmsgs = 1;
+    if(ioctl(file, I2C_RDWR, &packets) < 0) {
+        perror("Unable to send data");
+        return 1;
+    }
+
+    return 0;
 	
 }
 
 char clixxIO_I2C_device::read(){
+                            unsigned char addr,
+                            unsigned char reg,
+                            unsigned char *val) {
+    unsigned char inbuf, outbuf;
+    struct i2c_rdwr_ioctl_data packets;
+    struct i2c_msg messages[2];
+
+    /*
+     * In order to read a register, we first do a "dummy write" by writing
+     * 0 bytes to the register we want to read from.  This is similar to
+     * the packet in set_i2c_register, except it's 1 byte rather than 2.
+     */
+    outbuf = reg;
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = sizeof(outbuf);
+    messages[0].buf   = &outbuf;
+
+    /* The data will get returned in this structure */
+    messages[1].addr  = addr;
+    messages[1].flags = I2C_M_RD/* | I2C_M_NOSTART*/;
+    messages[1].len   = sizeof(inbuf);
+    messages[1].buf   = &inbuf;
+
+    /* Send the request to the kernel and get the result back */
+    packets.msgs      = messages;
+    packets.nmsgs     = 2;
+    if(ioctl(file, I2C_RDWR, &packets) < 0) {
+        perror("Unable to send data");
+        return 1;
+    }
+    *val = inbuf;
+
+    return 0;
 	
 }
 
@@ -106,7 +181,6 @@ static int set_i2c_register(int file,
     return 0;
 }
 
-
 static int get_i2c_register(int file,
                             unsigned char addr,
                             unsigned char reg,
@@ -144,7 +218,6 @@ static int get_i2c_register(int file,
     return 0;
 }
 
-
 int main(int argc, char **argv) {
     int i2c_file;
 
@@ -153,7 +226,6 @@ int main(int argc, char **argv) {
         perror("Unable to open i2c control file");
         exit(1);
     }
-
 
     if(argc > 3 && !strcmp(argv[1], "r")) {
         int addr = strtol(argv[2], NULL, 0);
@@ -181,9 +253,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, USAGE_MESSAGE, argv[0], argv[0]);
     }
 
-
     close(i2c_file);
-
 
     return 0;
 }
