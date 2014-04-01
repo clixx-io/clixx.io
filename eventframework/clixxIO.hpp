@@ -139,11 +139,11 @@ class clixxIOSerial
  *
  */
 class clixxIO_I2C_bus {
-	
-	clixxIO_I2C_bus(int bus = 1);
-	
-	public:
-		int i2c_file;	
+
+  clixxIO_I2C_bus(int bus = 1);
+
+  public:
+    int i2c_file;	
 };
 /*
  * General i2c device class so that other devices can be added easily
@@ -152,9 +152,10 @@ class clixxIO_I2C_bus {
 class clixxIO_I2C_device {
 
   public:
-	clixxIO_I2C_device(int addr, int port);
+    clixxIO_I2C_device(int addr, int bus = 1);
+    clixxIO_I2C_device(int addr, clixxIO_I2C_bus *bus);
 
-    int write(char byte);
+    int write(unsigned char reg, unsigned char byte);
     char read();
     int read_nbytes_data(char *data, int n);
 

@@ -45,6 +45,8 @@ All rights reserved.
 #include <sys/ioctl.h>
 #include <string.h>
 
+#include "clixxIO.hpp"
+
 #define I2C_FILE_NAME "/dev/i2c-0"
 #define USAGE_MESSAGE \
     "Usage:\n" \
@@ -54,15 +56,12 @@ All rights reserved.
         "to write a value [value] to register [register]\n" \
     ""
 
-clixxIO_I2C_device::clixxIO_I2C_device(int addr, int bus = 1){
-}
-
 clixxIO_I2C_bus::clixxIO_I2C_bus(int bus){
 
-	char i2cbusname[30];
-	
-	vsprintf(i2cbusname, "/dev/i2c-%d", bus);
-	
+    char i2cbusname[30];
+
+    sprintf((char *) i2cbusname, "/dev/i2c-%d", bus);
+
     // Open a connection to the I2C userspace control file.
     if ((i2c_file = open(I2C_FILE_NAME, O_RDWR)) < 0) {
         perror("Unable to open i2c control file");
@@ -71,13 +70,19 @@ clixxIO_I2C_bus::clixxIO_I2C_bus(int bus){
 
 }
 
-int clixxIO_I2C_device::write(self, unsigned char reg, unsigned char value){
+clixxIO_I2C_device::clixxIO_I2C_device(int addr, int bus){
+}
+
+clixxIO_I2C_device::clixxIO_I2C_device(int addr, clixxIO_I2C_bus *bus){
+}
+
+int clixxIO_I2C_device::write(unsigned char reg, unsigned char byte){
 
     unsigned char outbuf[2];
     struct i2c_rdwr_ioctl_data packets;
     struct i2c_msg messages[1];
 
-    messages[0].addr  = addr;
+    messages[0].addr  = reg;
     messages[0].flags = 0;
     messages[0].len   = sizeof(outbuf);
     messages[0].buf   = outbuf;
@@ -90,7 +95,7 @@ int clixxIO_I2C_device::write(self, unsigned char reg, unsigned char value){
      * devices, we can write multiple, sequential registers at once by
      * simply making outbuf bigger.
      */
-    outbuf[1] = value;
+    outbuf[1] = byte;
 
     /* Transfer the i2c packets to the kernel and verify it worked */
     packets.msgs  = messages;
@@ -101,7 +106,7 @@ int clixxIO_I2C_device::write(self, unsigned char reg, unsigned char value){
     }
 
     return 0;
-	
+
 }
 
 char clixxIO_I2C_device::read(){
@@ -218,6 +223,7 @@ static int get_i2c_register(int file,
     return 0;
 }
 
+/*
 int main(int argc, char **argv) {
     int i2c_file;
 
@@ -257,3 +263,4 @@ int main(int argc, char **argv) {
 
     return 0;
 }
+*/
