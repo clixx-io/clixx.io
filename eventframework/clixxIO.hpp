@@ -156,8 +156,11 @@ class clixxIO_I2C_device {
     clixxIO_I2C_device(int addr, clixxIO_I2C_bus *bus);
 
     int write(unsigned char reg, unsigned char byte);
-    char read();
+    char read(unsigned char addr, unsigned char reg, unsigned char *val);
     int read_nbytes_data(char *data, int n);
+
+  private:
+    int i2c_file;	
 
 };
 
@@ -177,3 +180,39 @@ class clixxIO_I2C_device {
   extern HardwareSerial Serial3;
 #endif
 
+/* ----------------------------------------------------------------------------
+   #  Description
+   ---------------------------------------------------------------------------- */
+class ClixxIO_i2cLCD{
+
+public:
+  // Delay times
+  const double DELAY;
+  const double PULSE;
+
+  // MCP23008 Register Numbers
+  const int IODIR;
+  const int IPOL;
+  const int GPPU;
+  const int GPIO;
+
+  // Command bits
+  const int LCD_ENABLE; // Enable line
+  const int LCD_COMMAND; // Command/Data select
+  const int LCD_DATA; // Data bits
+
+  // Addresses
+  const int LCD_LINE_1;  // LCD RAM address for the 1st line
+  const int LCD_LINE_2;  // LCD RAM address for the 2nd line
+
+  public:
+    ClixxIO_i2cLCD(int bus = 1, int device = 0x22);
+  	void _writeLCD(unsigned char value, bool cmd = false);
+  	void _update();
+  	void setup();
+    void gotoXY(int x, int y);
+    void write(const char *text);
+    void writeline(int lineno, const char *text);
+    void clear();
+ };
+ 

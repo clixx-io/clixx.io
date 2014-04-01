@@ -33,7 +33,7 @@ endif
 all: ../lib $(LIBRARY).a
 
 # The library gets built and the filename shows the target platform
-$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C.o 
+$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C.o clixxIO_CharLCD.o
 	ar -cr $(LIBRARY).a clixxIO_EventQ_Linux.o
 	@printf "  COPY $(LIBRARY).a ../lib\n"
 	$(Q)cp $(LIBRARY).a ../lib
@@ -47,7 +47,10 @@ clixxIO_EventQ_Linux.o: clixxIO_EventQ.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_Linux.o clixxIO_EventQ.cpp
 
 clixxIO_I2C.o: $(SRC)/LinuxI2C.cpp
-	$(CC) -c $(CFLAGS) -o clixxIO_I2C.o $(SRC)/LinuxI2C.cpp
+	$(CC) -c $(CFLAGS) -o clixxIO_I2C.o -I ./ $(SRC)/LinuxI2C.cpp
+
+clixxIO_CharLCD.o: clixxIO_CharLCD.cpp
+	$(CC) -c $(CFLAGS) -o clixxIO_I2C.o -I ./ clixxIO_CharLCD.cpp
 
 # A seperate directory for holding libraries is used   
 ../lib: 

@@ -100,7 +100,7 @@ int clixxIO_I2C_device::write(unsigned char reg, unsigned char byte){
     /* Transfer the i2c packets to the kernel and verify it worked */
     packets.msgs  = messages;
     packets.nmsgs = 1;
-    if(ioctl(file, I2C_RDWR, &packets) < 0) {
+    if(ioctl(i2c_file, I2C_RDWR, &packets) < 0) {
         perror("Unable to send data");
         return 1;
     }
@@ -109,7 +109,7 @@ int clixxIO_I2C_device::write(unsigned char reg, unsigned char byte){
 
 }
 
-char clixxIO_I2C_device::read(){
+char clixxIO_I2C_device::read(
                             unsigned char addr,
                             unsigned char reg,
                             unsigned char *val) {
@@ -137,7 +137,7 @@ char clixxIO_I2C_device::read(){
     /* Send the request to the kernel and get the result back */
     packets.msgs      = messages;
     packets.nmsgs     = 2;
-    if(ioctl(file, I2C_RDWR, &packets) < 0) {
+    if(ioctl(i2c_file, I2C_RDWR, &packets) < 0) {
         perror("Unable to send data");
         return 1;
     }
