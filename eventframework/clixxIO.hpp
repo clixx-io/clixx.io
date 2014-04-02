@@ -138,30 +138,31 @@ class clixxIOSerial
  * General i2c bus class. Correspends to a physical 
  *
  */
-class clixxIO_I2C_bus {
-
-  clixxIO_I2C_bus(int bus = 1);
+class ClixxIO_I2cBus {
 
   public:
+  
+    ClixxIO_I2cBus(int bus = 1);
+
+    int write(unsigned char addr, unsigned char reg, unsigned char byte);
+    char read(unsigned char addr, unsigned char reg, unsigned char *val);
+    int read_nbytes_data(int device, char *data, int n);
+
+  private:
     int i2c_file;	
 };
 /*
  * General i2c device class so that other devices can be added easily
  *
  */
-class clixxIO_I2C_device {
+class ClixxIO_I2cDevice {
 
   public:
-    clixxIO_I2C_device(int addr, int bus = 1);
-    clixxIO_I2C_device(int addr, clixxIO_I2C_bus *bus);
+    ClixxIO_I2cDevice(int deviceAddress, int bus = 1);
 
-    int write(unsigned char reg, unsigned char byte);
-    char read(unsigned char addr, unsigned char reg, unsigned char *val);
-    int read_nbytes_data(char *data, int n);
-
-  private:
-    int i2c_file;	
-
+  protected:
+    ClixxIO_I2cBus *i2cbus;
+    int device;	
 };
 
 
@@ -183,30 +184,32 @@ class clixxIO_I2C_device {
 /* ----------------------------------------------------------------------------
    #  Description
    ---------------------------------------------------------------------------- */
-class ClixxIO_i2cLCD{
+class ClixxIO_i2cLCD : public ClixxIO_I2cDevice {
 
 public:
   // Delay times
-  const double DELAY;
-  const double PULSE;
+  static const double DELAY;
+  static const double PULSE;
 
   // MCP23008 Register Numbers
-  const int IODIR;
-  const int IPOL;
-  const int GPPU;
-  const int GPIO;
+  static const int IODIR;
+  static const int IPOL;
+  static const int GPPU;
+  static const int GPIO;
 
   // Command bits
-  const int LCD_ENABLE; // Enable line
-  const int LCD_COMMAND; // Command/Data select
-  const int LCD_DATA; // Data bits
+  static const int LCD_ENABLE; // Enable line
+  static const int LCD_COMMAND; // Command/Data select
+  static const int LCD_DATA; // Data bits
 
   // Addresses
-  const int LCD_LINE_1;  // LCD RAM address for the 1st line
-  const int LCD_LINE_2;  // LCD RAM address for the 2nd line
+  static const int LCD_LINE_1;  // LCD RAM address for the 1st line
+  static const int LCD_LINE_2;  // LCD RAM address for the 2nd line
 
   public:
+  
     ClixxIO_i2cLCD(int bus = 1, int device = 0x22);
+    
   	void _writeLCD(unsigned char value, bool cmd = false);
   	void _update();
   	void setup();
@@ -214,5 +217,9 @@ public:
     void write(const char *text);
     void writeline(int lineno, const char *text);
     void clear();
+    
+  protected:
+    ClixxIO_I2cBus *i2cbus;
+
  };
  

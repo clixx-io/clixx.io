@@ -56,7 +56,7 @@ All rights reserved.
         "to write a value [value] to register [register]\n" \
     ""
 
-clixxIO_I2C_bus::clixxIO_I2C_bus(int bus){
+ClixxIO_I2cBus::ClixxIO_I2cBus(int bus){
 
     char i2cbusname[30];
 
@@ -70,13 +70,10 @@ clixxIO_I2C_bus::clixxIO_I2C_bus(int bus){
 
 }
 
-clixxIO_I2C_device::clixxIO_I2C_device(int addr, int bus){
+ClixxIO_I2cDevice::ClixxIO_I2cDevice(int addr, int bus){
 }
 
-clixxIO_I2C_device::clixxIO_I2C_device(int addr, clixxIO_I2C_bus *bus){
-}
-
-int clixxIO_I2C_device::write(unsigned char reg, unsigned char byte){
+int ClixxIO_I2cBus::write(unsigned char addr, unsigned char reg, unsigned char byte){
 
     unsigned char outbuf[2];
     struct i2c_rdwr_ioctl_data packets;
@@ -109,7 +106,7 @@ int clixxIO_I2C_device::write(unsigned char reg, unsigned char byte){
 
 }
 
-char clixxIO_I2C_device::read(
+char ClixxIO_I2cBus::read(  				 
                             unsigned char addr,
                             unsigned char reg,
                             unsigned char *val) {
@@ -147,7 +144,7 @@ char clixxIO_I2C_device::read(
 	
 }
 
-int clixxIO_I2C_device::read_nbytes_data(char *data, int n){
+int ClixxIO_I2cBus::read_nbytes_data(char *data, int n){
 	
 }
 
