@@ -1,3 +1,31 @@
+David's ToDo List
+=================
+
+ - Attiny Board
+   Add I2C pullup resistors and a tiny switch for switching Master/Slave-RxTx
+   Change the processor footprint to the bigger one
+
+ - Dock
+   Fix bolt-wholes and move connectors
+
+ - Toshiba Motor Controller
+
+ - RGB Chainable LED Board
+
+ - Bluetooth board
+
+ - Recheck the LCD board
+
+ - Order parts
+   - LCD's
+   - voltage convertors
+   - buttons
+   - terminals
+
+ - Order pcb's
+   - buttons x 50
+   - LED's x 50
+   - 
 
 LCD for Arduino
 -------------
@@ -7,13 +35,21 @@ http://magnusglad.wordpress.com/2013/03/16/arduino-lcd/
 Boards to do
 ------------
 
- - DS18B0 Temperature sensor, RGB-LED, AA-Battery, BaseTwinTab, BaseSingleTab
+ - DS18B0 Temperature sensor, 
+ - RGB-LED, AA-Battery, BaseTwinTab, BaseSingleTab
+ - Toshiba Motor Controller
+ - Potentiometer
+ - Bluetooth HC-05
+ 
 
 Growl and Ubuntu Notifications
 ------------------------------
 
  - https://github.com/kfdm/gntp/
  - http://ubuntuforums.org/showthread.php?t=642997 
+
+Mosquitto Server
+----------------
 
 Jabber Notifications
 --------------------
@@ -38,6 +74,10 @@ Stencils
 
 AVR Programming
 ---------------
+
+ - Serial Code
+ - Timers
+ - PinChange Interrupts
 
 http://www.instructables.com/id/How-to-program-ATtiny85-with-Raspberry-Pi/
 
