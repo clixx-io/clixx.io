@@ -50,9 +50,11 @@ ClixxIO_i2cLCD::ClixxIO_i2cLCD(int deviceAddress, int bus){
     // Make Sure "EN" is 0 or low
     i2cbus->write(device, GPIO, 0x00);
     // Set "R/S" to 0 for a command, or 1 for data/characters
-    out = 0x00
+    unsigned char out = 0x00;
+    
     if (!cmd)
       out = out | LCD_COMMAND;
+      
     i2cbus->write(device, GPIO, out);
     // Put the HIGH BYTE of the data/command on D7-4
     out = out | ((value >> 4) & LCD_DATA);
@@ -68,16 +70,16 @@ ClixxIO_i2cLCD::ClixxIO_i2cLCD(int deviceAddress, int bus){
     // Wait 5ms for command writes, and 200us for data writes.
     sleep(DELAY);
     // Put the LOW BYTE of the data/command on D7-4
-    out := (out & ~LCD_DATA) | (value & LCD_DATA);
+    out = (out & ~LCD_DATA) | (value & LCD_DATA);
     i2cbus->write(device, GPIO, out);
     // Set "EN" (EN= 1 or High)
-    out := out | LCD_ENABLE;
+    out = out | LCD_ENABLE;
     i2cbus->write(device, GPIO, out);
     // Wait At Least 450 ns!!!
     sleep(PULSE);
     // Clear "EN" (EN= 0 or Low)
     out = out & ~LCD_ENABLE;
-    i2cbus->write(device, GPIO, out)
+    i2cbus->write(device, GPIO, out);
     // Wait 5ms for command writes, and 200us for data writes.
     sleep(DELAY);
 }
@@ -86,12 +88,12 @@ void ClixxIO_i2cLCD::_update(){
     /* 
      * Update the display with the contents of the buffer
     */
-    i2cbus->_writeLCD(self.LCD_LINE_1, True)
+    _writeLCD(LCD_LINE_1, true);
     for (int ch=0; ch<strlen(lines[0];ch++)
-      i2cbus->_writeLCD(ord(ch), False);
-    self._writeLCD(self.LCD_LINE_2, True);
+      _writeLCD(ord(ch), false);
+    _writeLCD(LCD_LINE_2, true);
     for (int ch=0; ch<strlen(lines[1];ch++)
-      i2cbus->_writeLCD(ord(ch), False);
+      _writeLCD(ord(ch), false);
     }
 
   // --------------------------------------------------------------------------
@@ -104,18 +106,18 @@ void ClixxIO_i2cLCD::setup()
      * Set up the connection to the device
      */
     // Set up the IO expander
-    i2cbus->write(device, self.GPIO,  0x00); // Clear outputs
-    i2cbus->write(device, self.IODIR, 0x00); // Direction
-    i2cbus->write(device, self.GPPU,  0x00); // Pull ups
-    i2cbus->write(device, self.IPOL,  0x00); // Polarity
+    i2cbus->write(device, GPIO,  0x00); // Clear outputs
+    i2cbus->write(device, IODIR, 0x00); // Direction
+    i2cbus->write(device, GPPU,  0x00); // Pull ups
+    i2cbus->write(device, IPOL,  0x00); // Polarity
     // Initialise the display in 4 bit mode
-    _writeLCD(0x33, True);
-    _writeLCD(0x32, True);
-    _writeLCD(0x28, True);
+    _writeLCD(0x33, true);
+    _writeLCD(0x32, true);
+    _writeLCD(0x28, true);
     // Set up initial state
-    _writeLCD(0x0C, True);
-    _writeLCD(0x06, True);
-    _writeLCD(0x01, True);
+    _writeLCD(0x0C, true);
+    _writeLCD(0x06, true);
+    _writeLCD(0x01, true);
 }
 
 void ClixxIO_i2cLCD::gotoXY(int x, y){
@@ -169,14 +171,13 @@ void ClixxIO_i2cLCD::clear(){
 int main(){
 
   // Set up WiringPi and connect to the IO expander
-  i2cbus->wiringPiSetupPhys()
-  dev = i2cbus->wiringPiI2CSetup(0x20)
-  if (dev < 0){
-    print "ERROR: Could not connect to device!"
+  ClixxIO_I2cBus *bus = new ClixxIO_I2cBus(1);
+  if (bus == 0){
+    puts("ERROR: Could not connect to device!");
     exit(1);
   }
   // Now create the LCD interface
-  lcd = i2cLCD(dev);
+  ClixxIO_i2cLCD *lcd = new ClixxIO_i2cLCD(0x20,1);
   lcd->setup();
   lcd->gotoXY(0, 0);
   lcd->write("clixx.io I2C-LCD");
@@ -190,7 +191,7 @@ int main(){
     lcd->gotoXY(0, 1);
     lcd->write(padding + "It works!");
     padding = padding + " ";
-    if len(padding) > 16:
+    if (len(padding) > 16)
       padding = " ";
     sleep(0.1);
   }

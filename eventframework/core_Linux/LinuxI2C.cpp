@@ -1,7 +1,7 @@
 /*
  This software uses a BSD license.
 
-Copyright (c) 2010, Sean Cross / chumby industries
+Based on code : Copyright (c) 2010, Sean Cross / chumby industries
 All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -144,7 +144,8 @@ char ClixxIO_I2cBus::read(
 	
 }
 
-int ClixxIO_I2cBus::read_nbytes_data(char *data, int n){
+int ClixxIO_I2cBus::read_nbytes_data(unsigned char addr, char *data, int n){
+
 	
 }
 

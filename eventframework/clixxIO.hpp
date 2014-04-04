@@ -146,7 +146,7 @@ class ClixxIO_I2cBus {
 
     int write(unsigned char addr, unsigned char reg, unsigned char byte);
     char read(unsigned char addr, unsigned char reg, unsigned char *val);
-    int read_nbytes_data(int device, char *data, int n);
+    int read_nbytes_data(unsigned char addr, char *data, int n);
 
   private:
     int i2c_file;	
