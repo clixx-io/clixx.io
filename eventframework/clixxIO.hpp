@@ -53,7 +53,7 @@ class clixxIOApp{
   #include <windows.h>
   inline void delay( unsigned long ms ){ Sleep( ms ); }
 
-#else  /* presume POSIX */
+#elif defined(TARGET_LINUX)  /* presume POSIX */
 
   #include <unistd.h>
 
