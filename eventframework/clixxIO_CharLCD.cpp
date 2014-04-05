@@ -27,12 +27,16 @@ ClixxIO_i2cLCD::ClixxIO_i2cLCD(int deviceAddress, int bus){
     //"
     /*
     self.device = device;
-    self.lines = [
+    line = [
       [ " " ] * 16,
       [ " " ] * 16
       ];
     self.where = [ 0, 0 ];
     */
+    
+    lines[0] = malloc(16);
+    lines[1] = malloc(16);
+    where_x, where_y = 0;
     
     i2cbus = new ClixxIO_I2cBus(bus);
     

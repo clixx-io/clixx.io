@@ -158,6 +158,7 @@ class ClixxIO_I2cBus {
 class ClixxIO_I2cDevice {
 
   public:
+    ClixxIO_I2cDevice();
     ClixxIO_I2cDevice(int deviceAddress, int bus = 1);
 
   protected:
@@ -220,6 +221,9 @@ public:
     
   protected:
     ClixxIO_I2cBus *i2cbus;
+    char *lines[2];
+    unsigned int where_x;
+    unsigned int where_y;
 
  };
  

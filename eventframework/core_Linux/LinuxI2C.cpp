@@ -70,6 +70,9 @@ ClixxIO_I2cBus::ClixxIO_I2cBus(int bus){
 
 }
 
+ClixxIO_I2cDevice::ClixxIO_I2cDevice(){
+}
+
 ClixxIO_I2cDevice::ClixxIO_I2cDevice(int addr, int bus){
 }
 
