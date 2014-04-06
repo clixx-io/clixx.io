@@ -221,9 +221,8 @@ public:
     
   protected:
     ClixxIO_I2cBus *i2cbus;
-    char *lines[2];
-    unsigned int where_x;
-    unsigned int where_y;
+    char lines[2][16];
+    unsigned int where[2];
 
  };
  

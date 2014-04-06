@@ -25,19 +25,17 @@ const int ClixxIO_i2cLCD::LCD_LINE_2 = 0xC0;  // LCD RAM address for the 2nd lin
 ClixxIO_i2cLCD::ClixxIO_i2cLCD(int deviceAddress, int bus){
     //" Constructor
     //"
+
     /*
-    self.device = device;
-    line = [
-      [ " " ] * 16,
-      [ " " ] * 16
-      ];
-    self.where = [ 0, 0 ];
+    Initialise
     */
+    where[0] = 0, where[1] = 0;
     
-    lines[0] = malloc(16);
-    lines[1] = malloc(16);
-    where_x, where_y = 0;
-    
+    // Fill buffer with spaces
+	for (int l=0;l<2;l++)
+	    for (int r=0;r<16;r++)
+	        lines[l][r] = ' ';
+	        
     i2cbus = new ClixxIO_I2cBus(bus);
     
     device = deviceAddress;
@@ -93,11 +91,11 @@ void ClixxIO_i2cLCD::_update(){
      * Update the display with the contents of the buffer
     */
     _writeLCD(LCD_LINE_1, true);
-    for (int ch=0; ch<strlen(lines[0];ch++)
-      _writeLCD(ord(ch), false);
+    for (int ch=0; ch<16;ch++)
+      _writeLCD(ch, false);
     _writeLCD(LCD_LINE_2, true);
-    for (int ch=0; ch<strlen(lines[1];ch++)
-      _writeLCD(ord(ch), false);
+    for (int ch=0; 16;ch++)
+      _writeLCD(ch, false);
     }
 
   // --------------------------------------------------------------------------
@@ -124,22 +122,25 @@ void ClixxIO_i2cLCD::setup()
     _writeLCD(0x01, true);
 }
 
-void ClixxIO_i2cLCD::gotoXY(int x, y){
+void ClixxIO_i2cLCD::gotoXY(int x, int y){
     /*
      * Move the cursor to the given position
     */
-    where = [ x % 16, y % 2 ];
+    where[0] = x % 16;
+    where[1] = y % 2 ;
 }
 
 void ClixxIO_i2cLCD::write(const char *text){
     /*
      * Write text to the current position
     */
-    for ch in text:
-      self.lines[self.where[1]][self.where[0]] = ch;
-      self.gotoXY(self.where[0] + 1, self.where[1]);
-    // Refresh
-    _update();
+    for (const char *ch = text;*ch != 0; ch++){
+    
+		lines[where[1]][where[0]] = *ch;
+		gotoXY(where[0] + 1, where[1]);
+		// Refresh
+		_update();
+	}
 }
 
 void ClixxIO_i2cLCD::writeline(int lineno, const char *text){
@@ -147,30 +148,38 @@ void ClixxIO_i2cLCD::writeline(int lineno, const char *text){
      * Write a line of text justified
     */
     gotoXY(0,lineno);
-  
-    text = text.ljust(16);
 
-    for ch in text:
-      lines[self.where[1]][self.where[0]] = ch;
-      gotoXY(self.where[0] + 1, self.where[1]);
-    // Refresh
-    _update();
+	// Left Justify
+	const char *ch = text;
+	while (*ch == ' ')
+		ch++;
+
+    for (;*ch != 0; ch++){
+
+		lines[where[1]][where[0]] = *ch;
+		gotoXY(where[0] + 1, where[1]);
+		// Refresh
+		_update();
+	}
 }
 
 void ClixxIO_i2cLCD::clear(){
     /* 
      * Clear the display
     */
-    lines = [
-      [ " " ] * 16,
-      [ " " ] * 16
-      ]
+    // Fill buffer with spaces
+	for (int l=0;l<2;l++)
+	    for (int r=0;r<16;r++)
+	        lines[l][r] = ' ';
+
     _update();
 }
 
 /*----------------------------------------------------------------------------
  * Main program
  *----------------------------------------------------------------------------*/
+#include "stdio.h"
+#include "stdlib.h"
 
 int main(){
 
@@ -189,13 +198,14 @@ int main(){
   lcd->write("It works!");
   sleep(3);
   lcd->gotoXY(0, 1);
-  lcd->write(" " * 16);
-  padding = "";
+  for (int i=0;i<16;i++)
+	lcd->write(" ");
+  char padding = 16;
   while (1){
     lcd->gotoXY(0, 1);
-    lcd->write(padding + "It works!");
-    padding = padding + " ";
-    if (len(padding) > 16)
-      padding = " ";
+    for (int i=0;i<padding;i++)
+		lcd->write(" ");
+    lcd->write("It works!");
     sleep(0.1);
   }
+}
