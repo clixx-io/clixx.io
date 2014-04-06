@@ -1,5 +1,7 @@
 
 // This example is taken from http://www.avrfreaks.net/index.php?name=PNphpBB2&file=printview&t=83193
+//
+// however, better code is probably at : http://code.google.com/p/usi-i2c-slave/
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -12,11 +14,11 @@
 
 // Port for the I2C
 #define I2C_DDR PORTB
-#define I2C_PIN PB0
+#define I2C_PIN PB1
 #define I2C_PORT PORTB
 
 // Pins to be used in the bit banging
-#define I2C_CLK PB0
+#define I2C_CLK PB2
 #define I2C_DAT PB1
 
 #define I2C_DATA_HI() I2C_DDR &= ~( 1 << I2C_DAT );
