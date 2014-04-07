@@ -79,6 +79,8 @@ AVR Programming
  - Timers
  - PinChange Interrupts
 
+http://forums.trossenrobotics.com/tutorials/how-to-diy-128/complete-control-of-an-arduino-via-serial-3300/
+
 http://www.instructables.com/id/How-to-program-ATtiny85-with-Raspberry-Pi/
 
 http://extremeelectronics.co.in/avr-tutorials/using-the-analog-to-digital-converter/
