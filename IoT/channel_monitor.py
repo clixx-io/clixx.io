@@ -10,31 +10,31 @@
 
 import pynotify
 import mosquitto
+import sys, platform
 
 #define what happens after connection
 def on_connect(rc):
-    print "Connected"
+    print("Connected to %s as %s" % ('test.mosquitto.org',platform.node()))
 
 #On recipt of a message create a pynotification and show it
 def on_message(msg):
     n = pynotify.Notification (msg.topic, msg.payload)
     n.show ()
 
-pynotify.init("python_sub")
+pynotify.init(platform.node())
 
-#create a broker
-mqttc = mosquitto.Mosquitto("python_sub")
+#create a broker using our machine name
+mqttc = mosquitto.Mosquitto(platform.node())
 
 #define the callbacks
 mqttc.on_message = on_message
 mqttc.on_connect = on_connect
 
 #connect
-mqttc.connect("localhost", 1883, 60, True)
+mqttc.connect("test.mosquitto.org", 1883, 60, True)
 
 #subscribe to topic test
-mqttc.subscribe("hello/world", 2)
-
+mqttc.subscribe("clixx.io/hello", 2)
 
 #keep connected to broker
 while mqttc.loop() == 0:
