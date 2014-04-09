@@ -64,9 +64,15 @@ can then customise to suit your needs.
 			   "program_network_socket_client" : "Your program may wish to connect to other socket servers and push/pull data over a socket-stream."
 			   }
 
-	def __init__(self, project_name,deployment_platform='local'):
+	iot_dir = "IoT"
+    
+	def __init__(self, project_name = None,deployment_platform='local'):
 
 		self.project_name = project_name
+		if not self.project_name is None:
+			self.projectdir = os.path.expanduser(os.path.join("~",self.iot_dir,self.project_name))
+
+		self.templatedir = os.path.abspath('../eventframework/templates')
 		self.deployment_platform = deployment_platform
 		self.selections = []
 		
@@ -85,7 +91,7 @@ can then customise to suit your needs.
 		print self.intro
 		
 		while self.project_name is None:
-			self.project_name = raw_input("What is the project filename (used to make the .cpp file) ? ")
+			self.project_name = raw_input("What is the project name (used to make the directory and .cpp file) ? ")
 		
 		for x in self.prompts.keys():
 			if x in capabilities:
@@ -119,11 +125,14 @@ can then customise to suit your needs.
 		Create the Project Directory if it doesn't already exist
 		"""
 		
-		if not os.path.exists(self.project_name):
-			os.makedirs(self.project_name)
-			
-		if not os.path.exists(os.path.join(self.project_name,'clixxIO.hpp')):
-			shutil.copyfile('clixxIO.hpp', os.path.join(self.project_name,'clixxIO.hpp'))
+		self.projectdir = os.path.expanduser(os.path.join("~",self.iot_dir,self.project_name))
+		
+		if not os.path.exists(self.projectdir):
+			print(" - Creating directory %s" % self.projectdir)
+			os.makedirs(self.projectdir)
+		
+		if not os.path.exists(os.path.join(self.projectdir,'clixxIO.hpp')):
+			shutil.copyfile(os.path.join(os.path.abspath('../eventframework'),'clixxIO.hpp'), os.path.join(self.projectdir,'clixxIO.hpp'))
 			
 	def render_files(self):
 		"""
@@ -131,43 +140,43 @@ can then customise to suit your needs.
 		"""
 		
 		self.create_projectdir()
-			
+
 		self.render_makefile()
-			
+
 		self.render_maincppfile()
-			
+
 		self.render_mainhppfile()
-			
+
 		self.render_maincallbackfile()
 		
-		print("Project files successfully rendered to %s" % os.path.abspath(self.project_name))
+		print("Project files successfully rendered to %s" % os.path.abspath(self.projectdir))
 
 	def render_makefile(self):
 		"""
 		Render a standard gnu Makefile using a template with the settings held in memory
 		"""
 	
-		makefile = open(os.path.join(self.project_name,'Makefile'), 'w')	
+		makefile = open(os.path.join(self.projectdir,'Makefile'), 'w')
 		
-		mytemplate = Template(filename='templates/makefile-avr.tmpl')
+		mytemplate = Template(filename=os.path.join(self.templatedir,'makefile-avr.tmpl'))
 		makefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 
 	def render_maincppfile(self):
 		"""
 		Render the main .cpp file using a template with the settings held in memory
 		"""
-		mainfile = open(os.path.join(self.project_name,self.project_name+'.cpp'), 'w')	
+		mainfile = open(os.path.join(self.projectdir,self.project_name+'.cpp'), 'w')	
 		
-		mytemplate = Template(filename='templates/main-cpp.tmpl')
+		mytemplate = Template(filename=os.path.join(self.templatedir,'main-cpp.tmpl'))
 		mainfile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 		
 	def render_mainhppfile(self):
 		"""
 		Render the main .hpp file using a template with the settings held in memory
 		"""
-		mainincludefile = open(os.path.join(self.project_name,self.project_name+'-config.hpp'), 'w')	
+		mainincludefile = open(os.path.join(self.projectdir,self.project_name+'-config.hpp'), 'w')	
 		
-		mytemplate = Template(filename='templates/main-hpp.tmpl')
+		mytemplate = Template(filename=os.path.join(self.templatedir,'main-hpp.tmpl'))
 		mainincludefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 		
 	def render_maincallbackfile(self):
@@ -175,18 +184,18 @@ can then customise to suit your needs.
 		Render the main callback .cpp file using a template with the settings held in memory
 		"""
 	
-		mainincludefile = open(os.path.join(self.project_name,self.project_name+'-callbacks.cpp'), 'w')	
+		mainincludefile = open(os.path.join(self.projectdir,self.project_name+'-callbacks.cpp'), 'w')	
 		
-		mytemplate = Template(filename='templates/main-callbacks.tmpl')
+		mytemplate = Template(filename=os.path.join(self.templatedir,'main-callbacks.tmpl'))
 		mainincludefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 		
 		
 if __name__ == "__main__":
 
-	project = clixxIOEventTemplateBuilder('myproject','attiny85')
+	project = clixxIOEventTemplateBuilder(deployment_platform='attiny85')
     
 	project.user_prompts()
-	
+
 	project.render_files()
     
 
