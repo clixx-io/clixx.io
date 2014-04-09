@@ -45,15 +45,16 @@ can then customise to suit your needs.
 
 	system_capabilities = {
 			   "attiny13" : "program_loop|program_timers|program_pinchange",
-			   "attiny85" : "program_loop|program_timers|program_pinchange|program_serial"
+			   "attiny85" : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub"
 				}
 
 	prompts = {"program_loop" : "Does the program need a polling loop (y,n,i) ? ",
-			   "program_timers" : "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
-			   "program_pinchange" : "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
-			   "program_serial" : "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
-			   "program_network_socket_server" : "Does the program need to handle incoming network sockets (network-socket-server) (y,n,i) ? ",
-			   "program_network_socket_client" : "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? "
+			   # "program_timers" : "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
+			   # "program_pinchange" : "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
+			   # "program_serial" : "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
+			   # "program_network_socket_server" : "Does the program need to handle incoming network sockets (network-socket-server) (y,n,i) ? ",
+			   # "program_network_socket_client" : "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? "
+			   "mqtt_sub" : "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? "
 			   }
 
 	info    = {"program_loop" : "Normally within main(), programs have a repeating for (;;){} loop. In Wiring/Arduino, this is broken out to a loop() method. If you have code that loops, then you will need this construct.",
@@ -61,7 +62,8 @@ can then customise to suit your needs.
 			   "program_pinchange" : "PinChange Interrupts occur when a GPIO pin changes. This is usually RISING/FALLING/CHANGE.",
 			   "program_serial" : "Serial Data can captured on interrupts and fed to your program as events.",
 			   "program_network_socket_server" : "Your program may wish to utilise a socket server to receive data from other computers",
-			   "program_network_socket_client" : "Your program may wish to connect to other socket servers and push/pull data over a socket-stream."
+			   "program_network_socket_client" : "Your program may wish to connect to other socket servers and push/pull data over a socket-stream.",
+			   "mqtt_sub" : "Your program may wish to subscribe to Internet-of-Tnings events and notifications"
 			   }
 
 	iot_dir = "IoT"
