@@ -102,10 +102,12 @@ static void processcommand(const char *buffer)
 					{
 						v = 0;
 						PORTB &= ~(1<<PB4);    		// Turn pin off
+						
 					} else if (*(buffer+4) == '1')
 					{
 						v = 1;
 						PORTB |= (1<<PB4);    		// Else turn pin on
+						
 					} else
 					{
 						e = 3;
