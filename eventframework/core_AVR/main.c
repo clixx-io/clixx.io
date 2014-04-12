@@ -46,12 +46,11 @@ Data:         52 bytes (10.2% Full)
 #include <avr/pgmspace.h>
 #include "softuart.h"
 
-
 #if WITH_STDIO_DEMO
 #include <stdio.h>
 
 // interface between avr-libc stdio and software-UART
-static int my_stdio_putchar( char c, FILE *stream )
+static int my_stdio_putchar( char c, FILE *stream
 {
 	if ( c == '\n' ) {
 		softuart_putchar( '\r' );
@@ -71,6 +70,118 @@ static void stdio_demo_func( void )
 }
 #endif /* WITH_STDIO_DEMO */
 
+void processcommand(const char *buffer)
+{
+	int e = 0;
+	int pin = 0;
+	int port = 0;
+	int v = 0;
+	
+	switch (*buffer)
+	{
+		case '?' : 	softuart_puts_P( "\r\nQuestionmark command\r\n" );
+					if (*(buffer+1) != 'd')
+					{
+						e = 4;
+						break;
+					}
+					port = *(buffer+2) - 48;		// Port Number ie 1,2,3 etc
+					softuart_puts_P( "Checking digital Port d" );
+					softuart_putchar( port + 48);
+
+					if (*(buffer+3) == 'i')			// Pin Number ie i,o
+					{
+						pin = 1;
+						softuart_puts_P( "-input" );
+					} else if (*(buffer+3) == 'o')
+					{
+						pin = 0;
+						softuart_puts_P( "-output" );
+					} else
+					{
+						e = 5;
+						break;
+					}
+					
+					softuart_puts_P( "\r\nValue is " );
+					softuart_putchar( '1');
+					break;
+					
+		case 'd' : 	softuart_puts_P( "\r\nDigital command\r\n" );
+					port = *(buffer+1) - 48;		// Port Number ie 1,2,3 etc
+					pin  = *(buffer+2) - 48;		// Pin  Number ie i,o,* etc
+					if (*(buffer+3) != '=')
+					{
+						e = 2;
+						break;
+					}
+					
+					if (*(buffer+4) == '0')
+						v = 0;
+					else if (*(buffer+4) == '1')
+						v = 1;
+					else
+					{
+						e = 3;
+						break;
+					}
+					softuart_puts_P( "\r\nPin set to " );
+					softuart_putchar( v + 48);
+					
+					break;
+
+		case 'a' : 	softuart_puts_P( "\r\nAnalog command\r\n" );
+					break;
+					
+		case 'h' : 	softuart_puts_P( "\r\nHelp\r\n"
+		                             " Commands are fixed format\r\n"
+		                             " Set Pin = d<port><pin>=<1/0>\r\n"
+		                             "           eg \"d1o=1\" to set Digital Port-1 Output to On\r\n"
+		                             "           eg \"d1o=0\" to set Digital Port-1 Output to Off\r\n"
+		                             " Read Pin = ?<port><pin>\r\n"
+		                             "           eg \"?d1i\" to print value of Digital Port-1 Input\r\n"
+		                             );
+					break;
+
+		default  : e = 1;
+	}
+	
+	if (e)
+	{
+		softuart_putchar( '\n' );
+		softuart_putchar( '[' );
+		softuart_putchar( *buffer );
+		softuart_putchar( ']' );
+		softuart_puts_P( "\r\n" );    // "implicit" PSTR
+		softuart_puts_P( "!Bad command\r\n$ " );    // "implicit" PSTR
+	} else
+		softuart_puts_P( "\r\n$ " );    // "implicit" PSTR
+ 
+}
+
+void buildbuffer(unsigned char c)
+{
+
+	#define bufflen 10
+	static char buffer[bufflen];
+	static unsigned char buffpos = 0;
+
+	if (c == '\r')
+	{
+		processcommand(&buffer);
+		buffpos = 0;
+		
+	} 	else
+	{
+		if (buffpos < bufflen)
+		{
+			buffer[buffpos++] = c;
+			// softuart_putchar( 48 + buffpos - 1);
+		}
+	}
+	
+}
+
 
 int main(void)
 {
@@ -89,29 +200,29 @@ int main(void)
 	
 	sei();
 
-	softuart_puts_P( "\r\nClixx.io Softuart Demo-Application\r\n" );    // "implicit" PSTR
-	softuart_puts_p( PSTR("generic softuart driver code by Colin Gittins\r\n") ); // explicit PSTR
+	softuart_puts_P( "\r\nClixx.io Serial Terminal-Application\r\n" );    // "implicit" PSTR
+	softuart_puts_p( PSTR("uses generic softuart driver code by Colin Gittins\r\n") ); // explicit PSTR
 	softuart_puts_p( pstring ); // pstring defined with PROGMEM
-	softuart_puts( "--\r\n" );  // string "from RAM"
+	softuart_puts( "--\r\n$ " );  // string "from RAM"
 
 #if WITH_STDIO_DEMO
 	stdio_demo_func();
 #endif
-	
+
 	for (;;) {
 	
 		if ( softuart_kbhit() ) {
 			c = softuart_getchar();
-			softuart_putchar( '[' );
 			softuart_putchar( c );
-			softuart_putchar( ']' );
+			buildbuffer( c );
 		}
 
-		cnt++;
+		/* cnt++;
 		if (cnt == CNTHALLO) {
 			cnt = 0;
-			softuart_puts_P( " Hello " );
+			softuart_puts_P( "." );
 		}
+		*/
 		
 	}
 	

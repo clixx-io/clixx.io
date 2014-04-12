@@ -25,7 +25,7 @@
 #
 # make extcoff = Convert ELF to AVR Extended COFF.
 #
-# make program = Download the hex file to the device, using avrdude.
+# make deploy  = Download the hex file to the device, using avrdude.
 #                Please customize the avrdude settings below first!
 #
 # make debug = Start either simulavr or avarice as specified for debugging, 
@@ -448,7 +448,7 @@ gccversion :
 
 
 # Program the device.  
-program: $(TARGET).hex $(TARGET).eep
+deploy: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 
