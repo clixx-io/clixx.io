@@ -16,32 +16,9 @@ Test environment/settings:
 - 2400bps
 */
 
-/*
-AVR Memory Usage (-Os, no-inline small-functions, relax)
-----------------
-Device: atmega324p
-
-Program:     926 bytes (2.8% Full)
-(.text + .data + .bootloader)
-
-Data:         52 bytes (2.5% Full)
-(.data + .bss + .noinit)
-
-
-AVR Memory Usage (-Os)
-----------------
-Device: attiny85
-
-Program:     828 bytes (10.1% Full)
-(.text + .data + .bootloader)
-
-Data:         52 bytes (10.2% Full)
-(.data + .bss + .noinit)
-
-*/
-
 #define WITH_STDIO_DEMO   0 /* 1: enable, 0: disable */
 
+#include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include "softuart.h"
@@ -70,7 +47,12 @@ static void stdio_demo_func( void )
 }
 #endif /* WITH_STDIO_DEMO */
 
-void processcommand(const char *buffer)
+static void setup()
+{
+	 DDRB |= (1<<PB4);    	///PB5/digital 13 is an output
+}
+
+static void processcommand(const char *buffer)
 {
 	int e = 0;
 	int pin = 0;
@@ -116,16 +98,23 @@ void processcommand(const char *buffer)
 						break;
 					}
 					
-					if (*(buffer+4) == '0')
+					if (*(buffer+4) == '0')			// Value, 0=Off, 1=On
+					{
 						v = 0;
-					else if (*(buffer+4) == '1')
+						PORTB &= ~(1<<PB4);    		// Turn pin off
+					} else if (*(buffer+4) == '1')
+					{
 						v = 1;
-					else
+						PORTB |= (1<<PB4);    		// Else turn pin on
+					} else
 					{
 						e = 3;
 						break;
 					}
-					softuart_puts_P( "\r\nPin set to " );
+					softuart_puts_P( "\r\nPin d");
+					softuart_putchar( port + 48);
+					softuart_putchar( pin  + 48);
+					softuart_puts_P( " set to ");
 					softuart_putchar( v + 48);
 					
 					break;
@@ -176,7 +165,6 @@ void buildbuffer(unsigned char c)
 		if (buffpos < bufflen)
 		{
 			buffer[buffpos++] = c;
-			// softuart_putchar( 48 + buffpos - 1);
 		}
 	}
 	
@@ -187,7 +175,7 @@ int main(void)
 {
 	char c;
 	static const char pstring[] PROGMEM = 
-		"adapted for Atmel AVR and this demo by Martin Thomas\r\n";
+		"adapted for Atmel AVR by Martin Thomas\r\n";
 	unsigned short cnt = 0;
 #if (F_CPU > 4000000UL)
 #define CNTHALLO (unsigned int)(0xFFFF)
@@ -209,6 +197,8 @@ int main(void)
 	stdio_demo_func();
 #endif
 
+	setup();
+	
 	for (;;) {
 	
 		if ( softuart_kbhit() ) {
@@ -216,13 +206,6 @@ int main(void)
 			softuart_putchar( c );
 			buildbuffer( c );
 		}
-
-		/* cnt++;
-		if (cnt == CNTHALLO) {
-			cnt = 0;
-			softuart_puts_P( "." );
-		}
-		*/
 		
 	}
 	
