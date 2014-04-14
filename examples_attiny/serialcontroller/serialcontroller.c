@@ -1,8 +1,8 @@
 /* 
-	AVR Software-Uart Demo-Application 
+	AVR Serial Controller Demo-Application 
 	Version 0.4, 10/2010
 	
-	by Martin Thomas, Kaiserslautern, Germany
+	Based on code by Martin Thomas, Kaiserslautern, Germany
 	<eversmith@heizung-thomas.de>
 	http://www.siwawi.arubi.uni-kl.de/avr_projects
 	
@@ -12,7 +12,7 @@
 /* 
 Test environment/settings: 
 - avr-gcc 4.3.3/avr-libc 1.6.7 (WinAVR 3/2010)
-- Atmel ATmega324P @ 8MHz internal RC, ATtiny85 @ 1MHz internal RC
+- Atmel ATtiny85 @ 8MHz internal RC
 - 2400bps
 */
 
@@ -22,6 +22,14 @@ Test environment/settings:
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 #include "softuart.h"
+
+#define D1_I PB3
+#define D1_O PB4
+#define D1_S PB0
+
+#define D2_I PB2
+#define D2_O PB1
+#define D2_S PB5
 
 #if WITH_STDIO_DEMO
 #include <stdio.h>
@@ -49,7 +57,7 @@ static void stdio_demo_func( void )
 
 static void setup()
 {
-	 DDRB |= (1<<PB4);    	///PB5/digital 13 is an output
+	 DDRB |= (1<<D1_O);    	///PB5 /digital 13 is an output
 }
 
 static void processcommand(const char *buffer)
@@ -101,12 +109,12 @@ static void processcommand(const char *buffer)
 					if (*(buffer+4) == '0')			// Value, 0=Off, 1=On
 					{
 						v = 0;
-						PORTB &= ~(1<<PB4);    		// Turn pin off
+						PORTB &= ~(1<<D1_O);    		// Turn pin off
 						
 					} else if (*(buffer+4) == '1')
 					{
 						v = 1;
-						PORTB |= (1<<PB4);    		// Else turn pin on
+						PORTB |= (1<<D1_O);    		// Else turn pin on
 						
 					} else
 					{
