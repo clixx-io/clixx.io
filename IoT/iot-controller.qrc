@@ -1,7 +1,39 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource prefix="/">
-   <file>images/bad.svg</file>
-   <file>images/heart.svg</file>
-   <file>images/trash.svg</file>
-</qresource>
+<RCC>
+  <qresource prefix="/">
+    <file>images/radio_tower-128.png</file>
+    <file>images/remote_control-1281.png</file>
+    <file>images/walkie_talkie_radio-78.png</file>
+    <file>images/wind_turbine-128.png</file>
+    <file>images/hydroelectric-128.png</file>
+    <file>images/integrated_circuit-128.png</file>
+    <file>images/laser_beam-128.png</file>
+    <file>images/led_diode-128.png</file>
+    <file>images/nfc_checkpoint-128.png</file>
+    <file>images/pickup-78.png</file>
+    <file>images/piston-78.png</file>
+    <file>images/potentiometer-1281.png</file>
+    <file>images/pressure.png</file>
+    <file>images/relay-128.png</file>
+    <file>images/remote_control-1281.png</file>
+    <file>images/robot-128.png</file>
+    <file>images/sensor-128.png</file>
+    <file>images/solar_panel-78.png</file>
+    <file>images/speed.png</file>
+    <file>images/speedometer-78.png</file>
+    <file>images/stepper_motor-128.png</file>
+    <file>images/time.png</file>
+    <file>images/appointment_reminders-78.png</file>
+    <file>images/automotive-78.png</file>
+    <file>images/bug2-128.png</file>
+    <file>images/car_battery-78.png</file>
+    <file>images/circuit-128.png</file>
+    <file>images/circuit-1281.png</file>
+    <file>images/electrical_sensor-128.png</file>
+    <file>images/electrical_threshold-128.png</file>
+    <file>images/electricity-128.png</file>
+    <file>images/electronics-78.png</file>
+    <file>images/electronics-128.png</file>
+    <file>images/engine-78.png</file>
+    <file>images/engineering-128.png</file>
+  </qresource>
 </RCC>
