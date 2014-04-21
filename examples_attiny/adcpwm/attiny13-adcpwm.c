@@ -15,8 +15,7 @@
 
 int main (void)
 {
-   DDRB |= (1 << 1); // my change here - use pb1
-   DDRB |= (1 << 0); // my change here - use pb0
+   DDRB |= (1 << LED_PIN);    // PB4 is an output
 
    ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 125KHz sample rate @ 16MHz
 

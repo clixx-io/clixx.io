@@ -41,11 +41,7 @@ void clixxIOSerial::end()
 	serial_feed_close(fd);
 }
 
-int clixxIOSerial::clixxIOSerial(ring_buffer *rx_buffer,
-      volatile uint8_t *ubrrh, volatile uint8_t *ubrrl,
-      volatile uint8_t *ucsra, volatile uint8_t *ucsrb,
-      volatile uint8_t *udr,
-      uint8_t rxen, uint8_t txen, uint8_t rxcie, uint8_t udre, uint8_t u2x)
+int clixxIOSerial::clixxIOSerial(unsigned char *rx_buffer, uint8_t rx_len)
 {
 	
 }

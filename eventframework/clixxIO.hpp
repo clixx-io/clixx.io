@@ -32,7 +32,9 @@ int addSerialInterruptEvent(int secs, void (*function)(int,int));
 
 void setMainAppPtr(void *mainClass);
 void C_timerevent( void* appC);
-void C_startupevent( void* appC);
+void C_setupevent( void* appC);
+void C_serialevent( void* appC);
+void C_iotevent( void* appC);
 
 class clixxIOApp{
 
@@ -40,6 +42,8 @@ class clixxIOApp{
 
      unsigned int (*loopmethod)(unsigned int);
      unsigned int (*timermethod)(unsigned int);
+     unsigned int (*serialmethod)(unsigned int);
+     unsigned int (*iotmethod)(unsigned int);
      
     public:
      int run();
@@ -92,8 +96,6 @@ extern int serial_feed_close(int tty_fd);
 // #include "core_build_options.h"
 // #include "Stream.h"
 
-struct ring_buffer;
-
 #ifdef Stream
 class clixxIOSerial : public Stream
 #else
@@ -101,34 +103,18 @@ class clixxIOSerial
 #endif
 {
   private:
-    ring_buffer *_rx_buffer;
-    volatile uint8_t *_ubrrh;
-    volatile uint8_t *_ubrrl;
-    volatile uint8_t *_ucsra;
-    volatile uint8_t *_ucsrb;
-    volatile uint8_t *_udr;
-    uint8_t _rxen;
-    uint8_t _txen;
-    uint8_t _rxcie;
-    uint8_t _udre;
-    uint8_t _u2x;
     #ifdef PLATFORM_LINUX
     int fd;
     #endif
     
   public:
-    clixxIOSerial(ring_buffer *rx_buffer,
-      volatile uint8_t *ubrrh, volatile uint8_t *ubrrl,
-      volatile uint8_t *ucsra, volatile uint8_t *ucsrb,
-      volatile uint8_t *udr,
-      uint8_t rxen, uint8_t txen, uint8_t rxcie, uint8_t udre, uint8_t u2x);
+    clixxIOSerial(unsigned char *rx_buffer, uint8_t rx_len);
     void begin(long);
     void end();
     virtual int available(void);
-    virtual int peek(void);
-    virtual int read(void);
+    virtual unsigned char read(void);
     virtual void flush(void);
-    virtual size_t write(uint8_t);
+    virtual int write(unsigned char);
 #ifdef Stream
     using print::write; // pull in write(str) and write(buf, size) from Print
 #endif
@@ -160,6 +146,21 @@ class ClixxIO_I2cDevice {
   public:
     ClixxIO_I2cDevice();
     ClixxIO_I2cDevice(int deviceAddress, int bus = 1);
+
+  protected:
+    ClixxIO_I2cBus *i2cbus;
+    int device;	
+};
+
+/*
+ * General IoT device class so that other devices can be added easily
+ *
+ */
+class ClixxIO_IoTPort : public clixxIOSerial {
+
+  public:
+    ClixxIO_IoTPort(unsigned char *rx_buffer, uint8_t rx_len);
+    ClixxIO_IoTPort();
 
   protected:
     ClixxIO_I2cBus *i2cbus;

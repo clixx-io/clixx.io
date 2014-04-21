@@ -62,10 +62,10 @@ class Window(QtGui.QDialog):
 
     def closeEvent(self, event):
         if self.trayIcon.isVisible():
-            QtGui.QMessageBox.information(self, "Clixx.io IoT Manager",
-                    "The program will keep running in the system tray. To "
-                    "terminate the program, choose <b>Quit</b> in the "
-                    "context menu of the system tray entry.")
+        #    QtGui.QMessageBox.information(self, "Clixx.io IoT Manager",
+        #            "The program will keep running in the system tray. To "
+        #            "terminate the program, choose <b>Quit</b> in the "
+        #            "context menu of the system tray entry.")
             self.hide()
             event.ignore()
 

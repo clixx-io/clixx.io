@@ -19,7 +19,7 @@
 ##
 
 PROGRAM = attiny13-adcpwm
-MCU = attiny13
+MCU = attiny85
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 CFLAGS += -Wall -g -Os -mmcu=$(MCU)
@@ -47,7 +47,7 @@ $(PROGRAM).hex: $(PROGRAM).elf
 
 flash: $(PROGRAM).hex
 	@printf "  FLASH   $(PROGRAM).hex\n"
-	$(Q)avrdude -c avrispv2 -P usb -p t13 -U flash:w:$(PROGRAM).hex
+	$(Q)avrdude -c avrispv2 -P usb -p t85 -U flash:w:$(PROGRAM).hex
 
 clean:
 	@printf "  CLEAN   $(subst $(shell pwd)/,,$(OBJS))\n"

@@ -21,13 +21,13 @@
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifeq ($(MCU),)
 MCU := attiny85
+F_CPU := 1000000UL
 endif
-F_CPU := $(MCU)
 
 LIBRARY = clixxIO_AVR_$(MCU)
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -mmcu=$(MCU) -DTARGET_AVR
+CFLAGS += -Wall -g -Os -mmcu=$(MCU) -DTARGET_AVR -DF_CPU=$(F_CPU) -I./
 LDFLAGS +=
 OBJS = $(PROGRAM).o
 
@@ -38,8 +38,8 @@ endif
 
 all: ../lib $(LIBRARY).a
 
-$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o
-	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o
 	@printf "  COPY $(LIBRARY).a ../lib\n"
 	$(Q)cp $(LIBRARY).a ../lib
 
@@ -58,9 +58,12 @@ $(PROGRAM).hex: $(PROGRAM).elf
 clixxIO_EventQ_AVR_$(MCU).o: clixxIO_EventQ.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_AVR_$(MCU).o clixxIO_EventQ.cpp
 
-clixxIO_Serial_AVR_$(MCU).o: core_AVR/softuart.c core_AVR/softuart.h
-	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_AVR_$(MCU).o core_AVR/softuart.c
+clixxIO_Serial_AVR_$(MCU).o: core_AVR/clixxIO_AVRSerial.cpp clixxIO.hpp core_AVR/softuart.h
+	$(CC) -c $(CFLAGS) -o clixxIO_Serial_AVR_$(MCU).o core_AVR/clixxIO_AVRSerial.cpp
    
+clixxIO_softuart_AVR_$(MCU).o: core_AVR/softuart.c core_AVR/softuart.h
+	$(CC) -c $(CFLAGS) -o clixxIO_softuart_AVR_$(MCU).o core_AVR/softuart.c
+
 ../lib: 
 	@printf "  CREATE ../lib\n"
 	$(Q)mkdir ../lib

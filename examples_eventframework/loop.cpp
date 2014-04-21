@@ -1,6 +1,7 @@
 /* Simple Loop
-
-A trivial simple example of using circuits and timers.
+ * 
+ *  A trivial simple example of a clixx.io loop.
+ * 
 */
 
 #include <stdio.h>
@@ -8,25 +9,20 @@ A trivial simple example of using circuits and timers.
 
 class App : public clixxIOApp{
 
-    int loopevent(){
-        /* hello loop handler
-
-         This runs repeatedly
+    int loop(){
+        /* loop handler
+         * 
+         * This runs repeatedly
+         * 
         */
-
         printf("Program is running");
     };
     
-    int started(){
+    int setup(){
         /* started Event handler
-
-        Setup a loop event to continuously run. This would
-        be like the for(;;) loop in a traditional embedded
-        program
-        
+        Setup and register the loop event to continuously run. 
         */
-
-        addLoopEvent(&loopevent());
+        addLoopEvent(&loop());
     };
     
 };

@@ -48,15 +48,11 @@ Growl and Ubuntu Notifications
  - https://github.com/kfdm/gntp/
  - http://ubuntuforums.org/showthread.php?t=642997 
 
-Mosquitto Server
-----------------
+Test framework
+--------------
 
-Jabber Notifications
---------------------
-
-http://prosody.im/
-http://spectrum.im/
-
+ - http://code.google.com/p/googletest/wiki/V1_5_Primer
+ 
 Windows-8 Tile Updates
 ----------------------
 
@@ -79,7 +75,11 @@ AVR Programming
  - Timers
  - PinChange Interrupts
 
-http://forums.trossenrobotics.com/tutorials/how-to-diy-128/complete-control-of-an-arduino-via-serial-3300/
+  I/O
+   - https://mainframe.cx/~ckuethe/avr-c-tutorial/
+
+  Reference
+   - http://iamsuhasm.wordpress.com/tutsproj/avr-gcc-tutorial/
 
 http://www.instructables.com/id/How-to-program-ATtiny85-with-Raspberry-Pi/
 
@@ -89,10 +89,13 @@ http://nerdralph.blogspot.ca/2014/01/nrf24l01-control-with-3-attiny85-pins.html
 
 GUI for avrdude
  - http://aef-embedded.blogspot.com.au/2009/06/avrdude-gui-for-ubuntu.html
+
+Fuses
+ - http://www.engbedded.com/fusecalc
+ - http://www11.ocn.ne.jp/~maracas/avrfuse.html
  
 http://www.avrfreaks.net/index.php?name=PNphpBB2&file=viewtopic&t=86280
 http://stackoverflow.com/questions/5412727/avrisp-mkii-doesnt-work-with-avrdude-in-linux
-http://www11.ocn.ne.jp/~maracas/avrfuse.html
 http://arduinoexplained.blogspot.com.au/search?updated-min=2012-01-01T00:00:00-05:00&updated-max=2013-01-01T00:00:00-05:00&max-results=20
 http://ubuntuforums.org/showthread.php?t=1985915
 

@@ -39,50 +39,6 @@
 int howmany = 0;
 void *pMainClass;	
 
-/** ---------------------------------------------------------------
- * Message Queue Class for passing messages to the
- * application.
- *
- */
-class clixxIOMsgQ {
-
-  public:                    	// begin public section
-    clixxIOMsgQ();     		// constructor
-    ~clixxIOMsgQ();          	// destructor
-    
-    int peekMsg() const;
-    int getMsg();
-    
-    int run();  				// Main event for running
-    
- private:                   	// begin private section
-
-    int eventlist[10];
-    
-};
-
-/**
- * Message Queue Constructor
- */
-clixxIOMsgQ::clixxIOMsgQ()
-{
-}
-
-/**
- * Message Queue Destructor
- */
-clixxIOMsgQ::~clixxIOMsgQ()                 // destructor, just an example
-{
-}
-
-/**
- * Message Queue Run Method
- */
-int clixxIOMsgQ::run()
-{
-	return 0;
-}
-
 /**
  * Handle a repeating interrupt using the Linux
  * Kernel
@@ -181,11 +137,13 @@ clixxIOApp::~clixxIOApp()
 int clixxIOApp::run()
 {
 
-  C_startupevent(pMainClass);
+  C_setupevent(pMainClass);
   
   puts("Application now in main loop");
   
-  for (;;);
+  for (;;)
+  {
+  }
   
   return 0;
 }
@@ -253,3 +211,45 @@ int addSerialInterruptEvent(int secs, void (*function)())
 	return 1;
 }
 
+/** ---------------------------------------------------------------
+ * Message Queue Class for passing messages to the
+ * application.
+ *
+ */
+class clixxIOMsgQ {
+
+  public:                    	// begin public section
+    clixxIOMsgQ();     		// constructor
+    ~clixxIOMsgQ();          	// destructor
+    
+    int peekMsg() const;
+    int getMsg();
+    
+    int run();  				// Main event for running
+    
+ private:                   	// begin private section
+
+    int eventlist[10];
+    
+};
+
+/**
+ * Message Queue Constructor
+ */
+clixxIOMsgQ::clixxIOMsgQ()
+{
+}
+
+/**
+ * Message Queue Destructor
+ */
+clixxIOMsgQ::~clixxIOMsgQ()                 // destructor, just an example
+{
+}
+/**
+ * Message Queue Run Method
+ */
+int clixxIOMsgQ::run()
+{
+	return 0;
+}
