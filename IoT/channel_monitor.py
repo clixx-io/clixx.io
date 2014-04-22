@@ -16,6 +16,10 @@ import sys, platform
 def on_connect(rc):
     print("Connected to %s as %s" % ('test.mosquitto.org',platform.node()))
 
+#define what happens if connection drops
+def on_disconnect(rc):
+    print("Disconnect")
+
 #On recipt of a message create a pynotification and show it
 def on_message(msg):
     n = pynotify.Notification (msg.topic, msg.payload)
@@ -29,6 +33,7 @@ mqttc = mosquitto.Mosquitto(platform.node())
 #define the callbacks
 mqttc.on_message = on_message
 mqttc.on_connect = on_connect
+mqttc.on_disconnect = on_disconnect
 
 #connect
 mqttc.connect("test.mosquitto.org", 1883, 60, True)
