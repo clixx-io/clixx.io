@@ -27,7 +27,7 @@
 #include "clixxIO.hpp"
 #include "core_AVR/softuart.h"
 
-clixxIOSerial::clixxIOSerial(unsigned char *rx_buffer, uint8_t rx_len)
+clixxIOSerial::clixxIOSerial()
 {
 	
 }
@@ -40,7 +40,7 @@ int clixxIOSerial::begin(const char *portname, long baudrate)
 
 	softuart_turn_rx_on();
 
-	return;
+	return 0;
 }
 
 void clixxIOSerial::end()
