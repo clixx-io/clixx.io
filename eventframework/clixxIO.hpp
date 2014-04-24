@@ -102,13 +102,13 @@ class clixxIOSerial : public Stream
 class clixxIOSerial
 #endif
 {
-  private:
-    #ifdef PLATFORM_LINUX
+  public:
+//    #ifdef PLATFORM_LINUX
     int fd;
-    #endif
+//    #endif
     
   public:
-    clixxIOSerial(unsigned char *rx_buffer, uint8_t rx_len);
+    clixxIOSerial();
     int begin(const char *portname, long baudrate);
     void end();
     virtual int available(void);
@@ -119,6 +119,8 @@ class clixxIOSerial
 #ifdef Stream
     using print::write; // pull in write(str) and write(buf, size) from Print
 #endif
+
+
 };
 
 /*

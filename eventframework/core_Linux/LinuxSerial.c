@@ -50,6 +50,7 @@
 int serial_feed_setup(const char *portname, long baudrate);
 int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars = 0);
 int serial_feed_close(int tty_fd);
+int serial_available(int tty_fd);
 int term_setup(int fd, long baudrate);
 
 #ifdef UUCP_LOCK_DIR
@@ -60,8 +61,7 @@ int term_setup(int fd, long baudrate);
 
 char lockname[_POSIX_PATH_MAX] = "";
 
-int
-uucp_lockname(const char *dir, const char *file)
+int uucp_lockname(const char *dir, const char *file)
 {
 	char *p, *cp;
 	struct stat sb;
@@ -83,8 +83,7 @@ uucp_lockname(const char *dir, const char *file)
 	return 0;
 }
 
-int
-uucp_lock(void)
+int uucp_lock(void)
 {
 	int r, fd, pid;
 	char buf[16];
@@ -123,8 +122,7 @@ uucp_lock(void)
 	return 0;
 }
 
-int
-uucp_unlock(void)
+int uucp_unlock(void)
 {
 	if ( lockname[0] ) unlink(lockname);
 	return 0;
@@ -134,13 +132,11 @@ uucp_unlock(void)
 
 /**********************************************************************/
 
-void
-child_empty_handler (int signum)
+void child_empty_handler (int signum)
 {
 }
 
-void
-fatal (const char *format, ...)
+void fatal (const char *format, ...)
 {
 	char buf[256];
 	va_list args;
@@ -164,8 +160,7 @@ fatal (const char *format, ...)
 	exit(EXIT_FAILURE);
 }
 
-void
-establish_child_signal_handlers (void)
+void establish_child_signal_handlers (void)
 {
 	struct sigaction empty_action;
 	
@@ -238,6 +233,24 @@ int serial_feed_setup(const char *portname, long baudrate)
 	fds[0].events = POLLIN ;
 	
 	return(tty_fd);
+}
+
+int serial_available(int tty_fd)
+{
+	ssize_t rc = 0;
+	
+	int pollrc = poll( fds, 1, 1000);
+	if (pollrc < 0)
+	{
+		perror("poll");
+		return(pollrc);
+	}
+	else if( pollrc > 0)
+	{
+		if( fds[0].revents & POLLIN )
+			return(1)
+	}
+	return 0;
 }
 
 int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars)

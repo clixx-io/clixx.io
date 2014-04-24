@@ -27,14 +27,19 @@
 #include "clixxIO.hpp"
 
 extern int serial_feed_setup(const char *portname, long baudrate);
-extern int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars = 0);
+extern int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars);
 extern int serial_feed_close(int tty_fd);
+extern int serial_available(int tty_fd);
 extern int term_setup(int fd, long baudrate);
+
+clixxIOSerial::clixxIOSerial()
+{
+	fd = -1;
+}
 
 int clixxIOSerial::begin(const char *portname, long baudrate)
 {
 	return serial_feed_setup(portname, baudrate);
-	# term_setup(fd, baudrate);
 }
 
 void clixxIOSerial::end()
@@ -42,20 +47,19 @@ void clixxIOSerial::end()
 	serial_feed_close(fd);
 }
 
-int clixxIOSerial::clixxIOSerial(unsigned char *rx_buffer, uint8_t rx_len)
-{
-
-	return serial_feed_capture(fd, rx_buffer, rx_len);
-
-}
-
 int clixxIOSerial::available(void)
 {
+	return serial_available(fd);
 }
 
-int clixxIOSerial::read(void)
+unsigned char clixxIOSerial::read(void)
 {
-	return serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars = 0);
+	unsigned char rx_buff;
+
+	if (0==serial_feed_capture(fd, (char *) &rx_buff, 1))
+		return rx_buff;
+	else
+		return (unsigned char ) 0;
 }
 
 void clixxIOSerial::flush(void)
