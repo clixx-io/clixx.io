@@ -31,9 +31,10 @@ extern int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dum
 extern int serial_feed_close(int tty_fd);
 extern int term_setup(int fd, long baudrate);
 
-void clixxIOSerial::begin(long)
+int clixxIOSerial::begin(const char *portname, long baudrate)
 {
-	term_setup(fd);
+	return serial_feed_setup(portname, baudrate);
+	# term_setup(fd, baudrate);
 }
 
 void clixxIOSerial::end()
@@ -43,19 +44,18 @@ void clixxIOSerial::end()
 
 int clixxIOSerial::clixxIOSerial(unsigned char *rx_buffer, uint8_t rx_len)
 {
-	
+
+	return serial_feed_capture(fd, rx_buffer, rx_len);
+
 }
 
 int clixxIOSerial::available(void)
 {
 }
 
-int clixxIOSerial::peek(void)
-{
-}
-
 int clixxIOSerial::read(void)
 {
+	return serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars = 0);
 }
 
 void clixxIOSerial::flush(void)

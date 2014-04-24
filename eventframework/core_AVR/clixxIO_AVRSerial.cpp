@@ -32,19 +32,21 @@ clixxIOSerial::clixxIOSerial(unsigned char *rx_buffer, uint8_t rx_len)
 	
 }
 
-void clixxIOSerial::begin(long)
+int clixxIOSerial::begin(const char *portname, long baudrate)
 {
 	// Setting the baud rate isn't supported if we are using softuart
-	
+
 	softuart_init();
-	
+
 	softuart_turn_rx_on();
-	
+
 	return;
 }
 
 void clixxIOSerial::end()
 {
+	softuart_turn_rx_off();
+	
 	return;
 }
 
@@ -72,3 +74,9 @@ int clixxIOSerial::write(const unsigned char c)
 	return 0;
 }
 
+int clixxIOSerial::puts(const char *s)
+{
+	softuart_puts( s );
+	
+	return 0;
+}

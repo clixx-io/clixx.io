@@ -109,12 +109,13 @@ class clixxIOSerial
     
   public:
     clixxIOSerial(unsigned char *rx_buffer, uint8_t rx_len);
-    void begin(long);
+    int begin(const char *portname, long baudrate);
     void end();
     virtual int available(void);
     virtual unsigned char read(void);
     virtual void flush(void);
     virtual int write(unsigned char);
+    virtual int puts(const char *);
 #ifdef Stream
     using print::write; // pull in write(str) and write(buf, size) from Print
 #endif

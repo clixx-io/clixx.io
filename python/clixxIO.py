@@ -12,7 +12,7 @@ _ = gettext.gettext
 
 
 clixxIOConfigName= "clixx.io.conf"
-SensorLogDir = "Sensor Logs"
+SensorProjectDir = "My IoT"
 
 formatter = logging.Formatter('%(asctime)s, %(message)s',"%Y-%m-%d %H:%M:%S")
 # Console Logging Handler
@@ -76,11 +76,11 @@ def GetConfigDir():
             homedir = os.path.join(os.path.expanduser("~"),"clixx.io")
             
     elif platform.system()=='Linux2':	
-		
-		clixxIOLogDir    = "/var/log"
-		clixxIOConfigDir = "/etc"
 
-		clixxIOConfigDir = os.path.join(os.getenv("HOME"),".clixx.io")
+        clixxIOLogDir    = "/var/log"
+        clixxIOConfigDir = "/etc"
+
+        clixxIOConfigDir = os.path.join(os.getenv("HOME"),".clixx.io")
 
     return homedir 
 
@@ -95,12 +95,12 @@ def sensorLogPath(sensorname):
 class ow_system:
     """ 
     Provided to extend access to the Dallas One Communication Bus
-	
+
     For Ubuntu, here's a list of packages: https://launchpad.net/ubuntu/+source/owfs
     """
 
     def linux_install(self):
-	
+
         spawntask("apt-get install -y owfs ow-shell python-ow")
 
 class i2c_system:
@@ -516,5 +516,3 @@ def clixxIOListProjects():
 
 def clixxIOStopProject(projectname):
     return
-
-    
