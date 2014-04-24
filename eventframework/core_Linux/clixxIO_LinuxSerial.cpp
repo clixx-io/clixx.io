@@ -65,8 +65,3 @@ unsigned char clixxIOSerial::read(void)
 void clixxIOSerial::flush(void)
 {
 }
-
-size_t write(uint8_t)
-{
-}
-

@@ -71,7 +71,7 @@ int clixxIOSerial::write(const unsigned char c)
 {
 	softuart_putchar(c);
 	
-	return 0;
+	return(0);
 }
 
 int clixxIOSerial::puts(const char *s)
