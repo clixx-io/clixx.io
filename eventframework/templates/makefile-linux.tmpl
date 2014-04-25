@@ -24,8 +24,9 @@ ${'## 																			'}
 PROGRAM = ${program_base}
 MCU = ${deployment_platform}
 CC = g++
-CFLAGS += -Wall -g -Os
-LDFLAGS += -lstdc++ -L ../libraries -static -l clixxIO_Linux
+CFLAGS += -Wall -g
+LDFLAGS += -lstdc++ 
+LDLIBS += -L ../libraries -static -l clixxIO_Linux
 OBJS = $(PROGRAM).o
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
@@ -33,9 +34,8 @@ ifneq ($(V),1)
 Q := @
 endif
 
-all: $(PROGRAM)
-	@printf "CC      $(subst $(shell pwd)/,,$(@))\n"
-	$(Q)ld -o $@ -c $< $(LDFLAGS) 
+all: $(OBJS)
+	$(Q)$(CC) $(OBJS) -o $(PROGRAM) $(CLIXXLIBS) $(LDLIBS) 
 
 ${'%.o: %.cpp'}
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
