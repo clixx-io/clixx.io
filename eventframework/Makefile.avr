@@ -40,8 +40,6 @@ all: ../lib $(LIBRARY).a
 
 $(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o
 	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o
-	@printf "  COPY $(LIBRARY).a ../lib\n"
-	$(Q)cp $(LIBRARY).a ../lib
 
 $(PROGRAM).elf: $(PROGRAM).o
 	@printf "  LD      $(subst $(shell pwd)/,,$(@))\n"
@@ -73,3 +71,10 @@ clean:
 	$(Q)rm -f *.o
 	@printf "  CLEAN   *.a\n"
 	$(Q)rm -f *.a
+
+# Install to the Users IoT/libraries directory
+install:
+	@printf "Creating directories\n"
+	$(Q)mkdir -p ~/IoT/libraries 
+	@printf "Copying library $(LIBRARY).a to ~/IoT/libraries\n"
+	$(Q)cp $(LIBRARY).a ~/IoT/libraries

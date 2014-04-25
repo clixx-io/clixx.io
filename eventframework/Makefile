@@ -18,9 +18,9 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-LIBRARY = clixxIO_Linux
+LIBRARY = libclixxIO_Linux
 CC = g++
-CFLAGS += -Wall -g -Os -DTARGET_LINUX
+CFLAGS += -fpic -Wall -g -Os -DTARGET_LINUX
 LDFLAGS +=
 OBJS = $(PROGRAM).o
 SRC = core_Linux
@@ -30,13 +30,11 @@ ifneq ($(V),1)
 Q := @
 endif
 
-all: ../lib $(LIBRARY).a
+all: $(LIBRARY).a
 
 # The library gets built and the filename shows the target platform
 $(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o
-	ar -cr $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o
-	@printf "  COPY $(LIBRARY).a ../lib\n"
-	$(Q)cp $(LIBRARY).a ../lib
+	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o clixxIO_I2C.o
 
 %.o: %.c
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
@@ -55,13 +53,16 @@ clixxIO_I2C.o: $(SRC)/LinuxI2C.cpp
 clixxIO_CharLCD.o: clixxIO_CharLCD.cpp
 	$(CC) -c $(CFLAGS) -o clixxIO_CharLCD.o -I ./ clixxIO_CharLCD.cpp
 
-# A seperate directory for holding libraries is used   
-../lib: 
-	@printf "  CREATE ../lib\n"
-	$(Q)mkdir ../lib
- 
+# Clean all temporary files
 clean:
 	@printf "  CLEAN   *.o\n"
 	$(Q)rm -f *.o
 	@printf "  CLEAN   *.a\n"
 	$(Q)rm -f *.a
+
+# Install to the Users IoT/libraries directory
+install:
+	@printf "Creating directories\n"
+	$(Q)mkdir -p ~/IoT/libraries 
+	@printf "Copying library $(LIBRARY).a to ~/IoT/libraries\n"
+	$(Q)cp $(LIBRARY).a ~/IoT/libraries

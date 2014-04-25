@@ -28,16 +28,16 @@
  *
 """
 
-import sys, os, platform, shutil
+import sys, os, platform, shutil, optparse
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
 class clixxIOEventTemplateBuilder():
-	
+
 	intro = """Welcome to the Clixx.io Event-Framework Program Builder.
 (c) clixx.io 2014
 
-This will build a basic event-framework program that you
+This will build a basic Event-framework program that you
 can then customise to suit your needs.
 
 --------------------------------------------------------
@@ -45,15 +45,16 @@ can then customise to suit your needs.
 
 	system_capabilities = {
 			   "attiny13" : "program_loop|program_timers|program_pinchange",
-			   "attiny85" : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub"
+			   "attiny85" : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
+			   "linux"    : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub"
 				}
 
 	prompts = {"program_loop" : "Does the program need a polling loop (y,n,i) ? ",
-			   # "program_timers" : "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
-			   # "program_pinchange" : "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
-			   # "program_serial" : "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
-			   # "program_network_socket_server" : "Does the program need to handle incoming network sockets (network-socket-server) (y,n,i) ? ",
-			   # "program_network_socket_client" : "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? "
+			   "program_timers" : "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
+			   "program_pinchange" : "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
+			   "program_serial" : "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
+			   "program_network_socket_server" : "Does the program need to handle incoming network sockets (network-socket-server) (y,n,i) ? ",
+			   "program_network_socket_client" : "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? ",
 			   "mqtt_sub" : "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? "
 			   }
 
@@ -68,14 +69,19 @@ can then customise to suit your needs.
 
 	iot_dir = "IoT"
     
-	def __init__(self, project_name = None,deployment_platform='local'):
+	def __init__(self, project_name = None, deployment_platform=None):
 
 		self.project_name = project_name
 		if not self.project_name is None:
 			self.projectdir = os.path.expanduser(os.path.join("~",self.iot_dir,self.project_name))
 
-		self.templatedir = os.path.abspath('../eventframework/templates')
-		self.deployment_platform = deployment_platform
+		self.templatedir = os.path.abspath('templates')
+		
+		if deployment_platform == None:
+			self.deployment_platform = platform.system().lower()
+		else:
+			self.deployment_platform = deployment_platform
+		
 		self.selections = []
 		
 		return
@@ -90,10 +96,15 @@ can then customise to suit your needs.
 
 		capabilities = self.system_capabilities[self.deployment_platform]
 		
-		print self.intro
+		print(self.intro)
 		
-		while self.project_name is None:
-			self.project_name = raw_input("What is the project name (used to make the directory and .cpp file) ? ")
+		print("A Makefile and project base will be created for the %s platform" % self.deployment_platform)
+		
+		if self.project_name is None:
+			while self.project_name is None:
+				self.project_name = raw_input("What is the project name (used to make the directory and .cpp file) ? ")
+		else:
+			print("and the project directory will be : %s\n" % self.get_projectdir(self.project_name))
 		
 		for x in self.prompts.keys():
 			if x in capabilities:
@@ -121,13 +132,33 @@ can then customise to suit your needs.
 		print("Target platform is %s\n" % self.deployment_platform)
 		print("Selections are :", self.selections)
 		print("Peripherals are:", self.peripherals)
+
+	def get_projectdir(self, projname):
+		"""
+		Determine a full path for a potential or existing project.
+		"""
+		
+		return os.path.expanduser(os.path.join("~",self.iot_dir,self.project_name))
+
+	def get_makefile_template(self, target_platform):
+		"""
+		Used to specifiy a Makefile template for a specific platform
+		"""
+	
+		if target_platform.startswith('attiny'):
+			return 'makefile-avr.tmpl'
+
+		if target_platform.startswith('atmega'):
+			return 'makefile-avr.tmpl'
+		
+		return 'makefile-linux.tmpl'
 		
 	def create_projectdir(self):
 		"""
 		Create the Project Directory if it doesn't already exist
 		"""
 		
-		self.projectdir = os.path.expanduser(os.path.join("~",self.iot_dir,self.project_name))
+		self.projectdir = self.get_projectdir(self.project_name)
 		
 		if not os.path.exists(self.projectdir):
 			print(" - Creating directory %s" % self.projectdir)
@@ -159,8 +190,8 @@ can then customise to suit your needs.
 		"""
 	
 		makefile = open(os.path.join(self.projectdir,'Makefile'), 'w')
-		
-		mytemplate = Template(filename=os.path.join(self.templatedir,'makefile-avr.tmpl'))
+
+		mytemplate = Template(filename=os.path.join(self.templatedir,self.get_makefile_template(self.deployment_platform)))
 		makefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
 
 	def render_maincppfile(self):
@@ -194,10 +225,22 @@ can then customise to suit your needs.
 		
 if __name__ == "__main__":
 
-	project = clixxIOEventTemplateBuilder(deployment_platform='attiny85')
+	usage = "usage: %prog [options] arg1 arg2"
+	parser = optparse.OptionParser(usage=usage)
+	parser.add_option("-t", "--target",
+					  action="store", dest="platform", default=None,
+					  help="Target Platform. Example Linux, atttiny85")
+
+	(options, args) = parser.parse_args()
+
+	project_name = None
+	if len(args) > 0:
+		project_name = args[0]
+	
+	project = clixxIOEventTemplateBuilder(project_name, deployment_platform=options.platform)
     
 	project.user_prompts()
 
 	project.render_files()
-    
+
 

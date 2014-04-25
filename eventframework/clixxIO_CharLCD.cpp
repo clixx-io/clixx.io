@@ -181,6 +181,7 @@ void ClixxIO_i2cLCD::clear(){
 #include "stdio.h"
 #include "stdlib.h"
 
+/*
 int main(){
 
   // Set up WiringPi and connect to the IO expander
@@ -209,3 +210,4 @@ int main(){
     sleep(0.1);
   }
 }
+*/
