@@ -25,7 +25,7 @@ PROGRAM = ${program_base}
 MCU = ${deployment_platform}
 CC = g++
 CFLAGS += -Wall -g -Os
-LDFLAGS += -lstdc++
+LDFLAGS += -lstdc++ -L ../libraries -static -l clixxIO_Linux
 OBJS = $(PROGRAM).o
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
@@ -35,7 +35,7 @@ endif
 
 all: $(PROGRAM)
 	@printf "CC      $(subst $(shell pwd)/,,$(@))\n"
-	$(Q)$(CC) $(CFLAGS) -o $@ -c $< -lstdc++ ~/IoT/libraries/clixxIO_Linux.a
+	$(Q)ld -o $@ -c $< $(LDFLAGS) 
 
 ${'%.o: %.cpp'}
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
