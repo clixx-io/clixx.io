@@ -229,4 +229,6 @@ public:
     unsigned int where[2];
 
  };
+
+#pragma GCC diagnostic ignored "-Wpmf-conversions"
  
