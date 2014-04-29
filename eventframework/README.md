@@ -21,39 +21,6 @@ great. This framework extends that and gives more:
 * IoTMessage()	- IoT messages
 * Serial()		- Data from serial ports
 	
-A more detailed description follows the Installation and Usage notes
-so if you'd like more just skip down.
-
-### Installation
-
-From within the eventframework directory:
-
-	make
-	make -f Makefile.avr
-	make install
-	
-Once this is done, a ~/IoT/libaries directory is created and the libraries
-are copied there.
-	
-### Usage
-
-To make things easier, there is a python project builder that will create
-a project along with a makefile in your ~/IoT directory.
-
-	python mkproject.py helloworld 
-	
-By default, the project Makefile type is Linux. You can specify other targets
-with the -t option. For example, the following will generate an Attiny85 project: 
-
-	python mkproject.py helloworld -t attiny85
-	
-Once the Makefile is created, change to the IoT helloworld directory and
-run make.
-
-	cd ~/IoT/helloworld
-	make
-	
-## Overview
 ### The easy coding style of the clixx.io Event-Framework
 
 The clixx.io Eventframework is based on having an 'Application'
@@ -219,3 +186,31 @@ when the data is available.
 
 	}
 
+### Installation
+
+From within the eventframework directory:
+
+	make
+	make -f Makefile.avr
+	make install
+	
+Once this is done, a ~/IoT/libaries directory is created and the libraries
+are copied there.
+	
+### Usage
+
+To make things easier, there is a python project builder that will create
+a project along with a makefile in your ~/IoT directory.
+
+	python mkproject.py helloworld 
+	
+By default, the project Makefile type is Linux. You can specify other targets
+with the -t option. For example, the following will generate an Attiny85 project: 
+
+	python mkproject.py helloworld -t attiny85
+	
+Once the Makefile is created, change to the IoT helloworld directory and
+run make.
+
+	cd ~/IoT/helloworld
+	make
