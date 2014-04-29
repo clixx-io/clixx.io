@@ -1,15 +1,20 @@
 ## clixx.io EventFramework
 
-### Rethinking C/C++ for portability on Embedded devices and the Internet-of-Things
+### Rethinking C/C++ for portability on Embedded devices and IoT
 
-The clixx.io EventFramework is a streamlined rethink of C/C++ traditions 
-with respect to making small mpu's ever easier to program. It's inspired
-by Wiring, and Python "Circuits".
+The clixx.io EventFramework is a streamlined EventFramework designed
+to give C++ compatability over a wide variety of processors. At the
+moment to demonstrate the concept we have Linux and the Attiny85. In 
+the future, we'd like to do more processors. 
 
-The idea is to move all hardware dependencies to libraries and have
-code that will easily run on different processors.
+In the embedded world, Arduino is the clear favourite. But it's closely
+tied down to the Arduino hardware. This framework provides a way to get
+more programming features and not be locked down to a particular brand
+of hardware.
 
 ### Installation
+
+From within the eventframework directory:
 
 	make
 	make -f Makefile.avr
@@ -36,6 +41,7 @@ run make.
 	cd ~/IoT/helloworld
 	make
 	
+## Overview
 ### The easy coding style of the clixx.io Event-Framework
 
 The clixx.io Eventframework is based on having an 'Application'
