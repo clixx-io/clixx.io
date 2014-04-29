@@ -128,7 +128,7 @@ the previous example:
 	};
 
 
-### Interrupts - onpinchange()
+### Hardware Interrupts - onpinchange()
 
 From the dawn of programming computers, there haven't been that many nice ways
 to handle pin change interrupts from an application. 
