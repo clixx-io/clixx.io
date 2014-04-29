@@ -13,13 +13,13 @@ more programming features and not be locked down to a particular brand
 of hardware.
 
 Wiring/Arduino gives just one grouping construct - loop() which is
-great. However, this framework gives more:
+great. This framework extends that and gives more:
 
-	* loop()
-	* PinChange()
-	* Timer()
-	* IoTMessage()
-	* Serial()
+* loop()		- repeating loop
+* PinChange() 	- hardware Pin change interrupts
+* Timer()	  	- Timer based callbacks
+* IoTMessage()	- IoT messages
+* Serial()		- Data from serial ports
 	
 A more detailed description follows the Installation and Usage notes
 so if you'd like more just skip down.
