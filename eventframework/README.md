@@ -1,6 +1,6 @@
 ## clixx.io EventFramework
 
-### Rethinking C/C++ for Embedded devices and the Internet-of-Things
+### Rethinking C/C++ for portability on Embedded devices and the Internet-of-Things
 
 The clixx.io EventFramework is a streamlined rethink of C/C++ traditions 
 with respect to making small mpu's ever easier to program. It's inspired
@@ -9,6 +9,33 @@ by Wiring, and Python "Circuits".
 The idea is to move all hardware dependencies to libraries and have
 code that will easily run on different processors.
 
+### Installation
+
+	make
+	make -f Makefile.avr
+	make install
+	
+Once this is done, a ~/IoT/libaries directory is created and the libraries
+are copied there.
+	
+### Usage
+
+To make things easier, there is a python project builder that will create
+a project along with a makefile in your ~/IoT directory.
+
+	python mkproject.py helloworld 
+	
+By default, the project Makefile type is Linux. You can specify other targets
+with the -t option. For example, the following will generate an Attiny85 project: 
+
+	python mkproject.py helloworld -t attiny85
+	
+Once the Makefile is created, change to the IoT helloworld directory and
+run make.
+
+	cd ~/IoT/helloworld
+	make
+	
 ### The easy coding style of the clixx.io Event-Framework
 
 The clixx.io Eventframework is based on having an 'Application'
