@@ -12,6 +12,18 @@ tied down to the Arduino hardware. This framework provides a way to get
 more programming features and not be locked down to a particular brand
 of hardware.
 
+Wiring/Arduino gives just one grouping construct - loop() which is
+great. However, this framework gives more:
+
+	* loop()
+	* PinChange()
+	* Timer()
+	* IoTMessage()
+	* Serial()
+	
+A more detailed description follows the Installation and Usage notes
+so if you'd like more just skip down.
+
 ### Installation
 
 From within the eventframework directory:
