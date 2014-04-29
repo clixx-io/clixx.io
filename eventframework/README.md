@@ -16,10 +16,10 @@ Wiring/Arduino gives just one grouping construct - loop() which is
 great. This framework extends that and gives more:
 
 * loop()		- repeating loop
-* PinChange() 	- hardware Pin change interrupts
-* Timer()	  	- Timer based callbacks
-* IoTMessage()	- IoT messages
-* Serial()		- Data from serial ports
+* pinchange() 	- hardware Pin change interrupts
+* timer()	  	- Timer based callbacks
+* iotmessage()	- IoT messages
+* serial()		- Data from serial ports
 	
 ### The easy coding style of the clixx.io Event-Framework
 
@@ -63,7 +63,7 @@ particular hardware or software events occur).
 	} 
 	#include "app-callbacks.cpp"	// 
 
-### Setup
+### Setup - setup()
 
 The setup() function is executed once at start of the program and
 is normally used to initialise devices.
@@ -80,7 +80,7 @@ is normally used to initialise devices.
 		 
 	};
 
-### Loop
+### Loop - loop()
 
 The loop() function is an optional method that can be repeatedly
 run. It's not necessary to have a program loop() if the program
@@ -100,7 +100,7 @@ for example.
         addLoopEvent((void (*)()) &App::loop);
     };
 
-### Timers
+### Timers - ontimer()
 
 The vast majority of embedded applications all need timers for some
 purpose. Traditionally it's been left to the engineer to interface
@@ -115,7 +115,7 @@ example only here the checking is done by timer callbacks which
 are non-blocking rather than using a blocking delay() call in
 the previous example:
 
-    void timerevent(){
+    void ontimer(){
         // timerevent - this is run every second
 		if (getTemperature() > 24)
 			aircon.On();
@@ -124,11 +124,11 @@ the previous example:
     };
 	void setup(){
 		// setup - create a timer to check the temperature every 2 seconds
-		addTimerEvent(1, (void (*)()) &App::timerevent);
+		addTimerEvent(1, (void (*)()) &App::ontimer);
 	};
 
 
-### Interrupts
+### Interrupts - onpinchange()
 
 From the dawn of programming computers, there haven't been that many nice ways
 to handle pin change interrupts from an application. 
@@ -145,7 +145,7 @@ functionality.
 		// Setup - create a timer that displays data every second
 		//         as well as a pin change interrupt handler
 		addTimerEvent(1, (void (*)()) &App::timerevent);
-		addPinChangeEvent(GPIO_PIN16, RISING, (void (*)()) &App::PinChangeInterrupt());
+		addPinChangeEvent(GPIO_PIN16, RISING, (void (*)()) &App::onpinchange());
 	};
 	
 	int timerevent(){
@@ -157,14 +157,14 @@ functionality.
 			printf("rps = %d\n", v);
 	};
 	
-	int PinChangeInterrupt(){
+	void onpinchange(){
 		/* Interrupt service routine
 		Handles a hardware interrupt of some sort
 		*/
 		++counter;
 	}
 
-### Serial Port Data
+### Serial Port Data - onserial()
 
 One of the very first things that computers ever did was send data over
 serial ports. Unfortunately, until the Wiring language, there's never been
@@ -177,10 +177,10 @@ when the data is available.
 	int setup(){
 		// Setup - create an event that prints out serial data from a port
 		//         as well as a pin change interrupt handler
-		addSerialDataEvent(GPIO_PIN1, 9600, (void (*)()) &App::serialData());
+		addSerialDataEvent(GPIO_PIN1, 9600, (void (*)()) &App::onserial());
 	};
    
-	int serialData(const char* buffer, const int bufflen){
+	int onserial(const char* buffer, const int bufflen){
 		//* SerialData - Print out the data received on the port
 		printf(buffer)
 
