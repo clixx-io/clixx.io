@@ -5,19 +5,19 @@
  *      Author: rene
  */
 
-#include "ClientSub.h"
+#include "clixxIO.hpp"
 
 using namespace std;
 
-ClientSub::ClientSub(const char* id) : mosquittopp(id){
+ClixxIO_IoTSub::ClixxIO_IoTSub(const char* id) : mosquittopp(id){
 
 }
 
-ClientSub::~ClientSub() {
+ClixxIO_IoTSub::~ClixxIO_IoTSub() {
 
 }
 
-void ClientSub::on_connect(int rc) {
+void ClixxIO_IoTSub::on_connect(int rc) {
 
 	if (!rc) {
 		subscribe(&mid, "#", 0);
@@ -27,7 +27,7 @@ void ClientSub::on_connect(int rc) {
 	}
 }
 
-void ClientSub::on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos) {
+void ClixxIO_IoTSub::on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos) {
 
 	cout << "Subscribed (mid: " << mid << "): " << granted_qos[0] << endl;
 	for(int i=1; i<qos_count; i++){
@@ -35,7 +35,7 @@ void ClientSub::on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted
 	}
 }
 
-void ClientSub::on_message(const struct mosquitto_message *message) {
+void ClixxIO_IoTSub::on_message(const struct mosquitto_message *message) {
 
 	if(message->payloadlen){	// message contains a payload
 			cout << message->topic << ": " << message->payload << endl;
@@ -44,7 +44,7 @@ void ClientSub::on_message(const struct mosquitto_message *message) {
 	}
 }
 
-void ClientSub::print_error_connection(int rc) {
+void ClixxIO_IoTSub::print_error_connection(int rc) {
 
 	switch(rc){
 		case 1:

@@ -60,6 +60,8 @@ class clixxIOApp{
 #elif defined(TARGET_LINUX)  /* presume POSIX */
 
   #include <unistd.h>
+  #include <iostream>
+  #include <mosquittopp.h>
 
   inline void delay( unsigned long ms ){ usleep( ms * 1000 ); }
 
@@ -93,7 +95,6 @@ extern int serial_feed_close(int tty_fd);
 
 #include <inttypes.h>
 
-// #include "core_build_options.h"
 // #include "Stream.h"
 
 #ifdef Stream
@@ -102,10 +103,10 @@ class clixxIOSerial : public Stream
 class clixxIOSerial
 #endif
 {
+  #ifdef TARGET_LINUX
   public:
-//    #ifdef PLATFORM_LINUX
     int fd;
-//    #endif
+  #endif
     
   public:
     clixxIOSerial();
@@ -144,6 +145,25 @@ class ClixxIO_I2cBus {
  * General i2c device class so that other devices can be added easily
  *
  */
+#ifdef TARGET_LINUX
+class ClixxIO_IoTSub : public mosquittopp::mosquittopp 
+#else
+class ClixxIO_IoTSub : public clixxIOSerial
+#endif
+{
+	public:
+		ClixxIO_IoTSub(const char* id);
+		virtual ~ClixxIO_IoTSub();
+
+	private:
+		uint16_t mid;
+
+		void on_connect(int rc);
+		void on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos);
+		void on_message(const struct mosquitto_message *message);
+		void print_error_connection(int rc);
+};
+
 class ClixxIO_I2cDevice {
 
   public:
@@ -154,22 +174,6 @@ class ClixxIO_I2cDevice {
     ClixxIO_I2cBus *i2cbus;
     int device;	
 };
-
-/*
- * General IoT device class so that other devices can be added easily
- *
- */
-class ClixxIO_IoTPort : public clixxIOSerial {
-
-  public:
-    ClixxIO_IoTPort(unsigned char *rx_buffer, uint8_t rx_len);
-    ClixxIO_IoTPort();
-
-  protected:
-    ClixxIO_I2cBus *i2cbus;
-    int device;	
-};
-
 
 #if (defined(UBRRH) || defined(UBRR0H)) && ! DEFAULT_TO_TINY_DEBUG_SERIAL
   extern HardwareSerial Serial;
@@ -228,7 +232,7 @@ public:
     char lines[2][16];
     unsigned int where[2];
 
- };
+};
 
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
  
