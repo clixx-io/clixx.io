@@ -1,11 +1,7 @@
 CC = gcc
 
-LIBS = -lmosquitto
+LIBS = -lmosquittopp
 
-%.o: %.c 
-    $(CC) -c -o $@ $< 
+all: Main.cpp ClientSub.cpp
+    $(CC) -Wall -o testapp Main.cpp ClientSub.cpp
 
-make: Main.cpp
-    $(CC) -Wall -o test $^ $(LIBS)
-
-.PHONY: clean
