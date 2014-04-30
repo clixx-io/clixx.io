@@ -14,7 +14,7 @@ int main() {
 
 	mqttc->lib_init();
 
-	mqttc->connect("localhost", 1883, 60, true);
+	mqttc->connect("test.mosquitto.org", 1883, 60, true);
 
 	do{
 		rc = mqttc->loop(-1);

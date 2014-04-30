@@ -7,7 +7,6 @@
 
 #include <mosquittopp.h>
 #include <iostream>
-
 #ifndef CLIENTSUB_H_
 #define CLIENTSUB_H_
 
