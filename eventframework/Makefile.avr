@@ -38,8 +38,8 @@ endif
 
 all: ../lib $(LIBRARY).a
 
-$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o
-	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o
 
 $(PROGRAM).elf: $(PROGRAM).o
 	@printf "  LD      $(subst $(shell pwd)/,,$(@))\n"
@@ -59,8 +59,11 @@ clixxIO_EventQ_AVR_$(MCU).o: clixxIO_EventQ.cpp clixxIO.hpp
 clixxIO_Serial_AVR_$(MCU).o: core_AVR/clixxIO_AVRSerial.cpp clixxIO.hpp core_AVR/softuart.h
 	$(CC) -c $(CFLAGS) -o clixxIO_Serial_AVR_$(MCU).o core_AVR/clixxIO_AVRSerial.cpp
    
-clixxIO_softuart_AVR_$(MCU).o: core_AVR/softuart.c core_AVR/softuart.h
+clixxIO_softuart_AVR_$(MCU).o: core_AVR/softuart.c clixxIO.hpp core_AVR/softuart.h
 	$(CC) -c $(CFLAGS) -o clixxIO_softuart_AVR_$(MCU).o core_AVR/softuart.c
+
+clixxIO_Analog_AVR_$(MCU).o: core_AVR/clixxIO_analog.c core_AVR/iohelp.h
+	$(CC) -c $(CFLAGS) -o clixxIO_Analog_AVR_$(MCU).o core_AVR/clixxIO_analog.c
 
 ../lib: 
 	@printf "  CREATE ../lib\n"
