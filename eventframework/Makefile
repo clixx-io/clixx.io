@@ -21,7 +21,7 @@
 LIBRARY = libclixxIO_Linux
 CC = g++
 CFLAGS += -fpic -Wall -g -Os -DTARGET_LINUX
-LDFLAGS +=
+LDFLAGS += -lstdc++ -lmosquittopp
 OBJS = $(PROGRAM).o
 SRC = core_Linux
 
@@ -33,8 +33,8 @@ endif
 all: $(LIBRARY).a
 
 # The library gets built and the filename shows the target platform
-$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o
-	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o clixxIO_I2C.o
+$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o clixxIO_LinuxIoT
+	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o clixxIO_I2C.o clixxIO_LinuxIoT.o
 
 %.o: %.c
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
@@ -46,6 +46,9 @@ clixxIO_EventQ_Linux.o: clixxIO_EventQ.cpp clixxIO.hpp
 
 clixxIO_LinuxSerial.o: $(SRC)/clixxIO_LinuxSerial.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_LinuxSerial.o $(SRC)/clixxIO_LinuxSerial.cpp -I ./
+
+clixxIO_LinuxIoT.o: $(SRC)/clixxIO_mosquitto.cpp clixxIO.hpp
+	$(CC) -c $(CFLAGS) -o clixxIO_LinuxIoT.o $(SRC)/clixxIO_mosquitto.cpp -I ./
 
 clixxIO_I2C.o: $(SRC)/LinuxI2C.cpp
 	$(CC) -c $(CFLAGS) -o clixxIO_I2C.o -I ./ $(SRC)/LinuxI2C.cpp

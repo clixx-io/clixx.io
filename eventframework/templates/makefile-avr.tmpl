@@ -26,19 +26,28 @@ MCU = ${deployment_platform}
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 CFLAGS += -Wall -g -Os -mmcu=$(MCU)
-LDFLAGS +=
+LDFLAGS += ../libraries/libclixxIO_AVR_$(MCU).a
 OBJS = $(PROGRAM).o
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifneq ($(V),1)
-Q := @
+  Q := @
+endif
+
+# Avrdude mcu parameters are different than in avr-gcc, so translate
+DUDEMCU = $(MCU)
+ifeq ($(MCU),attiny85)
+  DUDEMCU = t85
+endif
+ifeq ($(MCU),attiny13)
+  DUDEMCU = t13
 endif
 
 all: $(PROGRAM).hex
 
 $(PROGRAM).elf: $(PROGRAM).o
 	@printf "  LD      $(subst $(shell pwd)/,,$(@))\n"
-	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(Q)$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(PROGRAM).hex: $(PROGRAM).elf
 	@printf "  OBJCOPY $(subst $(shell pwd)/,,$(@))\n"
@@ -50,8 +59,11 @@ ${'%.o: %.cpp'}
 
 flash: $(PROGRAM).hex
 	@printf "  FLASH   $(PROGRAM).hex\n"
-	$(Q)avrdude -c avrispv2 -P usb -p t13 -U flash:w:$(PROGRAM).hex
+	$(Q)avrdude -c avrispv2 -P usb -p $(DUDEMCU) -U flash:w:$(PROGRAM).hex
 
+fuses:
+    #(Q)avrdude -p $(DUDEMCU) -P usb -c avrispmkii -U lfuse:w:0x62:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+    
 clean:
 	@printf "  CLEAN   $(subst $(shell pwd)/,,$(OBJS))\n"
 	$(Q)rm -f $(OBJS)
