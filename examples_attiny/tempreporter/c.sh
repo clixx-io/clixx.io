@@ -1,0 +1,1 @@
+avr-gcc -Wall -g -Os -I /home/dlyon/clixx.io/eventframework/ -mmcu=attiny85 -DTARGET_AVR -DF_CPU=8000000UL -o tempreporter.hex -I./ /home/dlyon/clixx.io/eventframework/core_AVR/softuart.c /home/dlyon/clixx.io/eventframework/core_AVR/clixxIO_AVRSerial.cpp tempreporter.cpp ../libraries/clixxIO_AVR_attiny85.a
