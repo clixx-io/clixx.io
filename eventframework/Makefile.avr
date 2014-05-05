@@ -21,13 +21,13 @@
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifeq ($(MCU),)
 MCU := attiny85
-F_CPU := 1000000UL
+F_CPU := 8000000UL
 endif
 
 LIBRARY = clixxIO_AVR_$(MCU)
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -mmcu=$(MCU) -DTARGET_AVR -DF_CPU=$(F_CPU) -I./
+CFLAGS += -Wall -g -Os -fpic -mmcu=$(MCU) -DTARGET_AVR -DF_CPU=$(F_CPU) -I./
 LDFLAGS +=
 OBJS = $(PROGRAM).o
 

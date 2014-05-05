@@ -31,25 +31,29 @@ int addPinChangeEvent(int pin, int changetype, void (*function)(int,int));
 int addSerialInterruptEvent(int secs, void (*function)(int,int));
 
 void setMainAppPtr(void *mainClass);
+void C_loopevent( void* appC);
 void C_timerevent( void* appC);
 void C_setupevent( void* appC);
+void C_shutdownevent( void* appC);
 void C_serialevent( void* appC);
 void C_iotevent( void* appC);
 
 class clixxIOApp{
 
-    private:
+  private:
+      
+    unsigned int (*loopmethod)(unsigned int);
+    unsigned int (*timermethod)(unsigned int);
+    unsigned int (*serialmethod)(unsigned int);
+    unsigned int (*iotmethod)(unsigned int);
+     
+  public:
+    unsigned int serial_debug_msgs;
 
-     unsigned int (*loopmethod)(unsigned int);
-     unsigned int (*timermethod)(unsigned int);
-     unsigned int (*serialmethod)(unsigned int);
-     unsigned int (*iotmethod)(unsigned int);
+    int run();
      
-    public:
-     int run();
-     
-     clixxIOApp();
-     ~clixxIOApp();
+    clixxIOApp();
+    ~clixxIOApp();
 };
 
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
@@ -94,8 +98,9 @@ extern int serial_feed_close(int tty_fd);
 */
 
 #include <inttypes.h>
-
 // #include "Stream.h"
+
+#define BUFFSIZE_LINELEN 60		// Defines a Serial-line buffer size
 
 #ifdef Stream
 class clixxIOSerial : public Stream
@@ -103,14 +108,16 @@ class clixxIOSerial : public Stream
 class clixxIOSerial
 #endif
 {
+  private:	
   #ifdef TARGET_LINUX
-  public:
     int fd;
   #endif
+    unsigned char linebuffer[BUFFSIZE_LINELEN];
+    unsigned char linebufferpos;
     
   public:
     clixxIOSerial();
-    int begin(const char *portname, long baudrate);
+    int begin(const char *portname = 0, long baudrate = 0);
     void end();
     virtual int available(void);
     virtual unsigned char read(void);
@@ -120,7 +127,6 @@ class clixxIOSerial
 #ifdef Stream
     using print::write; // pull in write(str) and write(buf, size) from Print
 #endif
-
 
 };
 
@@ -175,11 +181,8 @@ class ClixxIO_I2cDevice {
     int device;	
 };
 
-#if (defined(UBRRH) || defined(UBRR0H)) && ! DEFAULT_TO_TINY_DEBUG_SERIAL
-  extern HardwareSerial Serial;
-#elif defined(USBCON)
-  #include "usb_api.h"
-#endif
+extern clixxIOSerial Serial;
+
 #if defined(UBRR1H)
   extern HardwareSerial Serial1;
 #endif

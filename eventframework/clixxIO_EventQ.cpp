@@ -143,6 +143,7 @@ int clixxIOApp::run()
   
   for (;;)
   {
+	C_loopevent(pMainClass);
   }
   
   return 0;
@@ -154,8 +155,6 @@ int clixxIOApp::run()
  *
  * @param mainClass - pointer to the users Main App class
  */
-// 
-// 
 void setMainAppPtr(void *mainClass)
 {
   pMainClass = mainClass;	

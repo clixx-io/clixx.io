@@ -29,9 +29,23 @@
 
 clixxIOSerial::clixxIOSerial()
 {
-	
+	linebufferpos = 0;
 }
 
+/** Initialise the Serial port at a specific Baud Rate
+*
+* This function initialises the serial port as well as setting up the input
+* pin attached to the Serial port. The set up accepts portname as the Windows
+* comport name : ie "COM1" or in Linux "/dev/ttyUSB0". The Baudrate is
+* optional. On some platforms like the Attiny85 with softuart it's fixed
+* to a precompiled vale and can't be changed.
+* 
+* Assume 8N1 for all port settings.
+*
+* @portname 	the filename of the port to initialise.
+* 
+* @baudrate		baudrate to run the port. 
+*/
 int clixxIOSerial::begin(const char *portname, long baudrate)
 {
 	// Setting the baud rate isn't supported if we are using softuart
@@ -43,6 +57,10 @@ int clixxIOSerial::begin(const char *portname, long baudrate)
 	return 0;
 }
 
+/** End using the Serial port and close it
+*
+* This function ends using the serial port.
+*/
 void clixxIOSerial::end()
 {
 	softuart_turn_rx_off();
@@ -50,23 +68,47 @@ void clixxIOSerial::end()
 	return;
 }
 
+/** Determines if characters are available for reading
+*
+* This function checks internal buffers and informs the
+* caller if there are characters that are available for
+* reading from the port.
+* 
+*/
 int clixxIOSerial::available(void)
 {
 	return softuart_kbhit();
 }
 
+/** Reads a character from the serial port
+*
+* This function reads one character from the serial port
+* if available.
+* 
+*/
 unsigned char clixxIOSerial::read(void)
 {
 	// Return a character
 	return softuart_getchar();
 }
 
+/** Reads a character from the serial port
+*
+* This function reads one character from the serial port
+* if available.
+* 
+*/
 void clixxIOSerial::flush(void)
 {
 	// flush the buffer
 	softuart_flush_input_buffer();
 }
 
+/** Writes a character to the serial port
+*
+* This function writes one character to the serial port.
+* 
+*/
 int clixxIOSerial::write(const unsigned char c)
 {
 	softuart_putchar(c);
@@ -74,6 +116,11 @@ int clixxIOSerial::write(const unsigned char c)
 	return(0);
 }
 
+/** Writes a string to the serial port
+*
+* This function writes a string to the serial port
+* 
+*/
 int clixxIOSerial::puts(const char *s)
 {
 	softuart_puts( s );

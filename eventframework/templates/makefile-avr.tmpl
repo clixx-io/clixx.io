@@ -38,6 +38,8 @@ endif
 DUDEMCU = $(MCU)
 ifeq ($(MCU),attiny85)
   DUDEMCU = t85
+  MCUFUSES = -U lfuse:w:0x62:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+endif
 endif
 ifeq ($(MCU),attiny13)
   DUDEMCU = t13
@@ -57,12 +59,12 @@ ${'%.o: %.cpp'}
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
 	$(Q)$(CC) $(CFLAGS) -o $@ -c $<
 
-flash: $(PROGRAM).hex
+deploy: $(PROGRAM).hex
 	@printf "  FLASH   $(PROGRAM).hex\n"
 	$(Q)avrdude -c avrispv2 -P usb -p $(DUDEMCU) -U flash:w:$(PROGRAM).hex
 
 fuses:
-    #(Q)avrdude -p $(DUDEMCU) -P usb -c avrispmkii -U lfuse:w:0x62:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+	#(Q)avrdude -p $(DUDEMCU) -P usb -c avrispmkii $(MCUFUSES) 
     
 clean:
 	@printf "  CLEAN   $(subst $(shell pwd)/,,$(OBJS))\n"

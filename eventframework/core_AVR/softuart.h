@@ -3,7 +3,7 @@
     #define F_CPU 3686400UL
 #endif
 
-#define SOFTUART_BAUD_RATE      2400
+#define SOFTUART_BAUD_RATE   19200
 
 #if defined (__AVR_ATtiny25__) || defined (__AVR_ATtiny45__) || defined (__AVR_ATtiny85__)
     #define SOFTUART_RXPIN   PINB
@@ -90,35 +90,77 @@
 #define SOFTUART_IN_BUF_SIZE     32
 
 // Init the Software Uart
-void softuart_init(void);
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern void softuart_init(void); 
+#ifdef __cplusplus
+}
+#endif
 
 // Clears the contents of the input buffer.
-void softuart_flush_input_buffer( void );
+#ifdef __cplusplus
+	extern "C" { void softuart_flush_input_buffer( void ); }
+#else
+	void softuart_flush_input_buffer( void );
+#endif
 
 // Tests whether an input character has been received.
-unsigned char softuart_kbhit( void );
+#ifdef __cplusplus
+	extern "C" { unsigned char softuart_kbhit( void ); }
+#else
+	unsigned char softuart_kbhit( void );
+#endif
 
 // Reads a character from the input buffer, waiting if necessary.
-char softuart_getchar( void );
+#ifdef __cplusplus
+	extern "C" { char softuart_getchar( void ); }
+#else
+	char softuart_getchar( void ); 
+#endif
 
 // To check if transmitter is busy
-unsigned char softuart_transmit_busy( void );
+#ifdef __cplusplus
+	extern "C" { unsigned char softuart_transmit_busy( void ); }
+#else
+	unsigned char softuart_transmit_busy( void );
+#endif
 
 // Writes a character to the serial port.
-void softuart_putchar( const char );
+#ifdef __cplusplus
+	extern "C" { void softuart_putchar( const char ); }
+#else
+	void softuart_putchar( const char );
+#endif
 
 // Turns on the receive function.
-void softuart_turn_rx_on( void );
+#ifdef __cplusplus
+	extern "C" { void softuart_turn_rx_on( void ); }
+#else
+	void softuart_turn_rx_on( void );
+#endif
 
 // Turns off the receive function.
-void softuart_turn_rx_off( void );
+#ifdef __cplusplus
+	extern "C" { void softuart_turn_rx_off( void ); }
+#else
+	void softuart_turn_rx_off( void );
+#endif
 
 // Write a NULL-terminated string from RAM to the serial port
-void softuart_puts( const char *s );
+#ifdef __cplusplus
+	extern "C" { void softuart_puts( const char *s ); }
+#else
+	extern void softuart_puts( const char *s );
+#endif
 
 // Write a NULL-terminated string from program-space (flash) 
 // to the serial port. example: softuart_puts_p(PSTR("test"))
-void softuart_puts_p( const char *prg_s );
+#ifdef __cplusplus
+	extern "C" { void softuart_puts_p( const char *prg_s ); }
+#else
+	void softuart_puts_p( const char *prg_s );
+#endif
 
 // Helper-Macro - "automatically" inserts PSTR
 // when used: include avr/pgmspace.h before this include-file
