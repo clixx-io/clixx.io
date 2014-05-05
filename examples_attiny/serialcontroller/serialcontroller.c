@@ -199,7 +199,6 @@ int main(void)
 	sei();
 
 	softuart_puts_P( "\r\nClixx.io Serial Terminal-Application\r\n" );    // "implicit" PSTR
-	softuart_puts_p( PSTR("uses generic softuart driver code by Colin Gittins\r\n") ); // explicit PSTR
 	softuart_puts_p( pstring ); // pstring defined with PROGMEM
 	softuart_puts( "--\r\n$ " );  // string "from RAM"
 

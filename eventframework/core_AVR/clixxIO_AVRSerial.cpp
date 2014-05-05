@@ -27,6 +27,8 @@
 #include "clixxIO.hpp"
 #include "core_AVR/softuart.h"
 
+clixxIOSerial Serial;
+
 clixxIOSerial::clixxIOSerial()
 {
 	linebufferpos = 0;

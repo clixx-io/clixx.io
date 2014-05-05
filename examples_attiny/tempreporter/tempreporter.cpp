@@ -26,81 +26,15 @@ A simple example of using timers.
 #define D2_O PB1
 #define D2_S PB5
 
-clixxIOSerial Serial;
-
-clixxIOSerial::clixxIOSerial()
-{
-	
-}
-
-int clixxIOSerial::begin(const char *portname, long baudrate)
-{
-	// Setting the baud rate isn't supported if we are using softuart
-
-	softuart_init();
-
-	softuart_turn_rx_on();
-
-	return 0;
-}
-
-void clixxIOSerial::end()
-{
-	softuart_turn_rx_off();
-	
-	return;
-}
-
-int clixxIOSerial::available(void)
-{
-	return softuart_kbhit();
-}
-
-unsigned char clixxIOSerial::read(void)
-{
-	// Return a character
-	return softuart_getchar();
-}
-
-void clixxIOSerial::flush(void)
-{
-	// flush the buffer
-	softuart_flush_input_buffer();
-}
-
-int clixxIOSerial::write(const unsigned char c)
-{
-	softuart_putchar(c);
-	
-	return(0);
-}
-
-int clixxIOSerial::puts(const char *s)
-{
-	softuart_puts( s );
-	
-	return 0;
-}
-
 class App : public clixxIOApp{
 
   public:
   
     void timerevent(){
-        /* timer Event handler
-         
-         This will get called every second.
-         
-        */
 
     };
     
     void setup(){
-        /* setup Event handler
-
-         This is a built in handler that will get called on startup
-         and provides for initialisation requirements.
-        */
         
     };
     
@@ -199,9 +133,6 @@ int main(){
 	//softuart_init();
 	//sei();
   
-
-    //clixxIOSerial Serial;
-    
     Serial.begin();
 	sei();
 	
@@ -214,23 +145,21 @@ int main(){
     DDRB |= (1<<D1_O);    	///PB5 /digital 13 is an output
 
 	for (;;) {
+
+		// Flashing LED
 		PORTB |= (1<<D1_O);    		// Else turn pin on
 		_delay_ms(200);    // Delay 2 millisecond
 		PORTB &= ~(1<<D1_O);    		// Turn pin off
 		_delay_ms(200);    // Delay 2 millisecond
 		
+		// Process Temperatures via ADC
 		int temp = adcRead(ADC4,1,3);
 		
 		char str[25];
 		snprintf(str, sizeof(str), "Temp=%d %d\n\r", temp,  temp - 273 + TEMP_OFFSET);
 		Serial.puts(str);
 		
-		
 	}
-	
-  // clixxIOSerial Serial;
-  // Serial.begin();
-  // Serial.puts("Application in startup event\n");
 
   //return m.run();
 
