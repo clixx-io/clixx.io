@@ -33,7 +33,7 @@ endif
 all: $(LIBRARY).a
 
 # The library gets built and the filename shows the target platform
-$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o clixxIO_LinuxIoT
+$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o clixxIO_LinuxIoT.o
 	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_LinuxSerial.o clixxIO_I2C.o clixxIO_LinuxIoT.o
 
 %.o: %.c
