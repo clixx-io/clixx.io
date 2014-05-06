@@ -5,12 +5,14 @@
  *      Author: rene
  */
 
-#include "ClientSub.h"
+#include "clixxIO.hpp"
+#include <mosquittopp.h>
+#include <iostream>
 
 int main() {
 
 	int rc;
-	ClientSub *mqttc = new ClientSub("cppclientsub");
+	ClixxIO_IoTSub *mqttc = new ClixxIO_IoTSub("cppclientsub");
 
 	mqttc->lib_init();
 
