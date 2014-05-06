@@ -30,12 +30,36 @@ class App : public clixxIOApp{
 
   public:
   
-    void timerevent(){
-
-    };
-    
     void setup(){
         
+		Serial.begin();
+		sei();
+		
+		Serial.puts("Hello - I am alive\n\r");
+
+		adcInit(ADC4);
+
+		DDRB |= (1<<D1_O);    			// digital-1 out an output with LED
+    };
+    
+    void loop(){
+		
+		static char str[25];
+
+		// LED On
+		PORTB |= (1<<D1_O);    			// Turn pin on
+		_delay_ms(200);    				// Delay 200 millisecond
+		
+		// Process Temperatures via ADC
+		int temp = adcRead(ADC4,1,3);
+		
+		snprintf(str, sizeof(str), "Temp=%d %d\n\r", temp,  temp - 273 + TEMP_OFFSET);
+		Serial.puts(str);
+
+		// LED Off
+		PORTB &= ~(1<<D1_O);    		// Turn pin off
+		_delay_ms(200);    				// Delay 200 millisecond
+
     };
     
 };
@@ -44,35 +68,9 @@ class App : public clixxIOApp{
 // Main program Section. Simply setup an App class and let it run
 int main(){
  
-  // App m;
+    App m;
 
-    Serial.begin();
-	sei();
-	
-	Serial.puts("Hello - I am alive\n\r");
-
-	adcInit(ADC4);
-
-    DDRB |= (1<<D1_O);    	///PB5 /digital 13 is an output
-
-	for (;;) {
-
-		// Flashing LED
-		PORTB |= (1<<D1_O);    		// Else turn pin on
-		_delay_ms(200);    // Delay 2 millisecond
-		PORTB &= ~(1<<D1_O);    		// Turn pin off
-		_delay_ms(200);    // Delay 2 millisecond
-		
-		// Process Temperatures via ADC
-		int temp = adcRead(ADC4,1,3);
-		
-		char str[25];
-		snprintf(str, sizeof(str), "Temp=%d %d\n\r", temp,  temp - 273 + TEMP_OFFSET);
-		Serial.puts(str);
-		
-	}
-
-  //return m.run();
+    return m.run();
 
 }
 

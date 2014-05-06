@@ -55,7 +55,7 @@ flash: $(PROGRAM).hex
 	$(Q)avrdude -c avrispv2 -P usb -p $(DUDEMCU) -U flash:w:$(PROGRAM).hex
 
 fuses:
-    #(Q)avrdude -p $(DUDEMCU) -P usb -c avrispmkii -U lfuse:w:0x62:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+	$(Q)avrdude -p $(DUDEMCU) -P usb -c avrispmkii -U lfuse:w:0xe2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m 
     
 clean:
 	@printf "  CLEAN   $(subst $(shell pwd)/,,$(OBJS))\n"
