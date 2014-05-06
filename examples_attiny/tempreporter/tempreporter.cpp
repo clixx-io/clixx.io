@@ -1,6 +1,7 @@
-/* Simple Timer
+/* Temperature Reporter
 
-A simple example of using timers.
+* A simple example that reads the internal temperature sensor and
+* sends the temperature out the serial port in ascii format.
 
 */
 
@@ -53,7 +54,6 @@ class App : public clixxIOApp{
     };
     
 };
-
 
 // Main program Section. Simply setup an App class and let it run
 int main(){
