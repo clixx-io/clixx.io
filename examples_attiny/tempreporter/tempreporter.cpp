@@ -10,21 +10,11 @@ A simple example of using timers.
 #include "clixxIO.hpp"
 #include "tempreporter-config.hpp"
 
-#include "core_AVR/softuart.h"
-#include "core_AVR/iohelp.h"
-
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "core_AVR/iohelp.h"
 
 #define TEMP_OFFSET 17
-
-#define D1_I PB3
-#define D1_O PB4
-#define D1_S PB0
-
-#define D2_I PB2
-#define D2_O PB1
-#define D2_S PB5
 
 class App : public clixxIOApp{
 
@@ -47,8 +37,8 @@ class App : public clixxIOApp{
 		static char str[25];
 
 		// LED On
-		PORTB |= (1<<D1_O);    			// Turn pin on
-		_delay_ms(200);    				// Delay 200 millisecond
+		PORTB |= (1<<D1_O);				// Turn pin on
+		_delay_ms(200);					// Delay 200 millisecond
 		
 		// Process Temperatures via ADC
 		int temp = adcRead(ADC4,1,3);
@@ -57,8 +47,8 @@ class App : public clixxIOApp{
 		Serial.puts(str);
 
 		// LED Off
-		PORTB &= ~(1<<D1_O);    		// Turn pin off
-		_delay_ms(200);    				// Delay 200 millisecond
+		PORTB &= ~(1<<D1_O);			// Turn pin off
+		_delay_ms(200);					// Delay 200 millisecond
 
     };
     
