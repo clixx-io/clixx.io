@@ -1,5 +1,6 @@
 
 // Based on code published at http://learningmsp430.wordpress.com/2014/01/08/serial-communication/
+// http://nboddula.blogspot.com.au/2012/11/msp430-using-usi-for-uart-i2c.html
 
 #include "serial.h"
 
