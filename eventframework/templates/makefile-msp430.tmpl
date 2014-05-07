@@ -1,0 +1,71 @@
+TARGETMCU       ?= msp430g2231
+SRCS            ?= main.c
+
+CROSS           := msp430-
+CC              := $(CROSS)gcc
+CXX             := $(CROSS)g++
+OBJDUMP         := $(CROSS)objdump
+OBJCOPY         := $(CROSS)objcopy
+SIZE            := $(CROSS)size
+LD              := $(CC)
+MSPDEBUG        := mspdebug
+MSP430FLASHER   := C:\\bin\\MSP430Flasher
+LDFLAGS         := -mmcu=$(TARGETMCU)
+CFLAGS          := -Os -Wall -W -Wextra -Werror -std=gnu99 -g -mmcu=$(TARGETMCU)
+
+ifneq ($(WITH_CXX),)
+        CC      := $(CXX)
+        LD      := $(CC)
+endif
+
+ifeq ($(WITH_CXX),)
+        CFLAGS  += -Wstrict-prototypes -Wmissing-prototypes -Wbad-function-cast
+        CFLAGS  += -Werror-implicit-function-declaration -Wdeclaration-after-statement
+        CFLAGS  += -Wnested-externs -Wold-style-definition
+endif
+        CFLAGS  += -Wmissing-declarations -Winit-self -Winline -Wredundant-decls
+        CFLAGS  += -Wshadow -Wpointer-arith -Wcast-qual -Wsign-compare -Wformat=2
+        CFLAGS  += -Wfloat-equal -Wmissing-field-initializers
+        CFLAGS  += -Wmissing-include-dirs -Wswitch-default -Wpacked
+        CFLAGS  += -Wpacked -Wlarger-than-65500 -Wunknown-pragmas
+        CFLAGS  += -Wmissing-format-attribute -Wmissing-noreturn
+        CFLAGS  += -Wstrict-aliasing=2 -Wswitch-enum -Wundef -Wunreachable-code
+        CFLAGS  += -Wunsafe-loop-optimizations -Wwrite-strings -Wcast-align
+        CFLAGS  += -Wformat-nonliteral -Wformat-security -Waggregate-return
+        CFLAGS  += -fno-common -Wp,-D_FORTIFY_SOURCE=2
+        CFLAGS  += -finline-functions
+
+CXXFLAGS        := $(CFLAGS)
+
+PROG            := $(firstword $(SRCS:.c=))
+OBJS            := $(SRCS:.c=.o)
+
+all:            $(PROG).elf $(PROG).hex $(PROG).lst
+
+%.elf:          $(OBJS)
+                $(LD) $(LDFLAGS) -o $(PROG).elf $(OBJS)
+                $(SIZE) $<
+
+%.o:            %.c
+                $(CC) $(CFLAGS) -c $<
+
+%.lst:          %.elf
+                $(OBJDUMP) -DS $< > $@
+
+%.hex:          %.elf
+                $(OBJCOPY) -O ihex $< $@
+
+clean:
+                -rm -f $(PROG).elf $(PROG).lst $(PROG).hex $(OBJS)
+install:        $(PROG).elf $(PROG).hex
+ifeq ($(OS),Windows_NT)
+                $(MSP430FLASHER) -n $(TARGETMCU) -e ERASE_MAIN -w $<
+else
+                $(MSPDEBUG) -n rf2500 "prog $<"
+endif
+
+erase:
+                $(MSPDEBUG) -n rf2500 erase
+
+.PHONY:         all clean install erase
+.PRECIOUS:      %.o
