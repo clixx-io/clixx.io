@@ -1,6 +1,7 @@
-/* Simple Timer
+/* Temperature Reporter
 
-A simple example of using timers.
+* A simple example that reads the internal temperature sensor and
+* sends the temperature out the serial port in ascii format.
 
 */
 
@@ -10,69 +11,56 @@ A simple example of using timers.
 #include "clixxIO.hpp"
 #include "tempreporter-config.hpp"
 
-#include "core_AVR/softuart.h"
-#include "core_AVR/iohelp.h"
-
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "core_AVR/iohelp.h"
 
 #define TEMP_OFFSET 17
-
-#define D1_I PB3
-#define D1_O PB4
-#define D1_S PB0
-
-#define D2_I PB2
-#define D2_O PB1
-#define D2_S PB5
 
 class App : public clixxIOApp{
 
   public:
   
-    void timerevent(){
-
-    };
-    
     void setup(){
         
+		Serial.begin();
+		sei();
+		
+		Serial.puts("Hello - I am alive\n\r");
+
+		adcInit(ADC4);
+
+		DDRB |= (1<<D1_O);    			// digital-1 out an output with LED
     };
     
-};
+    void loop(){
+		
+		static char str[25];
 
-
-// Main program Section. Simply setup an App class and let it run
-int main(){
- 
-  // App m;
-
-    Serial.begin();
-	sei();
-	
-	Serial.puts("Hello - I am alive\n\r");
-
-	adcInit(ADC4);
-
-    DDRB |= (1<<D1_O);    	///PB5 /digital 13 is an output
-
-	for (;;) {
-
-		// Flashing LED
-		PORTB |= (1<<D1_O);    		// Else turn pin on
-		_delay_ms(200);    // Delay 2 millisecond
-		PORTB &= ~(1<<D1_O);    		// Turn pin off
-		_delay_ms(200);    // Delay 2 millisecond
+		// LED On
+		PORTB |= (1<<D1_O);				// Turn pin on
+		_delay_ms(200);					// Delay 200 millisecond
 		
 		// Process Temperatures via ADC
 		int temp = adcRead(ADC4,1,3);
 		
-		char str[25];
 		snprintf(str, sizeof(str), "Temp=%d %d\n\r", temp,  temp - 273 + TEMP_OFFSET);
 		Serial.puts(str);
-		
-	}
 
-  //return m.run();
+		// LED Off
+		PORTB &= ~(1<<D1_O);			// Turn pin off
+		_delay_ms(200);					// Delay 200 millisecond
+
+    };
+    
+};
+
+// Main program Section. Simply setup an App class and let it run
+int main(){
+ 
+    App m;
+
+    return m.run();
 
 }
 
