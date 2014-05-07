@@ -46,7 +46,8 @@ can then customise to suit your needs.
 	system_capabilities = {
 			   "attiny13" : "program_loop|program_timers|program_pinchange",
 			   "attiny85" : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
-			   "linux"    : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub"
+			   "linux"    : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
+			   "msp430"   : "program_loop|program_timers|program_pinchange|program_serial"
 				}
 
 	prompts = {"program_loop" : "Does the program need a polling loop (y,n,i) ? ",
@@ -151,6 +152,9 @@ can then customise to suit your needs.
 		if target_platform.startswith('atmega'):
 			return 'makefile-avr.tmpl'
 		
+		if target_platform.startswith('msp430'):
+			return 'makefile-msp430.tmpl'
+
 		return 'makefile-linux.tmpl'
 		
 	def create_projectdir(self):

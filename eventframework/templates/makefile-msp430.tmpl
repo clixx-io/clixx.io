@@ -1,71 +1,110 @@
-TARGETMCU       ?= msp430g2231
-SRCS            ?= main.c
+## 																	
+## This file is a template for makefile building for MSP430 projects in clixx.io
+##																	
+${'##																			'}
+${'## This program is free software; you can redistribute it and/or modify		'}
+${'## it under the terms of the GNU General Public License as published by		'}
+${'## the Free Software Foundation; either version 2 of the License, or			'}
+${'## (at your option) any later version.										'}
+${'##																			'}
+${'## This program is distributed in the hope that it will be useful,			'}
+${'## but WITHOUT ANY WARRANTY; without even the implied warranty of			'}
+${'## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the				'}
+${'## GNU General Public License for more details.								'}
+${'##																			'}
+${'## You should have received a copy of the GNU General Public License			'}
+${'## along with this program; if not, write to the Free Software				'}
+${'## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA	'}
+${'## 																			'}
 
-CROSS           := msp430-
-CC              := $(CROSS)gcc
-CXX             := $(CROSS)g++
-OBJDUMP         := $(CROSS)objdump
-OBJCOPY         := $(CROSS)objcopy
-SIZE            := $(CROSS)size
-LD              := $(CC)
-MSPDEBUG        := mspdebug
-MSP430FLASHER   := C:\\bin\\MSP430Flasher
-LDFLAGS         := -mmcu=$(TARGETMCU)
-CFLAGS          := -Os -Wall -W -Wextra -Werror -std=gnu99 -g -mmcu=$(TARGETMCU)
+PROGRAM         = ${program_base}
+TARGETMCU       = ${deployment_platform}
+SRCS            = $(PROGRAM).cpp
 
-ifneq ($(WITH_CXX),)
-        CC      := $(CXX)
-        LD      := $(CC)
-endif
+${'#																			'}
+${'# Makefile for msp430														'}
+${'#																			'}
+${'# \'make\' builds everything													'}
+${'# \'make clean\' deletes everything except source files and Makefile			'}
+${'# You need to set TARGET, MCU and SOURCES for your project.					'}
+${'# TARGET is the name of the executable file to be produced 					'}
+${'# $(TARGET).elf $(TARGET).hex and $(TARGET).txt nad $(TARGET).map are all generated.'}
+${'# The TXT file is used for BSL loading, the ELF can be used for JTAG use		'}
+${'# 																			'}
+TARGET     = ${program_base}
+MCU        = ${deployment_platform}
+${'# List all the source files here												'}
+${'# eg if you have a source file foo.c then list it here						'}
+SOURCES = $(PROGRAM).cpp
+ 
+${'# Include are located in the Include directory'}
+INCLUDES = -IInclude
+${'# Add or subtract whatever MSPGCC flags you want. There are plenty more'}
+${'#######################################################################################'}
+CFLAGS   = -mmcu=$(MCU) -g -Os -Wall -Wunused $(INCLUDES)   
+ASFLAGS  = -mmcu=$(MCU) -x assembler-with-cpp -Wa,-gstabs
+LDFLAGS  = -mmcu=$(MCU) -Wl,-Map=$(TARGET).map
+${'########################################################################################'}
+CC       = msp430-gcc
+LD       = msp430-ld
+AR       = msp430-ar
+AS       = msp430-gcc
+GASP     = msp430-gasp
+NM       = msp430-nm
+OBJCOPY  = msp430-objcopy
+RANLIB   = msp430-ranlib
+STRIP    = msp430-strip
+SIZE     = msp430-size
+READELF  = msp430-readelf
+MAKETXT  = srec_cat
+CP       = cp -p
+RM       = rm -f
+MV       = mv
+${'########################################################################################'}
+${'# the file which will include dependencies'}
+DEPEND = $(SOURCES:.c=.d)
+${'# all the object files'}
+OBJECTS = $(SOURCES:.c=.o)
 
-ifeq ($(WITH_CXX),)
-        CFLAGS  += -Wstrict-prototypes -Wmissing-prototypes -Wbad-function-cast
-        CFLAGS  += -Werror-implicit-function-declaration -Wdeclaration-after-statement
-        CFLAGS  += -Wnested-externs -Wold-style-definition
-endif
-        CFLAGS  += -Wmissing-declarations -Winit-self -Winline -Wredundant-decls
-        CFLAGS  += -Wshadow -Wpointer-arith -Wcast-qual -Wsign-compare -Wformat=2
-        CFLAGS  += -Wfloat-equal -Wmissing-field-initializers
-        CFLAGS  += -Wmissing-include-dirs -Wswitch-default -Wpacked
-        CFLAGS  += -Wpacked -Wlarger-than-65500 -Wunknown-pragmas
-        CFLAGS  += -Wmissing-format-attribute -Wmissing-noreturn
-        CFLAGS  += -Wstrict-aliasing=2 -Wswitch-enum -Wundef -Wunreachable-code
-        CFLAGS  += -Wunsafe-loop-optimizations -Wwrite-strings -Wcast-align
-        CFLAGS  += -Wformat-nonliteral -Wformat-security -Waggregate-return
-        CFLAGS  += -fno-common -Wp,-D_FORTIFY_SOURCE=2
-        CFLAGS  += -finline-functions
+all: $(TARGET).elf $(TARGET).hex $(TARGET).txt 
 
-CXXFLAGS        := $(CFLAGS)
+$(TARGET).elf: $(OBJECTS)
+	echo "Linking $@"
+	$(CC) $(OBJECTS) $(LDFLAGS) $(LIBS) -o $@
+	echo
+	echo ">>>> Size of Firmware <<<<"
+	$(SIZE) $(TARGET).elf
+	echo
 
-PROG            := $(firstword $(SRCS:.c=))
-OBJS            := $(SRCS:.c=.o)
+{'%.hex: %.elf'}
+	$(OBJCOPY) -O ihex $< $@
 
-all:            $(PROG).elf $(PROG).hex $(PROG).lst
+{'%.txt: %.hex'}
+	$(MAKETXT) -O $@ -TITXT $< -I
+	unix2dos $(TARGET).txt
+	${'#  The above line is required for the DOS based TI BSL tool to be able to read the txt file generated from linux/unix systems.'}
 
-%.elf:          $(OBJS)
-                $(LD) $(LDFLAGS) -o $(PROG).elf $(OBJS)
-                $(SIZE) $<
+{'%.o: %.c'}
+	echo "Compiling $<"
+	$(CC) -c $(CFLAGS) -o $@ $<
+	${'# rule for making assembler source listing, to see the code'}
+ 
+{'%.lst: %.c'}
+	${'$\(CC\) -c $\(ASFLAGS\) -Wa,-anlhd $< > $@'}
+	${'# include the dependencies unless we\'re going to clean, then forget about them.'}
+	ifneq ($(MAKECMDGOALS), clean)
+	-include $(DEPEND)
+	endif
 
-%.o:            %.c
-                $(CC) $(CFLAGS) -c $<
-
-%.lst:          %.elf
-                $(OBJDUMP) -DS $< > $@
-
-%.hex:          %.elf
-                $(OBJCOPY) -O ihex $< $@
+{'%.d: %.c'}
+	echo "Generating dependencies $@ from $<"
+	{'$\(CC\) -M $\(CFLAGS\) $< >$@'}
+	
+.SILENT:
+.PHONY:	clean
 
 clean:
-                -rm -f $(PROG).elf $(PROG).lst $(PROG).hex $(OBJS)
-install:        $(PROG).elf $(PROG).hex
-ifeq ($(OS),Windows_NT)
-                $(MSP430FLASHER) -n $(TARGETMCU) -e ERASE_MAIN -w $<
-else
-                $(MSPDEBUG) -n rf2500 "prog $<"
-endif
-
-erase:
-                $(MSPDEBUG) -n rf2500 erase
-
-.PHONY:         all clean install erase
-.PRECIOUS:      %.o
+	-$(RM) $(OBJECTS)
+	-$(RM) $(TARGET).*
+	-$(RM) $(SOURCES:.c=.lst)
+	-$(RM) $(DEPEND)
