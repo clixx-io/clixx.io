@@ -32,6 +32,8 @@ clixxIOSerial Serial;
 clixxIOSerial::clixxIOSerial()
 {
 	linebufferpos = 0;
+    linemode = 0;
+    echo = 0;
 }
 
 /** Initialise the Serial port at a specific Baud Rate
@@ -128,4 +130,27 @@ int clixxIOSerial::puts(const char *s)
 	softuart_puts( s );
 	
 	return 0;
+}
+
+void clixxIOSerial::addbufferchar(unsigned char c)
+{
+
+	if (c == '\r')
+	{
+		processcommand();
+		linebufferpos = 0;
+		
+	} 	else
+	{
+		if (linebufferpos < BUFFSIZE_LINELEN)
+		{
+			linebuffer[linebufferpos++] = c;
+		}
+	}
+	
+}
+
+void clixxIOSerial::processcommand(void)
+{
+
 }

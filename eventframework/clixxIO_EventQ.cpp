@@ -37,7 +37,7 @@
 #include "clixxIO.hpp"
 
 int howmany = 0;
-void *pMainClass;	
+void *pMainClass;
 
 /**
  * Handle a repeating interrupt using the Linux
@@ -72,7 +72,7 @@ int timer_setup (int interval)
   
   itimer.it_interval.tv_sec = interval;
   itimer.it_interval.tv_usec = 0;
-  itimer.it_value.tv_sec = interval;  // 10 seconds timer 
+  itimer.it_value.tv_sec = interval;	// interval value for timer 
   itimer.it_value.tv_usec = 0;
   int rc = setitimer(ITIMER_REAL, &itimer,0);
   signal(SIGALRM,timer_wakeup); 		// set the Alarm signal capture 
@@ -144,6 +144,14 @@ int clixxIOApp::run()
   for (;;)
   {
 	C_loopevent(pMainClass);
+	
+	if (Serial.available()) {
+		unsigned char c = Serial.read();
+		if (Serial.echo!=0)
+			Serial.write(c);
+		Serial.addbufferchar( c );
+	}
+	
   }
   
   return 0;
@@ -186,6 +194,19 @@ int addTimerEvent(int secs, void (*function)())
   
   return timer_setup(secs);
   
+}
+
+/**
+ * Setup a callback to a users IoT Subscrive event.
+ * This will be called whenever an IoT packet is received
+ * for a particular topic.
+ *
+ * @param function 	Pointer to the method to be called
+ * @return 
+ */
+int addIoTSubEvent(const char *topic, void (*function)(int))
+{
+	return 0;
 }
 
 /**

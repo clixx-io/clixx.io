@@ -25,18 +25,61 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-int addLoopEvent(void (* function)(int));
-int addTimerEvent(int secs, void (*function)());
-int addPinChangeEvent(int pin, int changetype, void (*function)(int,int));
-int addSerialInterruptEvent(int secs, void (*function)(int,int));
-
 void setMainAppPtr(void *mainClass);
-void C_loopevent( void* appC);
-void C_timerevent( void* appC);
+
+/*
+ * setup() construct
+ *
+ */
 void C_setupevent( void* appC);
+ 
+/*
+ * loop() construct
+ *
+ */
+int addLoopEvent(void (* function)(int));
+void C_loopevent( void* appC);
+
+/*
+ * timer() construct
+ *
+ */
+int addTimerEvent(int secs, void (*function)());
+void C_timerevent( void* appC);
+
+/*
+ * pin() construct
+ *
+ */
+int addPinChangeEvent(int pin, int changetype, void (*function)(int,int));
+void C_pinchange( void* appC);
+
+/*
+ * shutdown() construct
+ *
+ */
+int addShutdownEvent(void (*function)(int,int));
 void C_shutdownevent( void* appC);
-void C_serialevent( void* appC);
-void C_iotevent( void* appC);
+
+/*
+ * Serial Callbacks
+ *
+ */
+int addSerialCharEvent(void (*function)(int,int));
+int addSerialLineEvent(void (*function)(int,int));
+int addSerialOpenEvent(void (*function)(int,int));
+int addSerialCloseEvent(void (*function)(int,int));
+void C_serialchar( void* appC);
+void C_serialline( void* appC);
+void C_serialopen( void* appC);
+void C_serialclose( void* appC);
+
+int addSerialLineEvent(void (*function)(int,int));
+int addSerialOpenEvent(void (*function)(int,int));
+int addSerialCloseEvent(void (*function)(int,int));
+void C_iotmessage( void* appC);
+void C_iotopen( void* appC);
+void C_iotclose( void* appC);
 
 class clixxIOApp{
 
@@ -116,6 +159,10 @@ class clixxIOSerial
     unsigned char linebufferpos;
     
   public:
+  
+    unsigned char linemode;
+    unsigned char echo;
+    
     clixxIOSerial();
     int begin(const char *portname = 0, long baudrate = 0);
     void end();
@@ -124,6 +171,10 @@ class clixxIOSerial
     virtual void flush(void);
     virtual int write(unsigned char);
     virtual int puts(const char *);
+    
+    virtual void addbufferchar(unsigned char);
+    virtual void processcommand(void);
+    
 #ifdef Stream
     using print::write; // pull in write(str) and write(buf, size) from Print
 #endif
@@ -161,13 +212,19 @@ class ClixxIO_IoTSub : public clixxIOSerial
 		ClixxIO_IoTSub(const char* id);
 		virtual ~ClixxIO_IoTSub();
 
+		int connect();
+		int subscribe(const char* topic);
+		int disconnect();
+		
 	private:
+#ifdef TARGET_LINUX
 		uint16_t mid;
 
 		void on_connect(int rc);
 		void on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos);
 		void on_message(const struct mosquitto_message *message);
 		void print_error_connection(int rc);
+#endif
 };
 
 class ClixxIO_I2cDevice {
