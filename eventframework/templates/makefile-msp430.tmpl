@@ -62,9 +62,9 @@ RM       = rm -f
 MV       = mv
 ${'########################################################################################'}
 ${'# the file which will include dependencies'}
-DEPEND = $(SOURCES:.c=.d)
+DEPEND = $(SOURCES:.cpp=.d)
 ${'# all the object files'}
-OBJECTS = $(SOURCES:.c=.o)
+OBJECTS = $(SOURCES:.cpp=.o)
 
 all: $(TARGET).elf $(TARGET).hex $(TARGET).txt 
 

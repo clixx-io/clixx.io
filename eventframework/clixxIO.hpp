@@ -208,23 +208,28 @@ class ClixxIO_IoTSub : public mosquittopp::mosquittopp
 class ClixxIO_IoTSub : public clixxIOSerial
 #endif
 {
-	public:
-		ClixxIO_IoTSub(const char* id);
-		virtual ~ClixxIO_IoTSub();
+  public:
+    virtual ~ClixxIO_IoTSub();
 
-		int connect();
-		int subscribe(const char* topic);
-		int disconnect();
-		
-	private:
-#ifdef TARGET_LINUX
+    #ifdef TARGET_LINUX
+    int connect(const char *host, int port=1883, int keepalive=60, bool clean_session=true);
+    #else
+    ClixxIO_IoTSub(const char* id);
+    int connect();
+    int subscribe(const char* topic);
+    #endif
+    
+    int disconnect();
+
+  private:
+    #ifdef TARGET_LINUX
 		uint16_t mid;
 
 		void on_connect(int rc);
 		void on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos);
 		void on_message(const struct mosquitto_message *message);
 		void print_error_connection(int rc);
-#endif
+    #endif
 };
 
 class ClixxIO_I2cDevice {

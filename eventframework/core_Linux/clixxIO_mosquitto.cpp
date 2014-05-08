@@ -9,12 +9,37 @@
 
 using namespace std;
 
-ClixxIO_IoTSub::ClixxIO_IoTSub(const char* id) : mosquittopp(id){
+
+#ifndef TARGET_LINUX
+ClixxIO_IoTSub::ClixxIO_IoTSub(const char* id)
+{
 
 }
+#endif
 
-ClixxIO_IoTSub::~ClixxIO_IoTSub() {
+ClixxIO_IoTSub::~ClixxIO_IoTSub() 
+{
+}
 
+/*
+int ClixxIO_IoTSub::connect()
+{
+	return -1;
+}
+*/
+
+int ClixxIO_IoTSub::connect(const char *host, int port, int keepalive, bool clean_session)
+{
+
+	mosquittopp::connect(host, port, keepalive, clean_session);
+//int ClixxIO_IoTSub::subscribe(const char* topic)
+//{
+	return -1;
+}
+
+int ClixxIO_IoTSub::disconnect()
+{
+	return -1;
 }
 
 void ClixxIO_IoTSub::on_connect(int rc) {
