@@ -44,19 +44,20 @@ can then customise to suit your needs.
 """
 
 	system_capabilities = {
-			   "attiny13" : "program_loop|program_timers|program_pinchange",
-			   "attiny85" : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
-			   "linux"    : "program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
-			   "msp430"   : "program_loop|program_timers|program_pinchange|program_serial"
+			   "attiny13" : "program_setup|program_loop|program_timers|program_pinchange",
+			   "attiny85" : "program_setup|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
+			   "linux"    : "program_setup|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
+			   "msp430"   : "program_setup|program_loop|program_timers|program_pinchange|program_serial"
 				}
 
-	prompts = {"program_loop" : "Does the program need a polling loop (y,n,i) ? ",
+	prompts = {"program_setup" : "Does the program need a setup function (y,n,i) ? ",
+	           "program_loop" : "Does the program need a polling loop (y,n,i) ? ",
 			   "program_timers" : "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
 			   "program_pinchange" : "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
 			   "program_serial" : "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
+			   "mqtt_sub" : "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? ",
 			   "program_network_socket_server" : "Does the program need to handle incoming network sockets (network-socket-server) (y,n,i) ? ",
-			   "program_network_socket_client" : "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? ",
-			   "mqtt_sub" : "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? "
+			   "program_network_socket_client" : "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? "
 			   }
 
 	info    = {"program_loop" : "Normally within main(), programs have a repeating for (;;){} loop. In Wiring/Arduino, this is broken out to a loop() method. If you have code that loops, then you will need this construct.",
@@ -221,10 +222,40 @@ can then customise to suit your needs.
 		Render the main callback .cpp file using a template with the settings held in memory
 		"""
 	
-		mainincludefile = open(os.path.join(self.projectdir,self.project_name+'-callbacks.cpp'), 'w')	
+		maincallbackfile = open(os.path.join(self.projectdir,self.project_name+'-callbacks.cpp'), 'w')	
+		
+		usedcalllist = {}
+
+		usedcalllist['program_setup'] = ''
+		if 'program_setup' in self.selections:
+			usedcalllist['program_setup'] = 'static_cast<App*>(appC)->setup();'
+
+		usedcalllist['program_shutdown'] = ''
+		if usedcalllist['program_shutdown'] in self.selections:
+			usedcalllist['program_shutdown'] = 'static_cast<App*>(appC)->shutdown();'
+
+		usedcalllist['program_loop'] = ''
+		if usedcalllist['program_loop'] in self.selections:
+			usedcalllist['program_loop'] = 'static_cast<App*>(appC)->loop();'
+
+		usedcalllist['program_pinchange'] = ''
+		if usedcalllist['program_pinchange'] in self.selections:
+			usedcalllist['program_pinchange'] = 'static_cast<App*>(appC)->pinchange();'
+
+		usedcalllist['program_timers'] = ''
+		if usedcalllist['program_timers'] in self.selections:
+			usedcalllist['program_timers'] = 'static_cast<App*>(appC)->timer();'
+
+		usedcalllist['serialchar'] = ''
+		usedcalllist['serialline'] = ''
+		usedcalllist['serialopen'] = ''
+		usedcalllist['serialclose'] = ''
+		usedcalllist['iotmessage'] = ''
+		usedcalllist['iotopen'] = ''
+		usedcalllist['iotclose'] = ''
 		
 		mytemplate = Template(filename=os.path.join(self.templatedir,'main-callbacks.tmpl'))
-		mainincludefile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
+		maincallbackfile.write(mytemplate.render(function_calls = usedcalllist))
 		
 		
 if __name__ == "__main__":
