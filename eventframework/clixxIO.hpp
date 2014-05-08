@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+extern void *pMainClass;
 void setMainAppPtr(void *mainClass);
 
 /*
@@ -74,9 +75,9 @@ void C_serialline( void* appC);
 void C_serialopen( void* appC);
 void C_serialclose( void* appC);
 
-int addSerialLineEvent(void (*function)(int,int));
-int addSerialOpenEvent(void (*function)(int,int));
-int addSerialCloseEvent(void (*function)(int,int));
+int addIoTSubEvent(void (*function)(int,int));
+int addIoTOpenEvent(void (*function)(int,int));
+int addIoTCloseEvent(void (*function)(int,int));
 void C_iotmessage( void* appC);
 void C_iotopen( void* appC);
 void C_iotclose( void* appC);

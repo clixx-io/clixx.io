@@ -149,6 +149,7 @@ int clixxIOApp::run()
 		unsigned char c = Serial.read();
 		if (Serial.echo!=0)
 			Serial.write(c);
+
 		Serial.addbufferchar( c );
 	}
 	
@@ -165,7 +166,7 @@ int clixxIOApp::run()
  */
 void setMainAppPtr(void *mainClass)
 {
-  pMainClass = mainClass;	
+  pMainClass = mainClass;
 
   printf("MainClass set to %p\n",mainClass);
 }
@@ -239,7 +240,7 @@ int addSerialInterruptEvent(int secs, void (*function)())
 class clixxIOMsgQ {
 
   public:                    	// begin public section
-    clixxIOMsgQ();     		// constructor
+    clixxIOMsgQ();          	// constructor
     ~clixxIOMsgQ();          	// destructor
     
     int peekMsg() const;

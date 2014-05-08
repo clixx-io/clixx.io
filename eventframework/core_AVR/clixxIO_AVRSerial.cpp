@@ -58,6 +58,8 @@ int clixxIOSerial::begin(const char *portname, long baudrate)
 
 	softuart_turn_rx_on();
 
+	C_iotopen(pMainClass);
+
 	return 0;
 }
 
@@ -68,7 +70,9 @@ int clixxIOSerial::begin(const char *portname, long baudrate)
 void clixxIOSerial::end()
 {
 	softuart_turn_rx_off();
-	
+
+	C_iotclose(pMainClass);
+
 	return;
 }
 
@@ -135,6 +139,8 @@ int clixxIOSerial::puts(const char *s)
 void clixxIOSerial::addbufferchar(unsigned char c)
 {
 
+	C_serialchar(pMainClass);
+	
 	if (c == '\r')
 	{
 		processcommand();
@@ -145,6 +151,7 @@ void clixxIOSerial::addbufferchar(unsigned char c)
 		if (linebufferpos < BUFFSIZE_LINELEN)
 		{
 			linebuffer[linebufferpos++] = c;
+			
 		}
 	}
 	
@@ -152,5 +159,5 @@ void clixxIOSerial::addbufferchar(unsigned char c)
 
 void clixxIOSerial::processcommand(void)
 {
-
+	C_serialline(pMainClass);
 }

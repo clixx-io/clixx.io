@@ -69,3 +69,5 @@ install:
 	$(Q)mkdir -p ~/IoT/libraries 
 	@printf "Copying library $(LIBRARY).a to ~/IoT/libraries\n"
 	$(Q)cp $(LIBRARY).a ~/IoT/libraries
+	@printf "Copying Include files to ~/IoT/libraries/includes\n"
+	$(Q)cp clixxIO.hpp ~/IoT/libraries/includes

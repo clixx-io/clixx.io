@@ -11,7 +11,7 @@ using namespace std;
 
 
 #ifndef TARGET_LINUX
-ClixxIO_IoTSub::ClixxIO_IoTSub(const char* id)
+ClixxIO_IoTSub::ClixxIO_IoTSub(const char* id) : mosquittopp(id){
 {
 
 }

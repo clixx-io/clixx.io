@@ -25,16 +25,18 @@ PROGRAM = ${program_base}
 MCU = ${deployment_platform}
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -mmcu=$(MCU)
-LDFLAGS += ../libraries/libclixxIO_AVR_$(MCU).a
+CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../libraries/includes
+LDFLAGS += -L ../libraries -l clixxIO_AVR_$(MCU)
 OBJS = $(PROGRAM).o
 
-# Be silent per default, but 'make V=1' will show all compiler calls.
+CFLAGS += -Wall -g -Os -mmcu=$(MCU) 
+
+${'# Be silent per default, but \'make V=1\' will show all compiler calls.'}
 ifneq ($(V),1)
   Q := @
 endif
 
-# Avrdude mcu parameters are different than in avr-gcc, so translate
+${'# Avrdude mcu parameters are different than in avr-gcc, so translate'}
 DUDEMCU = $(MCU)
 ifeq ($(MCU),attiny85)
   DUDEMCU = t85
