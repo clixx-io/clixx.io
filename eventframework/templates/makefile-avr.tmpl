@@ -42,7 +42,7 @@ ifeq ($(MCU),attiny85)
   DUDEMCU = t85
   MCUFUSES = -U lfuse:w:0x62:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
 endif
-endif
+
 ifeq ($(MCU),attiny13)
   DUDEMCU = t13
 endif
