@@ -44,29 +44,38 @@ can then customise to suit your needs.
 """
 
 	system_capabilities = {
-			   "attiny13" : "program_setup|program_loop|program_timers|program_pinchange",
-			   "attiny85" : "program_setup|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
-			   "linux"    : "program_setup|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
-			   "msp430"   : "program_setup|program_loop|program_timers|program_pinchange|program_serial"
+			   "attiny13" 			: "program_setup|program_loop|program_timers|program_pinchange",
+			   "attiny85" 			: "program_setup|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
+			   "linux"    			: "program_setup|program_shutdown|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
+			   "msp430"   			: "program_setup|program_loop|program_timers|program_pinchange|program_serial"
 				}
 
-	prompts = {"program_setup" : "Does the program need a setup function (y,n,i) ? ",
-	           "program_loop" : "Does the program need a polling loop (y,n,i) ? ",
-			   "program_timers" : "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
-			   "program_pinchange" : "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
-			   "program_serial" : "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
-			   "mqtt_sub" : "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? ",
-			   "program_network_socket_server" : "Does the program need to handle incoming network sockets (network-socket-server) (y,n,i) ? ",
-			   "program_network_socket_client" : "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? "
+	prompts = {"program_setup" 		: "Does the program need a setup function (y,n,i) ? ",
+			   "program_shutdown" 	: "Does the program need a pre-shutdown function (y,n,i) ? ",
+			   "program_loop" 		: "Does the program need a polling loop (y,n,i) ? ",
+			   "program_timers" 	: "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
+			   "program_pinchange" 	: "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
+			   "program_serial" 	: "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
+			   "serial_char"		: "An Event for every serial character (y,n,i) ?", 
+			   "serial_line"		: "An Event for a complete line of serial text (y,n,i) ?", 
+			   "serial_open"		: "An Event for when the serial port is opened (y,n,i) ?", 
+			   "serial_close"		: "An Event for when the serial port is closed (y,n,i) ?", 
+			   "iot_message"		: "An Event for an IoT Subscription message (y,n,i) ?", 
+			   "iot_open"			: "An Event for when the IoT channel is opened (y,n,i) ?", 
+			   "iot_close"			: "An Event for when the IoT channel is closed (y,n,i) ?", 
+			   "mqtt_sub" 			: "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? ",
+			   "socket_server" 		: "Does the program need to handle incoming network sockets (network-socket-server) (y,n,i) ? ",
+			   "socket_client" 		: "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? "
 			   }
 
-	info    = {"program_loop" : "Normally within main(), programs have a repeating for (;;){} loop. In Wiring/Arduino, this is broken out to a loop() method. If you have code that loops, then you will need this construct.",
-			   "program_timers" : "Programs can use timer interrupts. These are usually from hardware but on modern Operating Systems, they can be implemented in software.",
-			   "program_pinchange" : "PinChange Interrupts occur when a GPIO pin changes. This is usually RISING/FALLING/CHANGE.",
-			   "program_serial" : "Serial Data can captured on interrupts and fed to your program as events.",
-			   "program_network_socket_server" : "Your program may wish to utilise a socket server to receive data from other computers",
-			   "program_network_socket_client" : "Your program may wish to connect to other socket servers and push/pull data over a socket-stream.",
-			   "mqtt_sub" : "Your program may wish to subscribe to Internet-of-Tnings events and notifications"
+
+	info    = {"program_loop" 		: "Normally within main(), programs have a repeating for (;;){} loop. In Wiring/Arduino, this is broken out to a loop() method. If you have code that loops, then you will need this construct.",
+			   "program_timers" 	: "Programs can use timer interrupts. These are usually from hardware but on modern Operating Systems, they can be implemented in software.",
+			   "program_pinchange" 	: "PinChange Interrupts occur when a GPIO pin changes. This is usually RISING/FALLING/CHANGE.",
+			   "program_serial" 	: "Serial Data can captured on interrupts and fed to your program as events.",
+			   "socket_server" 		: "Your program may wish to utilise a socket server to receive data from other computers",
+			   "socket_client" 		: "Your program may wish to connect to other socket servers and push/pull data over a socket-stream.",
+			   "mqtt_sub" 			: "Your program may wish to subscribe to Internet-of-Tnings events and notifications"
 			   }
 
 	iot_dir = "IoT"
@@ -109,7 +118,7 @@ can then customise to suit your needs.
 			print("and the project directory will be : %s\n" % self.get_projectdir(self.project_name))
 		
 		for x in self.prompts.keys():
-			if x in capabilities:
+			if (x in capabilities) and (x.startswith('program_')):
 				r = 'I'
 				while not r in 'YN':
 					r = raw_input(self.prompts[x]).upper()
@@ -231,33 +240,53 @@ can then customise to suit your needs.
 			usedcalllist['program_setup'] = 'static_cast<App*>(appC)->setup();'
 
 		usedcalllist['program_shutdown'] = ''
-		if usedcalllist['program_shutdown'] in self.selections:
+		if 'program_shutdown' in self.selections:
 			usedcalllist['program_shutdown'] = 'static_cast<App*>(appC)->shutdown();'
 
 		usedcalllist['program_loop'] = ''
-		if usedcalllist['program_loop'] in self.selections:
+		if 'program_loop' in self.selections:
 			usedcalllist['program_loop'] = 'static_cast<App*>(appC)->loop();'
 
 		usedcalllist['program_pinchange'] = ''
-		if usedcalllist['program_pinchange'] in self.selections:
+		if 'program_pinchange' in self.selections:
 			usedcalllist['program_pinchange'] = 'static_cast<App*>(appC)->pinchange();'
 
 		usedcalllist['program_timers'] = ''
-		if usedcalllist['program_timers'] in self.selections:
+		if 'program_timers' in self.selections:
 			usedcalllist['program_timers'] = 'static_cast<App*>(appC)->timer();'
 
-		usedcalllist['serialchar'] = ''
-		usedcalllist['serialline'] = ''
-		usedcalllist['serialopen'] = ''
-		usedcalllist['serialclose'] = ''
-		usedcalllist['iotmessage'] = ''
-		usedcalllist['iotopen'] = ''
-		usedcalllist['iotclose'] = ''
-		
+		usedcalllist['serial_char'] = ''
+		if 'serial_char' in self.selections:
+			usedcalllist[''] = 'static_cast<App*>(appC)->serialchar();'
+
+		usedcalllist['serial_line'] = ''
+		if 'serial_line' in self.selections:
+			usedcalllist['serial_line'] = 'static_cast<App*>(appC)->serialline();'
+
+		usedcalllist['serial_open'] = ''
+		if 'serial_open' in self.selections:
+			usedcalllist['serial_open'] = 'static_cast<App*>(appC)->serialopen();'
+
+		usedcalllist['serial_close'] = ''
+		if 'serial_close' in self.selections:
+			usedcalllist['serial_close'] = 'static_cast<App*>(appC)->serialclose();'
+
+		usedcalllist['iot_message'] = ''
+		if 'iot_message' in self.selections:
+			usedcalllist['iot_message'] = 'static_cast<App*>(appC)->iotmessage();'
+
+		usedcalllist['iot_open'] = ''
+		if 'iot_open' in self.selections:
+			usedcalllist['iot_open'] = 'static_cast<App*>(appC)->iotopen();'
+
+		usedcalllist['iot_close'] = ''
+		if 'iot_close' in self.selections:
+			usedcalllist['iot_close'] = 'static_cast<App*>(appC)->iotclose();'
+
 		mytemplate = Template(filename=os.path.join(self.templatedir,'main-callbacks.tmpl'))
 		maincallbackfile.write(mytemplate.render(function_calls = usedcalllist))
-		
-		
+
+
 if __name__ == "__main__":
 
 	usage = "usage: %prog [options] arg1 arg2"
