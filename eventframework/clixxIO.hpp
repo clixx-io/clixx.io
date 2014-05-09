@@ -210,12 +210,14 @@ class ClixxIO_IoTSub : public clixxIOSerial
 #endif
 {
   public:
-    virtual ~ClixxIO_IoTSub();
 
     #ifdef TARGET_LINUX
+    ClixxIO_IoTSub(const char* id);
+    ~ClixxIO_IoTSub();
     int connect(const char *host, int port=1883, int keepalive=60, bool clean_session=true);
     #else
     ClixxIO_IoTSub(const char* id);
+    ~ClixxIO_IoTSub();
     int connect();
     int subscribe(const char* topic);
     #endif
