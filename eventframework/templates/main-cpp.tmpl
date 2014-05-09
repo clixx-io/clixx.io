@@ -1,6 +1,7 @@
-/* Simple Timer
+/* Program
 
-A simple example of using timers.
+   A simple program created by the clixx.io generator now ready for 
+   customisation.
 
 */
 
@@ -11,29 +12,146 @@ A simple example of using timers.
 class App : public clixxIOApp{
 
   public:
-  
-    void timerevent(){
-        /* timer Event handler
-         
-         This will get called every second.
-         
-        */
 
-        printf("Timer Callback\n");
-    };
-    
+% if 'program_setup' in section_selections:
     void setup(){
         /* setup Event handler
 
          This is a built in handler that will get called on startup
          and provides for initialisation requirements.
-        */
-        printf("Application in startup event\n");
 
-        addTimerEvent(2, (void (*)()) &App::timerevent);
+        */
+        Debug.puts("Application in Startup event");
+
     };
-    
+
+% endif
+% if 'program_shutdown' in section_selections:
+    void shutdown(){
+        /* shutdown Event handler
+
+         This is a built in handler is run before the program is
+         shut down. It allows for files to be closed and/or
+         resources to be released.
+
+        */
+        Debug.puts("Application in Shutdown event");
+
+    };
+
+% endif
+% if 'program_timers' in section_selections:
+    void timer(){
+        /* timer Event handler
+         
+         This will get called automatically by the timer.
+         
+        */
+        Debug.puts("Timer Callback");
+    };
+
+% endif
+% if 'program_loop' in section_selections:
+    void loop(){
+        /* Loop Event handler
+         
+         This gets called repeatedly.
+         
+        */
+        Debug.puts("Loop Callback");
+    };
+
+% endif
+% if 'program_pinchange' in section_selections:
+    void pinchange(){
+        /* PinChange Event handler
+         
+         This gets called when a pin changes.
+         
+        */
+        Debug.puts("PinChange Callback");
+    };
+
+% endif
+% if 'serial_char' in section_selections:
+    void serialchar(){
+        /* SerialChar Event handler
+         
+         This gets called when a character is received.
+         
+        */
+        Debug.puts("SerialChar Callback");
+    };
+
+% endif
+% if 'serial_line' in section_selections:
+    void serialline(){
+        /* SerialLine Event handler
+         
+         This gets called when a line is received.
+         
+        */
+        Debug.puts("SerialLine Callback");
+    };
+
+% endif
+% if 'serial_open' in section_selections:
+    void serialopen(){
+        /* SerialOpen Event handler
+         
+         This gets called when a Serial line is opened.
+         
+        */
+        Debug.puts("SerialOpen Callback");
+    };
+
+% endif
+% if 'serial_close' in section_selections:
+    void serialclose(){
+        /* SerialOpen Event handler
+         
+         This gets called when a Serial line is closed.
+         
+        */
+        Debug.puts("SerialClose Callback");
+    };
+
+% endif
+% if 'iot_open' in section_selections:
+    void iotopen(){
+        /* IoTOpen Event handler
+         
+         This gets called when a IoT line is opened.
+         
+        */
+        Debug.puts("IoTOpen Callback");
+    };
+
+% endif
+% if 'iot_message' in section_selections:
+    void iotmessage(){
+        /* IoT Message handler
+         
+         This gets called when an IoT sub is received.
+         
+        */
+        Debug.puts("IoTMessage Callback");
+    };
+
+% endif
+% if 'iot_close' in section_selections:
+    void iotclose(){
+        /* IoTpen Event handler
+         
+         This gets called when a IoT line is closed.
+         
+        */
+        Debug.puts("IoTClose Callback");
+    };
+
+% endif
 };
+
 
 // Main program Section. Simply setup an App class and let it run
 int main(){

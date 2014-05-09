@@ -45,7 +45,7 @@ can then customise to suit your needs.
 
 	system_capabilities = {
 			   "attiny13" 			: "program_setup|program_loop|program_timers|program_pinchange",
-			   "attiny85" 			: "program_setup|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
+			   "attiny85" 			: "program_setup|program_loop|program_timers|program_pinchange|program_serial|program_iot",
 			   "linux"    			: "program_setup|program_shutdown|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
 			   "msp430"   			: "program_setup|program_loop|program_timers|program_pinchange|program_serial"
 				}
@@ -56,6 +56,7 @@ can then customise to suit your needs.
 			   "program_timers" 	: "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
 			   "program_pinchange" 	: "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
 			   "program_serial" 	: "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
+			   "program_iot"		: "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? ",
 			   "serial_char"		: "An Event for every serial character (y,n,i) ?", 
 			   "serial_line"		: "An Event for a complete line of serial text (y,n,i) ?", 
 			   "serial_open"		: "An Event for when the serial port is opened (y,n,i) ?", 
@@ -63,7 +64,6 @@ can then customise to suit your needs.
 			   "iot_message"		: "An Event for an IoT Subscription message (y,n,i) ?", 
 			   "iot_open"			: "An Event for when the IoT channel is opened (y,n,i) ?", 
 			   "iot_close"			: "An Event for when the IoT channel is closed (y,n,i) ?", 
-			   "mqtt_sub" 			: "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? ",
 			   "socket_server" 		: "Does the program need to handle incoming network sockets (network-socket-server) (y,n,i) ? ",
 			   "socket_client" 		: "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? "
 			   }
@@ -124,6 +124,18 @@ can then customise to suit your needs.
 					r = raw_input(self.prompts[x]).upper()
 					if r == 'Y':
 						self.selections.append(x)
+
+						# Subsection queries
+						device_capabilities = []
+						k = x[x.find('_')+1:]
+						for y in self.prompts.keys():
+							if y.startswith(k):
+								r = 'I'
+								while not r in 'YN':
+									r = raw_input(self.prompts[y]).upper()
+									if r == 'Y':
+										self.selections.append(y)
+
 					elif (r == 'I'):
 						if x in self.info.keys():
 							print(self.info[x])
@@ -215,7 +227,7 @@ can then customise to suit your needs.
 		mainfile = open(os.path.join(self.projectdir,self.project_name+'.cpp'), 'w')	
 		
 		mytemplate = Template(filename=os.path.join(self.templatedir,'main-cpp.tmpl'))
-		mainfile.write(mytemplate.render(program_base = self.project_name, deployment_platform = self.deployment_platform))
+		mainfile.write(mytemplate.render(program_base = self.project_name, section_selections = self.selections))
 		
 	def render_mainhppfile(self):
 		"""
