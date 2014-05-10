@@ -27,14 +27,6 @@
 #include "clixxIO.hpp"
 #include "core_AVR/softuart.h"
 
-clixxIOSerial Serial;
-
-clixxIOSerial::clixxIOSerial()
-{
-	linebufferpos = 0;
-    linemode = 0;
-    echo = 0;
-}
 
 /** Initialise the Serial port at a specific Baud Rate
 *
@@ -85,7 +77,7 @@ void clixxIOSerial::end()
 */
 int clixxIOSerial::available(void)
 {
-	return softuart_kbhit();
+    return softuart_kbhit();
 }
 
 /** Reads a character from the serial port
@@ -136,28 +128,3 @@ int clixxIOSerial::puts(const char *s)
 	return 0;
 }
 
-void clixxIOSerial::addbufferchar(unsigned char c)
-{
-
-	C_serialchar(pMainClass);
-	
-	if (c == '\r')
-	{
-		processcommand();
-		linebufferpos = 0;
-		
-	} 	else
-	{
-		if (linebufferpos < BUFFSIZE_LINELEN)
-		{
-			linebuffer[linebufferpos++] = c;
-			
-		}
-	}
-	
-}
-
-void clixxIOSerial::processcommand(void)
-{
-	C_serialline(pMainClass);
-}

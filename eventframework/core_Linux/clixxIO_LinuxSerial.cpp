@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include <cstring>
 #include "clixxIO.hpp"
 
 extern int serial_feed_setup(const char *portname, long baudrate);
@@ -31,6 +32,8 @@ extern int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dum
 extern int serial_feed_close(int tty_fd);
 extern int serial_available(int tty_fd);
 extern int term_setup(int fd, long baudrate);
+extern int serial_puts(int tty_fd, const char *output);
+extern int serial_putc(int tty_fd, const char outputc);
 
 clixxIOSerial::clixxIOSerial()
 {
@@ -65,3 +68,25 @@ unsigned char clixxIOSerial::read(void)
 void clixxIOSerial::flush(void)
 {
 }
+
+/** Writes a character to the serial port
+*
+* This function writes one character to the serial port.
+* 
+*/
+int clixxIOSerial::write(const char c)
+{
+	return serial_putc(fd, (const unsigned char ) c);
+}
+
+/** Writes a string to the serial port
+*
+* This function writes a string to the serial port
+* 
+*/
+int clixxIOSerial::puts(const char *s)
+{
+
+	return serial_puts(fd, s);
+}
+

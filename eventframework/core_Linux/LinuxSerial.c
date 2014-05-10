@@ -140,10 +140,9 @@ void fatal (const char *format, ...)
 {
 	char buf[256];
 	va_list args;
-	int len;
 
 	va_start(args, format);
-	len = vsnprintf(buf, sizeof(buf), format, args);
+	vsnprintf(buf, sizeof(buf), format, args);
 	buf[sizeof(buf) - 1] = '\0';
 	va_end(args);
 	
@@ -248,9 +247,9 @@ int serial_available(int tty_fd)
 	else if( pollrc > 0)
 	{
 		if( fds[0].revents & POLLIN )
-			return(1)
+			return(1);
 	}
-	return 0;
+	return (int) rc;
 }
 
 int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars)
@@ -295,3 +294,16 @@ int serial_feed_close(int tty_fd)
 	return close(tty_fd);
 }
 
+int serial_puts(int tty_fd, const char *output){
+
+	return write(tty_fd,output,strlen(output));
+}
+
+int serial_putc(int tty_fd, const char outputc){
+
+	unsigned char buff[1];
+	buff[0] = outputc;
+	
+	return write(tty_fd,&buff,1);
+
+}

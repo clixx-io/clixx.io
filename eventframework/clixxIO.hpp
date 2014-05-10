@@ -170,8 +170,8 @@ class clixxIOSerial
     virtual int available(void);
     virtual unsigned char read(void);
     virtual void flush(void);
-    virtual int write(unsigned char);
-    virtual int puts(const char *);
+    int write(const char);
+    int puts(const char *);
     
     virtual void addbufferchar(unsigned char);
     virtual void processcommand(void);
