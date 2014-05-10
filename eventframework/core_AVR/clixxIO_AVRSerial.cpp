@@ -109,9 +109,9 @@ void clixxIOSerial::flush(void)
 * This function writes one character to the serial port.
 * 
 */
-int clixxIOSerial::write(const unsigned char c)
+int clixxIOSerial::write(const char c)
 {
-	softuart_putchar(c);
+	softuart_putchar((const unsigned char) c);
 	
 	return(0);
 }
