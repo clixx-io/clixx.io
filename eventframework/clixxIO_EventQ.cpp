@@ -146,7 +146,7 @@ int clixxIOApp::run()
 	C_loopevent(pMainClass);
 	
 	if (Serial.available()) {
-		unsigned char c = Serial.read();
+		char c = Serial.read();
 		if (Serial.echo!=0)
 			Serial.write(c);
 

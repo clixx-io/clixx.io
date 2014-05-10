@@ -43,6 +43,7 @@ void clixxIOSerial::addbufferchar(unsigned char c)
 		if (linebufferpos < BUFFSIZE_LINELEN)
 		{
 			linebuffer[linebufferpos++] = c;
+			linebuffer[linebufferpos] = 0;
 			
 		}
 	}

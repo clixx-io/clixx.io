@@ -40,21 +40,52 @@ clixxIOSerial::clixxIOSerial()
 	fd = -1;
 }
 
+/** Initialise the Serial port at a specific Baud Rate
+*
+* This function initialises the serial port as well as setting up the input
+* pin attached to the Serial port. The set up accepts portname as the Windows
+* comport name : ie "COM1" or in Linux "/dev/ttyUSB0". The Baudrate is
+* optional. On some platforms like the Attiny85 with softuart it's fixed
+* to a precompiled vale and can't be changed.
+* 
+* Assume 8N1 for all port settings.
+*
+* @portname 	the filename of the port to initialise.
+* 
+* @baudrate		baudrate to run the port. 
+*/
 int clixxIOSerial::begin(const char *portname, long baudrate)
 {
 	return serial_feed_setup(portname, baudrate);
 }
 
+/** End using the Serial port and close it
+*
+* This function ends using the serial port.
+*/
 void clixxIOSerial::end()
 {
 	serial_feed_close(fd);
 }
 
+/** Determines if characters are available for reading
+*
+* This function checks internal buffers and informs the
+* caller if there are characters that are available for
+* reading from the port.
+* 
+*/
 int clixxIOSerial::available(void)
 {
 	return serial_available(fd);
 }
 
+/** Reads a character from the serial port
+*
+* This function reads one character from the serial port
+* if available.
+* 
+*/
 unsigned char clixxIOSerial::read(void)
 {
 	unsigned char rx_buff;
@@ -65,6 +96,12 @@ unsigned char clixxIOSerial::read(void)
 		return (unsigned char ) 0;
 }
 
+/** Flushes the serial port Buffer
+*
+* This function reads one character from the serial port
+* if available.
+* 
+*/
 void clixxIOSerial::flush(void)
 {
 }

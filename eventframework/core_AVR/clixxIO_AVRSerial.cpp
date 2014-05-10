@@ -26,7 +26,11 @@
  */
 #include "clixxIO.hpp"
 #include "core_AVR/softuart.h"
+#include <avr/interrupt.h>
 
+clixxIOSerial::clixxIOSerial()
+{
+}
 
 /** Initialise the Serial port at a specific Baud Rate
 *
@@ -52,6 +56,9 @@ int clixxIOSerial::begin(const char *portname, long baudrate)
 
 	C_iotopen(pMainClass);
 
+	// Enable Interrupts globally for the softuart system to run.
+    sei();
+    
 	return 0;
 }
 
@@ -92,7 +99,7 @@ unsigned char clixxIOSerial::read(void)
 	return softuart_getchar();
 }
 
-/** Reads a character from the serial port
+/** Flushes the serial port Buffer
 *
 * This function reads one character from the serial port
 * if available.

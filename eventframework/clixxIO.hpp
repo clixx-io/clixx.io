@@ -152,12 +152,12 @@ class clixxIOSerial : public Stream
 class clixxIOSerial
 #endif
 {
-  private:	
+  private:
   #ifdef TARGET_LINUX
     int fd;
   #endif
-    unsigned char linebuffer[BUFFSIZE_LINELEN];
-    unsigned char linebufferpos;
+    char linebuffer[BUFFSIZE_LINELEN];
+    char linebufferpos;
     
   public:
   
@@ -172,6 +172,8 @@ class clixxIOSerial
     virtual void flush(void);
     int write(const char);
     int puts(const char *);
+    
+    const char *lastline() { return (const char *) &linebuffer; };
     
     virtual void addbufferchar(unsigned char);
     virtual void processcommand(void);
