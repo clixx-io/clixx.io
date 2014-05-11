@@ -28,7 +28,7 @@
 
 clixxIOSerial Serial;
 
-void clixxIOSerial::addbufferchar(unsigned char c)
+void clixxIOSerial::addbufferchar(char c)
 {
 
 	C_serialchar(pMainClass);
@@ -43,7 +43,7 @@ void clixxIOSerial::addbufferchar(unsigned char c)
 		if (linebufferpos < BUFFSIZE_LINELEN)
 		{
 			linebuffer[linebufferpos++] = c;
-			linebuffer[linebufferpos] = 0;
+			linebuffer[linebufferpos] = (char ) 0;
 			
 		}
 	}
@@ -52,6 +52,11 @@ void clixxIOSerial::addbufferchar(unsigned char c)
 
 void clixxIOSerial::processcommand(void)
 {
-	C_serialline(pMainClass);
+	if (iotmode != 0){
+		C_iotmessage(pMainClass);
+	}
+	else {
+		C_serialline(pMainClass);
+	}
 
 }

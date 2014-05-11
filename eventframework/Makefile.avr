@@ -24,7 +24,7 @@ MCU := attiny85
 F_CPU := 8000000UL
 endif
 
-LIBRARY = clixxIO_AVR_$(MCU)
+LIBRARY = libclixxIO_AVR_$(MCU)
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 CFLAGS += -Wall -g -Os -fpic -mmcu=$(MCU) -DTARGET_AVR -DF_CPU=$(F_CPU) -I./
@@ -86,6 +86,6 @@ install:
 	@printf "Creating directories\n"
 	$(Q)mkdir -p ~/IoT/libraries/includes
 	@printf "Copying library $(LIBRARY).a to ~/IoT/libraries\n"
-	$(Q)cp $(LIBRARY).a ~/IoT/libraries/lib$(LIBRARY).a
+	$(Q)cp $(LIBRARY).a ~/IoT/libraries/$(LIBRARY).a
 	@printf "Copying Include files to ~/IoT/libraries/includes\n"
 	$(Q)cp clixxIO.hpp ~/IoT/libraries/includes
