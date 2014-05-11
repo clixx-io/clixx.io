@@ -35,7 +35,7 @@
   #include <iostream>
   #include <mosquittopp.h>
 
-#eif defined(TARGET_AVR)  	/* presume Attiny85 */
+#elif defined(TARGET_AVR)  	/* presume Attiny85 */
 
   #include <util/delay.h>
 
