@@ -98,61 +98,11 @@ void C_iotclose( void* appC);
 extern void *pMainClass;
 void setMainAppPtr(void *mainClass);
 
-
-class clixxIOApp{
-
-  private:
-      
-    unsigned int (*loopmethod)(unsigned int);
-    unsigned int (*timermethod)(unsigned int);
-    unsigned int (*serialmethod)(unsigned int);
-    unsigned int (*iotmethod)(unsigned int);
-     
-  public:
-    unsigned int serial_debug_msgs;
-
-    int run();
-
-    #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-    inline void delay_ms( unsigned long ms ){ Sleep( ms ); }
-    #elif defined(TARGET_LINUX)  /* presume POSIX */
-    inline void delay_ms( unsigned long ms ){ usleep( ms * 1000 ); }
-    #elif defined(TARGET_AVR)  	/* presume Attiny85 */
-    // inline void delay_ms( unsigned long ms ){ _delay_ms(ms); }
-    #endif 
-     
-    clixxIOApp();
-    ~clixxIOApp();
-};
-
 #if defined(TARGET_LINUX)  /* presume POSIX */
 extern int serial_feed_setup(const char *portname);
 extern int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars = 0);
 extern int serial_feed_close(int tty_fd);
 #endif 
-
-
-/*
-  HardwareSerial.h - Hardware serial library for Wiring
-  Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-  Modified 17 March     2014 by David Lyon
-  Modified 28 September 2010 by Mark Sproul
-*/
 
 #include <inttypes.h>
 // #include "Stream.h"
@@ -180,7 +130,11 @@ class clixxIOSerial
     int puts(const char *);
     
     const char *lastline() { return (const char *) &linebuffer; };
+    
+    // Some IoT methods
     const char *iotpacket() { return (const char *) &linebuffer; };
+	int beginPublishing(const char *topic);
+	int publish(const char *publishtext);
     
     virtual void addbufferchar(char);
     virtual void processcommand(void);
@@ -198,6 +152,26 @@ class clixxIOSerial
 
     int iotmode;
 
+};
+
+class clixxIOApp{
+
+  public:
+  
+    int run();
+
+	clixxIOSerial IoT;
+	
+    #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
+    inline void delay_ms( unsigned long ms ){ Sleep( ms ); }
+    #elif defined(TARGET_LINUX)  /* presume POSIX */
+    inline void delay_ms( unsigned long ms ){ usleep( ms * 1000 ); }
+    #elif defined(TARGET_AVR)  	/* presume Attiny85 */
+    // inline void delay_ms( unsigned long ms ){ _delay_ms(ms); }
+    #endif 
+     
+    clixxIOApp();
+    ~clixxIOApp();
 };
 
 /*
@@ -264,7 +238,34 @@ class ClixxIO_I2cDevice {
     int device;	
 };
 
+class clixxIO_Button {
+
+  public:
+//    clixxIO_Button(int );
+
+	int pressed();	  
+
+  private:
+    int gpiopin;
+    	
+};
+
+class clixxIO_Switch {
+
+  public:
+//    clixxIO_Button(int );
+
+	int On();	  
+	int Off();	  
+
+  private:
+    int gpiopin;
+    	
+};
+
 extern clixxIOSerial Serial;
+
+#define Debug Serial
 
 #if defined(UBRR1H)
   extern HardwareSerial Serial1;

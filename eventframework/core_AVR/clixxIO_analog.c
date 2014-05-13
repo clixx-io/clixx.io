@@ -81,3 +81,4 @@ uint16_t adcRead(ANALOG adc, uint8_t skip, uint8_t average) {
     }
   return (total / average);
 }
+

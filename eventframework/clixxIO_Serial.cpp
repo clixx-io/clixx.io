@@ -28,6 +28,9 @@
 
 clixxIOSerial Serial;
 
+/**
+ * Adds a character to the input buffer
+ */
 void clixxIOSerial::addbufferchar(char c)
 {
 
@@ -50,6 +53,9 @@ void clixxIOSerial::addbufferchar(char c)
 	
 }
 
+/**
+ * process the input buffer based on a full line of text
+ */
 void clixxIOSerial::processcommand(void)
 {
 	if (iotmode != 0){
@@ -59,4 +65,33 @@ void clixxIOSerial::processcommand(void)
 		C_serialline(pMainClass);
 	}
 
+}
+
+/**
+ * Start publishing on a topic. This transmits the
+ * name of the topic to the host.
+ */
+int clixxIOSerial::beginPublishing(const char *topic){
+
+	iotmode = 1;
+	
+	write('!');
+	puts(topic);
+	write('\r');
+	
+	return 0;
+	
+}
+
+/**
+ * Publish a value to the host. This transmits the
+ * text up to the host using an escape.
+ */
+int clixxIOSerial::publish(const char *publishtext){
+
+	write('>');
+	puts(publishtext);
+	write('\r');
+	
+	return(0);	
 }

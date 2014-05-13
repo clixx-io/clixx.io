@@ -190,9 +190,6 @@ can then customise to suit your needs.
 			print(" - Creating directory %s" % self.projectdir)
 			os.makedirs(self.projectdir)
 		
-		if not os.path.exists(os.path.join(self.projectdir,'clixxIO.hpp')):
-			shutil.copyfile(os.path.join(os.path.abspath('../eventframework'),'clixxIO.hpp'), os.path.join(self.projectdir,'clixxIO.hpp'))
-			
 	def render_files(self):
 		"""
 		Render all the files from templates with project settings held in memory
