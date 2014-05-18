@@ -7,9 +7,18 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <avr/io.h>
 
 #include "clixxIO.hpp"
 #include "seriallinehander-config.hpp"
+
+#define D1_I PB3
+#define D1_O PB4
+#define D1_S PB0
+
+#define D2_I PB2
+#define D2_O PB1
+#define D2_S PB5
 
 class App : public clixxIOApp{
 
@@ -26,6 +35,8 @@ class App : public clixxIOApp{
         Serial.echo = 1;
         Serial.puts("Serial Line Handler Example running at 19200 baud\r\n");
 
+     	DDRB |= (1<<D1_O);    	///PB5 /digital 13 is an output
+
     };
 
     void serialline(){
@@ -41,11 +52,15 @@ class App : public clixxIOApp{
         if (strncmp(Serial.lastline(),"On",BUFFSIZE_LINELEN) == 0)
         {
             Serial.puts("Turn On instruction was received\n\r");
+			PORTB |= (1<<D1_O);    		// Else turn pin on
+
         } else
         {
             Serial.puts("\r\nSerial line was :");
             Serial.puts(Serial.lastline());
             Serial.puts("\r\n");
+
+			PORTB &= ~(1<<D1_O);    		// Turn pin off
         }
 
     };
