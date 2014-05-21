@@ -36,14 +36,13 @@ class MQTTLAPP:
         self.client.on_connect = self.on_connect
         self.client.on_disconnect = self.on_disconnect
         self.client.on_message = self.on_message
-       
+
         self.client.connect(self.MQTTServer)
         self.client.subscribe(self.s_tx)
 
     def __del__(self):
 
         self.disconnect_all()
-   
 
     def connect(self):
 
@@ -65,7 +64,6 @@ class MQTTLAPP:
         else:
 
             return False
-  
 
     def disconnect(self):
 
@@ -111,7 +109,6 @@ class MQTTLAPP:
                 rc = self.client.loop()
                 # serial stuff
                 self.decodeLLAP()
-                
 
             # we lost the network to mqtt
 
@@ -122,8 +119,6 @@ class MQTTLAPP:
             print("Keyboard Quit")
             self.disconnect_all()
 
-            
-
     def disconnect_all(self):
 
         self.client.unsubscribe(self.s_tx)
@@ -132,12 +127,10 @@ class MQTTLAPP:
         self.client.loop()
         self.disconnect()
 
- 
     def on_connect(self, mosq, obj, rc):
 
         if rc == 0:
             print("Connected successfully.")
-   
 
     def on_disconnect(self, mosq, obj, rc):
 
@@ -151,8 +144,6 @@ class MQTTLAPP:
             # expected disconnect
             print("Disconnected successfully.")
 
-    
-
     def on_message(self, mosq, obj, msg):
 
         # got mqtt message to send
@@ -160,7 +151,7 @@ class MQTTLAPP:
 
         # push to serial
         self.s.write(msg.payload)
-    
+
 
     def decodeLLAP(self):
 

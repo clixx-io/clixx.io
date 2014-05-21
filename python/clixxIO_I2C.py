@@ -27,7 +27,7 @@ def spawntask(cmdline):
 
 # General i2c device class so that other devices can be added easily
 class i2c_device:
-   
+
  def __init__(self, addr, port):
   self.addr = addr
   self.bus = smbus.SMBus(port)
@@ -82,9 +82,9 @@ class i2c_system:
       # http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step4/Install-Necessary-Packages/
       if not os.path.exists("/usr/sbin/i2cdetect"):
         spawntask("apt-get install -y i2c-tools")
-        
+
       spawntask("apt-get install -y python-smbus")
-      
+ 
       spawntask("adduser pi i2c")
 
     def status(self):

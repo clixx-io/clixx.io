@@ -47,7 +47,7 @@ class tempSensorDS18B20():
 
             temp = temp + self.correctionFactor # correction factor
 
-	    #if you want to convert to fahrenheit, uncomment this line
+            #if you want to convert to fahrenheit, uncomment this line
             #temp = (9.0/5.0)*temp + 32  
 
             if crcLine.find("NO") > -1:

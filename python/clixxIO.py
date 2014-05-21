@@ -1,7 +1,34 @@
-#
+# /usr/bin/python
+"""
+ * Copyright (c) 2014 clixx.io
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *  * Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  * Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *  * Neither the name of the Clixx.io nor the names of its contributors 
+ *    may be used to endorse or promote products derived from this software 
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL CLIXX.IO BE LIABLE FOR ANY DIRECT, INDIRECT, 
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES LOSS OF USE, DATA, 
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+"""
 
 import os, sys, mmap, ctypes, struct, json, platform
-import logging
+import logging, glob
 from ConfigParser import ConfigParser
 from datetime import datetime
 from time import *
@@ -11,8 +38,10 @@ import gettext
 _ = gettext.gettext
 
 
-clixxIOConfigName= "clixx.io.conf"
-SensorProjectDir = "My IoT"
+clixxIOConfigName= "clixx.IO.conf"
+clixxIOConfigDirSuffix = ".local/share/clixx.io"
+
+IoTProjectDirSuffix = "IoT"
 
 formatter = logging.Formatter('%(asctime)s, %(message)s',"%Y-%m-%d %H:%M:%S")
 # Console Logging Handler
@@ -53,7 +82,7 @@ def spawntask(cmdline):
         output += line
     for line in proc.stderr:
         print("stderr: " + line.rstrip())
-        
+
     return (return_code,output)
 
 def GetConfigDir():
@@ -73,14 +102,13 @@ def GetConfigDir():
             homedir = os.path.join(homedir,"clixx.io")
 
         else:
-            homedir = os.path.join(os.path.expanduser("~"),"clixx.io")
-            
-    elif platform.system()=='Linux2':	
+            homedir = os.path.join(os.path.expanduser("~"),clixxIOConfigDir)
+
+    elif platform.system()=='Linux':	
 
         clixxIOLogDir    = "/var/log"
-        clixxIOConfigDir = "/etc"
 
-        clixxIOConfigDir = os.path.join(os.getenv("HOME"),".clixx.io")
+        homedir = os.path.join(os.path.expanduser("~"),clixxIOConfigDirSuffix)
 
     return homedir 
 
@@ -252,7 +280,7 @@ class RaspberryPiPinOuts:
             'Digital_2' : {'i':2, 'o':3, '*':0},
             'Digital_3' : {'i':1, 'o':11, '*':10}
            }
-    
+
     def pin(portname,portpin):
         return pins[portname,portpin]
 
@@ -472,7 +500,7 @@ def clixxIOUpdateDevice(deviceInfo):
     alldevices[deviceInfo["deviceId"]] = deviceInfo
 
     clixxIOWriteSHM(json.dumps(alldevices))
-    
+
     return
 
 def clixxIOLatestValues(deviceId,when='today'):
@@ -512,7 +540,19 @@ def clixxIOStartProject(projectname):
     return
 
 def clixxIOListProjects():
-    return
+    """
+    Return the names of all projects maintained by the system.
+	
+    These are typically directories stored in the IoT directory
+    """
+    IoTdir = os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,'*')
+
+    projects = []
+    projectdirs = glob.glob(IoTdir)
+    for d in projectdirs:
+        if os.path.basename(d) != 'libraries':
+            projects.append(os.path.basename(d))
+    return projects
 
 def clixxIOStopProject(projectname):
     return
