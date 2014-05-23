@@ -13,7 +13,9 @@ using namespace std;
 #ifdef TARGET_LINUX
 ClixxIO_IoTSub::ClixxIO_IoTSub(const char* id) : mosquittopp(id)
 {
-
+    // By default, the topic is set to # which is everything
+    topic[0] = '#';
+    topic[1] = (char ) 0;
 }
 #endif
 
@@ -21,35 +23,24 @@ ClixxIO_IoTSub::~ClixxIO_IoTSub()
 {
 }
 
-/*
-int ClixxIO_IoTSub::connect()
-{
-	return -1;
-}
-*/
-
 int ClixxIO_IoTSub::connect(const char *host, int port, int keepalive, bool clean_session)
 {
-
-	mosquittopp::connect(host, port, keepalive, clean_session);
-//int ClixxIO_IoTSub::subscribe(const char* topic)
-//{
-	return -1;
+    return mosquittopp::connect(host, port, keepalive, clean_session);
 }
 
 int ClixxIO_IoTSub::disconnect()
 {
-	return -1;
+    return mosquittopp::disconnect();
 }
 
 void ClixxIO_IoTSub::on_connect(int rc) {
 
-	if (!rc) {
-		subscribe(&mid, "#", 0);
-	}
-	else {
-		print_error_connection(rc);
-	}
+    if (!rc) {
+        subscribe(&mid, (const char * ) &topic, 0);
+    }
+    else {
+        print_error_connection(rc);
+    }
 }
 
 void ClixxIO_IoTSub::on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos) {

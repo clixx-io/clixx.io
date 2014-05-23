@@ -49,17 +49,17 @@ clixxIOSerial::clixxIOSerial()
 */
 int clixxIOSerial::begin(const char *portname, long baudrate)
 {
-	// Setting the baud rate isn't supported if we are using softuart
-	softuart_init();
+    // Setting the baud rate isn't supported if we are using softuart
+    softuart_init();
 
-	softuart_turn_rx_on();
+    softuart_turn_rx_on();
 
-	C_iotopen(pMainClass);
+    C_iotopen(pMainClass);
 
-	// Enable Interrupts globally for the softuart system to run.
+    // Enable Interrupts globally for the softuart system to run.
     sei();
     
-	return 0;
+    return 0;
 }
 
 /** End using the Serial port and close it
@@ -68,11 +68,11 @@ int clixxIOSerial::begin(const char *portname, long baudrate)
 */
 void clixxIOSerial::end()
 {
-	softuart_turn_rx_off();
+    softuart_turn_rx_off();
 
-	C_iotclose(pMainClass);
+    C_iotclose(pMainClass);
 
-	return;
+    return;
 }
 
 /** Determines if characters are available for reading

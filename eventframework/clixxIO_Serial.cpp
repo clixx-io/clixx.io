@@ -34,23 +34,23 @@ clixxIOSerial Serial;
 void clixxIOSerial::addbufferchar(char c)
 {
 
-	C_serialchar(pMainClass);
-	
-	if (c == '\r')
-	{
-		processcommand();
-		linebufferpos = 0;
-		
-	} 	else
-	{
-		if (linebufferpos < BUFFSIZE_LINELEN)
-		{
-			linebuffer[linebufferpos++] = c;
-			linebuffer[linebufferpos] = (char ) 0;
-			
-		}
-	}
-	
+    C_serialchar(pMainClass);
+
+    if (c == '\r')
+    {
+        processcommand();
+        linebufferpos = 0;
+
+    } else
+    {
+        if (linebufferpos < BUFFSIZE_LINELEN){
+
+            linebuffer[linebufferpos++] = c;
+            linebuffer[linebufferpos] = (char ) 0;
+
+        }
+    }
+
 }
 
 /**
@@ -58,12 +58,12 @@ void clixxIOSerial::addbufferchar(char c)
  */
 void clixxIOSerial::processcommand(void)
 {
-	if (iotmode != 0){
-		C_iotmessage(pMainClass);
-	}
-	else {
-		C_serialline(pMainClass);
-	}
+    if (iotmode != 0){
+        C_iotmessage(pMainClass);
+    }
+    else {
+        C_serialline(pMainClass);
+    }
 
 }
 
@@ -73,14 +73,14 @@ void clixxIOSerial::processcommand(void)
  */
 int clixxIOSerial::beginPublishing(const char *topic){
 
-	iotmode = 1;
-	
-	write('!');
-	puts(topic);
-	write('\r');
-	
-	return 0;
-	
+    iotmode = 1;
+
+    write('!');
+    puts(topic);
+    write('\r');
+
+    return 0;
+
 }
 
 /**
@@ -89,9 +89,9 @@ int clixxIOSerial::beginPublishing(const char *topic){
  */
 int clixxIOSerial::publish(const char *publishtext){
 
-	write('>');
-	puts(publishtext);
-	write('\r');
-	
-	return(0);	
+    write('>');
+    puts(publishtext);
+    write('\r');
+
+    return(0);
 }

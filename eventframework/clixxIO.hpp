@@ -108,6 +108,7 @@ extern int serial_feed_close(int tty_fd);
 // #include "Stream.h"
 
 #define BUFFSIZE_LINELEN 60		// Defines a Serial-line buffer size
+#define BUFFSIZE_IOTTOPICLEN 30		// Defines a Serial-line buffer size
 
 #ifdef Stream
 class clixxIOSerial : public Stream
@@ -133,8 +134,8 @@ class clixxIOSerial
     
     // Some IoT methods
     const char *iotpacket() { return (const char *) &linebuffer; };
-	int beginPublishing(const char *topic);
-	int publish(const char *publishtext);
+    int beginPublishing(const char *topic);
+    int publish(const char *publishtext);
     
     virtual void addbufferchar(char);
     virtual void processcommand(void);
@@ -154,14 +155,53 @@ class clixxIOSerial
 
 };
 
+#ifdef TARGET_LINUX
+class ClixxIO_IoTSub : public mosquittopp::mosquittopp 
+#else
+class ClixxIO_IoTSub : public clixxIOSerial
+#endif
+{
+  public:
+
+    #ifdef TARGET_LINUX
+    ClixxIO_IoTSub(const char* id);
+    ~ClixxIO_IoTSub();
+    int connect(const char *host, int port=1883, int keepalive=60, bool clean_session=true);
+    #else
+    ClixxIO_IoTSub(const char* id);
+    ~ClixxIO_IoTSub();
+    int connect();
+    int subscribe(const char* topic);
+    #endif
+    
+    int disconnect();
+
+  private:
+    char topic[BUFFSIZE_IOTTOPICLEN];
+    
+    #ifdef TARGET_LINUX
+    uint16_t mid;
+
+    void on_connect(int rc);
+    void on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos);
+    void on_message(const struct mosquitto_message *message);
+    void print_error_connection(int rc);
+    #endif
+};
+
 class clixxIOApp{
 
   public:
   
     int run();
 
-	clixxIOSerial IoT;
-	
+    #ifdef TARGET_AVR
+    clixxIOSerial IoT;
+    #endif
+    #ifdef TARGET_LINUX
+    clixxIOSerial IoT;
+    #endif
+
     #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
     inline void delay_ms( unsigned long ms ){ Sleep( ms ); }
     #elif defined(TARGET_LINUX)  /* presume POSIX */
@@ -195,37 +235,6 @@ class ClixxIO_I2cBus {
  * General i2c device class so that other devices can be added easily
  *
  */
-#ifdef TARGET_LINUX
-class ClixxIO_IoTSub : public mosquittopp::mosquittopp 
-#else
-class ClixxIO_IoTSub : public clixxIOSerial
-#endif
-{
-  public:
-
-    #ifdef TARGET_LINUX
-    ClixxIO_IoTSub(const char* id);
-    ~ClixxIO_IoTSub();
-    int connect(const char *host, int port=1883, int keepalive=60, bool clean_session=true);
-    #else
-    ClixxIO_IoTSub(const char* id);
-    ~ClixxIO_IoTSub();
-    int connect();
-    int subscribe(const char* topic);
-    #endif
-    
-    int disconnect();
-
-  private:
-    #ifdef TARGET_LINUX
-		uint16_t mid;
-
-		void on_connect(int rc);
-		void on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos);
-		void on_message(const struct mosquitto_message *message);
-		void print_error_connection(int rc);
-    #endif
-};
 
 class ClixxIO_I2cDevice {
 
@@ -243,11 +252,11 @@ class clixxIO_Button {
   public:
 //    clixxIO_Button(int );
 
-	int pressed();	  
+  int pressed();
 
   private:
     int gpiopin;
-    	
+    
 };
 
 class clixxIO_Switch {
@@ -255,12 +264,12 @@ class clixxIO_Switch {
   public:
 //    clixxIO_Button(int );
 
-	int On();	  
-	int Off();	  
+  int On();  
+  int Off();
 
   private:
     int gpiopin;
-    	
+
 };
 
 extern clixxIOSerial Serial;
@@ -306,9 +315,9 @@ public:
   
     ClixxIO_i2cLCD(int bus = 1, int device = 0x22);
     
-  	void _writeLCD(unsigned char value, bool cmd = false);
-  	void _update();
-  	void setup();
+    void _writeLCD(unsigned char value, bool cmd = false);
+    void _update();
+    void setup();
     void gotoXY(int x, int y);
     void write(const char *text);
     void writeline(int lineno, const char *text);

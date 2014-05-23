@@ -137,23 +137,28 @@ clixxIOApp::~clixxIOApp()
 int clixxIOApp::run()
 {
 
-  C_setupevent(pMainClass);
+    C_setupevent(pMainClass);
   
-  puts("Application now in main loop");
+    puts("Application now in main loop");
   
-  for (;;)
-  {
-	C_loopevent(pMainClass);
-	
-	if (Serial.available()) {
-		char c = Serial.read();
-		if (Serial.echo!=0)
-			Serial.write(c);
+    for (;;)
+    {
+        C_loopevent(pMainClass);
+      
+        if (Serial.available()) {
+      
+            char c = Serial.read();
+    
+            if (Serial.echo!=0)
+                Serial.write(c);
 
-		Serial.addbufferchar( c );
-	}
-	
-  }
+                Serial.addbufferchar( c );
+        }
+
+        // rc = mqttc->loop(-1);
+        // while(rc == MOSQ_ERR_SUCCESS);
+
+    }
   
   return 0;
 }
@@ -181,7 +186,7 @@ void setMainAppPtr(void *mainClass)
  */
 int addLoopEvent(void (*function)(int))
 {
-	return 0;
+    return 0;
 }
 
 /**
@@ -207,7 +212,7 @@ int addTimerEvent(int secs, void (*function)())
  */
 int addIoTSubEvent(const char *topic, void (*function)(int))
 {
-	return 0;
+    return 0;
 }
 
 /**
@@ -218,7 +223,7 @@ int addIoTSubEvent(const char *topic, void (*function)(int))
  */
 int addPinChangeEvent(int pin, int changetype, void (*function)())
 {
-	return 1;
+    return 1;
 }
 
 /**
@@ -229,7 +234,7 @@ int addPinChangeEvent(int pin, int changetype, void (*function)())
  */
 int addSerialInterruptEvent(int secs, void (*function)())
 {
-	return 1;
+    return 1;
 }
 
 /** ---------------------------------------------------------------
@@ -272,6 +277,6 @@ clixxIOMsgQ::~clixxIOMsgQ()                 // destructor, just an example
  */
 int clixxIOMsgQ::run()
 {
-	return 0;
+    return 0;
 }
 
