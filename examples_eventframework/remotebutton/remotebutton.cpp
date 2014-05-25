@@ -9,10 +9,24 @@
 #include "clixxIO.hpp"
 #include "remotebutton-config.hpp"
 
+class clixxIO_PushButton {
+
+  public:
+    clixxIO_PushButton(int Pin){ _gpiopin = Pin; }
+
+  int pressed(){ return(0); };
+
+  private:
+    int _gpiopin;
+    
+};
+
+
 class App : public clixxIOApp{
 
   private:
-    clixxIO_Button button1;
+    clixxIO_PushButton _mybutton(5);
+        
     int buttonstate;
 
   public:
@@ -25,7 +39,7 @@ class App : public clixxIOApp{
 
         */
         buttonstate = 0;
-        
+
         Debug.begin();
         Debug.puts("Application in Startup event");
 
@@ -38,7 +52,7 @@ class App : public clixxIOApp{
          This gets called repeatedly.
 
         */
-        if (button1.pressed()){
+        if (_mybutton.pressed()){
 
             Debug.puts("Button Pressed");
 
@@ -58,7 +72,7 @@ class App : public clixxIOApp{
 int main(){
  
   App m;
-  
+
   return m.run();
 
 }
