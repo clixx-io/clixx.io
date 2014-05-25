@@ -73,6 +73,10 @@ void clixxIOSerial::processcommand(void)
  */
 int clixxIOSerial::beginPublishing(const char *topic){
 
+    #ifdef TARGET_AVR
+    echo = linemode = (unsigned char) 0x01; 
+    #endif
+    
     iotmode = 1;
 
     write('!');

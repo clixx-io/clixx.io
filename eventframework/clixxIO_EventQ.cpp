@@ -210,8 +210,24 @@ int addTimerEvent(int secs, void (*function)())
  * @param function 	Pointer to the method to be called
  * @return 
  */
-int addIoTSubEvent(const char *topic, void (*function)(int))
+int addIoTSubEvent(const char *topic, void (*function)(void))
 {
+    #ifdef TARGET_AVR
+    if (pMainClass = 0)
+        return(-1);
+    
+    clixxIOApp *app = (clixxIOApp *) pMainClass;
+    
+    app->IoT.begin();
+    
+    app->IoT.echo = app->IoT.linemode = (unsigned char) 0x01; 
+    // app->IoT.iotmode = 1;
+
+    app->IoT.write('#');
+    app->IoT.puts(topic);
+    app->IoT.write('\r');
+    #endif
+    
     return 0;
 }
 

@@ -23,8 +23,15 @@ class App : public clixxIOApp{
          and provides for initialisation requirements.
 
         */
-        Debug.puts("Application in Startup event");
+        Serial.begin();
+        
+        Serial.echo = '1';
+        Serial.linemode = '1';
+        Serial.iotmode = 1;
 
+        Debug.puts("Application in Startup event\n\r");
+        
+        addIoTSubEvent("/remote/switch",(void (*)()) &App::iotmessage);
     };
 
     void iotmessage(){
@@ -33,15 +40,19 @@ class App : public clixxIOApp{
          This gets called when an IoT sub is received.
          
         */
-        Debug.puts("IoTMessage Callback");
+        Debug.puts("IoTMessage Callback\n");
+        Debug.puts(IoT.iotpacket());
+        Debug.puts("\r\n");
         
         if (strncmp(IoT.iotpacket(),"On",BUFFSIZE_LINELEN) == 0){
 
             Switch1.On();
+            Debug.puts("Switch was turned On\n\r");
 
         } else {
 
             Switch1.Off();
+            Debug.puts("Switch was turned Off\n\r");
 
         }
     };

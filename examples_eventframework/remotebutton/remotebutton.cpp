@@ -29,7 +29,7 @@ class App : public clixxIOApp{
         buttonstate = 0;
 
         Debug.begin();
-        Debug.puts("Application in Startup event");
+        Debug.puts("Application in setup event");
 
         IoT.beginPublishing("SmallDevice/Button");
     };
