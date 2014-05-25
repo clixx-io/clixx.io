@@ -152,7 +152,7 @@ int clixxIOApp::run()
             if (Serial.echo!=0)
                 Serial.write(c);
 
-                Serial.addbufferchar( c );
+            Serial.addbufferchar( c );
         }
 
         // rc = mqttc->loop(-1);

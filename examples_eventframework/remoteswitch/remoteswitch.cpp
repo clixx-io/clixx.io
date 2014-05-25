@@ -25,11 +25,10 @@ class App : public clixxIOApp{
         */
         Serial.begin();
         
-        Serial.echo = '1';
-        Serial.linemode = '1';
-        Serial.iotmode = 1;
+        // Some Serial fiddling
+        Serial.echo = '1'; Serial.linemode = '1'; Serial.iotmode = 1;
 
-        Debug.puts("Application in Startup event\n\r");
+        Debug.puts("\n\rApplication in setup event\n\r");
         
         addIoTSubEvent("/remote/switch",(void (*)()) &App::iotmessage);
     };
@@ -40,25 +39,23 @@ class App : public clixxIOApp{
          This gets called when an IoT sub is received.
          
         */
-        Debug.puts("IoTMessage Callback\n");
-        Debug.puts(IoT.iotpacket());
-        Debug.puts("\r\n");
+        Debug.puts("IoT Message Callback\n\rPacket=");
+        Debug.puts(Serial.iotpacket());
         
-        if (strncmp(IoT.iotpacket(),"On",BUFFSIZE_LINELEN) == 0){
+        if (strncmp(Serial.iotpacket(),"On",BUFFSIZE_LINELEN) == 0){
 
             Switch1.On();
-            Debug.puts("Switch was turned On\n\r");
+            Debug.puts("\r\nSwitch was turned On\n\r");
 
         } else {
 
             Switch1.Off();
-            Debug.puts("Switch was turned Off\n\r");
+            Debug.puts("\r\nSwitch was turned Off\n\r");
 
         }
     };
 
 };
-
 
 // Main program Section. Simply setup an App class and let it run
 int main(){

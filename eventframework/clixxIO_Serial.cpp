@@ -93,7 +93,7 @@ int clixxIOSerial::beginPublishing(const char *topic){
  */
 int clixxIOSerial::publish(const char *publishtext){
 
-    write('>');
+    write('@');
     puts(publishtext);
     write('\r');
 

@@ -86,7 +86,7 @@ void C_serialline( void* appC);
 void C_serialopen( void* appC);
 void C_serialclose( void* appC);
 
-int addIoTSubEvent(void (*function)(int,int));
+int addIoTSubEvent(const char *topic, void (*function)(void));
 int addIoTOpenEvent(void (*function)(int,int));
 int addIoTCloseEvent(void (*function)(int,int));
 void C_iotmessage( void* appC);
@@ -118,6 +118,7 @@ class clixxIOSerial
   
     unsigned char linemode;
     unsigned char echo;
+    int iotmode;
     
     clixxIOSerial();
     int begin(const char *portname = 0, long baudrate = 0);
@@ -133,6 +134,7 @@ class clixxIOSerial
     // Some IoT methods
     const char *iotpacket() { return (const char *) &linebuffer; };
     int beginPublishing(const char *topic);
+
     int publish(const char *publishtext);
     
     virtual void addbufferchar(char);
@@ -148,8 +150,6 @@ class clixxIOSerial
   #endif
     char linebuffer[BUFFSIZE_LINELEN];
     int linebufferpos;
-
-    int iotmode;
 
 };
 
