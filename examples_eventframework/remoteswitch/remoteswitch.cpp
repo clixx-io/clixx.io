@@ -10,11 +10,10 @@
 #include "clixxIO.hpp"
 #include "remoteswitch-config.hpp"
 
+clixxIO_Switch Switch1(SWITCH1_CONFIG);
+
 class App : public clixxIOApp{
 
-  private:
-    clixxIO_Switch Switch1;
-    
   public:
 
     void setup(){
@@ -37,14 +36,14 @@ class App : public clixxIOApp{
         Debug.puts("IoTMessage Callback");
         
         if (strncmp(IoT.iotpacket(),"On",BUFFSIZE_LINELEN) == 0){
-			
-			Switch1.On();			
-			
-		} else {
-			
-			Switch1.Off();
-			
-		}	
+
+            Switch1.On();
+
+        } else {
+
+            Switch1.Off();
+
+        }
     };
 
 };

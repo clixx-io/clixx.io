@@ -18,8 +18,8 @@ PROGRAM = remoteswitch
 MCU = attiny85
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../libraries/includes
-LDFLAGS += -L ../libraries -l clixxIO_AVR_$(MCU)
+CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../../eventframework -DTARGET_AVR
+LDFLAGS += -L ../../eventframework -l clixxIO_AVR_$(MCU)
 OBJS = $(PROGRAM).o
 
 CFLAGS += -Wall -g -Os -mmcu=$(MCU) 

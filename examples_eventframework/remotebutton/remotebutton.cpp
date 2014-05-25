@@ -9,23 +9,11 @@
 #include "clixxIO.hpp"
 #include "remotebutton-config.hpp"
 
-class clixxIO_PushButton {
-
-  public:
-    clixxIO_PushButton(int Pin){ _gpiopin = Pin; }
-
-  int pressed(){ return(0); };
-
-  private:
-    int _gpiopin;
-    
-};
-
+clixxIO_Button mybutton(BUTTON1_CONFIG);
 
 class App : public clixxIOApp{
 
   private:
-    clixxIO_PushButton _mybutton(5);
         
     int buttonstate;
 
@@ -33,11 +21,11 @@ class App : public clixxIOApp{
 
     void setup(){
         /* setup Event handler
-
-         This is a built in handler that will get called on startup
-         and provides for initialisation requirements.
-
-        */
+         * 
+         * This is a built in handler that will get called on startup
+         * and provides for initialisation requirements.
+         * 
+         */
         buttonstate = 0;
 
         Debug.begin();
@@ -47,12 +35,10 @@ class App : public clixxIOApp{
     };
 
     void loop(){
-        /* Loop Event handler
-
-         This gets called repeatedly.
-
-        */
-        if (_mybutton.pressed()){
+        /* 
+         * Loop Event handler - This gets called repeatedly.
+         */
+        if (mybutton.pressed()){
 
             Debug.puts("Button Pressed");
 

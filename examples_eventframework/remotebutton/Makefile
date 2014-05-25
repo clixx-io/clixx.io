@@ -18,7 +18,7 @@ PROGRAM = remotebutton
 MCU = attiny85
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../../eventframework
+CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../../eventframework -DTARGET_AVR
 LDFLAGS += -L ../../eventframework -lclixxIO_AVR_$(MCU)
 OBJS = $(PROGRAM).o
 
@@ -34,6 +34,7 @@ DUDEMCU = $(MCU)
 ifeq ($(MCU),attiny85)
   DUDEMCU = t85
   MCUFUSES = -U lfuse:w:0x62:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+  F_CPU := 8000000UL
 endif
 
 ifeq ($(MCU),attiny13)

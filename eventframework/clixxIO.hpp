@@ -37,8 +37,6 @@
 
 #elif defined(TARGET_AVR)  	/* presume Attiny85 */
 
-  #include <util/delay.h>
-
 #endif 
 
 /*
@@ -203,11 +201,16 @@ class clixxIOApp{
     #endif
 
     #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-    inline void delay_ms( unsigned long ms ){ Sleep( ms ); }
+      inline void delay_ms( unsigned long ms ){ Sleep( ms ); }
     #elif defined(TARGET_LINUX)  /* presume POSIX */
-    inline void delay_ms( unsigned long ms ){ usleep( ms * 1000 ); }
+      inline void delay_ms( unsigned long ms ){ usleep( ms * 1000 ); }
     #elif defined(TARGET_AVR)  	/* presume Attiny85 */
-    // inline void delay_ms( unsigned long ms ){ _delay_ms(ms); }
+      // #ifndef F_CPU
+        // Use 8Mhz Processor speed for faster applications
+      //  #define F_CPU 8000000UL
+      // #endif
+      // #include <util/delay.h>
+      // inline void delay_ms( unsigned long ms ){ _delay_ms(ms); }
     #endif 
      
     clixxIOApp();
@@ -249,26 +252,26 @@ class ClixxIO_I2cDevice {
 
 class clixxIO_Button {
 
+  private:
+    int _gpiopin;
+    
   public:
-//    clixxIO_Button(int );
+    clixxIO_Button(int Pin):_gpiopin(Pin){ }
 
   int pressed();
 
-  private:
-    int gpiopin;
-    
 };
 
 class clixxIO_Switch {
 
+  private:
+    int _gpiopin;
+
   public:
-//    clixxIO_Button(int );
+    clixxIO_Switch(int Pin):_gpiopin(Pin){ }
 
   int On();  
   int Off();
-
-  private:
-    int gpiopin;
 
 };
 
