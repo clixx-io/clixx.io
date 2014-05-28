@@ -12,6 +12,37 @@ It doesn't include any form of power-regulation which makes itself suitable for 
 
 In many situations you can often use this board directly with a battery and run the processor directly. If you are needing calibrated A->D convertors, you will require power regulation to set the ADC reference voltage correctly.
 
+Connections
+-----------
+
+This processor board provides two Digital Ports and breaks out all the GPIO
+pins on the processor out to 5-pin connectors.
+
+End Connector - Digital-1
+-------------------------
+
+The End Connector has Power and two Pins one being Digital and the other
+Analog.
+
+The Input Pin can be used for detecting variable voltage levels whilst
+the Oupput Pin can be used to control Devices such as LED's or Motors.
+
+Bottom Connector - Digital-2
+----------------------------
+
+In addition to Power (+/-), there are also two multipurpose Digital Pins.
+
+By default, these are assigned as being a 19200 baud Serial Port and
+can be used to communicate with the board via a 3.3/5V TTL level serial
+port.
+
+Top Connectors
+--------------
+
+Both Digital-1 and Digital-2 connectors are repeated on the top of
+the board for extra versatility. These aren't extra pins, but the
+same pins as on the ends.
+
 Power
 -----
 
@@ -26,7 +57,8 @@ This board can be powered from Lithium-Ion Batteries which typically provide
 Programming
 -----------
 
-The easiest way to develop programs for these boards is using GCC and C++.
+The easiest way to develop programs for these boards is using the clixx.io
+C++ Event-Framework.
 
 Connecting the ISP Programming Adaptor
 --------------------------------------
@@ -44,7 +76,7 @@ either from the command line or make file.
 
 If you have your Make file setup you can use the following method:
 
-sudo make flash
+sudo make deploy
 
 That will upload your program to the Attiny processor. Now disconnect the
 the programming adaptor and reconnect your peripherals and your system
