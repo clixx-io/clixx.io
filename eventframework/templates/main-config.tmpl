@@ -1,0 +1,43 @@
+#
+#   A simple configuration file created by the clixx.io generator for
+#   holding configuration information.
+#
+
+[${program_base}]
+
+[selections]
+% if 'program_setup' in section_selections:
+program_setup = true
+% else
+program_setup = false
+% endif
+% if 'program_shutdown' in section_selections:
+program_shutdown = true
+% else
+program_shutdown = false
+% endif
+% if 'program_timers' in section_selections:
+program_timers = true
+% else
+program_timers = false
+% endif
+% if 'program_loop' in section_selections:
+% endif
+% if 'program_pinchange' in section_selections:
+% endif
+% if 'serial_char' in section_selections:
+% endif
+% if 'serial_line' in section_selections:
+% endif
+% if 'serial_open' in section_selections:
+% endif
+% if 'serial_close' in section_selections:
+% endif
+% if 'iot_open' in section_selections:
+% endif
+% if 'iot_message' in section_selections:
+% endif
+% if 'iot_close' in section_selections:
+% endif
+
+[devices]

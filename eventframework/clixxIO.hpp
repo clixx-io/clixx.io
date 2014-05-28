@@ -232,7 +232,7 @@ class ClixxIO_I2cBus {
     int read_nbytes_data(unsigned char addr, char *data, int n);
 
   private:
-    int i2c_file;	
+    int i2c_file;
 };
 /*
  * General i2c device class so that other devices can be added easily

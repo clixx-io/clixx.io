@@ -68,7 +68,6 @@ can then customise to suit your needs.
 			   "socket_client" 		: "Does the program need to handle outgoing network sockets (network-socket-client) (y,n,i) ? "
 			   }
 
-
 	info    = {"program_loop" 		: "Normally within main(), programs have a repeating for (;;){} loop. In Wiring/Arduino, this is broken out to a loop() method. If you have code that loops, then you will need this construct.",
 			   "program_timers" 	: "Programs can use timer interrupts. These are usually from hardware but on modern Operating Systems, they can be implemented in software.",
 			   "program_pinchange" 	: "PinChange Interrupts occur when a GPIO pin changes. This is usually RISING/FALLING/CHANGE.",
@@ -77,6 +76,24 @@ can then customise to suit your needs.
 			   "socket_client" 		: "Your program may wish to connect to other socket servers and push/pull data over a socket-stream.",
 			   "mqtt_sub" 			: "Your program may wish to subscribe to Internet-of-Tnings events and notifications"
 			   }
+
+	input_dvs={"button"				: "Input Button",
+			   "temp"				: "Temperature Sensor",
+			   "iot_subscribe"		: "Internet-of-Things Subscribe"
+			  }
+			   
+	output_dvs={"led"				: "Input Button",
+				"rgbled"			: "RGB LED",
+				"motor"				: "Electric Motor",
+				"char_display"		: "Character Display",
+				"graphic_display"	: "Graphics Display",
+				"iot_publish"		: "Internet-of-Things Channel"
+			   }
+
+	device_cls={"button"			: "Input Button",
+			   "temp"				: "Temperature Sensor",
+			   "iot_subscribe"		: "Internet-of-Things Subscribe"
+			  }
 
 	iot_dir = "IoT"
     
@@ -226,6 +243,15 @@ can then customise to suit your needs.
 		mytemplate = Template(filename=os.path.join(self.templatedir,'main-cpp.tmpl'))
 		mainfile.write(mytemplate.render(program_base = self.project_name, section_selections = self.selections))
 		
+	def render_configfile(self):
+		"""
+		Render the device configuration file using a template with the settings held in memory
+		"""
+		mainfile = open(os.path.join(self.projectdir,self.project_name+'.ini'), 'w')	
+		
+		mytemplate = Template(filename=os.path.join(self.templatedir,'main-config.tmpl'))
+		mainfile.write(mytemplate.render(program_base = self.project_name, section_selections = self.selections))
+
 	def render_mainhppfile(self):
 		"""
 		Render the main .hpp file using a template with the settings held in memory
