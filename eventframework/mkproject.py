@@ -221,7 +221,9 @@ can then customise to suit your needs.
 		self.render_mainhppfile()
 
 		self.render_maincallbackfile()
-		
+
+		self.render_configfile()
+
 		print("Project files successfully rendered to %s" % os.path.abspath(self.projectdir))
 
 	def render_makefile(self):
@@ -250,7 +252,7 @@ can then customise to suit your needs.
 		mainfile = open(os.path.join(self.projectdir,self.project_name+'.ini'), 'w')	
 		
 		mytemplate = Template(filename=os.path.join(self.templatedir,'main-config.tmpl'))
-		mainfile.write(mytemplate.render(program_base = self.project_name, section_selections = self.selections))
+		mainfile.write(mytemplate.render(program_base = self.project_name, section_selections = self.selections, device_selections=self.peripherals))
 
 	def render_mainhppfile(self):
 		"""

@@ -5,21 +5,15 @@
 
 [${program_base}]
 
-[selections]
+[events]
 % if 'program_setup' in section_selections:
 program_setup = true
-% else
-program_setup = false
 % endif
 % if 'program_shutdown' in section_selections:
 program_shutdown = true
-% else
-program_shutdown = false
 % endif
 % if 'program_timers' in section_selections:
 program_timers = true
-% else
-program_timers = false
 % endif
 % if 'program_loop' in section_selections:
 % endif
@@ -41,3 +35,7 @@ program_timers = false
 % endif
 
 [devices]
+list = \
+% for device in device_selections:
+    ${device}
+% endfor
