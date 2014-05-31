@@ -262,6 +262,9 @@ int  digitalRead(int pin);
 void analogWrite(int pin, int value);
 int  analoglRead(int pin);
 
+#define OUTPUT 1
+#define INPUT  0
+
 /* -------------------------------------------------------------------------
  *
  * I2C Access Class. Provides a bus and Device.

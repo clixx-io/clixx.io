@@ -24,6 +24,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include "clixxIO.hpp"
+
+#include <avr/io.h>
 
 /* -------------------------------------------------------------------------
  *
@@ -31,17 +34,30 @@
  *
  * ------------------------------------------------------------------------*/
 void pinMode(int pin, int value){
+    
+    if (value == OUTPUT){
+        DDRB |= (1 << pin);    	/// pin is an output
+    }
 }
 
 void digitalWrite(int pin, int value){
+    
+	if (value){
+		PORTB |= (1 << pin);   		// Turn pin on
+    } else {
+        PORTB &= ~(1 << pin);    	// else Turn pin off
+    }
 }
 
-int  digitalRead(int pin){
+int digitalRead(int pin){
+
+    return (PINB & (1 << pin));
 }
 
 void analogWrite(int pin, int value){
 }
 
-int  analoglRead(int pin){
+int analoglRead(int pin){
+    return(0);
 }
 
