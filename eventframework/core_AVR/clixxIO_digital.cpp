@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "clixxIO.hpp"
-
+#include "iohelp.h"
 #include <avr/io.h>
 
 /* -------------------------------------------------------------------------
