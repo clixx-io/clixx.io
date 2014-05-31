@@ -61,3 +61,33 @@ int analoglRead(int pin){
     return(0);
 }
 
+/** Writes a string to the serial port
+*
+* This function writes a string to the serial port
+* 
+*/
+int clixxIO_Button::pressed(){	  
+
+	return adcRead(ADC0, 1, 3);
+    	
+}
+
+/** Writes a string to the serial port
+*
+* This function writes a string to the serial port
+* 
+*/
+int clixxIO_Switch::On(){
+    digitalWrite(_gpiopin, HIGH);
+    return(0);
+}
+
+/** Writes a string to the serial port
+*
+* This function writes a string to the serial port
+* 
+*/
+int clixxIO_Switch::Off(){
+    digitalWrite(_gpiopin, LOW);
+    return(0);
+}	  
