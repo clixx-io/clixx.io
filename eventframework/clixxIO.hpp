@@ -39,6 +39,11 @@
 
 #endif 
 
+/* -------------------------------------------------------------------------
+ *
+ * EventFramework Control
+ *
+ * ------------------------------------------------------------------------*/
 /*
  * setup() construct
  *
@@ -96,18 +101,17 @@ void C_iotclose( void* appC);
 extern void *pMainClass;
 void setMainAppPtr(void *mainClass);
 
-#if defined(TARGET_LINUX)  /* presume POSIX */
-extern int serial_feed_setup(const char *portname);
-extern int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars = 0);
-extern int serial_feed_close(int tty_fd);
-#endif 
-
 #include <inttypes.h>
 // #include "Stream.h"
 
 #define BUFFSIZE_LINELEN 60		// Defines a Serial-line buffer size
 #define BUFFSIZE_IOTTOPICLEN 30		// Defines a Serial-line buffer size
 
+/* -------------------------------------------------------------------------
+ *
+ * Serial-Port Handling Class.
+ *
+ * ------------------------------------------------------------------------*/
 #ifdef Stream
 class clixxIOSerial : public Stream
 #else
@@ -153,6 +157,31 @@ class clixxIOSerial
 
 };
 
+extern clixxIOSerial Serial;
+
+#define Debug Serial
+
+#if defined(UBRR1H)
+  extern HardwareSerial Serial1;
+#endif
+#if defined(UBRR2H)
+  extern HardwareSerial Serial2;
+#endif
+#if defined(UBRR3H)
+  extern HardwareSerial Serial3;
+#endif
+
+#if defined(TARGET_LINUX)  /* presume POSIX */
+extern int serial_feed_setup(const char *portname);
+extern int serial_feed_capture(int tty_fd, char *buffer, int buffersize, int dumpchars = 0);
+extern int serial_feed_close(int tty_fd);
+#endif 
+
+/* -------------------------------------------------------------------------
+ *
+ * IoT Subscriber Class. Inspired by Mosquitto
+ *
+ * ------------------------------------------------------------------------*/
 #ifdef TARGET_LINUX
 class ClixxIO_IoTSub : public mosquittopp::mosquittopp 
 #else
@@ -171,12 +200,12 @@ class ClixxIO_IoTSub : public clixxIOSerial
     int connect();
     int subscribe(const char* topic);
     #endif
-    
+
     int disconnect();
 
   private:
     char topic[BUFFSIZE_IOTTOPICLEN];
-    
+
     #ifdef TARGET_LINUX
     uint16_t mid;
 
@@ -187,10 +216,15 @@ class ClixxIO_IoTSub : public clixxIOSerial
     #endif
 };
 
+/* -------------------------------------------------------------------------
+ *
+ * clixxIOApp. To be inherited by the application
+ *
+ * ------------------------------------------------------------------------*/
 class clixxIOApp{
 
   public:
-  
+
     int run();
 
     #ifdef TARGET_AVR
@@ -212,19 +246,31 @@ class clixxIOApp{
       // #include <util/delay.h>
       // inline void delay_ms( unsigned long ms ){ _delay_ms(ms); }
     #endif 
-     
+ 
     clixxIOApp();
     ~clixxIOApp();
 };
 
-/*
- * General i2c bus class. Correspends to a physical 
+/* -------------------------------------------------------------------------
  *
- */
+ * GPIO/Pin Functions. Inspired by Wiring
+ *
+ * ------------------------------------------------------------------------*/
+void pinMode(int pin, int value);
+void digitalWrite(int pin, int value);
+int  digitalRead(int pin);
+void analogWrite(int pin, int value);
+int  analoglRead(int pin);
+
+/* -------------------------------------------------------------------------
+ *
+ * I2C Access Class. Provides a bus and Device.
+ *
+ * ------------------------------------------------------------------------*/
 class ClixxIO_I2cBus {
 
   public:
-  
+
     ClixxIO_I2cBus(int bus = 1);
 
     int write(unsigned char addr, unsigned char reg, unsigned char byte);
@@ -234,11 +280,11 @@ class ClixxIO_I2cBus {
   private:
     int i2c_file;
 };
+
 /*
  * General i2c device class so that other devices can be added easily
  *
  */
-
 class ClixxIO_I2cDevice {
 
   public:
@@ -250,11 +296,16 @@ class ClixxIO_I2cDevice {
     int device;	
 };
 
+/* -------------------------------------------------------------------------
+ *
+ * Classes to Support the Basic clixx.io boards
+ *
+ * ------------------------------------------------------------------------*/
 class clixxIO_Button {
 
   private:
     int _gpiopin;
-    
+
   public:
     clixxIO_Button(int Pin):_gpiopin(Pin){ }
 
@@ -274,20 +325,6 @@ class clixxIO_Switch {
   int Off();
 
 };
-
-extern clixxIOSerial Serial;
-
-#define Debug Serial
-
-#if defined(UBRR1H)
-  extern HardwareSerial Serial1;
-#endif
-#if defined(UBRR2H)
-  extern HardwareSerial Serial2;
-#endif
-#if defined(UBRR3H)
-  extern HardwareSerial Serial3;
-#endif
 
 /* ----------------------------------------------------------------------------
    #  Description
@@ -317,7 +354,7 @@ public:
   public:
   
     ClixxIO_i2cLCD(int bus = 1, int device = 0x22);
-    
+
     void _writeLCD(unsigned char value, bool cmd = false);
     void _update();
     void setup();
@@ -325,7 +362,7 @@ public:
     void write(const char *text);
     void writeline(int lineno, const char *text);
     void clear();
-    
+
   protected:
     ClixxIO_I2cBus *i2cbus;
     char lines[2][16];
