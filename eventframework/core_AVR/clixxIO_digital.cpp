@@ -33,6 +33,20 @@
  * GPIO/Pin Functions. Inspired by Wiring
  *
  * ------------------------------------------------------------------------*/
+
+
+// Definitions of all Input and Output Pins according to their connector
+int input_pins[] = {D1_O,D2_O};
+int output_pins[] = {D1_I,D2_I};
+
+int getInputPin(int portname){ 
+    return input_pins[portname]; 
+};
+
+int getOutputPin(int portname){ 
+    return output_pins[portname]; 
+};
+
 void pinMode(int pin, int value){
     
     if (value == OUTPUT){

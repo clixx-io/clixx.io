@@ -267,6 +267,30 @@ int  analoglRead(int pin);
 #define HIGH   1
 #define LOW    0
 
+#if defined(TARGET_AVR)  	/* presume Attiny85 */
+
+  #include <avr/io.h>
+
+  // Pin Definitions for the Attiny85
+  #define D1_I PB3
+  #define D1_O PB4
+  #define D1_S PB0
+
+  #define D2_I PB2
+  #define D2_O PB1
+  #define D2_S PB5
+
+  // Some methods to quickly return  
+  int getInputPin(int portname);
+  int getOutputPin(int portname);
+  
+  enum { DIGITAL_1_PORT, DIGITAL_2_PORT };
+  
+#else
+  int getInputPin(int portname);
+  int getOutputPin(int portname);
+#endif
+
 /* -------------------------------------------------------------------------
  *
  * I2C Access Class. Provides a bus and Device.

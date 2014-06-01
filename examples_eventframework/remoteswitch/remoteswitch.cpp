@@ -10,7 +10,7 @@
 #include "clixxIO.hpp"
 #include "remoteswitch-config.hpp"
 
-clixxIO_Switch Switch1(SWITCH1_CONFIG);
+clixxIO_Switch Switch1(SWITCH1_CONNECTOR);
 
 class App : public clixxIOApp{
 
@@ -24,24 +24,24 @@ class App : public clixxIOApp{
 
         */
         Serial.begin();
-        
+
         // Some Serial fiddling
         Serial.echo = '1'; Serial.linemode = '1'; Serial.iotmode = 1;
 
         Debug.puts("\n\rApplication in setup event\n\r");
-        
+
         addIoTSubEvent("/remote/switch",(void (*)()) &App::iotmessage);
     };
 
     void iotmessage(){
         /* IoT Message handler
-         
+ 
          This gets called when an IoT sub is received.
-         
+
         */
         Debug.puts("IoT Message Callback\n\rPacket=");
         Debug.puts(Serial.iotpacket());
-        
+
         if (strncmp(Serial.iotpacket(),"On",BUFFSIZE_LINELEN) == 0){
 
             Switch1.On();
@@ -59,9 +59,9 @@ class App : public clixxIOApp{
 
 // Main program Section. Simply setup an App class and let it run
 int main(){
- 
+
   App m;
-  
+
   return m.run();
 
 }
