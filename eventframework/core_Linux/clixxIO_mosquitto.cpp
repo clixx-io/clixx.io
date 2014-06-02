@@ -25,7 +25,8 @@ ClixxIO_IoTSub::~ClixxIO_IoTSub()
 
 int ClixxIO_IoTSub::connect(const char *host, int port, int keepalive, bool clean_session)
 {
-    return mosquittopp::connect(host, port, keepalive, clean_session);
+    return(mosquittopp::connect(host, port, keepalive, clean_session));
+    
 }
 
 int ClixxIO_IoTSub::disconnect()
@@ -35,6 +36,8 @@ int ClixxIO_IoTSub::disconnect()
 
 void ClixxIO_IoTSub::on_connect(int rc) {
 
+    C_iotopen( pMainClass );
+    
     if (!rc) {
         subscribe(&mid, (const char * ) &topic, 0);
     }
@@ -45,19 +48,22 @@ void ClixxIO_IoTSub::on_connect(int rc) {
 
 void ClixxIO_IoTSub::on_subscribe(uint16_t mid, int qos_count, const uint8_t *granted_qos) {
 
-	cout << "Subscribed (mid: " << mid << "): " << granted_qos[0] << endl;
-	for(int i=1; i<qos_count; i++){
-		cout << ", " <<granted_qos[i] << endl;
-	}
+    cout << "Subscribed (mid: " << mid << "): " << granted_qos[0] << endl;
+    for(int i=1; i<qos_count; i++){
+        cout << ", " <<granted_qos[i] << endl;
+    }
 }
 
 void ClixxIO_IoTSub::on_message(const struct mosquitto_message *message) {
 
-	if(message->payloadlen){	// message contains a payload
-			cout << message->topic << ": " << message->payload << endl;
-	} else {
-		cout << message->topic << ": (null)" << endl;
-	}
+    if(message->payloadlen){	// message contains a payload
+
+        C_iotmessage( pMainClass );
+
+//        cout << message->topic << ": " << message->payload << endl;
+    } else {
+        cout << message->topic << ": (null)" << endl;
+    }
 }
 
 void ClixxIO_IoTSub::print_error_connection(int rc) {
