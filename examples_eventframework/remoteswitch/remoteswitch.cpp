@@ -10,7 +10,7 @@
 #include "clixxIO.hpp"
 #include "remoteswitch-config.hpp"
 
-clixxIO_Switch Switch1(SWITCH1_CONNECTOR);
+clixxIO_Switch Switch1;
 
 class App : public clixxIOApp{
 
@@ -29,6 +29,8 @@ class App : public clixxIOApp{
         Serial.echo = '1'; Serial.linemode = '1'; Serial.iotmode = 1;
 
         Debug.puts("\n\rApplication in setup event\n\r");
+
+        Switch1.assignPin(D1_O);
 
         addIoTSubEvent("/remote/switch",(void (*)()) &App::iotmessage);
     };

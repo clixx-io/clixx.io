@@ -50,7 +50,9 @@ int getOutputPin(int portname){
 void pinMode(int pin, int value){
     
     if (value == OUTPUT){
-        DDRB |= (1 << pin);    	/// pin is an output
+        DDRB |= (1 << pin);    	    // pin is an output
+    } else {
+        DDRB &= ~(1<< pin);    		// Turn pin off
     }
 }
 
@@ -71,7 +73,7 @@ int digitalRead(int pin){
 void analogWrite(int pin, int value){
 }
 
-int analoglRead(int pin){
+int analogRead(int pin){
     return(0);
 }
 
@@ -93,6 +95,9 @@ int clixxIO_Button::pressed(){
 */
 int clixxIO_Switch::On(){
     digitalWrite(_gpiopin, HIGH);
+
+	PORTB |= (1<<_gpiopin);    		// Else turn pin on
+
     return(0);
 }
 
@@ -103,5 +108,6 @@ int clixxIO_Switch::On(){
 */
 int clixxIO_Switch::Off(){
     digitalWrite(_gpiopin, LOW);
+//	PORTB &= ~(1<<D1_O);    		// Turn pin off
     return(0);
 }	  

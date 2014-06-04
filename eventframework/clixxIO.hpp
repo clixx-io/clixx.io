@@ -348,10 +348,12 @@ class clixxIO_Switch {
     int _gpiopin;
 
   public:
-    clixxIO_Switch(int Pin):_gpiopin(Pin){ }
-
-  int On();  
-  int Off();
+    clixxIO_Switch(int Pin = 0):_gpiopin(Pin) { pinMode(Pin,OUTPUT); }
+    
+	int On();  
+	int Off();
+	
+    inline void assignPin(int Pin) { _gpiopin = Pin; pinMode(Pin,OUTPUT); }
 
 };
 
