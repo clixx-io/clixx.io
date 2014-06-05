@@ -23,10 +23,7 @@ class App : public clixxIOApp{
          and provides for initialisation requirements.
 
         */
-        Serial.begin();
-
-        // Some Serial fiddling
-        Serial.echo = '1'; Serial.linemode = '1'; Serial.iotmode = 1;
+        IoT.begin();
 
         Debug.puts("\n\rApplication in setup event\n\r");
 

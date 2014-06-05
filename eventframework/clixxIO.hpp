@@ -158,8 +158,9 @@ class clixxIOSerial
 };
 
 extern clixxIOSerial Serial;
-
-#define Debug Serial
+#ifdef TARGET_LINUX
+ #define Debug Serial
+#endif
 
 #if defined(UBRR1H)
   extern HardwareSerial Serial1;
@@ -298,16 +299,20 @@ int  analoglRead(int pin);
  * ------------------------------------------------------------------------*/
 class ClixxIO_I2cBus {
 
+  private:
+    int i2c_file;
+
   public:
 
-    ClixxIO_I2cBus(int bus = 1);
+    ClixxIO_I2cBus(int bus = 1): i2c_file(bus) { };
 
+    int open();
+    void close();
+    
     int write(unsigned char addr, unsigned char reg, unsigned char byte);
     char read(unsigned char addr, unsigned char reg, unsigned char *val);
     int read_nbytes_data(unsigned char addr, char *data, int n);
 
-  private:
-    int i2c_file;
 };
 
 /*
@@ -400,6 +405,10 @@ public:
     unsigned int where[2];
 
 };
+
+#ifdef TARGET_AVR
+ #define Debug IoT
+#endif
 
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
  
