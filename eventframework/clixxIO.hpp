@@ -306,8 +306,8 @@ class ClixxIO_I2cBus {
 
     ClixxIO_I2cBus(int bus = 1): i2c_file(bus) { };
 
-    int open();
-    void close();
+    int connect(const int bus);
+    void disconnect();
     
     int write(unsigned char addr, unsigned char reg, unsigned char byte);
     char read(unsigned char addr, unsigned char reg, unsigned char *val);
@@ -355,9 +355,9 @@ class clixxIO_Switch {
   public:
     clixxIO_Switch(int Pin = 0):_gpiopin(Pin) { pinMode(Pin,OUTPUT); }
     
-	int On();  
-	int Off();
-	
+    int On();  
+    int Off();
+
     inline void assignPin(int Pin) { _gpiopin = Pin; pinMode(Pin,OUTPUT); }
 
 };

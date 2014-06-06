@@ -144,6 +144,13 @@ int clixxIOApp::run()
     for (;;)
     {
         C_loopevent(pMainClass);
+
+        #ifdef USE_MOSQUITTO
+          if (IoT.available() {
+              rc = mqttc->loop(-1);
+            }while(rc == MOSQ_ERR_SUCCESS);
+          }
+        #endif
       
         if (Serial.available()) {
       
@@ -154,9 +161,6 @@ int clixxIOApp::run()
 
             Serial.addbufferchar( c );
         }
-
-        // rc = mqttc->loop(-1);
-        // while(rc == MOSQ_ERR_SUCCESS);
 
     }
   
