@@ -9,7 +9,13 @@
 #include "clixxIO.hpp"
 #include "remotebutton-config.hpp"
 
+#define F_CPU 8000000UL
+#include <util/delay.h>
+#include <core_AVR/iohelp.h>
+
 clixxIO_Button mybutton(BUTTON1_CONFIG);
+
+char mybuff[30];
 
 class App : public clixxIOApp{
 
@@ -28,7 +34,10 @@ class App : public clixxIOApp{
          */
         buttonstate = 0;
 
-        Debug.begin();
+        adcInit(ADC2);
+        
+        IoT.begin();
+
         Debug.puts("Application in setup event");
 
         IoT.beginPublishing("SmallDevice/Button");
@@ -38,7 +47,8 @@ class App : public clixxIOApp{
         /* 
          * Loop Event handler - This gets called repeatedly.
          */
-        if (mybutton.pressed()){
+        /*
+         * if (mybutton.pressed()){
 
             Debug.puts("Button Pressed");
 
@@ -49,7 +59,27 @@ class App : public clixxIOApp{
             else {
                 IoT.publish("Off");
             }
+        } else {
+            
         }
+        */
+
+        char buffer[60];
+
+        int x = adcRead(ADC2,0,1);
+        if (x>250)
+        {
+            // IoT.publish("On");
+            snprintf(buffer, sizeof(buffer), "On v=%d", x);
+
+        } else {
+            // IoT.publish("Off");
+            snprintf(buffer, sizeof(buffer), "Off v=%d", x);
+        }
+
+        IoT.publish((const char *) &buffer);
+
+        _delay_ms(333); 
     };
 
 };

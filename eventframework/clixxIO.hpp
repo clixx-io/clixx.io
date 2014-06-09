@@ -242,10 +242,10 @@ class clixxIOApp{
     #elif defined(TARGET_AVR)  	/* presume Attiny85 */
       // #ifndef F_CPU
         // Use 8Mhz Processor speed for faster applications
-      //  #define F_CPU 8000000UL
+        // #define F_CPU 8000000UL
       // #endif
       // #include <util/delay.h>
-      // inline void delay_ms( unsigned long ms ){ _delay_ms(ms); }
+      // #define delay_ms( unsigned long ms ) _delay_ms(ms)
     #endif 
  
     clixxIOApp();

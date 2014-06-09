@@ -79,9 +79,9 @@ int clixxIOSerial::beginPublishing(const char *topic){
     
     iotmode = 1;
 
-    write('!');
+    write('@');
     puts(topic);
-    write('\r');
+    puts("\r\n");
 
     return 0;
 
@@ -93,9 +93,9 @@ int clixxIOSerial::beginPublishing(const char *topic){
  */
 int clixxIOSerial::publish(const char *publishtext){
 
-    write('@');
+    write('!');
     puts(publishtext);
-    write('\r');
+    puts("\r\n");
 
     return(0);
 }

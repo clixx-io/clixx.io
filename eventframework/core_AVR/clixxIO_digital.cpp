@@ -34,19 +34,33 @@
  *
  * ------------------------------------------------------------------------*/
 
-
 // Definitions of all Input and Output Pins according to their connector
 int input_pins[] = {D1_O,D2_O};
 int output_pins[] = {D1_I,D2_I};
 
+/** Turns a switch off
+*
+* This function turns the switch off
+* 
+*/
 int getInputPin(int portname){ 
     return input_pins[portname]; 
 };
 
+/** Turns a switch off
+*
+* This function turns the switch off
+* 
+*/
 int getOutputPin(int portname){ 
     return output_pins[portname]; 
 };
 
+/** Turns a switch off
+*
+* This function turns the switch off
+* 
+*/
 void pinMode(int pin, int value){
     
     if (value == OUTPUT){
@@ -56,6 +70,11 @@ void pinMode(int pin, int value){
     }
 }
 
+/** Turns a switch off
+*
+* This function turns the switch off
+* 
+*/
 void digitalWrite(int pin, int value){
     
 	if (value){
@@ -65,14 +84,29 @@ void digitalWrite(int pin, int value){
     }
 }
 
+/** Turns a switch off
+*
+* This function turns the switch off
+* 
+*/
 int digitalRead(int pin){
 
     return (PINB & (1 << pin));
 }
 
+/** Turns a switch off
+*
+* This function turns the switch off
+* 
+*/
 void analogWrite(int pin, int value){
 }
 
+/** Turns a switch off
+*
+* This function turns the switch off
+* 
+*/
 int analogRead(int pin){
     return(0);
 }
@@ -85,12 +119,12 @@ int analogRead(int pin){
 int clixxIO_Button::pressed(){	  
 
 	return adcRead(ADC0, 1, 3);
-    	
+    
 }
 
-/** Writes a string to the serial port
+/** Turns a switch On
 *
-* This function writes a string to the serial port
+* This function turns the switch On
 * 
 */
 int clixxIO_Switch::On(){
@@ -101,9 +135,9 @@ int clixxIO_Switch::On(){
     return(0);
 }
 
-/** Writes a string to the serial port
+/** Turns a switch off
 *
-* This function writes a string to the serial port
+* This function turns the switch off
 * 
 */
 int clixxIO_Switch::Off(){
