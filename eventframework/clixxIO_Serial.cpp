@@ -24,6 +24,8 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include <stdio.h>
+
 #include "clixxIO.hpp"
 
 clixxIOSerial Serial;
@@ -88,14 +90,30 @@ int clixxIOSerial::beginPublishing(const char *topic){
 }
 
 /**
- * Publish a value to the host. This transmits the
+ * Publish an Integer value to the host. This transmits the
+ * text up to the host using an escape.
+ */
+int clixxIOSerial::publish(const int publishint){
+
+    char buffer[10];
+    
+    puts("!");
+    snprintf(buffer, sizeof(buffer), "%d", publishint);
+    puts((const char *) &buffer);
+    puts("\r\n");
+
+    return(0);
+}
+
+/**
+ * Publish a text value to the host. This transmits the
  * text up to the host using an escape.
  */
 int clixxIOSerial::publish(const char *publishtext){
 
-    write('!');
+    puts("!\"");
     puts(publishtext);
-    puts("\r\n");
+    puts("\"\r\n");
 
     return(0);
 }

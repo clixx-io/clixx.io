@@ -27,6 +27,7 @@ class App : public clixxIOApp{
         adcInit(ADC2);
         
         IoT.begin();
+        IoT.beginPublishing("SmallDevice/AnalogSensor");
 
     };
 
@@ -36,13 +37,9 @@ class App : public clixxIOApp{
          This gets called repeatedly.
          
         */
-        char buffer[60];
+        int i = adcRead(ADC2,0,1);
 
-        int x = adcRead(ADC2,0,1);
-            // IoT.publish("On");
-        snprintf(buffer, sizeof(buffer), "%d", x);
-
-        IoT.publish((const char *) &buffer);
+        IoT.publish(i);
 
         _delay_ms(333); 
     };

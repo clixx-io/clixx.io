@@ -140,6 +140,7 @@ class clixxIOSerial
     int beginPublishing(const char *topic);
 
     int publish(const char *publishtext);
+    int publish(const int publishint);
     
     virtual void addbufferchar(char);
     virtual void processcommand(void);
