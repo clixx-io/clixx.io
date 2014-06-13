@@ -5,7 +5,6 @@
 
 */
 
-#include <stdio.h>
 #include "clixxIO.hpp"
 #include "remotebutton-config.hpp"
 
@@ -15,13 +14,7 @@
 
 clixxIO_Button mybutton(BUTTON1_CONFIG);
 
-char mybuff[30];
-
 class App : public clixxIOApp{
-
-  private:
-        
-    int buttonstate;
 
   public:
 
@@ -32,52 +25,32 @@ class App : public clixxIOApp{
          * and provides for initialisation requirements.
          * 
          */
-        buttonstate = 0;
 
-        adcInit(ADC2);
+        Switch1.assignPin(ADC2);
         
         IoT.begin();
 
         Debug.puts("Application in setup event");
 
         IoT.beginPublishing("SmallDevice/Button");
+        
     };
 
     void loop(){
         /* 
          * Loop Event handler - This gets called repeatedly.
          */
-        /*
-         * if (mybutton.pressed()){
+        if (mybutton.pressed()){
 
             Debug.puts("Button Pressed");
 
-            buttonstate = ~buttonstate;
-            if (buttonstate){
-                IoT.publish("On");
-            } 
-            else {
-                IoT.publish("Off");
-            }
+            IoT.publish("On");
+
         } else {
+
+            IoT.publish("Off");
             
         }
-        */
-
-        char buffer[60];
-
-        int x = adcRead(ADC2,0,1);
-        if (x>250)
-        {
-            // IoT.publish("On");
-            snprintf(buffer, sizeof(buffer), "On v=%d", x);
-
-        } else {
-            // IoT.publish("Off");
-            snprintf(buffer, sizeof(buffer), "Off v=%d", x);
-        }
-
-        IoT.publish((const char *) &buffer);
 
         _delay_ms(333); 
     };
