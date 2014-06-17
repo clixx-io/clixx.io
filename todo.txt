@@ -43,6 +43,9 @@ Boards to do
  - Potentiometer
  - Bluetooth HC-05
  
+18650 battery mounts
+
+ - http://au.mouser.com/ProductDetail/Keystone-Electronics/1042/?qs=sGAEpiMZZMupuRtfu7GC%252bRUTI0DVcFvMpsw3XwriGTM=
 
 Growl and Ubuntu Notifications
 ------------------------------

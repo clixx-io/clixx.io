@@ -9,7 +9,6 @@ from ClixxIO import *
 
 parser = argparse.ArgumentParser(description='Command Line Device Interface.')
 
-
 useage = """
 clixx.io Command Line
 ---------------------
