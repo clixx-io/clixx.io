@@ -38,7 +38,8 @@ import gettext
 _ = gettext.gettext
 
 
-clixxIOConfigName= "clixx.IO.conf"
+clixxIOConfigName= "clixx.io.ini"
+clixxIOConfigDir = ".local/share/clixx.io"
 clixxIOConfigDirSuffix = ".local/share/clixx.io"
 
 IoTProjectDirSuffix = "IoT"
@@ -89,7 +90,8 @@ def GetConfigDir():
     """ 
     Return: The Location for configuration files
     """
-
+    global clixxIOConfigDir, clixxIOConfigDirSuffix
+    
     homedir = ''
 
     if platform.system()=='Windows':	
@@ -108,7 +110,9 @@ def GetConfigDir():
 
         clixxIOLogDir    = "/var/log"
 
-        homedir = os.path.join(os.path.expanduser("~"),clixxIOConfigDirSuffix)
+        clixxIOConfigDir = os.path.join(os.path.expanduser("~"),clixxIOConfigDirSuffix)
+
+        homedir = clixxIOConfigDir
 
     return homedir 
 
@@ -473,7 +477,8 @@ def clixxIOReadDevices():
     """
     Low Level routine to read values for all devices
     """
-
+    global clixxIOConfigDir,clixxIOConfigName
+    
     clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
 
     alldevices = []
