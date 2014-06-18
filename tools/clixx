@@ -5,7 +5,7 @@ import sys
 
 sys.path.append("src")
 
-from ClixxIO import *
+from clixxIO import *
 
 parser = argparse.ArgumentParser(description='Command Line Device Interface.')
 

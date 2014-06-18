@@ -7,7 +7,7 @@ if sys.version_info < (2, 5):
 from setuptools import setup
 
 setup(
-    name = "clixx.io",
+    name = "clixx_IO",
     version = "0.1.0",
     url = "http://github.com/clixx-io/clixx.io",
     license = "BSD",
