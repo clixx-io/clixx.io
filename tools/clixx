@@ -13,7 +13,7 @@ useage = """
 clixx.io Command Line
 ---------------------
 
-Enhance clixx.io with command line interface to monitor
+clixx.io with command line interface to monitor
 sensors. 
 
  clixx.io --latest log Temp1      # Display the log
@@ -27,12 +27,6 @@ sensors.
  
  clixx.io webserver start
  clixx.io webserver stop
-
- clixx.io jabber start
- clixx.io jabber stop
-
- clixx.io server start            # TcpIP server 
- clixx.io server stop
 
  clixx.io add button pin/gpio X
  clixx.io add led d1
@@ -54,6 +48,15 @@ if __name__ == "__main__":
     
     if args.operation[0]=="list":
         print clixxIOReadDevices()
+    elif args.operation[0]=="new":
+        if args.operation[1]=="project":
+            # Add a new project
+            projname = args.operation[2]
+            print("Creating new project %s" % projname)
+            sys.exit(clixxIOAddProject(args.operation[2]))
+        else:
+            print("Invalid parameter")
+            
     elif args.operation[0]=='history':
         print clixxIOLatestValues(args.device[1])
     elif args.operation[0]=="status":

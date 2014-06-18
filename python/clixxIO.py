@@ -531,6 +531,9 @@ def clixxIOInfo(deviceId):
     return results
 
 def clixxIOAddProject(projectname):
+    IoTdir = os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,projectname)
+    if not os.path.exists(IoTdir):
+        os.makedirs(IoTdir)
     return
 
 def clixxIOAddProjectDevice(projectname):
