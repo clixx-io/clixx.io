@@ -2,6 +2,7 @@
 import os, sys
 import unittest
 import random
+import shutil
 
 from clixxIO import *
 
@@ -16,16 +17,21 @@ class ProjectManagementTests(unittest.TestCase):
 
     def setUp(self):
         random.random()
-        self.projects = clixxIOProjectDir()
+        self.projects = []
 
     def testAddProject(self):
         # Test creation of a project
-        p = str(random.randrange(1000, 9999, 1))
+        p = 'test-' + str(random.randrange(1000, 9999, 1))
+        self.projects.append(p)
 
         clixxIOAddProject(p)
 
         self.failUnless(os.path.exists(os.path.join(clixxIOProjectDir(),p)))
 
+    def tearDown(self):
+        for p in self.projects:
+            shutil.rmtree(os.path.join(clixxIOProjectDir(),p))
+            
 class LineModeTests(unittest.TestCase):
 
     def testSingleLineComment(self):
