@@ -24,6 +24,7 @@ from PySide import QtCore, QtGui
 
 import iot_controller_rc
 
+from clixxIO import *
 
 class Window(QtGui.QDialog):
     def __init__(self):
@@ -223,7 +224,8 @@ class Window(QtGui.QDialog):
 #         self.trayIconMenu.addAction(self.minimizeAction)
 #         self.trayIconMenu.addAction(self.maximizeAction)
 
-         for d in ['Cooker','TempSensor','Microwave']:
+         projects = clixxIOListProjects()
+         for d in projects:
              prevMenu = self.trayIconMenu.addMenu(d)
              prevAction = prevMenu.addAction('On')
              prevAction = prevMenu.addAction('Off')
