@@ -1,10 +1,31 @@
-
-import sys
+#/usr/bin/python
+import os, sys
 import unittest
+import random
 
 from clixxIO import *
 
 # Here's our "unit tests".
+
+class EnvironmentManagementTests(unittest.TestCase):
+
+    def testNonNullProjectDirectory(self):
+        self.failUnless(clixxIOProjectDir() != "")
+
+class ProjectManagementTests(unittest.TestCase):
+
+    def setUp(self):
+        random.random()
+        self.projects = clixxIOProjectDir()
+
+    def testAddProject(self):
+        # Test creation of a project
+        p = str(random.randrange(1000, 9999, 1))
+
+        clixxIOAddProject(p)
+
+        self.failUnless(os.path.exists(os.path.join(clixxIOProjectDir(),p)))
+
 class LineModeTests(unittest.TestCase):
 
     def testSingleLineComment(self):
