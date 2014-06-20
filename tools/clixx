@@ -47,7 +47,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     if args.operation[0]=="list":
-        print clixxIOReadDevices()
+        print("Current Projects\n----------------")
+        projects = clixxIOListProjects()
+        for p in projects:
+            print(p)
     elif args.operation[0]=="new":
         if args.operation[1]=="project":
             # Add a new project
@@ -58,6 +61,8 @@ if __name__ == "__main__":
             print("Invalid parameter")
             
     elif args.operation[0]=='history':
-        print clixxIOLatestValues(args.device[1])
+        print(clixxIOLatestValues(args.device[1]))
     elif args.operation[0]=="status":
-        print clixxIOReadDevice(args.device[1]) 
+        print(clixxIOReadDevice(args.device[1]))
+    else:
+        print("Unknown command.")
