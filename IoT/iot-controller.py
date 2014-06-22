@@ -20,7 +20,7 @@
 #import sip
 #sip.setapi('QVariant', 2)
 
-from PySide import QtCore, QtGui
+from PySide import QtCore, QtGui, QtWebKit
 
 import iot_controller_rc
 
@@ -206,6 +206,24 @@ class Window(QtGui.QDialog):
         messageLayout.setRowStretch(4, 1)
         self.messageGroupBox.setLayout(messageLayout)
 
+    def showEditor(self):
+        os.system("geany ~/IoT/msp1/msp1.cpp")
+
+        """
+        self.web = QtWebKit.QWebView()
+        self.web.load(QtCore.QUrl("http://google.com"))
+        self.web.show()
+        """
+        
+    def showHomepage(self):
+        self.web = QtWebKit.QWebView()
+        self.web.load(QtCore.QUrl("http://google.com"))
+        self.web.show()
+
+        #  QObject.connect(self.view, SIGNAL('loadFinished(bool)'),
+        #                  self.load_finished)
+        #  url = QUrl.fromLocalFile(adjust_filename('fox.html', __file__))
+
     def createActions(self):
         self.minimizeAction = QtGui.QAction("Mi&nimize", self,
                 triggered=self.hide)
@@ -224,11 +242,29 @@ class Window(QtGui.QDialog):
 #         self.trayIconMenu.addAction(self.minimizeAction)
 #         self.trayIconMenu.addAction(self.maximizeAction)
 
+         self.editActions = {}
+         self.deviceWebActions = {}
+#         self.editAction = QtGui.QAction("&Edit", self,
+#                                         triggered=self.showEditor)
+         
          projects = clixxIOListProjects()
          for d in projects:
+ 
+             self.editActions[d] = QtGui.QAction("&Edit Source", self,
+                                         triggered=self.showEditor)
+             self.editActions[d].setStatusTip('Edit the Main Source code file for this project')
+             
+             self.deviceWebActions[d] = QtGui.QAction("&Open Device Webpage", self,
+                                         triggered=self.showHomepage)
+                                         
              prevMenu = self.trayIconMenu.addMenu(d)
-             prevAction = prevMenu.addAction('On')
-             prevAction = prevMenu.addAction('Off')
+             prevAction = prevMenu.addAction('&On',checkable=True,checked=True)
+             prevAction.Checked = True
+             prevAction = prevMenu.addAction('O&ff',checkable=True)
+             prevMenu.addSeparator()
+             prevMenu.addAction(self.editActions[d]) 
+             prevMenu.addSeparator()
+             prevMenu.addAction(self.deviceWebActions[d]) 
          
          self.trayIconMenu.addSeparator()
          self.trayIconMenu.addAction(self.restoreAction)

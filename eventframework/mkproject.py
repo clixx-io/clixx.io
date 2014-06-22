@@ -321,7 +321,7 @@ can then customise to suit your needs.
 			usedcalllist['iot_close'] = 'static_cast<App*>(appC)->iotclose();'
 
 		mytemplate = Template(filename=os.path.join(self.templatedir,'main-callbacks.tmpl'))
-		maincallbackfile.write(mytemplate.render(function_calls = usedcalllist))
+		maincallbackfile.write(mytemplate.render(function_calls = usedcalllist,iot_commands=[]))
 
 
 if __name__ == "__main__":

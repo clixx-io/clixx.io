@@ -5,6 +5,9 @@
 
 [${program_base}]
 
+[iot]
+commands = ${iot_commands}
+
 [events]
 % if 'program_setup' in section_selections:
 program_setup = true
@@ -39,3 +42,4 @@ list =
 % for device in device_selections:
     ${device}
 % endfor
+
