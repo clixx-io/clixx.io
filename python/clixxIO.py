@@ -28,7 +28,7 @@
 """
 
 import os, sys, mmap, ctypes, struct, json, platform
-import logging, glob
+import logging, glob, shutil
 from ConfigParser import ConfigParser
 from datetime import datetime
 from time import *
