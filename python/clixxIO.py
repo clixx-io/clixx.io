@@ -71,21 +71,6 @@ clixxIOConfig = ConfigParser()
 
 logginghandlers = {}
 
-def spawntask(cmdline):
-    # Put stderr and stdout into pipes
-    proc = subprocess.Popen(cmdline, \
-        shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-    return_code = proc.wait()
-
-    output = []
-    # Read from pipes
-    for line in proc.stdout:
-        output += line
-    for line in proc.stderr:
-        print("stderr: " + line.rstrip())
-
-    return (return_code,output)
-
 def GetConfigDir():
     """ 
     Return: The Location for configuration files
@@ -115,6 +100,133 @@ def GetConfigDir():
         homedir = clixxIOConfigDir
 
     return homedir 
+
+def configPath():
+    """
+    Provides the location of the configuration file
+    """
+    return os.path.join(clixxIOConfigDir,clixxIOConfigName)
+
+def programmersEditorPath():
+    """
+    Provides the Executeable to the Programmers selected Editor
+    """
+    return None
+
+class clixxIOProject:
+    """ 
+    A Basic class to simplify project Management
+    """
+
+    def __init__(self):
+
+        self._InputChannel = ""
+        self._OutputChannel = ""
+        self._AvailableCommands = []
+
+    def fireProgrammersEditor(self, filename = None):
+        return
+        
+    def openWebHomepage(self, filename = None):
+        return
+        
+    def publishText(self, ChannelTopic, ChannelText):
+        return
+        
+    def GetProjectType(self):
+        return
+
+    def GetAvailableCommands(self):
+        commands = []
+        return commands
+
+    def GetconfigPath(self):
+        return
+       
+    def GetconfigStr(self,section,keyname):
+        return
+       
+    def GetconfigInt(self,section,keyname):
+        return
+        
+    def SetconfigStr(self,section,keyname):
+        return
+       
+    def SetconfigInt(self,section,keyname):
+        return
+        
+def clixxIOProjectDir(projectname = None):
+    """
+    Returns the Master Project Directory for the system.
+
+    These are typically directories stored in the IoT directory
+    """
+    global IoTProjectDirSuffix
+    if not projectname is None:
+        return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,projectname)
+    else:
+        return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix)
+
+def clixxIOAddProject(projectname):
+    """
+    Add a Project Directory to the system.
+
+    These are typically directories stored in the IoT directory
+    """
+    global IoTProjectDirSuffix
+    IoTdir = os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,projectname)
+    if not os.path.exists(IoTdir):
+        os.makedirs(IoTdir)
+    return
+
+def clixxIORemoveProject(projectname):
+    """
+    Removes a projects maintained by the system.
+
+    A project is typically one directory stored in the IoT directory
+    which can be deleted by recursively deleting it.
+    """
+    shutil.rmtree(os.path.join(clixxIOProjectDir(),projectname))
+    return
+
+def clixxIOAddProjectDevice(projectname):
+    return
+
+def clixxIOStartProject(projectname):
+    return
+
+def clixxIOListProjects():
+    """
+    Return the names of all projects maintained by the system.
+
+    These are typically directories stored in the IoT directory
+    """
+    IoTdir = os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,'*')
+
+    projects = []
+    projectdirs = glob.glob(IoTdir)
+    for d in projectdirs:
+        if os.path.basename(d) != 'libraries':
+            projects.append(os.path.basename(d))
+    return projects
+
+def clixxIOStopProject(projectname):
+    return
+
+def spawntask(cmdline):
+    # Put stderr and stdout into pipes
+    proc = subprocess.Popen(cmdline, \
+        shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    return_code = proc.wait()
+
+    output = []
+    # Read from pipes
+    for line in proc.stdout:
+        output += line
+    for line in proc.stderr:
+        print("stderr: " + line.rstrip())
+
+    return (return_code,output)
 
 def sensorLogPath(sensorname):
     """
@@ -330,12 +442,6 @@ def sensorLog(value,sensorname):
 
     return
 
-def configPath():
-    """
-    Provides the location of the configuration file
-    """
-    return os.path.join(clixxIOConfigDir,clixxIOConfigName)
-
 def sensorPin(pinnumber):
     """
     Reads a sensor Pin number from the configuration file
@@ -532,47 +638,5 @@ def clixxIOInfo(deviceId):
     """
     Read known summary metadata for a device
     """
-
     return results
 
-def clixxIOProjectDir(projectname = None):
-    global IoTProjectDirSuffix
-    if not projectname is None:
-        return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,projectname)
-    else:
-        return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix)
-
-def clixxIOAddProject(projectname):
-    global IoTProjectDirSuffix
-    IoTdir = os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,projectname)
-    if not os.path.exists(IoTdir):
-        os.makedirs(IoTdir)
-    return
-
-def clixxIORemoveProject(projectname):
-    shutil.rmtree(os.path.join(clixxIOProjectDir(),projectname))
-    return
-
-def clixxIOAddProjectDevice(projectname):
-    return
-
-def clixxIOStartProject(projectname):
-    return
-
-def clixxIOListProjects():
-    """
-    Return the names of all projects maintained by the system.
-	
-    These are typically directories stored in the IoT directory
-    """
-    IoTdir = os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,'*')
-
-    projects = []
-    projectdirs = glob.glob(IoTdir)
-    for d in projectdirs:
-        if os.path.basename(d) != 'libraries':
-            projects.append(os.path.basename(d))
-    return projects
-
-def clixxIOStopProject(projectname):
-    return

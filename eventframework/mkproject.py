@@ -43,6 +43,12 @@ can then customise to suit your needs.
 --------------------------------------------------------
 """
 
+	project_types = { 
+			   "Python_Service"		: "Python Project",
+			   "Web_Application"	: "Web Application",
+			   "ClixxIO_Application": "Event-Framework",
+			  }
+
 	system_capabilities = {
 			   "attiny13" 			: "program_setup|program_loop|program_timers|program_pinchange",
 			   "attiny85" 			: "program_setup|program_loop|program_timers|program_pinchange|program_serial|program_iot",
@@ -111,6 +117,10 @@ can then customise to suit your needs.
 			self.deployment_platform = deployment_platform
 		
 		self.selections = []
+		self.project_type = None 
+		self.iot_commands = []
+		self.iot_input_channel = ""
+		self.iot_output_channel = ""
 		
 		return
 		
@@ -134,30 +144,62 @@ can then customise to suit your needs.
 		else:
 			print("and the project directory will be : %s\n" % self.get_projectdir(self.project_name))
 		
-		for x in self.prompts.keys():
-			if (x in capabilities) and (x.startswith('program_')):
-				r = 'I'
-				while not r in 'YN':
-					r = raw_input(self.prompts[x]).upper()
-					if r == 'Y':
-						self.selections.append(x)
+		if self.project_type is None:
+			ptypes = "What is the project type (" + "/".join(self.project_types.keys()) + ")? "
+			while not self.project_type in self.project_types.keys():
+				self.project_type = raw_input(ptypes)
 
-						# Subsection queries
-						device_capabilities = []
-						k = x[x.find('_')+1:]
-						for y in self.prompts.keys():
-							if y.startswith(k):
-								r = 'I'
-								while not r in 'YN':
-									r = raw_input(self.prompts[y]).upper()
-									if r == 'Y':
-										self.selections.append(y)
+		if self.project_type == "Clixx":
+		
+			for x in self.prompts.keys():
+				if (x in capabilities) and (x.startswith('program_')):
+					r = 'I'
+					while not r in 'YN':
+						r = raw_input(self.prompts[x]).upper()
+						if r == 'Y':
+							self.selections.append(x)
 
-					elif (r == 'I'):
-						if x in self.info.keys():
-							print(self.info[x])
-						else:
-							print("Sorry, no further information on that item.")
+							# Subsection queries
+							device_capabilities = []
+							k = x[x.find('_')+1:]
+							for y in self.prompts.keys():
+								if y.startswith(k):
+									r = 'I'
+									while not r in 'YN':
+										r = raw_input(self.prompts[y]).upper()
+										if r == 'Y':
+											self.selections.append(y)
+
+						elif (r == 'I'):
+							if x in self.info.keys():
+								print(self.info[x])
+							else:
+								print("Sorry, no further information on that item.")
+
+		input_channel_name = ''
+		while input_channel_name is '':
+			input_channel_name = raw_input("What IoT Channel do you want to respond to commands from ? ")
+			if input_channel_name.strip() != '':
+				self.iot_input_channel = input_channel_name.strip()
+			else:
+				break;
+				
+		if self.iot_input_channel != '':
+			# If there is an input_channel, collect up all the respond-to commands
+			command_name = ''
+			while not command_name is '':
+				command_name = raw_input("Add a command (in text) of what you want this project to respond to \(eg On or Off\)? ")
+				if command_name.strip() != '':
+					self.iot_commands.append(command_name)
+					print("%s added" % command_name)
+		else:
+			# If it's not an input channel, then collect output (publish) information
+			output_channel_name = ''
+			while output_channel_name is '':
+				output_channel_name = raw_input("What IoT Channel do you want to output to ? ")
+				if input_channel_name.strip() != '':
+					self.iot_output_channel = input_channel_name.strip()
+					break
 
 		print("\nPeripheral Entry (What is connected to the processor).\n---------------------------------------------\n"
 		      "\nEnter <blank> to finish\n")
@@ -252,7 +294,14 @@ can then customise to suit your needs.
 		mainfile = open(os.path.join(self.projectdir,self.project_name+'.ini'), 'w')	
 		
 		mytemplate = Template(filename=os.path.join(self.templatedir,'main-config.tmpl'))
-		mainfile.write(mytemplate.render(program_base = self.project_name, section_selections = self.selections, device_selections=self.peripherals))
+		mainfile.write(mytemplate.render(program_base = self.project_name, section_selections = self.selections, 
+		                                 device_selections=self.peripherals,
+		                                 iot_commands=[self.iot_commands],
+		                                 iot_output_channels=[self.iot_output_channel],
+		                                 iot_input_channels=[self.iot_input_channel,],
+		                                 project_type=self.project_type
+		                                )
+		              )
 
 	def render_mainhppfile(self):
 		"""
@@ -321,8 +370,11 @@ can then customise to suit your needs.
 			usedcalllist['iot_close'] = 'static_cast<App*>(appC)->iotclose();'
 
 		mytemplate = Template(filename=os.path.join(self.templatedir,'main-callbacks.tmpl'))
-		maincallbackfile.write(mytemplate.render(function_calls = usedcalllist,iot_commands=[],iot_input_channels=[],iot_input_channels=[],project_type=))
-
+		maincallbackfile.write(mytemplate.render(function_calls = usedcalllist,
+		                       iot_commands=[self.iot_commands],
+		                       iot_output_channels=[self.iot_output_channel],
+		                       iot_input_channels=[self.iot_input_channel,],project_type=self.project_type)
+		                      )
 
 if __name__ == "__main__":
 
