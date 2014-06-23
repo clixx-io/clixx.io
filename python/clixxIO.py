@@ -549,6 +549,10 @@ def clixxIOAddProject(projectname):
         os.makedirs(IoTdir)
     return
 
+def clixxIORemoveProject(projectname):
+    shutil.rmtree(os.path.join(clixxIOProjectDir(),projectname))
+    return
+
 def clixxIOAddProjectDevice(projectname):
     return
 
