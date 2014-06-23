@@ -47,7 +47,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     if args.operation[0]=="list":
-        print("Current Projects\n----------------")
+        print("Current Projects\nName---------------Type----------------")
         projects = clixxIOListProjects()
         for p in projects:
             print(p)
@@ -57,6 +57,11 @@ if __name__ == "__main__":
             projname = args.operation[2]
             print("Creating new project %s" % projname)
             sys.exit(clixxIOAddProject(args.operation[2]))
+    elif args.operation[0]=="remove":
+        if args.operation[1]=="project":
+            # Add a new project
+            projname = args.operation[2]
+            sys.exit(clixxIORemoveProject(projname))
         else:
             print("Invalid parameter")
             
