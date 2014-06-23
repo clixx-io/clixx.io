@@ -4,8 +4,11 @@
 #
 
 [${program_base}]
+project_type = ${project_type}
 
-[iot]
+[IoT]
+output_channels = ${iot_output_channels}
+input_channels = ${iot_input_channels}
 commands = ${iot_commands}
 
 [events]
@@ -19,27 +22,41 @@ program_shutdown = true
 program_timers = true
 % endif
 % if 'program_loop' in section_selections:
+program_loop = true
 % endif
 % if 'program_pinchange' in section_selections:
+program_pinchange = true
 % endif
 % if 'serial_char' in section_selections:
+serial_char = true
 % endif
 % if 'serial_line' in section_selections:
+serial_line = true
 % endif
 % if 'serial_open' in section_selections:
+serial_open = true
 % endif
 % if 'serial_close' in section_selections:
+serial_close = true
 % endif
 % if 'iot_open' in section_selections:
+iot_open = true
 % endif
 % if 'iot_message' in section_selections:
+iot_message = true
 % endif
 % if 'iot_close' in section_selections:
+iot_close = true
 % endif
 
 [devices]
 list = 
 % for device in device_selections:
     ${device}
+% endfor
+
+[connections]
+% for device in device_selections:
+${device}=
 % endfor
 
