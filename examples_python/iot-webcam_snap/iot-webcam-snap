@@ -1,0 +1,14 @@
+# /usr/bin/python
+import os, sys
+import subprocess
+
+"""
+
+ This example is based on the following:
+  http://askubuntu.com/questions/106770/take-a-picture-from-terminal
+
+"""
+if __name__ == "__main__":
+
+    os.system("streamer -f jpeg -o image.jpeg")
+
