@@ -213,6 +213,32 @@ def clixxIOListProjects():
 def clixxIOStopProject(projectname):
     return
 
+def clixxIOlProjectConfigFilename(projectname):
+    
+    d = clixxIOProjectDir(projectname)
+    
+    return (os.path.join(d,projectname + '.ini')
+
+def clixxIOListProjectMqttCommands(projectname):
+    
+    cf = clixxIOlProjectConfigFilename(p)
+        
+    clist = cf.get("mqtt","commands")
+    
+    return clist
+
+def clixxIOListAllProjectMqttCommands():
+    """  Read all Project
+    """
+    allcommands = []
+    
+    for p in clixxIOListProjects:
+        
+        allcommands.append(clixxIOListProjectMqttCommands)
+        
+        
+    return allcommands
+
 def spawntask(cmdline):
     # Put stderr and stdout into pipes
     proc = subprocess.Popen(cmdline, \

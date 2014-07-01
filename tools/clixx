@@ -47,10 +47,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     if args.operation[0]=="list":
-        print("Current Projects\nName--------------------- IoT Channel------------------------ Type------------------")
-        projects = clixxIOListProjects()
-        for p in projects:
-            print(p)
+        if len(args.operation)==1:
+            print("Current Projects\nName--------------------- IoT Channel------------------------ Type------------------")
+            projects = clixxIOListProjects()
+            for p in projects:
+                print(p)
     elif args.operation[0]=="new":
         if args.operation[1]=="project":
             # Add a new project
