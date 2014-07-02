@@ -4,6 +4,7 @@ import unittest
 import random
 import shutil
 
+sys.path.append('../python')
 from clixxIO import *
 
 # Here's our "unit tests".
@@ -31,6 +32,50 @@ class ProjectManagementTests(unittest.TestCase):
     def tearDown(self):
         for p in self.projects:
             shutil.rmtree(os.path.join(clixxIOProjectDir(),p))
+
+class ProjectConfigTests(unittest.TestCase):
+
+    def setUp(self):
+        random.random()
+        self.projects = []
+
+    def testAddProjectConfig(self):
+        # Test creation of a project
+        p = 'test-' + str(random.randrange(1000, 9999, 1))
+        self.projects.append(p)
+
+        clixxIOAddProject(p)
+        
+        clixxIOAddProjectMqttCommands(p,['on','off'])
+
+        cf = clixxIOlProjectConfigFilename(p)
+            
+        cp = SafeConfigParser()
+        cp.read(cf)
+       
+        c = cp.get("mqtt","commands")
+        
+        self.failUnless(c == "on off")
+
+    def testReadProjectConfig(self):
+        # Test creation of a project
+        p = 'test-' + str(random.randrange(1000, 9999, 1))
+        self.projects.append(p)
+
+        clixxIOAddProject(p)
+        
+        clixxIOAddProjectMqttCommands(p,['on','off'])
+
+        cf = clixxIOlProjectConfigFilename(p)
+            
+        c = clixxIOListProjectMqttCommands(p)
+        
+        self.failUnless(c == ['on','off'])
+
+    def tearDown(self):
+        for p in self.projects:
+            shutil.rmtree(os.path.join(clixxIOProjectDir(),p))
+
             
 class LineModeTests(unittest.TestCase):
 

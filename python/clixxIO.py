@@ -29,7 +29,7 @@
 
 import os, sys, mmap, ctypes, struct, json, platform
 import logging, glob, shutil
-from ConfigParser import ConfigParser
+from ConfigParser import ConfigParser, SafeConfigParser
 from datetime import datetime
 from time import *
 
@@ -217,14 +217,44 @@ def clixxIOlProjectConfigFilename(projectname):
     
     d = clixxIOProjectDir(projectname)
     
-    return (os.path.join(d,projectname + '.ini')
+    return (os.path.join(d,projectname + '.ini'))
+
+def clixxIOAddProjectMqttCommands(projectname,commandlist):
+    
+    cf = clixxIOlProjectConfigFilename(projectname)
+        
+    cp = SafeConfigParser()
+    cp.read(cf)
+   
+    clist = []
+    if cp.has_option("mqtt","commands"):
+        clist = " ".split(cp.get("mqtt","commands"))
+    else:
+        if not cp.has_section("mqtt"):
+            cp.add_section("mqtt")
+            
+    for c in commandlist:
+        clist.append(c)
+    
+    cp.set("mqtt","commands"," ".join(clist))
+
+    # Writing our configuration file to 'example.cfg'
+    with open(cf, 'w') as configfile:
+        cp.write(configfile)    
+    
+    return clist
 
 def clixxIOListProjectMqttCommands(projectname):
-    
-    cf = clixxIOlProjectConfigFilename(p)
-        
-    clist = cf.get("mqtt","commands")
-    
+
+    cf = clixxIOlProjectConfigFilename(projectname)
+
+    cp = SafeConfigParser()
+    cp.read(cf)
+   
+    clist = []
+    if cp.has_option("mqtt","commands"):
+        clist = cp.get("mqtt","commands").split(' ')
+   
     return clist
 
 def clixxIOListAllProjectMqttCommands():
@@ -235,7 +265,6 @@ def clixxIOListAllProjectMqttCommands():
     for p in clixxIOListProjects:
         
         allcommands.append(clixxIOListProjectMqttCommands)
-        
         
     return allcommands
 
