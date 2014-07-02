@@ -257,16 +257,44 @@ def clixxIOListProjectMqttCommands(projectname):
    
     return clist
 
-def clixxIOListAllProjectMqttCommands():
+def clixxIOListProjectMqttPubs(projectname):
+
+    cf = clixxIOlProjectConfigFilename(projectname)
+
+    cp = SafeConfigParser()
+    cp.read(cf)
+   
+    clist = [] 
+    if cp.has_option("mqtt","output_channels"):
+        clist = cp.get("mqtt","output_channels").split(' ')
+   
+    return clist
+
+def clixxIOListProjectMqttSubs(projectname):
+
+    cf = clixxIOlProjectConfigFilename(projectname)
+
+    cp = SafeConfigParser()
+    cp.read(cf)
+   
+    clist = [] 
+    if cp.has_option("mqtt","input_channels"):
+        clist = cp.get("mqtt","input_channels").split(' ')
+   
+    return clist
+
+def clixxIOListAllProjectMqttSubs():
     """  Read all Project
     """
-    allcommands = []
+    allsubs = []
     
-    for p in clixxIOListProjects:
+    for p in clixxIOListProjects():
         
-        allcommands.append(clixxIOListProjectMqttCommands)
+        pcmds = clixxIOListProjectMqttSubs(p)
+        for c in pcmds:
+            allsubs.append(c)
         
-    return allcommands
+    return allsusbs
 
 def spawntask(cmdline):
     # Put stderr and stdout into pipes
