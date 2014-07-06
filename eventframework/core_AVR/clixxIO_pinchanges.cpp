@@ -1,9 +1,12 @@
 
-# Based on the post at https://sites.google.com/site/qeewiki/books/avr-guide/external-interrupts-on-the-atmega328
-
 #include <avr/io.h>
 #include <stdint.h>            // has to be added to use uint8_t
 #include <avr/interrupt.h>    // Needed to use interrupts
+
+//
+// Based on the post at https://sites.google.com/site/qeewiki/books/avr-guide/external-interrupts-on-the-atmega328
+//
+
 volatile uint8_t portbhistory = 0xFF;     // default is high because the pull-up
 
 int main(void)

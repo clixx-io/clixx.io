@@ -52,12 +52,43 @@ if __name__ == "__main__":
             projects = clixxIOListProjects()
             for p in projects:
                 print(p)
+        else:
+            if args.operation[1]=="input_channels":
+                projname = args.operation[2]
+                print(clixxIOListProjectMqttSubs(projname))
+                sys.exit(0)
+
+            elif args.operation[1]=="output_channels":
+                projname = args.operation[2]
+                print(clixxIOListProjectMqttPubs(projname))
+                sys.exit(0)
+
+            elif args.operation[1]=="commands":
+                projname = args.operation[2]
+                print(clixxIOListProjectMqttCommands(projname))
+                sys.exit(0)
+
     elif args.operation[0]=="new":
         if args.operation[1]=="project":
             # Add a new project
             projname = args.operation[2]
             print("Creating new project %s" % projname)
             sys.exit(clixxIOAddProject(args.operation[2]))
+        if args.operation[1]=="input_channel":
+            # Add a new project
+            projname = args.operation[2]
+            clixxIOAddProjectMqttSub(projname)
+            sys.exit(0)
+        if args.operation[1]=="output_channel":
+            # Add a new project
+            projname = args.operation[2]
+            clixxIOAddProjectMqttPub(projname)
+            sys.exit(0)
+        if args.operation[1]=="command":
+            # Add a new project
+            projname = args.operation[2]
+            clixxIOAddProjectMqttCommands(projname,args.operation[3])
+            
     elif args.operation[0]=="remove":
         if args.operation[1]=="project":
             # Add a new project
@@ -70,5 +101,7 @@ if __name__ == "__main__":
         print(clixxIOLatestValues(args.device[1]))
     elif args.operation[0]=="status":
         print(clixxIOReadDevice(args.device[1]))
+    elif args.operation[0]=='watch':
+        pass
     else:
         print("Unknown command.")
