@@ -219,7 +219,7 @@ def clixxIOlProjectConfigFilename(projectname):
     
     return (os.path.join(d,projectname + '.ini'))
 
-def clixxIOAddProjectMqttCommands(projectname,commandlist):
+def clixxIOAddProjectMqttCommands(projectname,newcommand):
     
     cf = clixxIOlProjectConfigFilename(projectname)
         
@@ -228,15 +228,14 @@ def clixxIOAddProjectMqttCommands(projectname,commandlist):
    
     clist = []
     if cp.has_option("mqtt","commands"):
-        clist = " ".split(cp.get("mqtt","commands"))
+        clist = cp.get("mqtt","commands").split(' ')
     else:
         if not cp.has_section("mqtt"):
             cp.add_section("mqtt")
             
-    for c in commandlist:
-        clist.append(c)
+    clist.append(newcommand)
     
-    cp.set("mqtt","commands"," ".join(clist))
+    cp.set("mqtt","commands",' '.join(clist))
 
     # Writing our configuration file to 'example.cfg'
     with open(cf, 'w') as configfile:
