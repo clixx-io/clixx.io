@@ -257,14 +257,19 @@ class Window(QtGui.QDialog):
              self.deviceWebActions[d] = QtGui.QAction("&Open Device Webpage", self,
                                          triggered=self.showHomepage)
                                          
-             prevMenu = self.trayIconMenu.addMenu(d)
-             prevAction = prevMenu.addAction('&On',checkable=True,checked=True)
-             prevAction.Checked = True
-             prevAction = prevMenu.addAction('O&ff',checkable=True)
-             prevMenu.addSeparator()
-             prevMenu.addAction(self.editActions[d]) 
-             prevMenu.addSeparator()
-             prevMenu.addAction(self.deviceWebActions[d]) 
+                                        
+             itmMenu = self.trayIconMenu.addMenu(d)
+             
+             cmds = clixxIOListProjectMqttCommands(d)
+             for c in cmds:
+             
+                 prevAction = itmMenu.addAction(c,checkable=True,checked=True)
+                 prevAction.Checked = True
+             
+             itmMenu.addSeparator()
+             itmMenu.addAction(self.editActions[d]) 
+             itmMenu.addSeparator()
+             itmMenu.addAction(self.deviceWebActions[d]) 
          
          self.trayIconMenu.addSeparator()
          self.trayIconMenu.addAction(self.restoreAction)
