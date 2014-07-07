@@ -11,6 +11,13 @@ output_channels = ${iot_output_channels}
 input_channels = ${iot_input_channels}
 commands = ${iot_commands}
 
+[actions]
+Make = make
+Deploy = make deploy
+Clean = make clean
+Edit =
+Open = http://www.google.com
+
 [events]
 % if 'program_setup' in section_selections:
 program_setup = true
