@@ -214,7 +214,6 @@ class Window(QtGui.QDialog):
         
         self.web = QtWebKit.QWebView()
         self.web.load(QtCore.QUrl(webpage))
-#        self.web.load(QtCore.QUrl("http://google.com"))
         self.web.show()
 
         #  QObject.connect(self.view, SIGNAL('loadFinished(bool)'),
@@ -250,20 +249,9 @@ class Window(QtGui.QDialog):
 
     def createTrayIcon(self):
          self.trayIconMenu = QtGui.QMenu(self)
-#         self.trayIconMenu.addAction(self.minimizeAction)
-#         self.trayIconMenu.addAction(self.maximizeAction)
-
-         self.menuActions = {}
-         self.deviceWebActions = {}
-#         self.editAction = QtGui.QAction("&Edit", self,
-#                                         triggered=self.showEditor)
          
          projects = clixxIOListProjects()
          for d in projects:
-
-           
-#             self.deviceWebActions[d] = QtGui.QAction("&Open Device Webpage", self,
-#                                         triggered=self.showHomepage)
 
              itmMenu = self.trayIconMenu.addMenu(d)
              
@@ -285,8 +273,51 @@ class Window(QtGui.QDialog):
          self.trayIcon = QtGui.QSystemTrayIcon(self)
          self.trayIcon.setContextMenu(self.trayIconMenu)
 
-def performMenuAction(p):
-    print p
+def execute_action(projectname, actionstring):
+
+    print actionstring
+    
+    if actionstring.startswith("http://") or actionstring.startswith("https://"):
+        
+        web = QtWebKit.QWebView()
+        web.load(QtCore.QUrl(actionstring))
+        web.show()
+
+    elif actionstring.startswith('mosquitto_pub'):
+
+        pub_cmd = "mosquitto_pub" 
+        topic = "mqtt|output_channel"
+        topic = "clixx.io/hello"
+
+        cmdline = "%s -h %s -t \"%s\" -m \"%s\"" % (pub_cmd,"test.mosquitto.org",topic,actionstring[len('mosquitto_pub'):])
+        print "Executing %s" % cmdline
+
+        c = spawntask(cmdline)
+
+    else:
+        os.chdir(clixxIOProjectDir(projectname))
+        
+        c = spawntask(actionstring)
+        print c
+        
+def performMenuAction(identifier):
+
+    p = identifier[:identifier.find('/')]
+    c = identifier[identifier.find('/')+1:]
+
+    menu_actions = []
+        
+    cf = clixxIOlProjectConfigFilename(p)
+        
+    cp = SafeConfigParser()
+    cp.read(cf)
+   
+    if cp.has_section("menu_actions"):
+        menu_actions = cp.items("menu_actions")
+            
+    for i in menu_actions:
+        if (i[0].lower()==c.lower()):
+            execute_action(p, i[1])
 
 if __name__ == '__main__':
 
