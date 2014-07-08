@@ -7,16 +7,19 @@
 project_type = ${project_type}
 
 [mqtt]
-output_channels = ${iot_output_channels}
-input_channels = ${iot_input_channels}
+output_channel = ${iot_output_channels}
+input_channel = ${iot_input_channels}
 commands = ${iot_commands}
 
-[actions]
+[menu_actions]
 Make = make
 Deploy = make deploy
 Clean = make clean
-Edit =
+Log = http://localhost:9001/log
+Edit = http://localhost:9001/programedit
 Open = http://www.google.com
+On = mosquitto_pub Off
+Off = mosquitto_pub On 
 
 [events]
 % if 'program_setup' in section_selections:

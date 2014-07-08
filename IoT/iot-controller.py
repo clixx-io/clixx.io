@@ -21,6 +21,8 @@
 #sip.setapi('QVariant', 2)
 
 from PySide import QtCore, QtGui, QtWebKit
+from PySide.QtCore import SIGNAL
+from functools import partial
 
 import iot_controller_rc
 
@@ -205,19 +207,14 @@ class Window(QtGui.QDialog):
         messageLayout.setColumnStretch(3, 1)
         messageLayout.setRowStretch(4, 1)
         self.messageGroupBox.setLayout(messageLayout)
-
-    def showEditor(self):
-        os.system("geany ~/IoT/msp1/msp1.cpp")
-
-        """
-        self.web = QtWebKit.QWebView()
-        self.web.load(QtCore.QUrl("http://google.com"))
-        self.web.show()
-        """
+       
+    def showWebpage(self, webpage):
+            
+        print webpage
         
-    def showHomepage(self):
         self.web = QtWebKit.QWebView()
-        self.web.load(QtCore.QUrl("http://google.com"))
+        self.web.load(QtCore.QUrl(webpage))
+#        self.web.load(QtCore.QUrl("http://google.com"))
         self.web.show()
 
         #  QObject.connect(self.view, SIGNAL('loadFinished(bool)'),
@@ -237,40 +234,49 @@ class Window(QtGui.QDialog):
         self.quitAction = QtGui.QAction("&Quit", self,
                 triggered=QtGui.qApp.quit)
 
+    def get_menu_actions(self, projectname):
+        
+        menu_actions = []
+        
+        cf = clixxIOlProjectConfigFilename(projectname)
+        
+        cp = SafeConfigParser()
+        cp.read(cf)
+   
+        if cp.has_section("menu_actions"):
+            menu_actions = cp.items("menu_actions")
+            
+        return menu_actions
+
     def createTrayIcon(self):
          self.trayIconMenu = QtGui.QMenu(self)
 #         self.trayIconMenu.addAction(self.minimizeAction)
 #         self.trayIconMenu.addAction(self.maximizeAction)
 
-         self.editActions = {}
+         self.menuActions = {}
          self.deviceWebActions = {}
 #         self.editAction = QtGui.QAction("&Edit", self,
 #                                         triggered=self.showEditor)
          
          projects = clixxIOListProjects()
          for d in projects:
- 
-             self.editActions[d] = QtGui.QAction("&Edit Source", self,
-                                         triggered=self.showEditor)
-             self.editActions[d].setStatusTip('Edit the Main Source code file for this project')
-             
-             self.deviceWebActions[d] = QtGui.QAction("&Open Device Webpage", self,
-                                         triggered=self.showHomepage)
-                                         
-                                        
+
+           
+#             self.deviceWebActions[d] = QtGui.QAction("&Open Device Webpage", self,
+#                                         triggered=self.showHomepage)
+
              itmMenu = self.trayIconMenu.addMenu(d)
              
-             cmds = clixxIOListProjectMqttCommands(d)
+             cmds = self.get_menu_actions(d)
              for c in cmds:
              
-                 prevAction = itmMenu.addAction(c,checkable=True,checked=True)
-                 prevAction.Checked = True
-             
-             itmMenu.addSeparator()
-             itmMenu.addAction(self.editActions[d]) 
-             itmMenu.addSeparator()
-             itmMenu.addAction(self.deviceWebActions[d]) 
-         
+                 actionspec = d + '/' + c[0]
+
+                 x = actionspec
+                 a = eval("lambda : performMenuAction('"+x+"')")
+                 itmMenu.addAction(c[0], a)
+                 # mnuAction.Checked = True
+        
          self.trayIconMenu.addSeparator()
          self.trayIconMenu.addAction(self.restoreAction)
          self.trayIconMenu.addSeparator()
@@ -279,6 +285,8 @@ class Window(QtGui.QDialog):
          self.trayIcon = QtGui.QSystemTrayIcon(self)
          self.trayIcon.setContextMenu(self.trayIconMenu)
 
+def performMenuAction(p):
+    print p
 
 if __name__ == '__main__':
 
