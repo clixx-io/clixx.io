@@ -23,6 +23,7 @@
 from PySide import QtCore, QtGui, QtWebKit
 from PySide.QtCore import SIGNAL
 from functools import partial
+import webbrowser
 
 import iot_controller_rc
 
@@ -278,10 +279,13 @@ def execute_action(projectname, actionstring):
     print actionstring
     
     if actionstring.startswith("http://") or actionstring.startswith("https://"):
-        
-        web = QtWebKit.QWebView()
-        web.load(QtCore.QUrl(actionstring))
-        web.show()
+
+        webbrowser.open_new_tab(actionstring)
+
+        # This method isn't used yet
+        # web = QtWebKit.QWebView()
+        # web.load(QtCore.QUrl(actionstring))
+        # web.show()
 
     elif actionstring.startswith('mosquitto_pub'):
 
