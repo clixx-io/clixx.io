@@ -24,7 +24,7 @@ ${'## 																			'}
 PROGRAM = ${program_base}
 MCU = ${deployment_platform}
 CC = g++
-CFLAGS += -Wall -g
+CFLAGS += -Wall -g -I../libraries/includes
 LDFLAGS += -lstdc++ 
 LDLIBS += -L ../libraries -static -l clixxIO_Linux
 OBJS = $(PROGRAM).o

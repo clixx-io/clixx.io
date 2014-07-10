@@ -44,12 +44,12 @@ can then customise to suit your needs.
 """
 
 	project_types = { 
-			   "Python_Service"		: "Python Project",
-			   "Web_Application"	: "Web Application",
-			   "ClixxIO_Application": "Event-Framework",
+			   "c++"				: "Event-Framework",
+			   "python_service"		: "Python Project",
+#			   "Web_Application"	: "Web Application",
 			  }
 
-	system_capabilities = {
+	target_platforms = {
 			   "attiny13" 			: "program_setup|program_loop|program_timers|program_pinchange",
 			   "attiny85" 			: "program_setup|program_loop|program_timers|program_pinchange|program_serial|program_iot",
 			   "linux"    			: "program_setup|program_shutdown|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
@@ -132,11 +132,9 @@ can then customise to suit your needs.
 		self.selections = []
 		self.peripherals = []
 
-		capabilities = self.system_capabilities[self.deployment_platform]
+		capabilities = self.target_platforms[self.deployment_platform]
 		
 		print(self.intro)
-		
-		print("A Makefile and project base will be created for the %s platform" % self.deployment_platform)
 		
 		if self.project_name is None:
 			while self.project_name is None:
@@ -149,7 +147,11 @@ can then customise to suit your needs.
 			while not self.project_type in self.project_types.keys():
 				self.project_type = raw_input(ptypes)
 
-		if self.project_type == "Clixx":
+		if self.project_type == "c++":
+		
+			self.deployment_platform = ''
+			while not self.deployment_platform in self.target_platforms.keys():
+				self.deployment_platform = raw_input("Which target platform %s ? " % str(self.target_platforms.keys()))
 		
 			for x in self.prompts.keys():
 				if (x in capabilities) and (x.startswith('program_')):
