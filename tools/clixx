@@ -68,12 +68,8 @@ if __name__ == "__main__":
                 print(clixxIOListProjectMqttCommands(projname))
                 sys.exit(0)
 
-    elif args.operation[0]=="new":
-        if args.operation[1]=="project":
-            # Add a new project
-            projname = args.operation[2]
-            print("Creating new project %s" % projname)
-            sys.exit(clixxIOAddProject(args.operation[2]))
+    elif args.operation[0]=="add":
+
         if args.operation[1]=="input_channel":
             # Add a new project
             projname = args.operation[2]
@@ -88,6 +84,14 @@ if __name__ == "__main__":
             # Add a new project
             projname = args.operation[2]
             clixxIOAddProjectMqttCommands(projname,args.operation[3])
+
+    elif args.operation[0]=="new":
+
+        if args.operation[1]=="project":
+            # Add a new project
+            projname = args.operation[2]
+            print("Creating new project %s" % projname)
+            sys.exit(clixxIOAddProject(args.operation[2]))
             
     elif args.operation[0]=="remove":
         if args.operation[1]=="project":

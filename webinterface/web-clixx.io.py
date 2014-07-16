@@ -1,29 +1,43 @@
 from flask import Flask
+from flask import render_template, request
 
 from clixxIO import *
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
+def index():
     """ Generate a home page with a list of projects
     """
-    plist = ""
+    config = {}
+    config['name'] = "Lesters Insurance Machine"
     projects = clixxIOListProjects()
-    for p in projects:
-        plist = plist + "<p>" + p + "</p>"
     
-    return "<h1>Welcome to clixx.io</h1>" + plist
+    return render_template('index.html',projects = projects,config = config)
+    # return "<h1>Welcome to clixx.io</h1>" + plist
 
 @app.route('/iot/<projectname>')
 def show_project_profile(projectname):
     # show the user profile for that user
     projects = clixxIOListProjects()
+    
     if projectname in projects:
+        
         pc = open(clixxIOlProjectConfigFilename(projectname))
         lines = pc.read()
         pc.close()
-        return "<h1>%s</h1>" % projectname + "<p>" + lines + "</p>"
+        # pc.close()
+        
+        config = {}
+        config['name'] = projectname
+        config['enable_onoff'] = False
+        config['enable_table'] = True
+        
+        commands = ["Stop", "Start","Restart"]
+       
+        return render_template('project.html',commands = commands,config = config)
+        
+        # return "<h1>%s</h1>" % projectname + "<p>" + lines + "</p>"
         
     else:
         return 'Project %s is not a valid project.' % projectname

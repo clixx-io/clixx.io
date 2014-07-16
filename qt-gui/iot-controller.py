@@ -274,7 +274,7 @@ class Window(QtGui.QDialog):
          self.trayIcon = QtGui.QSystemTrayIcon(self)
          self.trayIcon.setContextMenu(self.trayIconMenu)
 
-def execute_action(projectname, actionstring):
+def execute_action(projectname, configfile, actionstring):
 
     print actionstring
     
@@ -293,6 +293,9 @@ def execute_action(projectname, actionstring):
         topic = "mqtt|output_channel"
         topic = "clixx.io/hello"
 
+        if cp.has_section("menu_actions"):
+            menu_actions = cp.items("menu_actions")
+            
         cmdline = "%s -h %s -t \"%s\" -m \"%s\"" % (pub_cmd,"test.mosquitto.org",topic,actionstring[len('mosquitto_pub'):])
         print "Executing %s" % cmdline
 
@@ -313,15 +316,12 @@ def performMenuAction(identifier):
         
     cf = clixxIOlProjectConfigFilename(p)
         
-    cp = SafeConfigParser()
-    cp.read(cf)
-   
     if cp.has_section("menu_actions"):
         menu_actions = cp.items("menu_actions")
             
     for i in menu_actions:
         if (i[0].lower()==c.lower()):
-            execute_action(p, i[1])
+            execute_action(p, cp, i[1])
 
 if __name__ == '__main__':
 
