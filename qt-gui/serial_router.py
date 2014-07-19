@@ -9,15 +9,15 @@ import serial, threading
 class MQTTLAPP:
 
     # subscribe to Clixx.io topic
-    s_tx = "clixx.io/to"
+    s_tx = "clixx.io/hello"
 
     # publish from Clixx.io topic
     p_rx = "clixx.io/from"
 
     # serial port for URF
-    port = "/dev/ttyAMA0"
+    port = "/dev/ttyUSB1"
 
-    MQTTServer = "localhost"
+    MQTTServer = "test.mosquitto.org"
     clientName = "Clixx.io Router"
 
     def __init__(self):
@@ -30,6 +30,9 @@ class MQTTLAPP:
         self.s.baudrate = 9600
         self.s.timeout = 0
         self.connect()
+        
+        self.linebuffer = ""
+        self.last_msg = ""
 
         # mqtt setup on
         self.client = mosquitto.Mosquitto(self.clientName)
@@ -37,14 +40,16 @@ class MQTTLAPP:
         self.client.on_disconnect = self.on_disconnect
         self.client.on_message = self.on_message
 
-        self.client.connect(self.MQTTServer)
-        self.client.subscribe(self.s_tx)
+        print "Connecting.." , self.client.connect(self.MQTTServer,1883, 60, True)
+        # self.client.subscribe(self.s_tx)
 
     def __del__(self):
 
         self.disconnect_all()
 
     def connect(self):
+
+        print "Connected"
 
         if self.s.isOpen() == False:
             self.s.port = self.port
@@ -77,11 +82,20 @@ class MQTTLAPP:
 
             if self.s.inWaiting():
 
-                msg = self.s.read()
-                print(msg)
-                self.queue.put(msg)
+                newchars = self.s.read()
+                
+                # Add newly received characters to the linebuffer
+                self.linebuffer += newchars
+                
+                if ('\n' in self.linebuffer):
+                    n = self.linebuffer.index('\n')
+                    msg = self.linebuffer[:n]
+                    self.linebuffer = self.linebuffer[n+1:]
 
-            time.sleep(0.1) # may need adjusting
+                    if msg != self.last_msg:
+                        self.queue.put(msg)
+                        self.last_msg = msg
+                        print(msg)
 
 
     def sendLLAP(self, llapMsg):
@@ -111,7 +125,6 @@ class MQTTLAPP:
                 self.decodeLLAP()
 
             # we lost the network to mqtt
-
             print("We lost MQTT")
 
         except KeyboardInterrupt:
@@ -131,6 +144,9 @@ class MQTTLAPP:
 
         if rc == 0:
             print("Connected successfully.")
+        else:
+            print("Error %d connecting " % rc)
+            print mosq, obj
 
     def on_disconnect(self, mosq, obj, rc):
 
@@ -160,9 +176,11 @@ class MQTTLAPP:
             msg = self.queue.get()
 
             # publish to mqtt
-            self.client.publish(self.p_rx, msg)
+            self.client.publish(self.s_tx, msg)
             self.queue.task_done()
 
+            print "Publishing msg", msg
+            
         return True
 
 
