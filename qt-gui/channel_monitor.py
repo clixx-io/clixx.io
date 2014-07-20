@@ -11,6 +11,7 @@
 import pynotify
 import mosquitto
 import sys, platform
+import clixxIO 
 
 #define what happens after connection
 def on_connect(rc):
@@ -22,8 +23,11 @@ def on_disconnect(rc):
 
 #On recipt of a message create a pynotification and show it
 def on_message(msg):
-    n = pynotify.Notification (msg.topic, msg.payload)
-    n.show ()
+    if msg.topic == "clixx.io/hello":
+        n = pynotify.Notification (msg.topic, msg.payload)
+        n.show ()
+    else:
+        print "Received %s %s" % (msg.topic, msg.payload)
 
 pynotify.init(platform.node())
 
@@ -40,6 +44,9 @@ mqttc.connect("test.mosquitto.org", 1883, 60, True)
 
 #subscribe to topic test
 mqttc.subscribe("clixx.io/hello", 2)
+for topic in clixxIO.clixxIOListAllProjectMqttSubs():
+    print "Subscribing to %s" % topic
+    mqttc.subscribe(topic, 2)
 
 #keep connected to broker
 while mqttc.loop() == 0:

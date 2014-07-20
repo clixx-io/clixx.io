@@ -294,7 +294,7 @@ def clixxIOListAllProjectMqttSubs():
         for c in pcmds:
             allsubs.append(c)
         
-    return allsusbs
+    return allsubs
 
 def spawntask(cmdline):
     # Put stderr and stdout into pipes
