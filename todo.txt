@@ -73,6 +73,11 @@ Stencils
 
  - http://www.oshstencils.com/
 
+Bluetooth LE
+------------
+
+nRF51822
+
 AVR Programming
 ---------------
 
