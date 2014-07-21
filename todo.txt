@@ -29,6 +29,10 @@ David's ToDo List
 
   http://redmine.drawersteak.com/projects/achd-soc/repository/entry/trunk/tests/BasicNetworkedQuadSPIFlashControllerTest/main.cpp
  
+Linux GPIO
+----------
+ - http://hertaville.com/2012/11/18/introduction-to-accessing-the-raspberry-pis-gpio-in-c/
+
 LCD for Arduino
 -------------
 
