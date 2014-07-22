@@ -33,6 +33,11 @@ Linux GPIO
 ----------
  - http://hertaville.com/2012/11/18/introduction-to-accessing-the-raspberry-pis-gpio-in-c/
 
+Interactive JS
+--------------
+ 
+ - https://github.com/taye/interact.js
+
 LCD for Arduino
 -------------
 
