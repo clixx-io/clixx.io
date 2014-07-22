@@ -5,7 +5,7 @@ import sys
 
 sys.path.append("src")
 
-from clixxIO import *
+from clixxIO  import *
 
 parser = argparse.ArgumentParser(description='Command Line Device Interface.')
 
@@ -68,22 +68,51 @@ if __name__ == "__main__":
                 print(clixxIOListProjectMqttCommands(projname))
                 sys.exit(0)
 
+    elif args.operation[0]=="pubs":
+        
+        projname = args.operation[1]
+        projects = clixxIOListProjects()
+        
+        if projname in projects:
+            print(clixxIOListProjectMqttPubs(projname))
+        else:
+            print("%s  is not a valid project" % projname)
+            sys.exit(1)
+
+    elif args.operation[0]=="subs":
+        
+        projname = args.operation[1]
+        projects = clixxIOListProjects()
+        
+        if projname in projects:
+            print(clixxIOListProjectMqttSubs(projname))
+        else:
+            print("%s  is not a valid project" % projname)
+            sys.exit(1)
+            
+    elif args.operation[0]=="commands":
+        projname = args.operation[1]
+        print(clixxIOListProjectMqttCommands(projname))
+        sys.exit(0)
+            
     elif args.operation[0]=="add":
 
-        if args.operation[1]=="input_channel":
+        if args.operation[1]=="sub":
             # Add a new project
             projname = args.operation[2]
-            clixxIOAddProjectMqttSub(projname)
+            clixxIO.clixxIOAddProjectMqttSub(projname,args.operation[3])
             sys.exit(0)
-        if args.operation[1]=="output_channel":
+            
+        if args.operation[1]=="pub":
             # Add a new project
             projname = args.operation[2]
-            clixxIOAddProjectMqttPub(projname)
+            clixxIOAddProjectMqttPub(projname, args.operation[3])
             sys.exit(0)
+            
         if args.operation[1]=="command":
             # Add a new project
             projname = args.operation[2]
-            clixxIOAddProjectMqttCommands(projname,args.operation[3])
+            clixxIO.clixxIOAddProjectMqttCommands(projname,args.operation[3])
 
     elif args.operation[0]=="new":
 
