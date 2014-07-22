@@ -235,7 +235,7 @@ def clixxIOAddProjectMqttCommands(projectname,newcommand):
             
     clist.append(newcommand)
     
-    cp.set("mqtt","commands",' '.join(clist))
+    cp.set("mqtt","commands"," ".join(clist))
 
     # Writing our configuration file to 'example.cfg'
     with open(cf, 'w') as configfile:
@@ -243,6 +243,53 @@ def clixxIOAddProjectMqttCommands(projectname,newcommand):
     
     return clist
 
+def clixxIOAddProjectMqttPubs(projectname,newtopic):
+    
+    cf = clixxIOlProjectConfigFilename(projectname)
+        
+    cp = SafeConfigParser()
+    cp.read(cf)
+   
+    clist = []
+    if cp.has_option("mqtt","output_channels"):
+        clist = cp.get("mqtt","output_channels").split('\n')
+    else:
+        if not cp.has_section("mqtt"):
+            cp.add_section("mqtt")
+            
+    clist.append(newcommand)
+    
+    cp.set("mqtt","input_channels",clist.join("\n"))
+
+    # Writing our configuration file to 'example.cfg'
+    with open(cf, 'w') as configfile:
+        cp.write(configfile)    
+    
+    return clist
+
+def clixxIOAddProjectMqttSubs(projectname,newtopic):
+    
+    cf = clixxIOlProjectConfigFilename(projectname)
+        
+    cp = SafeConfigParser()
+    cp.read(cf)
+   
+    clist = []
+    if cp.has_option("mqtt","input_channels"):
+        clist = cp.get("mqtt","input_channels").split('\n')
+    else:
+        if not cp.has_section("mqtt"):
+            cp.add_section("mqtt")
+            
+    clist.append(newcommand)
+    
+    cp.set("mqtt","input_channels",clist.join("\n"))
+
+    # Writing our configuration file to 'example.cfg'
+    with open(cf, 'w') as configfile:
+        cp.write(configfile)    
+    
+    return clist
     
 def clixxIOListProjectMqttCommands(projectname):
 
