@@ -57,17 +57,18 @@ void loop() {
     previousMillis = currentMillis;   
 
     // if the LED is off turn it on and vice-versa:
-    if (rpmCount == 0)
+    if (rpmCount == 0) {
       ledState = LOW;
-    else
+    } else {
       ledState = HIGH;
+    }
 
     // set the LED with the ledState of the variable:
     digitalWrite(ledPin, ledState);
     
-    if ((rpmCount == 0) && (camCount == 0))
+    if ((rpmCount == 0) && (camCount == 0)) {
       Serial.print(".");
-    else {
+    } else {
       int cr = rpmCount,cm = camCount;
       camCount = rpmCount = 0;
       
