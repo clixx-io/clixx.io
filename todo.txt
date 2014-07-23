@@ -10,9 +10,6 @@ David's ToDo List
 
  - Toshiba Motor Controller
 
- - RGB Chainable LED Board
-
- - Bluetooth board
 
  - Recheck the LCD board
 
@@ -39,18 +36,23 @@ Interactive JS
  - https://github.com/taye/interact.js
 
 LCD for Arduino
--------------
+---------------
 
 http://magnusglad.wordpress.com/2013/03/16/arduino-lcd/
+
+Python Serial
+-------------
+
+ - self.fire(write(“foo”), “serial")
+
+https://github.com/libopencm3
 
 Boards to do
 ------------
 
  - DS18B0 Temperature sensor, 
- - RGB-LED, AA-Battery, BaseTwinTab, BaseSingleTab
+ - AA-Battery, BaseTwinTab, BaseSingleTab
  - Toshiba Motor Controller
- - Potentiometer
- - Bluetooth HC-05
  
 18650 battery mounts
 
