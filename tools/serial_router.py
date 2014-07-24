@@ -3,37 +3,33 @@
 # Based on code by dpslwk 24/06/2013
 
 import mosquitto
-import sys, time, Queue
+import sys, time, Queue, os
 import serial, threading
+import argparse
 
-class MQTTLAPP:
-
-    # subscribe to Clixx.io topic
-    s_tx = "clixx.io/hello"
-
-    # publish from Clixx.io topic
-    p_rx = "clixx.io/from"
-
-    # serial port for URF
-    port = "/dev/ttyUSB1"
+class SerialToMosquitto:
 
     MQTTServer = "test.mosquitto.org"
     clientName = "Clixx.io Router"
 
-    def __init__(self):
+    def __init__(self,portname,baudrate,topic_pub,topic_sub):
+
+        self.port = portname
+        self.topic_pub = topic_pub
+        self.topic_sub = topic_sub
+        
+        self.linebuffer = ""
+        self.last_msg = ""
 
         self.queue = Queue.Queue()
         self.s =  serial.Serial()
         self.t = threading.Thread(target=self.run)
 
         # open serial port
-        self.s.baudrate = 9600
+        self.s.baudrate = baudrate
         self.s.timeout = 0
-        self.connect()
+        self.serial_connect()
         
-        self.linebuffer = ""
-        self.last_msg = ""
-
         # mqtt setup on
         self.client = mosquitto.Mosquitto(self.clientName)
         self.client.on_connect = self.on_connect
@@ -41,15 +37,14 @@ class MQTTLAPP:
         self.client.on_message = self.on_message
 
         print "Connecting.." , self.client.connect(self.MQTTServer,1883, 60, True)
-        # self.client.subscribe(self.s_tx)
+        if len(self.topic_sub) != 0:
+            print "Subscribing..", self.client.subscribe(self.topic_sub)
 
     def __del__(self):
 
         self.disconnect_all()
 
-    def connect(self):
-
-        print "Connected"
+    def serial_connect(self):
 
         if self.s.isOpen() == False:
             self.s.port = self.port
@@ -57,9 +52,11 @@ class MQTTLAPP:
 
                 self.s.open()
 
+                print "Connected"
+
             except serial.SerialException, e:
 
-                sys.stderr.write("could not open port %r: %s\n" % (port, e))
+                sys.stderr.write("could not open port %r: %s\n" % (self.port, e))
                 sys.exit(1)
 
             # start the read thread
@@ -117,15 +114,20 @@ class MQTTLAPP:
 
         try:
 
-            while rc == 0:
+            while True:
+                while rc == 0:
 
-                # mqtt stuff
-                rc = self.client.loop()
-                # serial stuff
-                self.decodeLLAP()
+                    # mqtt stuff
+                    rc = self.client.loop()
+                    # serial stuff
+                    self.decodeLLAP()
 
-            # we lost the network to mqtt
-            print("We lost MQTT")
+                # we lost the network to mqtt
+                print("We lost MQTT")
+                
+                time.delay(15)
+                
+                self.client.connect(self.MQTTServer,1883, 60, True)
 
         except KeyboardInterrupt:
 
@@ -176,7 +178,7 @@ class MQTTLAPP:
             msg = self.queue.get()
 
             # publish to mqtt
-            self.client.publish(self.s_tx, msg)
+            self.client.publish(self.topic_pub, msg)
             self.queue.task_done()
 
             print "Publishing msg", msg
@@ -186,6 +188,36 @@ class MQTTLAPP:
 
 if __name__ == "__main__":
 
-    application = MQTTLAPP()
+    parser = argparse.ArgumentParser(description='clixx.io Serial Router')
+    parser.add_argument('operation', nargs='+')
+
+    parser.add_argument("-s", "--sub", action="store")    
+    parser.add_argument("-p", "--pub", action="store")    
+    parser.add_argument("-v", "--verbose", help="increase output verbosity",
+                    action="store_true")
+   
+    args = parser.parse_args()
+    
+    portname = args.operation[0]
+    if not os.path.exists(portname):
+        print ("Port doesnt exist %s" % portname)
+        sys.exit(0)
+        
+    baudrate = int(args.operation[1])
+    if not baudrate in [2400,9600,19200,57600,115200]:
+        print ("Baudrate is not supported %s" % baudrate)
+        sys.exit(0)
+
+    # subscribe to Clixx.io topic
+    t_pub = "clixx.io/hello"
+    if args.pub != None:
+        t_pub = args.pub
+
+    # publish from Clixx.io topic
+    t_sub = "clixx.io/from"
+    if args.sub != None:
+        t_sub = args.sub
+
+    application = SerialToMosquitto(portname,baudrate,t_pub,t_sub)
 
     application.main()
