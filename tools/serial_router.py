@@ -209,6 +209,6 @@ if __name__ == "__main__":
         print ("Baudrate is not supported %s" % args.baudrate)
         sys.exit(0)
 
-    application = SerialToMosquitto(args.portname,args.baudrate,args.pub,args.sub)
+    application = SerialToMosquitto(args.portname,args.baudrate,args.publish_topic,args.subscribe_topic)
 
     application.main()
