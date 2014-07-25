@@ -189,35 +189,26 @@ class SerialToMosquitto:
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='clixx.io Serial Router')
-    parser.add_argument('operation', nargs='+')
-
-    parser.add_argument("-s", "--sub", action="store")    
-    parser.add_argument("-p", "--pub", action="store")    
+    parser.add_argument("portname", type=str,
+                        help="Serial port file name")
+    parser.add_argument("baudrate", type=int,
+                        help="Baudrate setting")
+                    
+    parser.add_argument("publish_topic", type=str, help="Topic to publish on. Characters received on the Serial Stream are written out on this topic.", default="clixx.io/hello")    
+    parser.add_argument("subscribe_topic", type=str, help="Topic to subscribe to. MQTT messages received are written to the serial port.", default=None)    
     parser.add_argument("-v", "--verbose", help="increase output verbosity",
                     action="store_true")
    
     args = parser.parse_args()
     
-    portname = args.operation[0]
-    if not os.path.exists(portname):
-        print ("Port doesnt exist %s" % portname)
+    if not os.path.exists(args.portname):
+        print ("Port doesnt exist %s" % args.portname)
         sys.exit(0)
         
-    baudrate = int(args.operation[1])
-    if not baudrate in [2400,9600,19200,57600,115200]:
-        print ("Baudrate is not supported %s" % baudrate)
+    if not args.baudrate in [2400,9600,19200,57600,115200]:
+        print ("Baudrate is not supported %s" % args.baudrate)
         sys.exit(0)
 
-    # subscribe to Clixx.io topic
-    t_pub = "clixx.io/hello"
-    if args.pub != None:
-        t_pub = args.pub
-
-    # publish from Clixx.io topic
-    t_sub = "clixx.io/from"
-    if args.sub != None:
-        t_sub = args.sub
-
-    application = SerialToMosquitto(portname,baudrate,t_pub,t_sub)
+    application = SerialToMosquitto(portname,baudrate,args.pub,args.sub)
 
     application.main()
