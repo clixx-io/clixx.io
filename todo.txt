@@ -53,6 +53,7 @@ Boards to do
  - DS18B0 Temperature sensor, 
  - AA-Battery, BaseTwinTab, BaseSingleTab
  - Toshiba Motor Controller
+ - Matrix MBI5026 / http://www.aliexpress.com/item/20PCS-LOT-1-9MM-8X8-Red-Common-Anode-20-20-LED-Dot-Matrix-Digital-Tube-Module/1329325272.html
  
 18650 battery mounts
 
