@@ -122,6 +122,8 @@ class SerialToMosquitto:
                         self.last_msg = msg
                         print(msg)
 
+            # Release some time back to the system
+            time.sleep(0.1)
 
     def sendLLAP(self, llapMsg):
 
