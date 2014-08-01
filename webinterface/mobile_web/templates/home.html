@@ -1,0 +1,13 @@
+
+<html></html>  </html>
+
+   % for majorgroup in di.keys():
+     % for minorgroup in di[majorgroup].keys():
+       % for itm in di[majorgroup][minorgroup].keys():
+           ${majorgroup} ${minorgroup} ${itm} ${di[majorgroup][minorgroup][itm]["Text"]} ${di[majorgroup][minorgroup][itm]["Page"]}
+       % endfor
+     % endfor
+   % endfor
+   
+   
+
