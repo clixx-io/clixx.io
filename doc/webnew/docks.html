@@ -1,7 +1,7 @@
 <html>
       <head>
 
-      <title>Clixx.IO :: Home</title>
+      <title>Clixx.IO :: Docks</title>
 
       <meta name="viewport" content="width=800">
       <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
@@ -56,9 +56,40 @@
            </div><!-- /header -->
 
 
-           <div data-role="content" style="text-align:center">
+           <div data-role="content" style="text-align:Left">
 
-                <img src="splash.png">
+<div role="main" class="ui-content jqm-content">
+
+		<h1>Docks</h1>
+
+		<p>The easiest way for people who have used an Arduino and Raspberry-Pi and
+           wish to take their projects further is to use a Dock. In Arduino terms,
+           a Dock is a type of Shield, that sits on the processor board to provide
+           some type of function. For clixx.io, the function is to map the I-O pins
+           into the clixx.io arrangement that makes them more useable.
+        </p>
+
+		<h2>The Arduino Dock</h2>
+
+		<p>Need an Internet Temperature sensor, controller, button or other Device? We make a range of simple devices that just
+		   connect to the Internet and allow you to control devices over long distances.</p>
+
+		<p>system_architecture.png</p>
+
+		<h2>Raspberry-Pi Dock</h2>
+
+		<p>clixx.io hardware is designed for IoT and making it easy to build small and useful devices.</p>
+
+		<h2>Using the Docks</h2>
+		<p>These settings do not disable the user's ability to zoom the pages, which is nice from an accessibility perspective. There is a minor issue in iOS that doesn't properly set the width when changing orientations with these viewport settings, but this will hopefully be fixed in a future release. You can set other viewport values to disable zooming if required since this is part of your page content, not the library. </p>
+
+		<p>Inside the <code>&lt;body&gt;</code> tag, each view or "page" on the mobile device is identified with an element (usually a <code>div</code>) with the <code> data-role="page"</code> attribute. </p>
+
+		<p>Within the "page" container, any valid HTML markup can be used, but for typical pages in jQuery Mobile, the immediate children of a "page" are divs with <code>data-role="header"</code>, <code>class="ui-content"</code>, and <code>data-role="footer"</code>.</p>
+
+
+
+	</div><!-- /content -->
 
            </div><!-- /content -->
 
