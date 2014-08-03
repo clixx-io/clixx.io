@@ -1,0 +1,152 @@
+<html>
+      <head>
+
+      <title>Clixx.IO :: Projects</title>
+
+      <meta name="viewport" content="width=800">
+      <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+      <link rel="stylesheet" href="working.css">
+      <link rel="stylesheet" href="font_awesome.css">
+      <link rel="stylesheet" href="themes/clixxio.cs">
+      <link href="pygments.css" rel="stylesheet">
+      <link href="http://clixx.io/assets/img/favicon.ico" rel="shortcut icon"><link href="rss.xml" type="application/rss+xml" rel="alternate" title="The Garage Lab (RSS 2.0)"><meta content="-hwGgpHftBBc6_gN-SP2pH4krm_dQ4E2Q1bFWGbjIIA" name="google-site-verification">
+
+      <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+      </head>
+
+      <body>
+
+      <div data-role="page">
+      
+           <!-- the slide-away navigation panel -->
+           <div data-role="panel" id="nav_panel">
+                <h3>Discover clixx.io</h3>
+                  <a data-role="button" href="about.html">About</a>
+                  <a data-role="button" href="projects.html">Projects</a>
+           <!-- 
+                  <a data-role="button">Learning</a>
+           -->
+                <h3>Software</h3>
+                  <a data-role="button" href="iot.html">IoT Framework</a>
+           <!-- 
+                  <a data-role="button" href="http://clixx.io/documents/about.html">Downloads</a>
+                <h3>Community</h3>
+           -->
+                <h3>Hardware</h3>
+                  <a data-role="button" href="processors.html">Processors</a>
+                  <a data-role="button" href="docks.html">Docks</a>
+                  <a data-role="button" href="tabs.html">Interface Boards</a>
+           <!-- 
+                  <a data-role="button" >Processors</a>
+           -->
+                <h3>Buy</h3>
+                  <a data-role="button" href="http://clixx.io/documents/contact.html">Shop</a>
+                <h3>Support</h3>
+                <a data-role="button" href="contact.html">Contact</a>
+           </div><!-- /panel -->
+
+           <div data-role="header">
+                <div class="tgl-header">
+                     <div class="header-inner" style="height:120px;">
+                          <a data-role="button" data-mini="true" data-icon="grid" data-theme="b" data-iconpos="notext" href="#nav_panel"></a>
+                     </div>
+                </div>
+           </div><!-- /header -->
+
+
+           <div data-role="content" style="text-align:Left">
+
+<div role="main" class="ui-content jqm-content">
+
+		<h1>The MQTT Command Line Interface</h1>
+
+		<p>For the Internet-of-Things to work, it needs standard protocols.
+           Two of the most promising for small devices are MQTT and CoAP.
+
+           At clixx.io we focus on MQTT:
+
+    <li>It is an open standard</li>
+    <li>Better suited to constrained environments than HTTP</li>
+    <li>Provides mechanisms for asynchronous communication</li>
+    <li>Runs on IP and has a range of implementations</li>
+
+    <p>MQTT gives flexibility in communication patterns and acts purely as a pipe for binary data. It
+       is a publish/subscribe messaging protocol designed for lightweight M2M communications. It was originally 
+       developed by IBM and is now an open standard.</p>
+
+    <h3>Architecture</h3>
+
+    <p>MQTT has a client/server model, where every sensor is a client and connects to a server, known as a broker, over TCP.</p>
+
+    <p>MQTT is message oriented. Every message is a discrete chunk of data, opaque to the broker.</p>
+
+    <p>Every message is published to an address, known as a topic. Clients may subscribe to multiple topics. Every client subscribed to a topic receives every message published to the topic.</p>
+
+    <p>For example, imagine a simple network with three clients and a central broker. All three clients open TCP connections with the broker. Clients B and C subscribe to the topic temperature.</p>
+
+    <p>At a later time, Client A publishes a value of 20.5 for topic temperature. The broker forwards the message to all subscribed clients.</p>
+
+    <p>The publisher subscriber model allows MQTT clients to communicate one-to-one, one-to-many and many-to-one.</p>
+
+    <h3>Topic matching</h3>
+
+    <p>In MQTT, topics are hierarchical, like a filing system (eg. kitchen/oven/temperature). Wildcards are allowed when registering a subscription (but not when publishing) allowing whole hierarchies to be observed by clients.</p>
+
+    <p>The wildcard + matches any single directory name, # matches any number of directories of any name.
+
+For example, the topic kitchen/+/temperature matches kitchen/foo/temperature but not kitchen/foo/bar/temperature
+
+kitchen/# matches kitchen/fridge/compressor/valve1/temperature
+Application Level QoS
+
+MQTT supports three quality of service levels, “Fire and forget”, “delivered at least once” and “delivered exactly once”.
+Last Will And Testament
+
+MQTT clients can register a custom “last will and testament” message to be sent by the broker if they disconnect. These messages can be used to signal to subscribers when a device disconnects.
+Persistence
+
+MQTT has support for persistent messages stored on the broker. When publishing messages, clients may request that the broker persists the message. Only the most recent persistent message is stored. When a client subscribes to a topic, any persisted message will be sent to the client.
+
+Unlike a message queue, MQTT brokers do not allow persisted messages to back up inside the server.
+Security
+
+MQTT brokers may require username and password authentication from clients to connect. To ensure privacy, the TCP connection may be encrypted with SSL/TLS.</p>
+
+	</div><!-- /content -->
+
+           </div><!-- /content -->
+
+           <div data-role="footer">
+                <div class="footer">
+
+                             <a style="float: left; margin-right: 2px" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" rel="license">
+                             <img src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Creative Commons License" style="border-width:0"></a>
+                             <a href="rss.xml" class="footer-feed"><i class="icon-rss"></i> RSS</a>
+
+                             <div class="footer-copyright">
+                                  All original content copyright (c) 2013 David Lyon &lt;<a href="mailto:info@clixx.io">info@clixx.io</a>&gt;<br>
+                                  This work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" rel="license">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+                             </div>
+                </div>
+           </div><!-- /footer -->
+      </div><!-- /page -->
+
+      <script src="http://clixx.io/assets/js/garagelab.js"></script>
+
+      <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'clixxio'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+            }());
+      </script>
+
+      </body>
+</html>
