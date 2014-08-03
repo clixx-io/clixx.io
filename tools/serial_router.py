@@ -154,9 +154,9 @@ class SerialToMosquitto:
 
                 # we lost the network to mqtt
                 print("We lost MQTT")
-                
-                time.delay(15)
-                
+
+                time.sleep(15)
+
                 self.client.connect(self.MQTTServer,1883, 60, True)
 
         except KeyboardInterrupt:
