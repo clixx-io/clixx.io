@@ -9,6 +9,10 @@
 #include "clixxIO.hpp"
 #include "tempsensor-config.hpp"
 
+#include "clixxIO_Temp-LM335A.h"
+
+LM335A InsideTemp(0); //pass the analog input pin number
+
 class App : public clixxIOApp{
 
   public:
@@ -21,6 +25,8 @@ class App : public clixxIOApp{
 
         */
         Debug.puts("Application in Startup event");
+        Serial.begin(115200);
+        Serial.println("starting");
 
     };
 
@@ -31,10 +37,24 @@ class App : public clixxIOApp{
          
         */
         Debug.puts("Timer Callback");
+    }
+
+    void loop() {
+
+        delay(3000);
+        //user must call ReadTemp before any valid temp data is available
+        InsideTemp.ReadTemp();  
+        Serial.print("Fahrenheit: ");
+        
+        //functions to get the temperature in various unitsfs
+        Serial.println(InsideTemp.Fahrenheit());
+        Serial.print("Celsius: ");
+        Serial.println(InsideTemp.Celsius());
+        Serial.print("Kelvin: ");
+        Serial.println(InsideTemp.Kelvin());
     };
 
 };
-
 
 // Main program Section. Simply setup an App class and let it run
 int main(){
