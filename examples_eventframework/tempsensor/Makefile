@@ -18,7 +18,7 @@ PROGRAM = tempsensor
 MCU = attiny85
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../libraries/includes
+CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../../eventframework
 LDFLAGS += -L ../libraries -l clixxIO_AVR_$(MCU)
 OBJS = $(PROGRAM).o
 
