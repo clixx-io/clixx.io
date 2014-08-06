@@ -72,8 +72,8 @@ clean:
 # Install to the Users IoT/libraries directory
 install:
 	@printf "Creating directories\n"
-	$(Q)mkdir -p ~/IoT/libraries 
+	$(Q)mkdir -p ~/IoT/libraries/includes 
 	@printf "Copying library $(LIBRARY).a to ~/IoT/libraries\n"
 	$(Q)cp $(LIBRARY).a ~/IoT/libraries
 	@printf "Copying Include files to ~/IoT/libraries/includes\n"
-	$(Q)cp clixxIO.hpp ~/IoT/libraries/includes
+	$(Q)cp clixxIO.hpp ~/IoT/libraries/includes/clixxIO.hpp
