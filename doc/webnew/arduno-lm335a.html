@@ -120,9 +120,9 @@ void loop() {
 		   and I downloaded that. Here is a snippet of the program where the majority of the work is done:</p>
 		
 <pre><code>
+LM335A InsideTemp(0); //pass the analog input pin number
+
 void setup() {
-  LM335A InsideTemp(0); //pass the analog input pin number
-  void setup() {
   Serial.begin(115200);
   Serial.println("starting");
 }
