@@ -1,7 +1,7 @@
 <html>
       <head>
 
-      <title>Clixx.IO :: Projects</title>
+      <title>Clixx.IO :: Potentiometer on Arduino</title>
 
       <meta name="viewport" content="width=800">
       <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
@@ -62,19 +62,19 @@
 
 		<h1>Example Projects</h1>
 
-		<h2>LM335A Temperature Sensor for Arduino</h2>
+		<h2>Potentiometer Sensor for Arduino</h2>
 
 		<img src="images/IMAG0758.jpg" alt="Arduino" width="600" height="400">
 
-		<p>I was looking for an easy to use temperature sensor for the Attiny85. After doing a lot of searching for a suitable
-		   temperature sensor I stumbled upon the LM335A. It's very old-school, and produces 10mV for each degree Kelvin. Here's
-		   a closeup photo of the board that I made along with a brief schematic.</p>
+		<p>For anybody learning or wishing to make their own electronics devices, it's very hard to make a collection of projects
+           without having a project that needs a Potentiometer, or in plain English, a Dial.</p>
+        <p>It's not so difficult to hook up a potentiometer to an Arduino, and there are plenty
+           of tutorials to do that on the net</p>
+        <p>One major benefit that clixx.io provides is that with this system the pieces just plug in and are available
+           for almost instant use.</p>
 		<p>Shown on the Arduino is the clixx.io Dock. It's basically an Arduino shield with most of the common configurations
 		   broken out into a more useable arrangement. The rightmost connector where the temperature sensor board is plugged in
-		   directly corresponds to Analog-Pin-1. The LM335A simply connects in to where the Analag-1 Pin is.</p>
-		<p>As I didn't really have a board made, of course I took another board and set about to get the LM335A working on that. 
-		   This was just an experiment to get the basic circuit working and test some software against it. If it all works then
-		   of course I will go into Fritzing and design up a proper working production design.</p>
+		   directly corresponds to Analog-Pin-1. The Potentiomer simply connects in to where the Analag-1 Pin is.</p>
 		<p>The circuit that I found on the Internet was pretty basic. Just a pullup resistor to VCC. Although the
 		   circuit doesn't show it, when I was testing I found that the output signal wasn't stable so I added a
 		   10uF decoupling capacitor to the power pins and that worked incredibly well to stabilise the output.</p>
@@ -120,9 +120,9 @@ void loop() {
 		   and I downloaded that. Here is a snippet of the program where the majority of the work is done:</p>
 		
 <pre><code>
+LM335A InsideTemp(0); //pass the analog input pin number
+
 void setup() {
-  LM335A InsideTemp(0); //pass the analog input pin number
-  void setup() {
   Serial.begin(115200);
   Serial.println("starting");
 }
