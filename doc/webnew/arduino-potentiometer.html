@@ -1,0 +1,189 @@
+<html>
+      <head>
+
+      <title>Clixx.IO :: Potentiometer on Arduino</title>
+
+      <meta name="viewport" content="width=800">
+      <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+      <link rel="stylesheet" href="working.css">
+      <link rel="stylesheet" href="font_awesome.css">
+      <link rel="stylesheet" href="themes/clixxio.cs">
+      <link href="pygments.css" rel="stylesheet">
+      <link href="http://clixx.io/assets/img/favicon.ico" rel="shortcut icon"><link href="rss.xml" type="application/rss+xml" rel="alternate" title="The Garage Lab (RSS 2.0)"><meta content="-hwGgpHftBBc6_gN-SP2pH4krm_dQ4E2Q1bFWGbjIIA" name="google-site-verification">
+
+      <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+      </head>
+
+      <body>
+
+      <div data-role="page">
+      
+           <!-- the slide-away navigation panel -->
+           <div data-role="panel" id="nav_panel">
+                <h3>Discover clixx.io</h3>
+                  <a data-role="button" href="about.html">About</a>
+                  <a data-role="button" href="projects.html">Projects</a>
+           <!-- 
+                  <a data-role="button">Learning</a>
+           -->
+                <h3>Software</h3>
+                  <a data-role="button" href="iot.html">IoT Framework</a>
+           <!-- 
+                  <a data-role="button" href="http://clixx.io/documents/about.html">Downloads</a>
+                <h3>Community</h3>
+           -->
+                <h3>Hardware</h3>
+                  <a data-role="button" href="processors.html">Processors</a>
+                  <a data-role="button" href="docks.html">Docks</a>
+                  <a data-role="button" href="tabs.html">Interface Boards</a>
+           <!-- 
+                  <a data-role="button" >Processors</a>
+           -->
+                <h3>Buy</h3>
+                  <a data-role="button" href="http://clixx.io/documents/contact.html">Shop</a>
+                <h3>Support</h3>
+                <a data-role="button" href="contact.html">Contact</a>
+           </div><!-- /panel -->
+
+           <div data-role="header">
+                <div class="tgl-header">
+                     <div class="header-inner" style="height:120px;">
+                          <a data-role="button" data-mini="true" data-icon="grid" data-theme="b" data-iconpos="notext" href="#nav_panel"></a>
+                     </div>
+                </div>
+           </div><!-- /header -->
+
+
+           <div data-role="content" style="text-align:Left">
+
+<div role="main" class="ui-content jqm-content">
+
+		<h1>Example Projects</h1>
+
+		<h2>Potentiometer Sensor for Arduino</h2>
+
+		<img src="images/IMAG0758.jpg" alt="Arduino" width="600" height="400">
+
+		<p>For anybody learning or wishing to make their own electronics devices, it's very hard to make a collection of projects
+           without having a project that needs a Potentiometer, or in plain English, a Dial.</p>
+        <p>It's not so difficult to hook up a potentiometer to an Arduino, and there are plenty
+           of tutorials to do that on the net</p>
+        <p>One major benefit that clixx.io provides is that with this system the pieces just plug in and are available
+           for almost instant use.</p>
+		<p>Shown on the Arduino is the clixx.io Dock. It's basically an Arduino shield with most of the common configurations
+		   broken out into a more useable arrangement. The rightmost connector where the temperature sensor board is plugged in
+		   directly corresponds to Analog-Pin-1. The Potentiomer simply connects in to where the Analag-1 Pin is.</p>
+		<p>The circuit that I found on the Internet was pretty basic. Just a pullup resistor to VCC. Although the
+		   circuit doesn't show it, when I was testing I found that the output signal wasn't stable so I added a
+		   10uF decoupling capacitor to the power pins and that worked incredibly well to stabilise the output.</p>
+		<img src="images/IMAG0762.jpg" alt="Arduino" width="300" height="260">
+		<p>What is particularly good about the LM335A is that it outputs a predictable analog signal which is ideal for picking
+		   up from an Arduino or any other microprocessor with an analog port.</p>
+		<p>Inside the Arduino examples there is a very handy script called AnalogToSerial.ino. It's very handy for downloading
+		   to the Arduino to see the Analog value on the Serial Port. I did some slight modifications to remove the translation
+		   so that it outputs only the exact ADC value that it finds on the port.</p>
+		<p>Here's the code:</p>   
+<pre><code>
+void loop() {
+  // read the analog in value:
+  sensorValue = analogRead(analogInPin);            
+  // change the analog out value:
+  analogWrite(analogOutPin, outputValue);           
+
+  // print the results to the serial monitor:
+  if (sensorValue !=0){
+    Serial.print("sensor = " );                       
+    Serial.println(sensorValue);      
+    digitalWrite(13,HIGH);
+  }
+
+  // wait 2 milliseconds before the next loop
+  // for the analog-to-digital converter to settle
+  // after the last reading:
+  delay(2000);                     
+  digitalWrite(13,LOW);
+}
+</code></pre>
+
+		<p>Once the program is compiled and running, the sensor outputs an analog value (a voltage) which is read by the
+		   ADC and sent to the PC. The built-in terminal software inside the Arduino IDE then prints these values.</p>
+		
+		<img src="images/lm335A-output.png" alt="Arduino">
+
+		<p>Of course, we don't have our values in Degree's yet so we need to do a conversion.</p>
+		<p>Whilst sometimes it might seem that clixx.io is some type of proprietary system it's actually not. It's
+		   very easy to go on the internet, find a sketch, download it and run on standard Arduino hardware through
+		   the standard Arduino IDE. </p>
+		<p>The Arduino Forum has a great post <a href="http://forum.arduino.cc/index.php/topic,37544.0.html" rel="external" target="_blank">Library for LM335A Temperature Sensor</a>
+		   and I downloaded that. Here is a snippet of the program where the majority of the work is done:</p>
+		
+<pre><code>
+LM335A InsideTemp(0); //pass the analog input pin number
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("starting");
+}
+
+void loop() {
+  delay(3000);
+  //user must call ReadTemp before any valid temp data is available
+  InsideTemp.ReadTemp();  
+  Serial.print("Fahrenheit: ");
+  //functions to get the temperature in various unitsfs
+  Serial.println(InsideTemp.Fahrenheit());
+  Serial.print("Celsius: ");
+  Serial.println(InsideTemp.Celsius());
+  Serial.print("Kelvin: ");
+  Serial.println(InsideTemp.Kelvin());
+
+}		
+</code></pre>
+		<p>After compiling and uploading that, I get the following on my debug window:</p>
+		<img src="images/LM335A-conversion-output.png" alt="Converted">
+		
+		<p>It seemed to work pretty well. I measured the temperature using a handheld
+		   thermometer and the results seemed to match to within error tolerances.</p>
+		<img src="images/lm335A-thermocheck.png" alt="Check Temp" width="400" height="300">
+		
+		
+        </p>
+
+	</div><!-- /content -->
+
+           </div><!-- /content -->
+
+           <div data-role="footer">
+                <div class="footer">
+
+                             <a style="float: left; margin-right: 2px" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" rel="license">
+                             <img src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Creative Commons License" style="border-width:0"></a>
+                             <a href="rss.xml" class="footer-feed"><i class="icon-rss"></i> RSS</a>
+
+                             <div class="footer-copyright">
+                                  All original content copyright (c) 2013 David Lyon &lt;<a href="mailto:info@clixx.io">info@clixx.io</a>&gt;<br>
+                                  This work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US" rel="license">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+                             </div>
+                </div>
+           </div><!-- /footer -->
+      </div><!-- /page -->
+
+      <script src="http://clixx.io/assets/js/garagelab.js"></script>
+
+      <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'clixxio'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+            }());
+      </script>
+
+      </body>
+</html>
