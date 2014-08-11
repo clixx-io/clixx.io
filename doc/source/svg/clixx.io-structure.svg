@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="clixx.io-structure.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="566.76715"
+     inkscape:cy="725.22494"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="983"
+     inkscape:window-height="702"
+     inkscape:window-x="209"
+     inkscape:window-y="146"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#d3d7cf;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985"
+       width="149.9173"
+       height="86.354858"
+       x="33.223465"
+       y="524.48724"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <rect
+       style="fill:#d3d7cf;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2989"
+       width="311.51651"
+       height="108.8822"
+       x="32.987267"
+       y="353.10498"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <text
+       xml:space="preserve"
+       style="font-size:26.76535606px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="63.888248"
+       y="571.90729"
+       id="text2991"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"
+       transform="scale(1.0183945,0.98193774)"><tspan
+         sodipodi:role="line"
+         id="tspan2993"
+         x="63.888248"
+         y="571.90729">Docks</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:26.76535606px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="94.921227"
+       y="393.89679"
+       id="text2999"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"
+       transform="scale(1.0183945,0.98193774)"><tspan
+         sodipodi:role="line"
+         id="tspan3001"
+         x="94.921227"
+         y="393.89679">IoT-Framework</tspan></text>
+    <rect
+       y="524.60101"
+       x="193.77998"
+       height="86.354858"
+       width="149.9173"
+       id="rect3003"
+       style="fill:#d3d7cf;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <text
+       xml:space="preserve"
+       style="font-size:26.76535606px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="237.95915"
+       y="570.55536"
+       id="text2995"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"
+       transform="scale(1.0183945,0.98193774)"><tspan
+         sodipodi:role="line"
+         id="tspan2997"
+         x="237.95915"
+         y="570.55536">Tabs</tspan></text>
+    <rect
+       y="407.43225"
+       x="47.992813"
+       height="39.422867"
+       width="136.28848"
+       id="rect3021"
+       style="fill:#8ae234;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <rect
+       style="fill:#204a87;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3023"
+       width="138.23547"
+       height="39.422867"
+       x="195.96318"
+       y="407.43222"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3025"
+       y="443.60388"
+       x="83.450363"
+       style="font-size:26.76535606px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"
+       transform="scale(1.0183945,0.98193774)"><tspan
+         y="443.60388"
+         x="83.450363"
+         id="tspan3027"
+         sodipodi:role="line">C++</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:26.76535605999999845px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#d3d7cf;fill-opacity:1;stroke:none;font-family:Sans"
+       x="215.36534"
+       y="445.51572"
+       id="text3029"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"
+       transform="scale(1.0183945,0.98193774)"><tspan
+         sodipodi:role="line"
+         id="tspan3031"
+         x="215.36534"
+         y="445.51572">Python</tspan></text>
+    <rect
+       y="313.05746"
+       x="27.166586"
+       height="156.21107"
+       width="323.51215"
+       id="rect3033"
+       style="fill:none;stroke:#2e3436;stroke-width:1.20000005;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1.19999999, 4.79999999;stroke-dashoffset:0"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <rect
+       style="fill:#729fcf;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3803"
+       width="311.13211"
+       height="28.139652"
+       x="33.537239"
+       y="319.15768"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3005"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#eeeeec;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.68144233,0,0,0.65704781,-54.154342,181.01495)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"><flowRegion
+         id="flowRegion3007"><rect
+           id="rect3009"
+           width="274.28571"
+           height="74.285713"
+           x="137.14285"
+           y="206.6479"
+           style="fill:#eeeeec" /></flowRegion><flowPara
+         id="flowPara3011">Software</flowPara></flowRoot>    <rect
+       y="489.73334"
+       x="33.537231"
+       height="28.139652"
+       width="311.13211"
+       id="rect3805"
+       style="fill:#729fcf;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3013"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#eeeeec;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="matrix(0.68144233,0,0,0.65704781,-252.98232,345.9878)"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"><flowRegion
+         id="flowRegion3015"><rect
+           id="rect3017"
+           width="245.71428"
+           height="57.142857"
+           x="422.85715"
+           y="215.21933"
+           style="fill:#eeeeec" /></flowRegion><flowPara
+         id="flowPara3019">Hardware</flowPara></flowRoot>    <text
+       sodipodi:linespacing="125%"
+       id="text3807"
+       y="597.59247"
+       x="38.203014"
+       style="font-size:12.04440975px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       xml:space="preserve"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"
+       transform="scale(1.0183945,0.98193774)"><tspan
+         y="597.59247"
+         x="38.203014"
+         sodipodi:role="line"
+         id="tspan3811">Interfaces to common </tspan><tspan
+         y="612.64801"
+         x="38.203014"
+         sodipodi:role="line"
+         id="tspan3813">Processor Boards.</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3815"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Sans;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion3817"><rect
+           id="rect3819"
+           width="105.05586"
+           height="95.964493"
+           x="139.40105"
+           y="686.68695" /></flowRegion><flowPara
+         id="flowPara3821"></flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:12.04440975px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="202.45335"
+       y="596.91656"
+       id="text3829"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28"
+       transform="scale(1.0183945,0.98193774)"><tspan
+         id="tspan3833"
+         sodipodi:role="line"
+         x="202.45335"
+         y="596.91656">Sensor/Interface </tspan><tspan
+         sodipodi:role="line"
+         x="202.45335"
+         y="611.97211"
+         id="tspan3837">Boards.</tspan></text>
+    <rect
+       style="fill:none;stroke:#2e3436;stroke-width:1.20000005;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1.20000001, 4.79999999;stroke-dashoffset:0"
+       id="rect3841"
+       width="323.51215"
+       height="131.65349"
+       x="27.166586"
+       y="484.29688"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+    <rect
+       inkscape:export-ydpi="151.28"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       y="352.23853"
+       x="422.21811"
+       height="108.8822"
+       width="217.23079"
+       id="rect3862"
+       style="fill:#d3d7cf;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <text
+       transform="scale(1.0183945,0.98193774)"
+       inkscape:export-ydpi="151.28"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       sodipodi:linespacing="125%"
+       id="text3864"
+       y="391.55954"
+       x="428.02475"
+       style="font-size:26.76535606px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="391.55954"
+         x="428.02475"
+         id="tspan3866"
+         sodipodi:role="line">IoT-Interfaces</tspan></text>
+    <rect
+       inkscape:export-ydpi="151.28"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       style="fill:#e9b96e;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3868"
+       width="136.28848"
+       height="39.422867"
+       x="465.29004"
+       y="406.65247" />
+    <text
+       transform="scale(1.0183945,0.98193774)"
+       inkscape:export-ydpi="151.28"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       xml:space="preserve"
+       style="font-size:26.76535606px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="485.28958"
+       y="441.26663"
+       id="text3872"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3874"
+         x="485.28958"
+         y="441.26663">MQTT</tspan></text>
+    <rect
+       inkscape:export-ydpi="151.28"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       style="fill:none;stroke:#2e3436;stroke-width:1.20000005;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1.19999998, 4.79999997;stroke-dashoffset:0"
+       id="rect3880"
+       width="229.22643"
+       height="156.21107"
+       x="416.39743"
+       y="312.19101" />
+    <rect
+       inkscape:export-ydpi="151.28"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       y="318.29123"
+       x="422.7681"
+       height="28.139652"
+       width="215.41783"
+       id="rect3882"
+       style="fill:#729fcf;fill-opacity:1;stroke:#ffc500;stroke-width:0;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <flowRoot
+       inkscape:export-ydpi="151.28"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       transform="matrix(0.68144233,0,0,0.65704781,335.0765,180.14848)"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#eeeeec;fill-opacity:1;stroke:none;font-family:Sans"
+       id="flowRoot3884"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3886"><rect
+           style="fill:#eeeeec"
+           y="206.6479"
+           x="137.14285"
+           height="74.285713"
+           width="274.28571"
+           id="rect3888" /></flowRegion><flowPara
+         id="flowPara3890">Internet</flowPara></flowRoot>    <path
+       style="fill:#eeeeec;stroke:#babdb6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 375.0792,367.48025 -15.19494,24.74874 15.36378,26.76905 0,-16.16244 12.83129,0 0.16883,15.40482 14.85728,-27.52665 -15.70144,-23.23351 0,16.16244 -12.15596,0 z"
+       id="path3892"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/home/dlyon/clixx.io/doc/webnew/images/clixx.io-structure.png"
+       inkscape:export-xdpi="151.28"
+       inkscape:export-ydpi="151.28" />
+  </g>
+</svg>
