@@ -1,5 +1,5 @@
 
-#include "GPIOClass.h"
+#include "clixxIO_GPIO.h"
 
 using namespace std;
 
