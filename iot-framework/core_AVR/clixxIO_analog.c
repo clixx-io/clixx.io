@@ -53,32 +53,22 @@ void adcInit(ANALOG adc) {
 * averaging.
 *
 * @param adc the ADC input to read
-* @param skip the number of samples to skip (read and ignore).
-* @param average the number of samples to average (must be >= 1)
 *
 * @return the sample value.
 */
-uint16_t adcRead(ANALOG adc, uint8_t skip, uint8_t average) {
+uint16_t adcRead(ANALOG adc) {
+
   // Change the reference voltage and select input
   uint8_t muxval = adc;
   if(adc==ADC4) // Need 1.1V reference
     muxval = 0x80 | adc;
   ADMUX = muxval;
-  // Start the conversion
-  uint8_t count = skip + average;
-  uint16_t value, total = 0;
-  while(count) {
-    // Start the conversion, then wait for it to finish
-    ADCSRA |= (1 << ADSC);
-    while(ADCSRA & (1 << ADSC));
-    if(count<=average) {
-      // Read the current value and add it to the running total
-      value = ADCL;
-      value = value | (ADCH << 8);
-      total += value;
-      }
-    count--;
-    }
-  return (total / average);
+  uint16_t value;
+  // Start the conversion, then wait for it to finish
+  ADCSRA |= (1 << ADSC);
+  while(ADCSRA & (1 << ADSC));
+  // Read the current value and add it to the running total
+  value = ADCL;
+  return( value | (ADCH << 8));
 }
 
