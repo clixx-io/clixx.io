@@ -62,8 +62,9 @@
 
 		<h1>IoT Framework</h1>
 
-		<p>To build IoT systems quickly and efficiently, you need a good software framework. clixx.io offers a modern
-		   Event-Based framework for C++ development.</p>
+		<p>clixx.io IoT-Framework is designed to allow small devices to be
+        programmed in C++ with ease. Often with very simple and easy to
+        write programes.</p>
 
 		<p>The clixx.io EventFramework is a streamlined EventFramework designed
 		to give C++ compatability over a wide variety of processors. At the
@@ -84,101 +85,7 @@
 		more programming features and not be locked down to a particular brand
 		of hardware.</p>
 
-<p>Wiring/Arduino gives just one grouping construct - loop() which is
-great. This framework extends that and gives more:</p>
-
-<li><b>loop()</b> repeating loop</li>
-<li><b>pinchange()</b> 	- hardware Pin change interrupts</li>
-<li><b>timer()</b>- Timer based callbacks</li>
-<li><b>iotmessage()</b>	- IoT messages</li>
-<li><b>serial()</b>	- Data from serial ports</li>
-	
-<h3>The easy coding style of the clixx.io Event-Framework</h3>
-
-<p>The clixx.io Eventframework is based on having an 'Application'
-class which then passes program execution to event-handlers when
-particular hardware or software events occur).</p>
-
-	<pre><code>
-	/* Simple Application
-	 * 
-	 *  A trivial simple example of an clixx.io Application.
-	 * 
-	*/
-	#include &ltstdio.h&gt;
-	#include "clixxIO.hpp"
-
-	class App : public clixxIOApp{
-
-		int loop(){
-			// loop handler - This runs repeatedly
-			if (getTemperature() > 24)
-				aircon.On();
-			else
-				aircon.Off();
-			delay(1000);
-		};
-		
-		int setup(){
-			// Setup - register the loop event for continuously running. 
-			printf("Program is running");
-			
-			aircon = clixxIO_Motor('motor1');
-			addLoopEvent(&amploop());
-		};
-		
-	};
-
-	// -- Main program Section. Simply setup an App class and let it run
-	int main(){
-	  App m;
-	  return m.run();
-	} 
-	#include "app-callbacks.cpp"	// 
-	</code></pre>
-
-<h3>Setup - setup()</h3>
-
-<p>The setup() function is executed once at start of the program and
-is normally used to initialise devices.</p>
-
-	<pre><code>
-	void setup(){
-		// setup - create a timer callback every 2 seconds
-		addTimerEvent(2, (void (*)()) &App::timerevent);
-
-        // Setup all of the devices that are needed by the application		
-		lcd = clixxIO_i2cCharlcd();
-		button1 = clixxIO_Button('button1');
-		button2 = clixxIO_Button('button2');
-		motor1  = clixxIO_Motor('motor1');
-		 
-	};
-	</code></pre>
-
-<h3>Loop - loop()</h3>
-
-<p>The loop() function is an optional method that can be repeatedly
-run. It's not necessary to have a program loop() if the program
-is running on other events, such as interrupts or serial-data
-for example.</p>
-
-	<pre><code>
-    int loop(){
-        // loop - this runs repeatedly
-        if (getTemperature() &gt 24)
-			setAirconditioning(On);
-		else
-			setAirconditioning(Off);
-		delay(1000);
-    };
-    
-	void setup(){
-        addLoopEvent((void (*)()) &AmpApp::loop);
-    };
-	</code></pre>
-
-<h3>Timers - ontimer()</h3>
+<h3>IoT Framework Example</h3>
 
 <p>The vast majority of embedded applications all need timers for some
 purpose. Traditionally it's been left to the engineer to interface
@@ -194,80 +101,41 @@ are non-blocking rather than using a blocking delay() call in
 the previous example:</p>
 
 	<pre><code>
-    void ontimer(){
-        // timerevent - this is run every second
-		if (getTemperature() > 24)
-			aircon.On();
-		else
-			aircon.Off();
-    };
-	void setup(){
-		// setup - create a timer to check the temperature every 2 seconds
-		addTimerEvent(1, (void (*)()) &AmpApp::ontimer);
-	};
-	</code></pre>
+	/* Simple Application
+	 * 
+	 *  A trivial simple example of an clixx.io Application.
+	 * 
+	*/
+	#include <stdio.h>
+	#include "clixxIO.hpp"
 
+	class App : public clixxIOApp{
 
-<h3>Hardware Interrupts - onpinchange()</h3>
-
-<p>From the dawn of programming computers, there haven't been that many nice ways
-to handle pin change interrupts from an application. </p>
-
-<p>Handling pin change interrupts is now moved into the main application object
-and is available as part of the core application code rather than moved (usually) a
-long way away from the main() function where most of the application logic is
-expected to be.</p>
-
-<p>With this structure, handling interrupts becomes part of the main application
-functionality.</p>
-
-	<pre><code>
-	int setup(){
-		// Setup - create a timer that displays data every second
-		//         as well as a pin change interrupt handler
-		addTimerEvent(1, (void (*)()) &AmpApp::timerevent);
-		addPinChangeEvent(GPIO_PIN16, RISING, (void (*)()) &AmpApp::onpinchange());
-	};
+	    int loop(){
+	        // loop handler - This runs repeatedly
+	        if (getTemperature() > 24)
+	            aircon.On();
+	        else
+	            aircon.Off();
+	        delay(1000);
+	    };
 	
-	int timerevent(){
-		// timerevent - fired every second to display the value
-		int v = counter; counter = 0;
-		if (v == 0)
-			printf('.')
-		else
-			printf("rps = %d\n", v);
-	};
+	    int setup(){
+	        // Setup - register the loop event for continuously running. 
+	        printf("Program is running");
 	
-	void onpinchange(){
-		/* Interrupt service routine
-		Handles a hardware interrupt of some sort
-		*/
-		++counter;
-	}
-	</code></pre>
-
-<h3>Serial Port Data - onserial()</h3>
-
-<p>One of the very first things that computers ever did was send data over
-serial ports. Unfortunately, until the Wiring language, there's never been
-that many consistent interfaces for handling serial data streams.</p>
-
-<p>In the EventFramework, serial data can be received and passed to the
-application either in blocks or lines with a callback able to be setup
-when the data is available.</p>
-
-	<pre><code>
-	int setup(){
-		// Setup - create an event that prints out serial data from a port
-		//         as well as a pin change interrupt handler
-		addSerialDataEvent(GPIO_PIN1, 9600, (void (*)()) &AmpApp::onserial());
+	        aircon = clixxIO_Motor('motor1');
+	        addLoopEvent(&loop());
+	    };
+	
 	};
-   
-	int onserial(const char* buffer, const int bufflen){
-		//* SerialData - Print out the data received on the port
-		printf(buffer)
 
-	}
+	// -- Main program Section. Simply setup an App class and let it run
+	int main(){
+	  App m;
+	  return m.run();
+	} 
+	#include "app-callbacks.cpp"	// 
 	</code></pre>
 
 	</div><!-- /content -->
