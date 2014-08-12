@@ -38,8 +38,15 @@ endif
 
 all: ../lib $(LIBRARY).a
 
-$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_AVRSerial_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o
-	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_AVRSerial_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o
+ifeq ($(MCU),attiny85)
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o \
+              clixxIO_SoftSerial_$(MCU).o  clixxIO_softuart_AVR_$(MCU).o 
+	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_SoftSerial_$(MCU).o clixxIO_softuart_AVR_$(MCU).o $(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o
+else
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o \
+              clixxIO_AVRSerial_$(MCU).o 
+	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_AVRSerial_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o
+endif
 
 $(PROGRAM).elf: $(PROGRAM).o
 	@printf "  LD      $(subst $(shell pwd)/,,$(@))\n"
@@ -56,8 +63,8 @@ $(PROGRAM).hex: $(PROGRAM).elf
 clixxIO_EventQ_AVR_$(MCU).o: clixxIO_EventQ.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_AVR_$(MCU).o clixxIO_EventQ.cpp
 
-clixxIO_AVRSerial_$(MCU).o: core_AVR/clixxIO_AVRSerial.cpp clixxIO.hpp core_AVR/softuart.h
-	$(CC) -c $(CFLAGS) -o clixxIO_AVRSerial_$(MCU).o core_AVR/clixxIO_AVRSerial.cpp
+clixxIO_SoftSerial_$(MCU).o: core_AVR/clixxIO_SoftSerial.cpp clixxIO.hpp core_AVR/softuart.h
+	$(CC) -c $(CFLAGS) -o clixxIO_SoftSerial_$(MCU).o core_AVR/clixxIO_SoftSerial.cpp
    
 clixxIO_softuart_AVR_$(MCU).o: core_AVR/softuart.c clixxIO.hpp core_AVR/softuart.h
 	$(CC) -c $(CFLAGS) -o clixxIO_softuart_AVR_$(MCU).o core_AVR/softuart.c
@@ -70,6 +77,9 @@ clixxIO_Digital_AVR_$(MCU).o: core_AVR/clixxIO_digital.cpp clixxIO.hpp core_AVR/
 
 clixxIO_SerialIoT_$(MCU).o: clixxIO_SerialIoT.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_SerialIoT_$(MCU).o clixxIO_SerialIoT.cpp
+
+clixxIO_Timers_AVR_$(MCU).o: core_AVR/clixxIO_Timers.cpp clixxIO.hpp
+	$(CC) -c $(CFLAGS) -o clixxIO_Timers_AVR_$(MCU).o core_AVR/clixxIO_Timers.cpp
 
 clixxIO_Serial_AVR_$(MCU).o: clixxIO_Serial.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_Serial_AVR_$(MCU).o clixxIO_Serial.cpp
