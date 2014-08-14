@@ -150,8 +150,8 @@ void FirewaitingCOP(){
   
   // Serial.println(copPin[coptoFire], DEC);
    
-  digitalWrite(copPin[coptoFire],LOW);
-  delay(10);
   digitalWrite(copPin[coptoFire],HIGH);
+  delay(4);
+  digitalWrite(copPin[coptoFire],LOW);
 }
 
