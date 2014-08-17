@@ -42,9 +42,9 @@
                   <a data-role="button" >Processors</a>
            -->
                 <h3>Buy</h3>
-                  <a data-role="button" href="http://clixx.io/documents/contact.html">Shop</a>
-                <h3>Support</h3>
-                <a data-role="button" href="contact.html">Contact</a>
+                  <a data-role="button" href="http://shop.clixx.io">Shop</a>
+                <h3>Forum</h3>
+                  <a data-role="button" href="http://forum.clixx.io">Forum</a>
            </div><!-- /panel -->
 
            <div data-role="header">
@@ -62,43 +62,38 @@
 
 		<h1>IoT Framework</h1>
 
-		<p>clixx.io IoT-Framework is designed to allow small devices to be
-        programmed in C++ with ease. Often with very simple and easy to
-        write programes.</p>
+		<p>clixx.io IoT-Framework is a software framework for C++ that makes it very
+		easy to program IoT devices.</p>
+		
+		<p>As a programming language, C++ is still going very strong. Most of the devices that people
+		   love to use today have software in which a very large amount of the code is written C++.</p>
 
-		<p>The clixx.io EventFramework is a streamlined EventFramework designed
-		to give C++ compatability over a wide variety of processors. At the
-		moment to demonstrate the concept we have Linux and the Attiny85. In 
-		the future, we'd like to do more processors.</p>
+		<p>Our IoT Framework is a streamlined Event Framework for C++ that allows even those with
+		   a basic understanding of C++ to program their own IoT devices.
 
-		<h3>Designed to Support MQTT</h3>
-		<p>In the IoT world, MQTT is a clear favourite because it's easy and fast to get
-		up and running and supports many acknowledged security fundimentals. Clixx.io is
-		specifically designed to incorporate excellent support for MQTT. For more
-		information, click <a href="mqtt_intro.html">MQTT Introduction</a> and <a href="mqtt_cli.html">MQTT CLI</a></p>
+		<h3>Our Framework talks directly to IoT Messaging Systems</h3>
+		<p>Most Embedded programming systems require a few steps for you to interface your data and
+		   device to the messaging system. In contrast, clixx.io interfaces directly with a popular
+		   IoT messaging system MQTT that makes it really fast and easy to get your devices talking
+		   IoT. In many cases, you can program for IoT in less than 50 lines of code - Just see the
+		   example shown below. For more information on MQTT, click <a href="mqtt_intro.html">MQTT Introduction</a> 
+		   and <a href="mqtt_cli.html">MQTT CLI</a></p>
 		<p>We even provide a power <a href="mqtt_router.html">MQTT Router </a>to make it easy to bridge devices like
 		the Arduino to the Internet extremely easily.</p>
-		<h3>Our Event-Framework</h3>
+
+		<h3>Events in our IoT Framework</h3>
 		<img src="images/iot-events.png" alt="Events" width="300" height="200">
-		<p>In the embedded world, Arduino is the clear favourite. But it's closely
-		tied down to the Arduino hardware. This framework provides a way to get
-		more programming features and not be locked down to a particular brand
-		of hardware.</p>
+		
+		<p>The &quot;Wiring&quot; language was a brave step away from standard C/C++ and introduced
+		   the <code>Setup()</code> and <code>loop()</code> constructs. The clixx.io IoT-Framework
+		   extends this even further with callbacks for Timers, Serial Data, IoT Messages and
+		   hardware Pin Changes.</p>
 
-<h3>IoT Framework Example</h3>
+		<h3>IoT Framework Example</h3>
 
-<p>The vast majority of embedded applications all need timers for some
-purpose. Traditionally it's been left to the engineer to interface
-to the hardware/operating-system to determine a base for the timing
-system of the application. Not only does that require some effort,
-it has led to a huge amount of program incompatability as programs
-are coded to use the timing hardware of a particular platform rather
-than get on with the job of actually doing the timing functions.</p>
-
-<p>The following example shows the same functionality of the above
-example only here the checking is done by timer callbacks which
-are non-blocking rather than using a blocking delay() call in
-the previous example:</p>
+		<p>The following example shows the same functionality of the above example only here the 
+		   checking is done by timer callbacks which are non-blocking rather than using a 
+		   blocking delay() call in the previous example:</p>
 
 	<pre><code>
 	/* Simple Application

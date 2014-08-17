@@ -2,14 +2,11 @@ David's ToDo List
 =================
 
  - Attiny Board
-   Add I2C pullup resistors and a tiny switch for switching Master/Slave-RxTx
-   Change the processor footprint to the bigger one
 
  - Dock
    Fix bolt-wholes and move connectors
 
  - Toshiba Motor Controller
-
 
  - Recheck the LCD board
 
