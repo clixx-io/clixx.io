@@ -6,16 +6,16 @@
  */
 
 #include "clixxIO.hpp"
+#include <string.h>
 
 using namespace std;
-
 
 #ifdef TARGET_LINUX
 ClixxIO_IoTSub::ClixxIO_IoTSub(const char* id) : mosquittopp(id)
 {
     // By default, the topic is set to # which is everything
-    topic[0] = '#';
-    topic[1] = (char ) 0;
+    _topic[0] = '#';
+    _topic[1] = (char ) 0;
 }
 #endif
 
@@ -29,8 +29,17 @@ int ClixxIO_IoTSub::connect(const char *host, int port, int keepalive, bool clea
     
 }
 
+int ClixxIO_IoTSub::subscribeto(const char* topic)
+{
+    strncpy((char *) &_topic,topic, sizeof(_topic));
+    
+    return(mosquittopp::connect(_host, _port, _keepalive, _clean_session));
+}
+
 int ClixxIO_IoTSub::disconnect()
 {
+    C_iotclose( pMainClass );
+    
     return mosquittopp::disconnect();
 }
 
@@ -39,7 +48,7 @@ void ClixxIO_IoTSub::on_connect(int rc) {
     C_iotopen( pMainClass );
     
     if (!rc) {
-        subscribe(&mid, (const char * ) &topic, 0);
+        subscribe(&mid, (const char * ) &_topic, 0);
     }
     else {
         print_error_connection(rc);
