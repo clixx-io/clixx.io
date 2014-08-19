@@ -111,10 +111,12 @@ void exit_func (int i)
 clixxIOApp::clixxIOApp()
 {
   
-#ifdef TARGET_LINUX
-  // Setup a signal handler for exit
-  signal(SIGINT,exit_func);
+    // Initialise this variable
+    setMainAppPtr((void *) this);
   
+#ifdef TARGET_LINUX
+    // Setup a signal handler for exit
+    signal(SIGINT,exit_func);
 #endif
   
 }
@@ -136,6 +138,7 @@ clixxIOApp::~clixxIOApp()
  */
 int clixxIOApp::run()
 {
+
 
     C_setupevent(pMainClass);
   
