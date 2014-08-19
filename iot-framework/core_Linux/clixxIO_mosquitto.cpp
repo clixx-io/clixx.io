@@ -16,11 +16,13 @@ ClixxIO_IoTSub::ClixxIO_IoTSub(const char* id) : mosquittopp(id)
     // By default, the topic is set to # which is everything
     _topic[0] = '#';
     _topic[1] = (char ) 0;
+
 }
 #endif
 
 ClixxIO_IoTSub::~ClixxIO_IoTSub() 
 {
+
 }
 
 int ClixxIO_IoTSub::connect(const char *host, int port, int keepalive, bool clean_session)
