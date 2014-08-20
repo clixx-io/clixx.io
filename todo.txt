@@ -19,7 +19,11 @@ David's ToDo List
  - Order pcb's
    - buttons x 50
    - LED's x 50
-   - 
+
+Pyside Tuturial
+---------------
+
+ - http://madebits.com/retro/pyside.php
 
   http://redmine.drawersteak.com/projects/achd-soc/repository/entry/trunk/tests/BasicNetworkedQuadSPIFlashControllerTest/main.cpp
  
