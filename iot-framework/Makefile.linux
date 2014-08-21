@@ -33,8 +33,8 @@ endif
 all: $(LIBRARY).a
 
 # The library gets built and the filename shows the target platform
-$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_mosquitto_Linux.o clixxIO_Serial_Linux.o LinuxSerial.o
-	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_I2C_Linux.o clixxIO_mosquitto_Linux.o LinuxSerial.o
+$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_mosquitto_Linux.o clixxIO_Serial_Linux.o LinuxSerial.o clixxIO_GPIO_Linux.o
+	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_I2C_Linux.o clixxIO_mosquitto_Linux.o LinuxSerial.o clixxIO_GPIO_Linux.o
 
 %.o: %.c
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
@@ -52,6 +52,9 @@ clixxIO_Serial_Linux.o: $(SRC)/clixxIO_Serial_Linux.cpp clixxIO.hpp
 
 LinuxSerial.o: core_Linux/LinuxSerial.c clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o LinuxSerial.o core_Linux/LinuxSerial.c -I ./
+
+clixxIO_GPIO_Linux.o: $(SRC)/clixxIO_GPIO_Linux.cpp clixxIO.hpp
+	$(CC) -c $(CFLAGS) -o clixxIO_GPIO_Linux.o $(SRC)/clixxIO_GPIO_Linux.cpp -I ./
 
 clixxIO_mosquitto_Linux.o: $(SRC)/clixxIO_mosquitto.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_mosquitto_Linux.o $(SRC)/clixxIO_mosquitto.cpp -I ./
