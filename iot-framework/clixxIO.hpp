@@ -63,6 +63,7 @@ void C_loopevent( void* appC);
  */
 int addTimerEvent(int secs, void (*function)());
 void C_timerevent( void* appC);
+void timer_wakeup (int interval);
 
 /*
  * pin() construct
@@ -160,7 +161,7 @@ class clixxIOSerial
 
 extern clixxIOSerial Serial;
 #ifdef TARGET_LINUX
- #define Debug Serial
+ #define Debug Serial 
 #endif
 
 #if defined(UBRR1H)

@@ -36,26 +36,7 @@
 
 #include "clixxIO.hpp"
 
-int howmany = 0;
 void *pMainClass;
-
-/**
- * Handle a repeating interrupt using the Linux
- * Kernel
- *
- * @param interval	- The time in seconds between callbacks
- */
-void timer_wakeup (int interval)
-{
-
-#ifdef TARGET_LINUX
-   signal(SIGALRM,timer_wakeup);
-#endif
-
-   //--Trigger the users callback   
-   C_timerevent(pMainClass);
-   
-}
 
 /**
  * Setup a timer callback using the Linux Kernel
@@ -82,6 +63,24 @@ int timer_setup (int interval)
   return 1;
 #endif
  
+}
+
+/**
+ * Handle a repeating interrupt using the Linux
+ * Kernel
+ *
+ * @param interval	- The time in seconds between callbacks
+ */
+void timer_wakeup (int interval)
+{
+
+#ifdef TARGET_LINUX
+   signal(SIGALRM,timer_wakeup);
+#endif
+
+   //--Trigger the users callback   
+   C_timerevent(pMainClass);
+   
 }
 
 /**
@@ -139,7 +138,6 @@ clixxIOApp::~clixxIOApp()
 int clixxIOApp::run()
 {
 
-
     C_setupevent(pMainClass);
   
     puts("Application now in main loop");
@@ -149,9 +147,11 @@ int clixxIOApp::run()
         C_loopevent(pMainClass);
 
         #ifdef USE_MOSQUITTO
-          if (IoT.available() {
+          if (IoT.available() 
+          {
+            do {
               rc = mqttc->loop(-1);
-            }while(rc == MOSQ_ERR_SUCCESS);
+            } while(rc == MOSQ_ERR_SUCCESS);
           }
         #endif
       
@@ -258,48 +258,5 @@ int addPinChangeEvent(int pin, int changetype, void (*function)())
 int addSerialInterruptEvent(int secs, void (*function)())
 {
     return 1;
-}
-
-/** ---------------------------------------------------------------
- * Message Queue Class for passing messages to the
- * application.
- *
- */
-class clixxIOMsgQ {
-
-  public:                    	// begin public section
-    clixxIOMsgQ();          	// constructor
-    ~clixxIOMsgQ();          	// destructor
-    
-    int peekMsg() const;
-    int getMsg();
-    
-    int run();  				// Main event for running
-    
- private:                   	// begin private section
-
-    int eventlist[10];
-    
-};
-
-/**
- * Message Queue Constructor
- */
-clixxIOMsgQ::clixxIOMsgQ()
-{
-}
-
-/**
- * Message Queue Destructor
- */
-clixxIOMsgQ::~clixxIOMsgQ()                 // destructor, just an example
-{
-}
-/**
- * Message Queue Run Method
- */
-int clixxIOMsgQ::run()
-{
-    return 0;
 }
 
