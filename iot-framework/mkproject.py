@@ -52,7 +52,7 @@ can then customise to suit your needs.
 	target_platforms = {
 			   "attiny13" 			: "program_setup|program_loop|program_timers|program_pinchange",
 			   "attiny85" 			: "program_setup|program_loop|program_timers|program_pinchange|program_serial|program_iot",
-			   "linux"    			: "program_setup|program_shutdown|program_loop|program_timers|program_pinchange|program_serial|mqtt_sub",
+			   "linux"    			: "program_setup|program_shutdown|program_loop|program_timers|program_pinchange|program_serial|program_iot",
 			   "msp430"   			: "program_setup|program_loop|program_timers|program_pinchange|program_serial"
 				}
 
@@ -62,7 +62,7 @@ can then customise to suit your needs.
 			   "program_timers" 	: "Does the program need periodic timers (hardware-timer-interrupts) (y,n,i) ? ",
 			   "program_pinchange" 	: "Does the program need to handle Pin Changes (hardware-pinchange-interrupts) (y,n,i) ? ",
 			   "program_serial" 	: "Does the program need to handle incoming serial (hardware-serial-interrupts) (y,n,i) ? ",
-			   "program_iot"		: "Does the program need to handle Internet-of-Tnings events and notifications (mqtt_sub) (y,n,i) ? ",
+			   "program_iot"		: "Does the program need to handle Internet-of-Tnings events and notifications (mqtt) (y,n,i) ? ",
 			   "serial_char"		: "An Event for every serial character (y,n,i) ?", 
 			   "serial_line"		: "An Event for a complete line of serial text (y,n,i) ?", 
 			   "serial_open"		: "An Event for when the serial port is opened (y,n,i) ?", 
@@ -117,7 +117,7 @@ can then customise to suit your needs.
 			self.deployment_platform = deployment_platform
 		
 		self.selections = []
-		self.project_type = None 
+		self.project_type = "c++" 
 		self.iot_commands = []
 		self.iot_input_channel = ""
 		self.iot_output_channel = ""
@@ -134,6 +134,8 @@ can then customise to suit your needs.
 
 		capabilities = self.target_platforms[self.deployment_platform]
 		
+		input_channel_name = ''
+
 		print(self.intro)
 		
 		if self.project_name is None:
@@ -178,23 +180,24 @@ can then customise to suit your needs.
 							else:
 								print("Sorry, no further information on that item.")
 
-		input_channel_name = ''
-		while input_channel_name is '':
-			input_channel_name = raw_input("What IoT Channel do you want to respond to commands from ? ")
-			if input_channel_name.strip() != '':
-				self.iot_input_channel = input_channel_name.strip()
-			else:
-				break;
 				
-		if self.iot_input_channel != '':
-			# If there is an input_channel, collect up all the respond-to commands
-			command_name = ''
-			while not command_name is '':
-				command_name = raw_input("Add a command (in text) of what you want this project to respond to \(eg On or Off\)? ")
-				if command_name.strip() != '':
-					self.iot_commands.append(command_name)
-					print("%s added" % command_name)
-		else:
+		if "program_iot" in self.selections:
+			if self.iot_input_channel != '':
+				# If there is an input_channel, collect up all the respond-to commands
+				command_name = ''
+				while not command_name is '':
+					command_name = raw_input("Add a command (in text) of what you want this project to respond to \(eg On or Off\)? ")
+					if command_name.strip() != '':
+						self.iot_commands.append(command_name)
+						print("%s added" % command_name)
+			else:
+				while input_channel_name is '':
+					input_channel_name = raw_input("What IoT Channel do you want to respond to commands from ? ")
+					if input_channel_name.strip() != '':
+						self.iot_input_channel = input_channel_name.strip()
+					else:
+						break;
+
 			# If it's not an input channel, then collect output (publish) information
 			output_channel_name = ''
 			while output_channel_name is '':
