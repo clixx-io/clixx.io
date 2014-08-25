@@ -76,11 +76,6 @@ Windows-8 Tile Updates
 
  - p://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.notifications.tileupdater.update.aspx
 
-Arduino EMS
------------
-
-sourceforge.net/projects/arduems
-
 Stencils
 --------
 
@@ -89,14 +84,10 @@ Stencils
 Bluetooth LE
 ------------
 
-nRF51822
+ - nRF51822
 
 AVR Programming
 ---------------
-
- - Serial Code
- - Timers
- - PinChange Interrupts
 
   I/O
    - https://mainframe.cx/~ckuethe/avr-c-tutorial/
@@ -104,11 +95,11 @@ AVR Programming
   Reference
    - http://iamsuhasm.wordpress.com/tutsproj/avr-gcc-tutorial/
 
-http://www.instructables.com/id/How-to-program-ATtiny85-with-Raspberry-Pi/
+   http://www.instructables.com/id/How-to-program-ATtiny85-with-Raspberry-Pi/
 
-http://extremeelectronics.co.in/avr-tutorials/using-the-analog-to-digital-converter/
-http://winavr.scienceprog.com/avr-gcc-tutorial/avr-microcontroller-interrupts-handling-using-winavr.html
-http://nerdralph.blogspot.ca/2014/01/nrf24l01-control-with-3-attiny85-pins.html
+   http://extremeelectronics.co.in/avr-tutorials/using-the-analog-to-digital-converter/
+   http://winavr.scienceprog.com/avr-gcc-tutorial/avr-microcontroller-interrupts-handling-using-winavr.html
+   http://nerdralph.blogspot.ca/2014/01/nrf24l01-control-with-3-attiny85-pins.html
 
 GUI for avrdude
  - http://aef-embedded.blogspot.com.au/2009/06/avrdude-gui-for-ubuntu.html
@@ -127,24 +118,17 @@ Linux GPIO
 
  - http://www.avrfreaks.net/wiki/index.php/Documentation:Linux/GPIO
 
+Fat-Filesystem
+--------------
+ - http://elm-chan.org/fsw/ff/00index_e.html
+
 PIC Programming
 ---------------
 
  - https://www.mixdown.ca/redmine/projects/picjug/wiki
- USB M-Stack
+
+USB M-Stack
   - https://github.com/mixdownengineering/m-stack
-  
-E14 tobuy list
----------------
-
- Attiny 45/85
-
- Battery Holders
- - http://au.element14.com/keystone/1028c/battery-holder-aa-pcb/dp/2027288
- 
- P-Terminal
- - http://au.element14.com/keystone/590/battery-contact/dp/1339844
- - http://au.element14.com/keystone/5219/male-battery-contact-aa-cell/dp/1888411
 
  HDMI connectors
  - http://au.element14.com/multicomp/60s019p-301n-b1-fec/plug-mini-hdmi/dp/1708476
@@ -160,3 +144,8 @@ Raspberry Pi Camera
 -------------------
 
  - http://blog.miguelgrinberg.com/post/stream-video-from-the-raspberry-pi-camera-to-web-browsers-even-on-ios-and-android
+
+Arduino EMS
+-----------
+
+ - sourceforge.net/projects/arduems
