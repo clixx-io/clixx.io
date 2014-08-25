@@ -30,9 +30,13 @@
 
 clixxIOSerial Serial;
 
-/**
+/**********************************************************************
  * Adds a character to the input buffer
- */
+ *
+ * @param c - the character to add to the buffer
+ * @return the CRC
+ *
+ **********************************************************************/  
 void clixxIOSerial::addbufferchar(char c)
 {
 
@@ -55,9 +59,11 @@ void clixxIOSerial::addbufferchar(char c)
 
 }
 
-/**
+/**********************************************************************
+ * 
  * process the input buffer based on a full line of text
- */
+ *
+ **********************************************************************/  
 void clixxIOSerial::processcommand(void)
 {
     if (iotmode != 0){
@@ -69,10 +75,12 @@ void clixxIOSerial::processcommand(void)
 
 }
 
-/**
+/**********************************************************************
+ * 
  * Start publishing on a topic. This transmits the
  * name of the topic to the host.
- */
+ *
+ **********************************************************************/  
 int clixxIOSerial::beginPublishing(const char *topic){
 
     #ifdef TARGET_AVR
@@ -89,10 +97,12 @@ int clixxIOSerial::beginPublishing(const char *topic){
 
 }
 
-/**
+/**********************************************************************
+ * 
  * Publish an Integer value to the host. This transmits the
  * text up to the host using an escape.
- */
+ *
+ **********************************************************************/  
 int clixxIOSerial::publish(const int publishint){
 
     char buffer[10];
@@ -105,10 +115,12 @@ int clixxIOSerial::publish(const int publishint){
     return(0);
 }
 
-/**
+/**********************************************************************
+ * 
  * Publish a text value to the host. This transmits the
  * text up to the host using an escape.
- */
+ *
+ **********************************************************************/  
 int clixxIOSerial::publish(const char *publishtext){
 
     puts("!\"");

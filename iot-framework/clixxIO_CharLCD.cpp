@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2014 clixx.io
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *  * Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  * Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *  * Neither the name of the Clixx.io nor the names of its contributors 
+ *    may be used to endorse or promote products derived from this software 
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL CLIXX.IO BE LIABLE FOR ANY DIRECT, INDIRECT, 
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES LOSS OF USE, DATA, 
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #include "clixxIO.hpp"
 
 // Delay times
@@ -19,9 +46,10 @@ const int ClixxIO_i2cLCD::LCD_DATA    = 0x0F; // Data bits
 const int ClixxIO_i2cLCD::LCD_LINE_1 = 0x80;  // LCD RAM address for the 1st line
 const int ClixxIO_i2cLCD::LCD_LINE_2 = 0xC0;  // LCD RAM address for the 2nd line
 
-  /*" This class wraps control of the display and provides a simple set of
-      methods to manage output.
-  "*/
+/**********************************************************************
+ * This class wraps control of the display and provides a simple set of
+   methods to manage controlling the LCD.
+ **********************************************************************/  
 ClixxIO_i2cLCD::ClixxIO_i2cLCD(int deviceAddress, int bus){
     //" Constructor
     //"
@@ -41,10 +69,10 @@ ClixxIO_i2cLCD::ClixxIO_i2cLCD(int deviceAddress, int bus){
     device = deviceAddress;
     
 }
-  /*--------------------------------------------------------------------------
-  * Internal helpers
-  *--------------------------------------------------------------------------*/
 
+/**********************************************************************
+  * Internal helpers
+ **********************************************************************/  
  void ClixxIO_i2cLCD::_writeLCD(unsigned char value, bool cmd){
     /*
      * Write command or data to the LCD
@@ -86,6 +114,9 @@ ClixxIO_i2cLCD::ClixxIO_i2cLCD(int deviceAddress, int bus){
     sleep(DELAY);
 }
 
+/**********************************************************************
+  * _update, an internal helper
+ **********************************************************************/  
 void ClixxIO_i2cLCD::_update(){
     /* 
      * Update the display with the contents of the buffer
@@ -98,10 +129,9 @@ void ClixxIO_i2cLCD::_update(){
       _writeLCD(ch, false);
     }
 
-  // --------------------------------------------------------------------------
-  // Public API
-  // --------------------------------------------------------------------------
-
+/**********************************************************************
+  * Public API
+ **********************************************************************/  
 void ClixxIO_i2cLCD::setup()
 {
     /*  
@@ -122,6 +152,10 @@ void ClixxIO_i2cLCD::setup()
     _writeLCD(0x01, true);
 }
 
+/**********************************************************************
+  * gotoXY
+  * 
+ **********************************************************************/  
 void ClixxIO_i2cLCD::gotoXY(int x, int y){
     /*
      * Move the cursor to the given position
@@ -130,6 +164,10 @@ void ClixxIO_i2cLCD::gotoXY(int x, int y){
     where[1] = y % 2 ;
 }
 
+/**********************************************************************
+  * write
+  * 
+ **********************************************************************/  
 void ClixxIO_i2cLCD::write(const char *text){
     /*
      * Write text to the current position
@@ -143,6 +181,10 @@ void ClixxIO_i2cLCD::write(const char *text){
 	}
 }
 
+/**********************************************************************
+  * writeline
+  * 
+ **********************************************************************/  
 void ClixxIO_i2cLCD::writeline(int lineno, const char *text){
     /* 
      * Write a line of text justified
@@ -163,6 +205,10 @@ void ClixxIO_i2cLCD::writeline(int lineno, const char *text){
 	}
 }
 
+/**********************************************************************
+  * clear
+  * 
+ **********************************************************************/  
 void ClixxIO_i2cLCD::clear(){
     /* 
      * Clear the display
@@ -178,6 +224,7 @@ void ClixxIO_i2cLCD::clear(){
 /*----------------------------------------------------------------------------
  * Main program
  *----------------------------------------------------------------------------*/
+
 #include "stdio.h"
 #include "stdlib.h"
 

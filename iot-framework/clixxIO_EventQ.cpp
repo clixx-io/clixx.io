@@ -38,39 +38,40 @@
 
 void *pMainClass;
 
-/**
+/**********************************************************************
  * Setup a timer callback using the Linux Kernel
  *
  * @param interval - the number of seconds between callbacks
  * @return the CRC
- */
+ *
+ **********************************************************************/  
 int timer_setup (int interval)
 {
+  #ifdef TARGET_LINUX
 
-#ifdef TARGET_LINUX
-
-  struct itimerval itimer;
+    struct itimerval itimer;
   
-  itimer.it_interval.tv_sec = interval;
-  itimer.it_interval.tv_usec = 0;
-  itimer.it_value.tv_sec = interval;	// interval value for timer 
-  itimer.it_value.tv_usec = 0;
-  int rc = setitimer(ITIMER_REAL, &itimer,0);
-  signal(SIGALRM,timer_wakeup); 		// set the Alarm signal capture 
+    itimer.it_interval.tv_sec = interval;
+    itimer.it_interval.tv_usec = 0;
+    itimer.it_value.tv_sec = interval;	// interval value for timer 
+    itimer.it_value.tv_usec = 0;
+    int rc = setitimer(ITIMER_REAL, &itimer,0);
+    signal(SIGALRM,timer_wakeup); 		// set the Alarm signal capture 
   
-  return rc;
-#else
-  return 1;
-#endif
+    return rc;
+  #else
+    return 1;
+  #endif
  
 }
 
-/**
+/**********************************************************************
  * Handle a repeating interrupt using the Linux
  * Kernel
  *
  * @param interval	- The time in seconds between callbacks
- */
+ *
+ **********************************************************************/  
 void timer_wakeup (int interval)
 {
 
@@ -83,13 +84,14 @@ void timer_wakeup (int interval)
    
 }
 
-/**
+/**********************************************************************
  * Linux Exit function for termination signals.
  * 
  * This is called when the system has been notified that it must close down.
  *
  * @param i - Passed in by the Linux Kernel
- */
+ *
+ **********************************************************************/  
 void exit_func (int i)
 {
 
@@ -103,38 +105,41 @@ void exit_func (int i)
     exit(0);
 }
 
-/**
+/**********************************************************************
+ * 
  * Application Constructor
  * 
- */
+ **********************************************************************/  
 clixxIOApp::clixxIOApp()
 {
-  
+ 
     // Initialise this variable
     setMainAppPtr((void *) this);
   
-#ifdef TARGET_LINUX
-    // Setup a signal handler for exit
-    signal(SIGINT,exit_func);
-#endif
+    #ifdef TARGET_LINUX
+      // Setup a signal handler for exit
+      signal(SIGINT,exit_func);
+    #endif
   
 }
 
-/**
+/**********************************************************************
+ * 
  * Application Destructor
  * 
- */
+ **********************************************************************/  
 clixxIOApp::~clixxIOApp()
 {
   
 }
 
-/**
+/**********************************************************************
+ * 
  * Main method for allowing running the user to
  * run the application. All events are processed
  * here and sent to the application.
- *
- */
+ * 
+ **********************************************************************/  
 int clixxIOApp::run()
 {
 
@@ -170,12 +175,14 @@ int clixxIOApp::run()
   return 0;
 }
 
-/**
+/**********************************************************************
+ * 
  * Set the object address of the App class in main() 
  * Pointer to the address of the Users Application Object
  *
  * @param mainClass - pointer to the users Main App class
- */
+ * 
+ **********************************************************************/  
 void setMainAppPtr(void *mainClass)
 {
   pMainClass = mainClass;
@@ -183,25 +190,30 @@ void setMainAppPtr(void *mainClass)
   printf("MainClass set to %p\n",mainClass);
 }
 
-/**
+/**********************************************************************
+ * 
  * Setup a callback to a users looping event.
  * This will be called repeatedly from within
  * the application loop.
  *
  * @param function 	Pointer to the method to be called
  * @return 
- */
+ * 
+ **********************************************************************/  
 int addLoopEvent(void (*function)(int))
 {
     return 0;
 }
 
-/**
+/**********************************************************************
+ * 
  * Adds a Timer callback method to the callbacks.
  *
  * @param secs	the number of seconds between events
  * @return the CRC
- */
+ *
+ * 
+ **********************************************************************/  
 int addTimerEvent(int secs, void (*function)())
 {
   
@@ -209,53 +221,45 @@ int addTimerEvent(int secs, void (*function)())
   
 }
 
-/**
+/**********************************************************************
+ * 
  * Setup a callback to a users IoT Subscrive event.
  * This will be called whenever an IoT packet is received
  * for a particular topic.
  *
  * @param function 	Pointer to the method to be called
  * @return 
- */
+ * 
+ **********************************************************************/  
 int addIoTSubEvent(const char *topic, void (*function)(void))
 {
     #ifdef TARGET_AVR
-    if (pMainClass = 0)
+      if (pMainClass = 0)
         return(-1);
-    
-    clixxIOApp *app = (clixxIOApp *) pMainClass;
-    
-    app->IoT.begin();
-    
-    app->IoT.echo = app->IoT.linemode = (unsigned char) 0x01; 
-    // app->IoT.iotmode = 1;
 
-    app->IoT.write('#');
-    app->IoT.puts(topic);
-    app->IoT.write('\r');
+      clixxIOApp *app = (clixxIOApp *) pMainClass;
+
+      app->IoT.begin();
+
+      app->IoT.echo = app->IoT.linemode = (unsigned char) 0x01; 
+
+      app->IoT.write('#');
+      app->IoT.puts(topic);
+      app->IoT.write('\r');
     #endif
     
     return 0;
 }
 
-/**
+/**********************************************************************
+ * 
  * Adds a PinChange callback method to the callbacks.
  *
  * @param length	the length of the data string
  * @return the CRC
- */
+ * 
+ **********************************************************************/  
 int addPinChangeEvent(int pin, int changetype, void (*function)())
-{
-    return 1;
-}
-
-/**
- * Adds a SerialInterrupt callback method to the callbacks.
- *
- * @param length	the length of the data string
- * @return the CRC
- */
-int addSerialInterruptEvent(int secs, void (*function)())
 {
     return 1;
 }
