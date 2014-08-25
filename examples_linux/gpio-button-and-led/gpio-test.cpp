@@ -49,7 +49,7 @@ int main (void)
                 cout << "input pin state is definitely \"UnPressed\". That was just noise." <<endl;
  
         }
-        button1->setval_gpio("0");
+        led1->setval_gpio("0");
         i++;
     }
 
