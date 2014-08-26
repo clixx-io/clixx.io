@@ -24,6 +24,7 @@ CFLAGS += -fpic -Wall -g -Os -DTARGET_LINUX
 LDFLAGS += -lstdc++ -lmosquittopp
 OBJS = $(PROGRAM).o
 SRC = core_Linux
+DEVICES = devices
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifneq ($(V),1)
@@ -62,8 +63,8 @@ clixxIO_mosquitto_Linux.o: $(SRC)/clixxIO_mosquitto.cpp clixxIO.hpp
 clixxIO_I2C_Linux.o: $(SRC)/clixxIO_I2C.cpp
 	$(CC) -c $(CFLAGS) -o clixxIO_I2C_Linux.o -I ./ $(SRC)/clixxIO_I2C.cpp
 
-clixxIO_CharLCD.o: clixxIO_CharLCD.cpp
-	$(CC) -c $(CFLAGS) -o clixxIO_CharLCD.o -I ./ clixxIO_CharLCD.cpp
+clixxIO_CharLCD.o: $(DEVICES)/clixxIO_CharLCD.cpp
+	$(CC) -c $(CFLAGS) -o clixxIO_CharLCD.o -I ./ $(DEVICES)/clixxIO_CharLCD.cpp
 
 # Clean all temporary files
 clean:

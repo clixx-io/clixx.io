@@ -44,26 +44,26 @@ using namespace std;
  * Purpose: Each object instatiated from this class will control a GPIO pin
  * The GPIO pin number must be passed to the overloaded class constructor
  */
-class GPIOClass
+class GPIOPin
 {
 public:
-	GPIOClass();
-	GPIOClass(string gnum);
-	~GPIOClass();
-    int setdir_gpio(string dir);
-    int setval_gpio(string val);
-    int getval_gpio(string& val);
-    string get_gpionum();
+    GPIOPin();
+    GPIOPin(string gnum);
+    ~GPIOPin();
+    int setdir(string dir);
+    int setval(string val);
+    int getval(string& val);
+    string getpinnumber();
 private:
-    int export_gpio();
-	int unexport_gpio();
-	
-	int valuefd;
-	int directionfd;
-	int exportfd;
-	int unexportfd;
-	string gpionum;
-	
+    int exportpin();
+    int unexportpin();
+
+    int valuefd;
+    int directionfd;
+    int exportfd;
+    int unexportfd;
+    string _gpionum;
+
 };
 
 #endif
