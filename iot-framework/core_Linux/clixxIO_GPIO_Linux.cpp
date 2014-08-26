@@ -36,10 +36,10 @@ using namespace std;
  * valuefd
  *
  **********************************************************************/  
-GPIOPin::GPIOPin(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1),gpionum(gnum)
+GPIOPin::GPIOPin(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1),_gpionum(gnum)
 {
     // Instatiate GPIOPin object for GPIO pin number "gnum"
-    this->export_gpio();
+    this->exportpin();
 }
 
 /**********************************************************************
@@ -48,14 +48,14 @@ GPIOPin::GPIOPin(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexportf
  **********************************************************************/  
 GPIOPin::~GPIOPin()
 {
-    this->unexport_gpio();
+    this->unexportpin();
 }
 
 /**********************************************************************
  * export_gpio
  *
  **********************************************************************/  
-int GPIOPin::export_gpio()
+int GPIOPin::exportpin()
 {
     int statusVal = -1;
     string exportStr = "/sys/class/gpio/export";
@@ -66,7 +66,7 @@ int GPIOPin::export_gpio()
     }
 
     stringstream ss;
-    ss << this->gpionum;
+    ss << this->_gpionum;
     string numStr = ss.str();
     statusVal = write(this->exportfd, numStr.c_str(), numStr.length());
     if (statusVal < 0){
@@ -87,7 +87,7 @@ int GPIOPin::export_gpio()
  * unexport_gpio
  *
  **********************************************************************/  
-int GPIOPin::unexport_gpio()
+int GPIOPin::unexportpin()
 {
     int statusVal = -1;
     string unexportStr = "/sys/class/gpio/unexport";
@@ -98,7 +98,7 @@ int GPIOPin::unexport_gpio()
     }
 
     stringstream ss;
-    ss << this->gpionum;
+    ss << this->_gpionum;
     string numStr = ss.str();
     statusVal = write(this->unexportfd, numStr.c_str(), numStr.length());
     if (statusVal < 0){
@@ -116,13 +116,13 @@ int GPIOPin::unexport_gpio()
 }
 
 /**********************************************************************
- * setdir_gpio
+ * setdir
  *
  **********************************************************************/  
-int GPIOPin::setdir_gpio(string dir)
+int GPIOPin::setdir(string dir)
 {
     int statusVal = -1;
-    string setdirStr ="/sys/class/gpio/gpio" + this->gpionum + "/direction";
+    string setdirStr ="/sys/class/gpio/gpio" + this->_gpionum + "/direction";
 
     this->directionfd = statusVal = open(setdirStr.c_str(), O_WRONLY|O_SYNC); // open direction file for gpio
     if (statusVal < 0){
@@ -151,14 +151,14 @@ int GPIOPin::setdir_gpio(string dir)
 }
 
 /**********************************************************************
- * setval_gpio
+ * setval
  *
  **********************************************************************/  
-int GPIOPin::setval_gpio(string val)
+int GPIOPin::setval(string val)
 {
 
     int statusVal = -1;
-    string setValStr = "/sys/class/gpio/gpio" + this->gpionum + "/value";
+    string setValStr = "/sys/class/gpio/gpio" + this->_gpionum + "/value";
 
     this->valuefd = statusVal = open(setValStr.c_str(), O_WRONLY|O_SYNC);
     if (statusVal < 0){
@@ -187,12 +187,12 @@ int GPIOPin::setval_gpio(string val)
 }
 
 /**********************************************************************
- * getval_gpio
+ * getval
  *
  **********************************************************************/  
-int GPIOPin::getval_gpio(string& val){
+int GPIOPin::getval(string& val){
 
-    string getValStr = "/sys/class/gpio/gpio" + this->gpionum + "/value";
+    string getValStr = "/sys/class/gpio/gpio" + this->_gpionum + "/value";
     char buff[10];
     int statusVal = -1;
     this->valuefd = statusVal = open(getValStr.c_str(), O_RDONLY|O_SYNC);
@@ -227,11 +227,11 @@ int GPIOPin::getval_gpio(string& val){
 }
 
 /**********************************************************************
- * get_gpionum
+ * getnum
  *
  **********************************************************************/  
-string GPIOPin::get_gpionum(){
+string GPIOPin::getpinnumber(){
 
-    return this->gpionum;
+    return this->_gpionum;
 
 }
