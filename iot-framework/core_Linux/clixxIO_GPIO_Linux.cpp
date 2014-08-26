@@ -1,3 +1,32 @@
+ /* ===============================================================================
+ * 
+ * Copyright (c) 2014 clixx.io
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *  * Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  * Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *  * Neither the name of the Clixx.io nor the names of its contributors 
+ *    may be used to endorse or promote products derived from this software 
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL CLIXX.IO BE LIABLE FOR ANY DIRECT, INDIRECT, 
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES LOSS OF USE, DATA, 
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ =================================================================================
+ */
 
 #include "clixxIO_GPIO.h"
 
@@ -7,9 +36,9 @@ using namespace std;
  * valuefd
  *
  **********************************************************************/  
-GPIOClass::GPIOClass(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1),gpionum(gnum)
+GPIOPin::GPIOPin(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1),gpionum(gnum)
 {
-    // Instatiate GPIOClass object for GPIO pin number "gnum"
+    // Instatiate GPIOPin object for GPIO pin number "gnum"
     this->export_gpio();
 }
 
@@ -17,7 +46,7 @@ GPIOClass::GPIOClass(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexp
  * valuefd
  *
  **********************************************************************/  
-GPIOClass::~GPIOClass()
+GPIOPin::~GPIOPin()
 {
     this->unexport_gpio();
 }
@@ -26,7 +55,7 @@ GPIOClass::~GPIOClass()
  * export_gpio
  *
  **********************************************************************/  
-int GPIOClass::export_gpio()
+int GPIOPin::export_gpio()
 {
     int statusVal = -1;
     string exportStr = "/sys/class/gpio/export";
@@ -58,7 +87,7 @@ int GPIOClass::export_gpio()
  * unexport_gpio
  *
  **********************************************************************/  
-int GPIOClass::unexport_gpio()
+int GPIOPin::unexport_gpio()
 {
     int statusVal = -1;
     string unexportStr = "/sys/class/gpio/unexport";
@@ -90,7 +119,7 @@ int GPIOClass::unexport_gpio()
  * setdir_gpio
  *
  **********************************************************************/  
-int GPIOClass::setdir_gpio(string dir)
+int GPIOPin::setdir_gpio(string dir)
 {
     int statusVal = -1;
     string setdirStr ="/sys/class/gpio/gpio" + this->gpionum + "/direction";
@@ -125,7 +154,7 @@ int GPIOClass::setdir_gpio(string dir)
  * setval_gpio
  *
  **********************************************************************/  
-int GPIOClass::setval_gpio(string val)
+int GPIOPin::setval_gpio(string val)
 {
 
     int statusVal = -1;
@@ -161,7 +190,7 @@ int GPIOClass::setval_gpio(string val)
  * getval_gpio
  *
  **********************************************************************/  
-int GPIOClass::getval_gpio(string& val){
+int GPIOPin::getval_gpio(string& val){
 
     string getValStr = "/sys/class/gpio/gpio" + this->gpionum + "/value";
     char buff[10];
@@ -201,7 +230,7 @@ int GPIOClass::getval_gpio(string& val){
  * get_gpionum
  *
  **********************************************************************/  
-string GPIOClass::get_gpionum(){
+string GPIOPin::get_gpionum(){
 
     return this->gpionum;
 
