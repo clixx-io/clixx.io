@@ -34,8 +34,9 @@ endif
 all: $(LIBRARY).a
 
 # The library gets built and the filename shows the target platform
-$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_mosquitto_Linux.o clixxIO_Serial_Linux.o LinuxSerial.o clixxIO_GPIO_Linux.o
-	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_I2C_Linux.o clixxIO_mosquitto_Linux.o LinuxSerial.o clixxIO_GPIO_Linux.o
+$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_mosquitto_Linux.o clixxIO_Serial_Linux.o LinuxSerial.o \
+ clixxIO_GPIO_Linux.o minIni.o
+	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_I2C_Linux.o clixxIO_mosquitto_Linux.o LinuxSerial.o clixxIO_GPIO_Linux.o minIni.o
 
 %.o: %.c
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
@@ -65,6 +66,9 @@ clixxIO_I2C_Linux.o: $(SRC)/clixxIO_I2C.cpp
 
 clixxIO_CharLCD.o: $(DEVICES)/clixxIO_CharLCD.cpp
 	$(CC) -c $(CFLAGS) -o clixxIO_CharLCD.o -I ./ $(DEVICES)/clixxIO_CharLCD.cpp
+
+minIni.o: minIni.c
+	$(CC) -c $(CFLAGS) -o minIni.o -I ./ minIni.c
 
 # Clean all temporary files
 clean:
