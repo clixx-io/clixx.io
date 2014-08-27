@@ -29,3 +29,10 @@ To read from the button, we read its value:
 
     button1->getval(inputstate); //read state of GPIO17 input pin
 
+Finally, when everything is done, you need to delete the object which disconnects
+internally from the GPIO:
+
+    cout << "Releasing heap memory and exiting....." << endl;
+    delete button1;
+    delete led1;
+
