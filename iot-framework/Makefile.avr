@@ -30,6 +30,7 @@ OBJCOPY = avr-objcopy
 CFLAGS += -Wall -g -Os -fpic -mmcu=$(MCU) -DTARGET_AVR -DF_CPU=$(F_CPU) -I./
 LDFLAGS +=
 OBJS = $(PROGRAM).o
+DEVICES = devices
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
 ifneq ($(V),1)
@@ -39,9 +40,10 @@ endif
 all: ../lib $(LIBRARY).a
 
 ifeq ($(MCU),attiny85)
-$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o \
-              clixxIO_SoftSerial_$(MCU).o  clixxIO_softuart_AVR_$(MCU).o 
-	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_SoftSerial_$(MCU).o clixxIO_softuart_AVR_$(MCU).o $(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Analog_AVR_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o \
+              clixxIO_Timers_AVR_$(MCU).o  clixxIO_softserial_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_LM335A_AVR_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_softserial_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o clixxIO_LM335A_AVR_$(MCU).o
 else
 $(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o \
               clixxIO_AVRSerial_$(MCU).o 
@@ -63,8 +65,8 @@ $(PROGRAM).hex: $(PROGRAM).elf
 clixxIO_EventQ_AVR_$(MCU).o: clixxIO_EventQ.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_AVR_$(MCU).o clixxIO_EventQ.cpp
 
-clixxIO_SoftSerial_$(MCU).o: core_AVR/clixxIO_SoftSerial.cpp clixxIO.hpp core_AVR/softuart.h
-	$(CC) -c $(CFLAGS) -o clixxIO_SoftSerial_$(MCU).o core_AVR/clixxIO_SoftSerial.cpp
+clixxIO_softserial_$(MCU).o: core_AVR/clixxIO_softserial.cpp clixxIO.hpp core_AVR/softuart.h
+	$(CC) -c $(CFLAGS) -o clixxIO_softserial_$(MCU).o core_AVR/clixxIO_softserial.cpp
    
 clixxIO_softuart_AVR_$(MCU).o: core_AVR/softuart.c clixxIO.hpp core_AVR/softuart.h
 	$(CC) -c $(CFLAGS) -o clixxIO_softuart_AVR_$(MCU).o core_AVR/softuart.c
@@ -83,6 +85,9 @@ clixxIO_Timers_AVR_$(MCU).o: core_AVR/clixxIO_Timers.cpp clixxIO.hpp
 
 clixxIO_Serial_AVR_$(MCU).o: clixxIO_Serial.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_Serial_AVR_$(MCU).o clixxIO_Serial.cpp
+
+clixxIO_LM335A_AVR_$(MCU).o: $(DEVICES)/clixxIO_Temp-LM335A.cpp clixxIO.hpp $(DEVICES)/clixxIO_Temp-LM335A.h
+	$(CC) -c $(CFLAGS) -o clixxIO_LM335A_AVR_$(MCU).o $(DEVICES)/clixxIO_Temp-LM335A.cpp
 
 ../lib: 
 	@printf "  CREATE ../lib\n"

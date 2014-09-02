@@ -18,8 +18,8 @@ PROGRAM = analogsensor
 MCU = attiny85
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../../eventframework -DTARGET_AVR
-LDFLAGS += -L ../../eventframework -l clixxIO_AVR_$(MCU)
+CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../../iot-framework -DTARGET_AVR
+LDFLAGS += -L ../../iot-framework -l clixxIO_AVR_$(MCU)
 OBJS = $(PROGRAM).o
 
 CFLAGS += -Wall -g -Os -mmcu=$(MCU) 
@@ -56,10 +56,10 @@ $(PROGRAM).hex: $(PROGRAM).elf
 
 deploy: $(PROGRAM).hex
 	@printf "  FLASH   $(PROGRAM).hex\n"
-	$(Q)avrdude -c avrispv2 -P usb -p $(DUDEMCU) -U flash:w:$(PROGRAM).hex
+	$(Q)avrdude -c usbasp -P usb -p $(DUDEMCU) -U flash:w:$(PROGRAM).hex
 
 fuses:
-	#(Q)avrdude -p $(DUDEMCU) -P usb -c avrispmkii $(MCUFUSES) 
+	#(Q)avrdude -p $(DUDEMCU) -c avrispmkii -P usb $(MCUFUSES) 
     
 clean:
 	@printf "  CLEAN   $(subst $(shell pwd)/,,$(OBJS))\n"

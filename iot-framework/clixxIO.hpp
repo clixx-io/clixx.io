@@ -25,6 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <stdlib.h>
+
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 
   #include <windows.h>
@@ -102,6 +104,8 @@ void C_iotclose( void* appC);
 extern void *pMainClass;
 void setMainAppPtr(void *mainClass);
 
+extern char *dec(unsigned x, char *s);
+
 #include <inttypes.h>
 // #include "Stream.h"
 
@@ -133,6 +137,13 @@ class clixxIOSerial
     virtual void flush(void);
     int write(const char);
     int puts(const char *);
+
+    inline void print(const char c){ write(c); };
+    inline void print(const char *s){ puts(s); };
+    inline void print(const int i){ char buf[10]; char *b=dec(i, (char *) &buf); puts((char *) b); };
+    // inline int print(const float f){static char buf[10]; sprintf(buf, "%.2f", f); puts(buf)};
+    void println(const char *);
+    void println(const float f);
     
     const char *lastline() { return (const char *) &linebuffer; };
     
@@ -263,16 +274,17 @@ class clixxIOApp{
  * GPIO/Pin Functions. Inspired by Wiring
  *
  * ------------------------------------------------------------------------*/
-void pinMode(int pin, int value);
-void digitalWrite(int pin, int value);
-int  digitalRead(int pin);
-void analogWrite(int pin, int value);
-int  analoglRead(int pin);
-
 #define OUTPUT 1
 #define INPUT  0
 #define HIGH   1
 #define LOW    0
+
+void pinMode(int pin, int value);
+void digitalWrite(int pin, int value);
+int  digitalRead(int pin);
+void analogWrite(int pin, int value);
+int  analogRead(int pin);
+/* ------------------------------------------------------------------------*/
 
 #if defined(TARGET_AVR)  	/* presume Attiny85 */
 
@@ -286,6 +298,9 @@ int  analoglRead(int pin);
   #define D2_I PB2
   #define D2_O PB1
   #define D2_S PB5
+
+  #define PIN_A1i PB4
+  #define PIN_A1o PB2
 
   // Some methods to quickly return  
   int getInputPin(int portname);

@@ -3,7 +3,8 @@
   Copyright (c) 2010 Jonathan Merrill.  All right reserved.
   http://www.greenrobotics.net
 */
-#include "LM335A.h"
+#include "clixxIO.hpp"
+#include "clixxIO_Temp-LM335A.h"
 
 LM335A::LM335A(int pin)
 {
@@ -22,15 +23,15 @@ void LM335A::ReadTemp()
 
 float LM335A::Fahrenheit() const
 {
-	return(_Fahrenheit);
+  return(_Fahrenheit);
 }
 
 float LM335A::Celsius() const
 {
-	return(_Celsius);
+  return(_Celsius);
 }
 
 float LM335A::Kelvin() const
 {
-	return(_Kelvin);
+  return(_Kelvin);
 }

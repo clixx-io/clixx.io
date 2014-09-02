@@ -19,7 +19,7 @@ MCU = attiny85
 CC = avr-gcc
 OBJCOPY = avr-objcopy
 CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../../eventframework
-LDFLAGS += ../../eventframework/clixxIO_AVR_$(MCU).a
+LDLIBS += -L ../libraries -static -l clixxIO_AVR_$(MCU)
 OBJS = $(PROGRAM).o
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
