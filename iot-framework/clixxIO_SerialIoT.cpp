@@ -66,7 +66,7 @@ int ClixxIO_IoTSub::connect(){
  * @param id - Worker Identifier
  *
  **********************************************************************/  
-int ClixxIO_IoTSub::subscribe(const char* topic){
+int ClixxIO_IoTSub::subscribeto(const char* topic){
 
     return(0);
 }

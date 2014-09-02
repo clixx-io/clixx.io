@@ -77,8 +77,8 @@ void pinMode(int pin, int value){
 */
 void digitalWrite(int pin, int value){
     
-	if (value){
-		PORTB |= (1 << pin);   		// Turn pin on
+    if (value){
+        PORTB |= (1 << pin);   		// Turn pin on
     } else {
         PORTB &= ~(1 << pin);    	// else Turn pin off
     }
@@ -118,7 +118,7 @@ int analogRead(int pin){
 */
 int clixxIO_Button::pressed(){	  
 
-	return adcRead(ADC0, 1, 3);
+    // return adcRead(_gpiopin);
     
 }
 
@@ -128,9 +128,10 @@ int clixxIO_Button::pressed(){
 * 
 */
 int clixxIO_Switch::On(){
+    
     digitalWrite(_gpiopin, HIGH);
 
-	PORTB |= (1<<_gpiopin);    		// Else turn pin on
+    PORTB |= (1<<_gpiopin);    		// Else turn pin on
 
     return(0);
 }

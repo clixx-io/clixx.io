@@ -18,8 +18,8 @@ PROGRAM = tempsensor
 MCU = attiny85
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -mmcu=$(MCU) -I../../eventframework
-LDFLAGS += -L ../libraries -l clixxIO_AVR_$(MCU)
+CFLAGS += -Wall -g -Os -DTARGET_AVR -mmcu=$(MCU) -I../../iot-framework
+LDFLAGS += -L ../../iot-framework -l clixxIO_AVR_$(MCU)
 OBJS = $(PROGRAM).o
 
 CFLAGS += -Wall -g -Os -mmcu=$(MCU) 
@@ -56,7 +56,7 @@ $(PROGRAM).hex: $(PROGRAM).elf
 
 deploy: $(PROGRAM).hex
 	@printf "  FLASH   $(PROGRAM).hex\n"
-	$(Q)avrdude -c avrispv2 -P usb -p $(DUDEMCU) -U flash:w:$(PROGRAM).hex
+	$(Q)avrdude -c usbasp -P usb -p $(DUDEMCU) -U flash:w:$(PROGRAM).hex
 
 fuses:
 	#(Q)avrdude -p $(DUDEMCU) -P usb -c avrispmkii $(MCUFUSES) 

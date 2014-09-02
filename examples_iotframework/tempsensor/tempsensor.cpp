@@ -9,7 +9,10 @@
 #include "clixxIO.hpp"
 #include "tempsensor-config.hpp"
 
-#include "clixxIO_Temp-LM335A.h"
+#include "devices/clixxIO_Temp-LM335A.h"
+
+#define F_CPU 8000000UL
+#include <util/delay.h>
 
 LM335A InsideTemp(0); //pass the analog input pin number
 
@@ -25,8 +28,9 @@ class App : public clixxIOApp{
 
         */
         Debug.puts("Application in Startup event");
-        Serial.begin(115200);
-        Serial.println("starting");
+        
+        IoT.begin();
+        IoT.puts("starting");
 
     };
 
@@ -41,7 +45,7 @@ class App : public clixxIOApp{
 
     void loop() {
 
-        delay(3000);
+        _delay_ms(3000);
         //user must call ReadTemp before any valid temp data is available
         InsideTemp.ReadTemp();  
         Serial.print("Fahrenheit: ");

@@ -268,3 +268,20 @@ int addPinChangeEvent(int pin, int changetype, void (*function)())
     return 1;
 }
 
+/**********************************************************************
+ * 
+ * An efficient routine to convert a decimal to a string
+ *
+ * @param Unsigned to convert
+ * @param Pointer to the end of the string
+ * 
+ * @return the CRC
+ * 
+ **********************************************************************/  
+char *dec(unsigned x, char *s)
+{
+    *--s = 0;
+    if (!x) *--s = '0';
+    for (; x; x/=10) *--s = '0'+x%10;
+    return s;
+}
