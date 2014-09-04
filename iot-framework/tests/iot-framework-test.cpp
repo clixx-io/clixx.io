@@ -1,9 +1,9 @@
 #include "cpptest.h"
 
-class SomeTestSuite: public Test::Suite
+class clixxIOTestSuite: public Test::Suite
 {
 public:
-    SomeTestSuite() { TEST_ADD(SomeTestSuite::test) }
+    clixxIOTestSuite() { TEST_ADD(clixxIOTestSuite::test) }
 private:
     void test()
     {
@@ -20,7 +20,7 @@ private:
 
 bool run_tests()
 {
-    SomeTestSuite sts;
+    clixxIOTestSuite sts;
     Test::TextOutput output(Test::TextOutput::Verbose);
     return sts.run(output, false); // Note the 'false' parameter
 }
