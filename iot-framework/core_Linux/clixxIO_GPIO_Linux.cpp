@@ -29,6 +29,7 @@
  */
 
 #include "clixxIO_GPIO.h"
+#include "minIni.h"
 
 using namespace std;
 
@@ -61,7 +62,7 @@ int GPIOPin::exportpin()
     string exportStr = "/sys/class/gpio/export";
     this->exportfd = statusVal = open(exportStr.c_str(),  O_WRONLY|O_SYNC);
     if (statusVal < 0){
-        perror("could not open SYSFS GPIO export device");
+        perror("Error - Could not open SYSFS GPIO export device");
         return(-1);
     }
 
@@ -70,13 +71,13 @@ int GPIOPin::exportpin()
     string numStr = ss.str();
     statusVal = write(this->exportfd, numStr.c_str(), numStr.length());
     if (statusVal < 0){
-        perror("could not write to SYSFS GPIO export device");
+        perror("Error - Could not write to SYSFS GPIO export device");
         return(-1);
     }
 
     statusVal = close(this->exportfd);
     if (statusVal < 0){
-        perror("could not close SYSFS GPIO export device");
+        perror("Error - Could not close SYSFS GPIO export device");
         return(-1);
     }
 
@@ -93,7 +94,7 @@ int GPIOPin::unexportpin()
     string unexportStr = "/sys/class/gpio/unexport";
     this->unexportfd = statusVal = open(unexportStr.c_str(),  O_WRONLY|O_SYNC);
     if (statusVal < 0){
-        perror("could not open SYSFS GPIO unexport device");
+        perror("Error - Could not open SYSFS GPIO unexport device");
         return(-1);
     }
 
@@ -102,13 +103,13 @@ int GPIOPin::unexportpin()
     string numStr = ss.str();
     statusVal = write(this->unexportfd, numStr.c_str(), numStr.length());
     if (statusVal < 0){
-        perror("could not write to SYSFS GPIO unexport device");
+        perror("Error - Could not write to SYSFS GPIO unexport device");
         return(-1);
     }
 
     statusVal = close(this->unexportfd);
     if (statusVal < 0){
-        perror("could not close SYSFS GPIO unexport device");
+        perror("Error - Could not close SYSFS GPIO unexport device");
         return(-1);
     }
 
@@ -126,24 +127,24 @@ int GPIOPin::setdir(string dir)
 
     this->directionfd = statusVal = open(setdirStr.c_str(), O_WRONLY|O_SYNC); // open direction file for gpio
     if (statusVal < 0){
-        perror("could not open SYSFS GPIO direction device");
+        perror("Error - Could not open SYSFS GPIO direction device");
         return(-1);
     }
 
     if (dir.compare("in") != 0 && dir.compare("out") != 0 ) {
-        fprintf(stderr, "Invalid direction value. Should be \"in\" or \"out\". \n");
+        fprintf(stderr, "Error: Invalid direction value. Should be \"in\" or \"out\". \n");
         return(-1);
     }
 
     statusVal = write(this->directionfd, dir.c_str(), dir.length());
     if (statusVal < 0){
-        perror("could not write to SYSFS GPIO direction device");
+        perror("Error - Could not write to SYSFS GPIO direction device");
         return(-1);
     }
 
     statusVal = close(this->directionfd);
     if (statusVal < 0){
-        perror("could not close SYSFS GPIO direction device");
+        perror("Error - Could not close SYSFS GPIO direction device");
         return(-1);
     }
 
@@ -162,24 +163,24 @@ int GPIOPin::setval(string val)
 
     this->valuefd = statusVal = open(setValStr.c_str(), O_WRONLY|O_SYNC);
     if (statusVal < 0){
-        perror("could not open SYSFS GPIO value device");
+        perror("Error - Could not open SYSFS GPIO value device");
         return(-1);
     }
 
     if (val.compare("1") != 0 && val.compare("0") != 0 ) {
-        fprintf(stderr, "Invalid  value. Should be \"1\" or \"0\". \n");
+        fprintf(stderr, "Error: Invalid  value. Should be \"1\" or \"0\". \n");
         return(-1);
     }
     
     statusVal = write(this->valuefd, val.c_str(), val.length());
     if (statusVal < 0){
-        perror("could not write to SYSFS GPIO value device");
+        perror("Error - Could not write to SYSFS GPIO value device");
         return(-1);
     }
 
     statusVal = close(this->valuefd);
     if (statusVal < 0){
-        perror("could not close SYSFS GPIO value device");
+        perror("Error - Could not close SYSFS GPIO value device");
         return(-1);
     }
 
@@ -197,14 +198,14 @@ int GPIOPin::getval(string& val){
     int statusVal = -1;
     this->valuefd = statusVal = open(getValStr.c_str(), O_RDONLY|O_SYNC);
     if (statusVal < 0){
-        perror("could not open SYSFS GPIO value device");
+        perror("Error - Could not open SYSFS GPIO value device");
         return(-1);
     }
 
     statusVal = read(this->valuefd, &buff, 1);
     if (statusVal < 0)
     {
-        perror("could not read SYSFS GPIO value device");
+        perror("Error - Could not read SYSFS GPIO value device");
         return(-1);
     }
 
@@ -213,13 +214,13 @@ int GPIOPin::getval(string& val){
     val = string(buff);
 
     if (val.compare("1") != 0 && val.compare("0") != 0 ) {
-        fprintf(stderr, "Invalid  value read. Should be \"1\" or \"0\". \n");
+        fprintf(stderr, "Error: Invalid  value read. Should be \"1\" or \"0\". \n");
         return(-1);
     }
 
     statusVal = close(this->valuefd);
     if (statusVal < 0){
-        perror("could not close SYSFS GPIO value device");
+        perror("Error - Could not close SYSFS GPIO value device");
         return(-1);
     }
 
