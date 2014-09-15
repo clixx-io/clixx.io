@@ -30,8 +30,11 @@
 
 #include "clixxIO.hpp"
 #include <cctype>
+#include "minIni.h"
 
 using namespace std;
+
+#define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
 
 /**********************************************************************
  * valuefd
@@ -45,6 +48,9 @@ clixxIOGPIOPin::clixxIOGPIOPin(string gnum):valuefd(-1),directionfd(-1),exportfd
 
 clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1)
 {
+  char str[100];
+  const char inifile[] = "program.ini";
+  
   if (logicalname == 0)
       return;
       
@@ -54,8 +60,13 @@ clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname):valuefd(-1),directionfd(
       _gpionum = logicalname;
       
   } else {
-      // Use the Logical name, load from the configuration
+
+      // Read the pin assignment from the configuration file
+      ini_gets("connections:linux",logicalname, "d1i", str, sizearray(str), inifile);
       
+      // Just print that for now
+      perror(str);
+
   }
    
 }
