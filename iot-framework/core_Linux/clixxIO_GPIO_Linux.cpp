@@ -28,8 +28,8 @@
  =================================================================================
  */
 
-#include "clixxIO_GPIO.h"
-#include "minIni.h"
+#include "clixxIO.hpp"
+#include <cctype>
 
 using namespace std;
 
@@ -37,17 +37,34 @@ using namespace std;
  * valuefd
  *
  **********************************************************************/  
-GPIOPin::GPIOPin(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1),_gpionum(gnum)
+clixxIOGPIOPin::clixxIOGPIOPin(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1),_gpionum(gnum)
 {
-    // Instatiate GPIOPin object for GPIO pin number "gnum"
+    // Instatiate clixxIOGPIOPin object for GPIO pin number "gnum"
     this->exportpin();
+}
+
+clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1)
+{
+  if (logicalname == 0)
+      return;
+      
+  if (isdigit(*logicalname))
+  {
+      // Use the pin number
+      _gpionum = logicalname;
+      
+  } else {
+      // Use the Logical name, load from the configuration
+      
+  }
+   
 }
 
 /**********************************************************************
  * valuefd
  *
  **********************************************************************/  
-GPIOPin::~GPIOPin()
+clixxIOGPIOPin::~clixxIOGPIOPin()
 {
     this->unexportpin();
 }
@@ -56,7 +73,7 @@ GPIOPin::~GPIOPin()
  * export_gpio
  *
  **********************************************************************/  
-int GPIOPin::exportpin()
+int clixxIOGPIOPin::exportpin()
 {
     int statusVal = -1;
     string exportStr = "/sys/class/gpio/export";
@@ -88,7 +105,7 @@ int GPIOPin::exportpin()
  * unexport_gpio
  *
  **********************************************************************/  
-int GPIOPin::unexportpin()
+int clixxIOGPIOPin::unexportpin()
 {
     int statusVal = -1;
     string unexportStr = "/sys/class/gpio/unexport";
@@ -120,7 +137,7 @@ int GPIOPin::unexportpin()
  * setdir
  *
  **********************************************************************/  
-int GPIOPin::setdir(string dir)
+int clixxIOGPIOPin::setdir(string dir)
 {
     int statusVal = -1;
     string setdirStr ="/sys/class/gpio/gpio" + this->_gpionum + "/direction";
@@ -155,7 +172,7 @@ int GPIOPin::setdir(string dir)
  * setval
  *
  **********************************************************************/  
-int GPIOPin::setval(string val)
+int clixxIOGPIOPin::setval(string val)
 {
 
     int statusVal = -1;
@@ -191,7 +208,7 @@ int GPIOPin::setval(string val)
  * getval
  *
  **********************************************************************/  
-int GPIOPin::getval(string& val){
+int clixxIOGPIOPin::getval(string& val){
 
     string getValStr = "/sys/class/gpio/gpio" + this->_gpionum + "/value";
     char buff[10];
@@ -231,8 +248,42 @@ int GPIOPin::getval(string& val){
  * getnum
  *
  **********************************************************************/  
-string GPIOPin::getpinnumber(){
+string clixxIOGPIOPin::getpinnumber(){
 
     return this->_gpionum;
+
+}
+
+/** Writes a string to the serial port
+*
+* This function writes a string to the serial port
+* 
+*/
+bool clixxIO_Button::pressed(){	  
+
+    return false;
+
+}
+
+/** Turns a switch On
+*
+* This function turns the switch On
+* 
+*/
+void clixxIO_Switch::On(){
+    
+    digitalWrite(_gpiopin, HIGH);
+
+}
+
+/** Turns a switch off
+*
+* This function turns the switch off
+* 
+*/
+void clixxIO_Switch::Off(){
+    
+    digitalWrite(_gpiopin, LOW);
+//	PORTB &= ~(1<<D1_O);    		// Turn pin off
 
 }

@@ -13,6 +13,35 @@
 #include <stdbool.h>
 #include <avr/io.h>
 
+// Definitions of all Input and Output Pins according to their connector
+#ifdef TARGET_AVR
+
+  // These Pin definitions for AVR processors
+  #if defined (__AVR_ATtiny25__) || defined (__AVR_ATtiny45__) || defined (__AVR_ATtiny85__)
+    // Pin Definitions for the Attiny85
+    #define D1_I PB3
+    #define D1_O PB4
+    #define D1_S PB0
+
+    #define D2_I PB2
+    #define D2_O PB1
+    #define D2_S PB5
+
+    #define PIN_A1i PB4
+    #define PIN_A1o PB2
+
+    int input_pins[] = {D1_O,D2_O};
+    int output_pins[] = {D1_I,D2_I};
+    
+  #elif defined (__AVR_ATmega324P__) || defined (__AVR_ATmega324A__)  \
+   || defined (__AVR_ATmega644P__) || defined (__AVR_ATmega644PA__) \
+   || defined (__AVR_ATmega328P__) || defined (__AVR_ATmega328PA__) \
+   || defined (__AVR_ATmega164P__) || defined (__AVR_ATmega164A__)
+   
+  #endif
+  
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif

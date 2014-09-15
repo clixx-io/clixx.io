@@ -36,6 +36,15 @@
   #include <unistd.h>
   #include <iostream>
   #include <mosquittopp.h>
+  #include <string>
+  #include <sstream>
+  #include <errno.h>
+  #include <stdio.h>
+  #include <sys/types.h>
+  #include <sys/stat.h>
+  #include <fcntl.h>
+
+  using namespace std;
 
 #elif defined(TARGET_AVR)  	/* presume Attiny85 */
 
@@ -246,10 +255,14 @@ class clixxIOApp{
     int run();
 
     #ifdef TARGET_AVR
-    clixxIOSerial IoT;
+      clixxIOSerial IoT;
     #endif
     #ifdef TARGET_LINUX
-    clixxIOSerial IoT;
+      #if defined(USE_MOSQUITTO)
+        ClixxIO_IoTSub IoT;
+      #else
+        clixxIOSerial IoT;
+      #endif
     #endif
 
     #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
@@ -290,18 +303,6 @@ int  analogRead(int pin);
 
   #include <avr/io.h>
 
-  // Pin Definitions for the Attiny85
-  #define D1_I PB3
-  #define D1_O PB4
-  #define D1_S PB0
-
-  #define D2_I PB2
-  #define D2_O PB1
-  #define D2_S PB5
-
-  #define PIN_A1i PB4
-  #define PIN_A1o PB2
-
   // Some methods to quickly return  
   int getInputPin(int portname);
   int getOutputPin(int portname);
@@ -312,6 +313,42 @@ int  analogRead(int pin);
   int getInputPin(int portname);
   int getOutputPin(int portname);
 #endif
+
+/* GPIO Class
+ * Purpose: Each object instatiated from this class will control a GPIO pin
+ * The GPIO pin number must be passed to the overloaded class constructor
+ */
+class clixxIOGPIOPin
+{
+  public:
+    clixxIOGPIOPin();
+    clixxIOGPIOPin(const char *logicalname);
+    #if defined(TARGET_AVR)
+      clixxIOGPIOPin(int pinnumber);
+    #endif
+    #if defined(TARGET_LINUX)  	/* presume Attiny85 */
+      clixxIOGPIOPin(string pinnumber);
+      int setdir(string dir);
+      int setval(string val);
+      int getval(string& val);
+      string getpinnumber();
+    #endif
+    ~clixxIOGPIOPin();
+  private:
+    int exportpin();
+    int unexportpin();
+
+    int valuefd;
+    int directionfd;
+    int exportfd;
+    int unexportfd;
+    #if defined(TARGET_LINUX)
+      string _gpionum;
+    #else
+      int _gpionum;
+    #endif
+
+};
 
 /* -------------------------------------------------------------------------
  *
@@ -364,7 +401,7 @@ class clixxIO_Button {
   public:
     clixxIO_Button(int Pin):_gpiopin(Pin){ }
 
-  int pressed();
+    bool pressed();
 
 };
 
@@ -376,8 +413,8 @@ class clixxIO_Switch {
   public:
     clixxIO_Switch(int Pin = 0):_gpiopin(Pin) { pinMode(Pin,OUTPUT); }
     
-    int On();  
-    int Off();
+    void On();  
+    void Off();
 
     inline void assignPin(int Pin) { _gpiopin = Pin; pinMode(Pin,OUTPUT); }
 

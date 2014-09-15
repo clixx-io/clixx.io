@@ -34,17 +34,15 @@
  *
  * ------------------------------------------------------------------------*/
 
-// Definitions of all Input and Output Pins according to their connector
-int input_pins[] = {D1_O,D2_O};
-int output_pins[] = {D1_I,D2_I};
-
-/** Turns a switch off
+/** Maps an input pin
 *
 * This function turns the switch off
 * 
 */
 int getInputPin(int portname){ 
+    
     return input_pins[portname]; 
+    
 };
 
 /** Turns a switch off
@@ -53,7 +51,9 @@ int getInputPin(int portname){
 * 
 */
 int getOutputPin(int portname){ 
+    
     return output_pins[portname]; 
+    
 };
 
 /** Turns a switch off
@@ -111,15 +111,26 @@ int analogRead(int pin){
     return(0);
 }
 
+/** Loads a pin
+*
+* This function looks up the configuration for a pin from
+* EEPROM.
+* 
+*/
+clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname)
+{
+    
+}
+
 /** Writes a string to the serial port
 *
 * This function writes a string to the serial port
 * 
 */
-int clixxIO_Button::pressed(){	  
+bool clixxIO_Button::pressed(){	  
 
-    // return adcRead(_gpiopin);
-    
+    return (PINB & (1 << _gpiopin));
+
 }
 
 /** Turns a switch On
@@ -127,13 +138,12 @@ int clixxIO_Button::pressed(){
 * This function turns the switch On
 * 
 */
-int clixxIO_Switch::On(){
+void clixxIO_Switch::On(){
     
     digitalWrite(_gpiopin, HIGH);
 
     PORTB |= (1<<_gpiopin);    		// Else turn pin on
 
-    return(0);
 }
 
 /** Turns a switch off
@@ -141,8 +151,9 @@ int clixxIO_Switch::On(){
 * This function turns the switch off
 * 
 */
-int clixxIO_Switch::Off(){
+void clixxIO_Switch::Off(){
+    
     digitalWrite(_gpiopin, LOW);
 //	PORTB &= ~(1<<D1_O);    		// Turn pin off
-    return(0);
-}	  
+
+}
