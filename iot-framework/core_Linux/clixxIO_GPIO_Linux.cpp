@@ -28,13 +28,24 @@
  =================================================================================
  */
 
-#include "clixxIO.hpp"
+#include <stdlib.h>
 #include <cctype>
+#include "clixxIO.hpp"
 #include "minIni.h"
 
 using namespace std;
 
 #define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
+
+clixxIOGPIOPin::clixxIOGPIOPin(int pinnumber,short direction):valuefd(-1),directionfd(direction),exportfd(-1),unexportfd(-1)
+{
+    stringstream ss;
+    ss << pinnumber;
+    _gpionum = ss.str();
+    
+    // Instatiate clixxIOGPIOPin object for GPIO pin number "gnum"
+    this->exportpin();
+}
 
 /**********************************************************************
  * valuefd

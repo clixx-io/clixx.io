@@ -322,7 +322,7 @@ class clixxIOGPIOPin
 {
   public:
     clixxIOGPIOPin();
-    clixxIOGPIOPin(int pinnumber);
+    clixxIOGPIOPin(int pinnumber,short direction=0);
     clixxIOGPIOPin(const char *logicalname);
     #if defined(TARGET_LINUX)  	/* string types supported */
       clixxIOGPIOPin(string pinnumber);
