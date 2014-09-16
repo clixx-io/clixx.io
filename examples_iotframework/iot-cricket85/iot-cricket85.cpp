@@ -51,8 +51,10 @@ class App : public clixxIOApp{
         Debug.puts("IoTMessage Callback");
     };
 
+  #if defined(TARGET_LINUX)
   private:
-    const char inifile[] = "iot-cricket85.ini";
+    static const char inifile[] = "iot-cricket85.ini";
+  #endif
  
 };
 

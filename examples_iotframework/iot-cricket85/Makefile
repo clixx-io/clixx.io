@@ -18,8 +18,8 @@ PROGRAM = iot-cricket85
 MCU = attiny85
 CC = avr-gcc
 OBJCOPY = avr-objcopy
-CFLAGS += -Wall -g -Os -DTARGET_AVR -mmcu=$(MCU) -I../libraries/includes
-LDFLAGS += -L ../libraries -l clixxIO_AVR_$(MCU)
+CFLAGS += -Wall -g -Os -DTARGET_AVR -mmcu=$(MCU) -I../../iot-framework
+LDFLAGS += -L ../../iot-framework -l clixxIO_AVR_$(MCU)
 OBJS = $(PROGRAM).o
 
 CFLAGS += -Wall -g -Os -mmcu=$(MCU) 
