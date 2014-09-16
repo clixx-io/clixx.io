@@ -322,12 +322,11 @@ class clixxIOGPIOPin
 {
   public:
     clixxIOGPIOPin();
+    clixxIOGPIOPin(int pinnumber);
     clixxIOGPIOPin(const char *logicalname);
-    #if defined(TARGET_AVR)
-      clixxIOGPIOPin(int pinnumber);
-    #endif
-    #if defined(TARGET_LINUX)  	/* presume Attiny85 */
+    #if defined(TARGET_LINUX)  	/* string types supported */
       clixxIOGPIOPin(string pinnumber);
+      clixxIOGPIOPin(clixxIOApp *app, string devicename);
       int setdir(string dir);
       int setval(string val);
       int getval(string& val);
