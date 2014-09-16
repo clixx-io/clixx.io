@@ -66,8 +66,12 @@ list =
     ${device}
 % endfor
 
-[connections]
+[connections-linux]
 % for device in device_selections:
 ${device}=
 % endfor
 
+[connections-avr]
+% for device in device_selections:
+${device}=
+% endfor

@@ -62,7 +62,7 @@ clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname):valuefd(-1),directionfd(
   } else {
 
       // Read the pin assignment from the configuration file
-      ini_gets("connections:linux",logicalname, "d1i", str, sizearray(str), inifile);
+      ini_gets("connections-linux",logicalname, "-1", str, sizearray(str), inifile);
       
       // Just print that for now
       perror(str);
