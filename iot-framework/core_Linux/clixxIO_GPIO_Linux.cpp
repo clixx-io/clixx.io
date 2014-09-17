@@ -37,14 +37,22 @@ using namespace std;
 
 #define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
 
-clixxIOGPIOPin::clixxIOGPIOPin(int pinnumber,short direction):valuefd(-1),directionfd(direction),exportfd(-1),unexportfd(-1)
+clixxIOGPIOPin::clixxIOGPIOPin(short pinnumber,short direction):valuefd(-1),directionfd(direction),exportfd(-1),unexportfd(-1)
 {
-    stringstream ss;
-    ss << pinnumber;
-    _gpionum = ss.str();
+    // Convert the pin-number to a string
+    stringstream pintemp;
+    
+    pintemp << pinnumber;
+    _gpionum = pintemp.str();
     
     // Instatiate clixxIOGPIOPin object for GPIO pin number "gnum"
     this->exportpin();
+    
+    if (direction == 0)
+        this->setdir("in");
+    else
+        this->setdir("out");
+
 }
 
 /**********************************************************************
