@@ -129,7 +129,7 @@ clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname)
 */
 bool clixxIO_Button::pressed(){	  
 
-    return (PINB & (1 << _gpiopin));
+    return (PINB & (1 << _gpionum));
 
 }
 
@@ -140,9 +140,9 @@ bool clixxIO_Button::pressed(){
 */
 void clixxIO_Switch::On(){
     
-    digitalWrite(_gpiopin, HIGH);
+    digitalWrite(_gpionum, HIGH);
 
-    PORTB |= (1<<_gpiopin);    		// Else turn pin on
+    PORTB |= (1<<_gpionum);    		// Else turn pin on
 
 }
 
@@ -153,7 +153,8 @@ void clixxIO_Switch::On(){
 */
 void clixxIO_Switch::Off(){
     
-    digitalWrite(_gpiopin, LOW);
-//	PORTB &= ~(1<<D1_O);    		// Turn pin off
+    digitalWrite(_gpionum, LOW);
+    
+    PORTB &= ~(1<<D1_O);    		// Turn pin off
 
 }

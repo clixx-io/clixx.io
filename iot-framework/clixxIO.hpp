@@ -324,16 +324,26 @@ class clixxIOGPIOPin
     clixxIOGPIOPin();
     clixxIOGPIOPin(short pinnumber,short direction=0);
     clixxIOGPIOPin(const char *logicalname);
-    int setval(short val);
-    #if defined(TARGET_LINUX)  	/* string types supported */
+    ~clixxIOGPIOPin();
+
+    #if defined(TARGET_LINUX)  	
+      /* String types supported are supported for GPIO read/writes */
       clixxIOGPIOPin(string pinnumber);
       clixxIOGPIOPin(clixxIOApp *app, string devicename);
       int setdir(string dir);
       int setval(string val);
-      int getval();
       string getpinnumber();
     #endif
-    ~clixxIOGPIOPin();
+
+    int setval(short val);
+    int getval();
+
+  protected:
+    #if defined(TARGET_LINUX)
+      string _gpionum;
+    #else
+      int _gpionum;
+    #endif
   private:
     int exportpin();
     int unexportpin();
@@ -342,11 +352,6 @@ class clixxIOGPIOPin
     int directionfd;
     int exportfd;
     int unexportfd;
-    #if defined(TARGET_LINUX)
-      string _gpionum;
-    #else
-      int _gpionum;
-    #endif
 
 };
 

@@ -40,14 +40,14 @@ endif
 all: ../lib $(LIBRARY).a
 
 ifeq ($(MCU),attiny85)
-$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Analog_AVR_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o \
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Analog_AVR_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_GPIO_AVR_$(MCU).o \
               clixxIO_Timers_AVR_$(MCU).o  clixxIO_softserial_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_LM335A_AVR_$(MCU).o
 	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_softserial_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o
-	ar -cr $(LIBRARY).a clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o clixxIO_LM335A_AVR_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_GPIO_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o clixxIO_LM335A_AVR_$(MCU).o
 else
-$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o \
+$(LIBRARY).a: clixxIO_EventQ_AVR_$(MCU).o  clixxIO_Serial_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_GPIO_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o \
               clixxIO_AVRSerial_$(MCU).o 
-	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_AVRSerial_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_Digital_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_EventQ_AVR_$(MCU).o clixxIO_AVRSerial_$(MCU).o clixxIO_Serial_AVR_$(MCU).o clixxIO_softuart_AVR_$(MCU).o clixxIO_Analog_AVR_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_GPIO_AVR_$(MCU).o clixxIO_Timers_AVR_$(MCU).o
 endif
 
 $(PROGRAM).elf: $(PROGRAM).o
@@ -74,8 +74,8 @@ clixxIO_softuart_AVR_$(MCU).o: core_AVR/softuart.c clixxIO.hpp core_AVR/softuart
 clixxIO_Analog_AVR_$(MCU).o: core_AVR/clixxIO_analog.c core_AVR/iohelp.h
 	$(CC) -c $(CFLAGS) -o clixxIO_Analog_AVR_$(MCU).o core_AVR/clixxIO_analog.c
 
-clixxIO_Digital_AVR_$(MCU).o: core_AVR/clixxIO_digital.cpp clixxIO.hpp core_AVR/iohelp.h
-	$(CC) -c $(CFLAGS) -o clixxIO_Digital_AVR_$(MCU).o core_AVR/clixxIO_digital.cpp
+clixxIO_GPIO_AVR_$(MCU).o: core_AVR/clixxIO_GPIO.cpp clixxIO.hpp core_AVR/iohelp.h
+	$(CC) -c $(CFLAGS) -o clixxIO_GPIO_AVR_$(MCU).o core_AVR/clixxIO_GPIO.cpp
 
 clixxIO_SerialIoT_$(MCU).o: clixxIO_SerialIoT.cpp clixxIO.hpp
 	$(CC) -c $(CFLAGS) -o clixxIO_SerialIoT_$(MCU).o clixxIO_SerialIoT.cpp

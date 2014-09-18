@@ -59,7 +59,7 @@ clixxIOGPIOPin::clixxIOGPIOPin(short pinnumber,short direction):valuefd(-1),dire
  * valuefd
  *
  **********************************************************************/  
-clixxIOGPIOPin::clixxIOGPIOPin(string gnum):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1),_gpionum(gnum)
+clixxIOGPIOPin::clixxIOGPIOPin(string gnum):_gpionum(gnum),valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1)
 {
     // Instatiate clixxIOGPIOPin object for GPIO pin number "gnum"
     this->exportpin();
