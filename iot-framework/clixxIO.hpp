@@ -252,9 +252,10 @@ class clixxIOApp{
 
   public:
 
-    clixxIOApp(const char *configfile = NULL);
+    clixxIOApp();
     ~clixxIOApp();
 
+    void useConfig(const char* configfile);
     int run();
 
     #ifdef TARGET_AVR
@@ -323,7 +324,6 @@ class clixxIOGPIOPin
   public:
     clixxIOGPIOPin();
     clixxIOGPIOPin(short pinnumber,short direction=0);
-    clixxIOGPIOPin(const char *logicalname);
     ~clixxIOGPIOPin();
 
     #if defined(TARGET_LINUX)  	
@@ -337,6 +337,7 @@ class clixxIOGPIOPin
 
     int setval(short val);
     int getval();
+    int configure(const char *logicalname);
 
   protected:
     #if defined(TARGET_LINUX)

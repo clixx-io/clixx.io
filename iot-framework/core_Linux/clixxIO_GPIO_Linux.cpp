@@ -37,6 +37,10 @@ using namespace std;
 
 #define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
 
+clixxIOGPIOPin::clixxIOGPIOPin():_gpionum(),valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1)
+{
+}
+
 clixxIOGPIOPin::clixxIOGPIOPin(short pinnumber,short direction):valuefd(-1),directionfd(direction),exportfd(-1),unexportfd(-1)
 {
     // Convert the pin-number to a string
@@ -65,13 +69,13 @@ clixxIOGPIOPin::clixxIOGPIOPin(string gnum):_gpionum(gnum),valuefd(-1),direction
     this->exportpin();
 }
 
-clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname):valuefd(-1),directionfd(-1),exportfd(-1),unexportfd(-1)
+int clixxIOGPIOPin::configure(const char *logicalname)
 {
   char str[100];
   const char inifile[] = "program.ini";
   
   if (logicalname == 0)
-      return;
+      return -1;
       
   if (isdigit(*logicalname))
   {
@@ -87,7 +91,7 @@ clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname):valuefd(-1),directionfd(
       perror(str);
 
   }
-   
+  return 0; 
 }
 
 /**********************************************************************

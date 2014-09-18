@@ -114,7 +114,7 @@ void exit_func (int i)
  * Application Constructor
  * 
  **********************************************************************/  
-clixxIOApp::clixxIOApp(const char *configfile)
+clixxIOApp::clixxIOApp()
 {
  
     // Initialise this variable
@@ -124,10 +124,6 @@ clixxIOApp::clixxIOApp(const char *configfile)
       // Setup a signal handler for exit
       signal(SIGINT,exit_func);
 
-      // Store the name of the configuration file      
-      if (configfile != NULL)
-          _configfile = configfile;
-      
     #endif
   
 }
@@ -182,6 +178,21 @@ int clixxIOApp::run()
     }
   
   return 0;
+}
+
+/**********************************************************************
+ * 
+ * UseConfig
+ * Pin 
+ *
+ * @param configfile - pointer to the users configuration filename
+ * 
+ **********************************************************************/  
+void clixxIOApp::useConfig(const char* configfile)
+{
+    #ifdef TARGET_LINUX
+      _configfile = configfile;
+    #endif
 }
 
 /**********************************************************************

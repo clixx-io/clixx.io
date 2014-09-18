@@ -117,7 +117,7 @@ int analogRead(int pin){
 * EEPROM.
 * 
 */
-clixxIOGPIOPin::clixxIOGPIOPin(const char *logicalname)
+clixxIOGPIOPin::clixxIOGPIOPin()
 {
     
 }
