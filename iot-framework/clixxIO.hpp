@@ -344,14 +344,17 @@ class clixxIOGPIOPin
     #else
       int _gpionum;
     #endif
+    
   private:
-    int exportpin();
-    int unexportpin();
+    #if defined(TARGET_LINUX)  	
+      int exportpin();
+      int unexportpin();
 
-    int valuefd;
-    int directionfd;
-    int exportfd;
-    int unexportfd;
+      int valuefd;
+      int directionfd;
+      int exportfd;
+      int unexportfd;
+    #endif
 
 };
 
