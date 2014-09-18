@@ -324,12 +324,13 @@ class clixxIOGPIOPin
     clixxIOGPIOPin();
     clixxIOGPIOPin(short pinnumber,short direction=0);
     clixxIOGPIOPin(const char *logicalname);
+    int setval(short val);
     #if defined(TARGET_LINUX)  	/* string types supported */
       clixxIOGPIOPin(string pinnumber);
       clixxIOGPIOPin(clixxIOApp *app, string devicename);
       int setdir(string dir);
       int setval(string val);
-      int getval(string& val);
+      int getval();
       string getpinnumber();
     #endif
     ~clixxIOGPIOPin();
@@ -392,30 +393,20 @@ class ClixxIO_I2cDevice {
  * Classes to Support the Basic clixx.io boards
  *
  * ------------------------------------------------------------------------*/
-class clixxIO_Button {
-
-  private:
-    int _gpiopin;
+class clixxIO_Button : public clixxIOGPIOPin {
 
   public:
-    clixxIO_Button(int Pin):_gpiopin(Pin){ }
 
     bool pressed();
 
 };
 
-class clixxIO_Switch {
-
-  private:
-    int _gpiopin;
+class clixxIO_Switch : public clixxIOGPIOPin {
 
   public:
-    clixxIO_Switch(int Pin = 0):_gpiopin(Pin) { pinMode(Pin,OUTPUT); }
     
     void On();  
     void Off();
-
-    inline void assignPin(int Pin) { _gpiopin = Pin; pinMode(Pin,OUTPUT); }
 
 };
 

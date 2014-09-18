@@ -235,10 +235,27 @@ int clixxIOGPIOPin::setval(string val)
 }
 
 /**********************************************************************
+ * setval
+ *
+ **********************************************************************/  
+int clixxIOGPIOPin::setval(short val)
+{
+    string valueStr("0");
+    if (val == 0)
+    {
+        setval(valueStr);
+    } else
+    {
+        valueStr = "1";
+    }
+    return setval(valueStr);
+}
+
+/**********************************************************************
  * getval
  *
  **********************************************************************/  
-int clixxIOGPIOPin::getval(string& val){
+int clixxIOGPIOPin::getval(){
 
     string getValStr = "/sys/class/gpio/gpio" + this->_gpionum + "/value";
     char buff[10];
@@ -258,7 +275,7 @@ int clixxIOGPIOPin::getval(string& val){
 
     buff[1]='\0';
 
-    val = string(buff);
+    string val = string(buff);
 
     if (val.compare("1") != 0 && val.compare("0") != 0 ) {
         fprintf(stderr, "Error: Invalid  value read. Should be \"1\" or \"0\". \n");
@@ -271,6 +288,11 @@ int clixxIOGPIOPin::getval(string& val){
         return(-1);
     }
 
+    if (buff[0] == '0')
+        statusVal = 0;
+    else
+        statusVal = 1;
+        
     return statusVal;
 }
 
@@ -300,10 +322,9 @@ bool clixxIO_Button::pressed(){
 * This function turns the switch On
 * 
 */
-void clixxIO_Switch::On(){
-    
-    digitalWrite(_gpiopin, HIGH);
-
+void clixxIO_Switch::On()
+{
+    this->setval(1);
 }
 
 /** Turns a switch off
@@ -311,9 +332,7 @@ void clixxIO_Switch::On(){
 * This function turns the switch off
 * 
 */
-void clixxIO_Switch::Off(){
-    
-    digitalWrite(_gpiopin, LOW);
-//	PORTB &= ~(1<<D1_O);    		// Turn pin off
-
+void clixxIO_Switch::Off()
+{
+    this->setval(0);
 }

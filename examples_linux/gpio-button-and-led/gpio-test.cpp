@@ -28,17 +28,17 @@
  =================================================================================
  */
 
-#include "clixxIO_GPIO.h"
+#include "clixxIO.hpp"
  
 using namespace std;
  
 int main (void)
 {
  
-    string inputstate;
+    int inputstate;
     int i = 0;
-    GPIOPin* button1 = new GPIOPin("24"); //create new GPIO object to be attached to  GPIO17
-    GPIOPin* led1 = new GPIOPin("22"); //create new GPIO object to be attached to  GPIO4
+    clixxIOGPIOPin* button1 = new clixxIOGPIOPin("24"); //create new GPIO object to be attached to  GPIO17
+    clixxIOGPIOPin* led1 = new clixxIOGPIOPin("22"); //create new GPIO object to be attached to  GPIO4
  
     cout << " GPIO pins exported" << endl;
  
@@ -54,23 +54,23 @@ int main (void)
     while(i < 20)
     {
         usleep(500000);  // wait for 0.5 seconds
-        button1->getval(inputstate); //read state of GPIO17 input pin
+        inputstate = button1->getval(); //read state of GPIO17 input pin
         cout << "Current input pin state is " << inputstate  <<endl;
-        if(inputstate == "0") // if input pin is at state "0" i.e. button pressed
+        if(inputstate == 0) // if input pin is at state "0" i.e. button pressed
         {
             cout << "input pin state is \"Pressed \".n Will check input pin state again in 20ms "<<endl;
             usleep(20000);
             cout << "Checking again ....." << endl;
-            button1->getval(inputstate); // checking again to ensure that state "0" is due to button press and not noise
+            inputstate = button1->getval(); // checking again to ensure that state "0" is due to button press and not noise
 
-            if(inputstate == "0")
+            if(inputstate == 0)
             {
                 cout << "input pin state is definitely \"Pressed\". Turning LED ON" <<endl;
                 led1->setval("1"); // turn LED ON
  
                 cout << " Waiting until pin is unpressed....." << endl;
-                while (inputstate == "0"){
-                button1->getval(inputstate);
+                while (inputstate == 0){
+                    inputstate = button1->getval();
                 };
                 cout << "pin is unpressed" << endl;
  
