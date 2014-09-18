@@ -252,6 +252,9 @@ class clixxIOApp{
 
   public:
 
+    clixxIOApp(const char *configfile = NULL);
+    ~clixxIOApp();
+
     int run();
 
     #ifdef TARGET_AVR
@@ -269,17 +272,14 @@ class clixxIOApp{
       inline void delay_ms( unsigned long ms ){ Sleep( ms ); }
     #elif defined(TARGET_LINUX)  /* presume POSIX */
       inline void delay_ms( unsigned long ms ){ usleep( ms * 1000 ); }
-    #elif defined(TARGET_AVR)  	/* presume Attiny85 */
-      // #ifndef F_CPU
-        // Use 8Mhz Processor speed for faster applications
-        // #define F_CPU 8000000UL
-      // #endif
-      // #include <util/delay.h>
-      // #define delay_ms( unsigned long ms ) _delay_ms(ms)
+    #elif defined(TARGET_AVR)
     #endif 
+    
+  protected:
+    #ifdef TARGET_LINUX
+      string _configfile;
+    #endif
  
-    clixxIOApp();
-    ~clixxIOApp();
 };
 
 /* -------------------------------------------------------------------------

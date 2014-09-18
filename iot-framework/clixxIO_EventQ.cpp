@@ -114,7 +114,7 @@ void exit_func (int i)
  * Application Constructor
  * 
  **********************************************************************/  
-clixxIOApp::clixxIOApp()
+clixxIOApp::clixxIOApp(const char *configfile)
 {
  
     // Initialise this variable
@@ -123,6 +123,11 @@ clixxIOApp::clixxIOApp()
     #ifdef TARGET_LINUX
       // Setup a signal handler for exit
       signal(SIGINT,exit_func);
+
+      // Store the name of the configuration file      
+      if (configfile != NULL)
+          _configfile = configfile;
+      
     #endif
   
 }
