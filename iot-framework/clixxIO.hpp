@@ -26,6 +26,8 @@
  */
 
 #include <stdlib.h>
+#include <inttypes.h>
+// #include "Stream.h"
 
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 
@@ -46,77 +48,13 @@
 
   using namespace std;
 
-#elif defined(TARGET_AVR)  	/* presume Attiny85 */
-
 #endif 
-
-/* -------------------------------------------------------------------------
- *
- * EventFramework Control
- *
- * ------------------------------------------------------------------------*/
-/*
- * setup() construct
- *
- */
-void C_setupevent( void* appC);
- 
-/*
- * loop() construct
- *
- */
-int addLoopEvent(void (* function)(int));
-void C_loopevent( void* appC);
-
-/*
- * timer() construct
- *
- */
-int addTimerEvent(int secs, void (*function)());
-void C_timerevent( void* appC);
-void timer_wakeup (int interval);
-
-/*
- * pin() construct
- *
- */
-int addPinChangeEvent(int pin, int changetype, void (*function)(int,int));
-void C_pinchange( void* appC);
-
-/*
- * shutdown() construct
- *
- */
-int addShutdownEvent(void (*function)(int,int));
-void C_shutdownevent( void* appC);
-
-/*
- * Serial Callbacks
- *
- */
-int addSerialCharEvent(void (*function)(int,int));
-int addSerialLineEvent(void (*function)(int,int));
-int addSerialOpenEvent(void (*function)(int,int));
-int addSerialCloseEvent(void (*function)(int,int));
-void C_serialchar( void* appC);
-void C_serialline( void* appC);
-void C_serialopen( void* appC);
-void C_serialclose( void* appC);
-
-int addIoTSubEvent(const char *topic, void (*function)(void));
-int addIoTOpenEvent(void (*function)(int,int));
-int addIoTCloseEvent(void (*function)(int,int));
-void C_iotmessage( void* appC);
-void C_iotopen( void* appC);
-void C_iotclose( void* appC);
 
 extern void *pMainClass;
 void setMainAppPtr(void *mainClass);
 
 extern char *dec(unsigned x, char *s);
 
-#include <inttypes.h>
-// #include "Stream.h"
 
 #define BUFFSIZE_LINELEN 60		// Defines a Serial-line buffer size
 #define BUFFSIZE_IOTTOPICLEN 30		// Defines a Serial-line buffer size
@@ -245,7 +183,9 @@ class ClixxIO_IoTSub : public clixxIOSerial
 
 /* -------------------------------------------------------------------------
  *
- * clixxIOApp. To be inherited by the application
+ * clixxIOApp. A basic class for encapsulating the runtime system.
+ * 
+ *             To be inherited by the application
  *
  * ------------------------------------------------------------------------*/
 class clixxIOApp{
@@ -315,10 +255,14 @@ int  analogRead(int pin);
   int getOutputPin(int portname);
 #endif
 
-/* GPIO Class
+/* -------------------------------------------------------------------------
+ *
+ * GPIO Pin Class
+ * 
  * Purpose: Each object instatiated from this class will control a GPIO pin
  * The GPIO pin number must be passed to the overloaded class constructor
- */
+ *
+ * ------------------------------------------------------------------------*/
 class clixxIOGPIOPin
 {
   public:
@@ -343,7 +287,7 @@ class clixxIOGPIOPin
     #if defined(TARGET_LINUX)
       string _gpionum;
     #else
-      int _gpionum;
+      short _gpionum;
     #endif
     
   private:
@@ -469,3 +413,62 @@ public:
 
 #pragma GCC diagnostic ignored "-Wpmf-conversions"
  
+/* -------------------------------------------------------------------------
+ *
+ * EventFramework Control
+ *
+ * ------------------------------------------------------------------------*/
+/*
+ * setup() construct
+ *
+ */
+void C_setupevent( void* appC);
+ 
+/*
+ * loop() construct
+ *
+ */
+int addLoopEvent(void (* function)(int));
+void C_loopevent( void* appC);
+
+/*
+ * timer() construct
+ *
+ */
+int addTimerEvent(int secs, void (*function)());
+void C_timerevent( void* appC);
+void timer_wakeup (int interval);
+
+/*
+ * pin() construct
+ *
+ */
+int addPinChangeEvent(int pin, int changetype, void (*function)(int,int));
+void C_pinchange( void* appC);
+
+/*
+ * shutdown() construct
+ *
+ */
+int addShutdownEvent(void (*function)(int,int));
+void C_shutdownevent( void* appC);
+
+/*
+ * Serial Callbacks
+ *
+ */
+int addSerialCharEvent(void (*function)(int,int));
+int addSerialLineEvent(void (*function)(int,int));
+int addSerialOpenEvent(void (*function)(int,int));
+int addSerialCloseEvent(void (*function)(int,int));
+void C_serialchar( void* appC);
+void C_serialline( void* appC);
+void C_serialopen( void* appC);
+void C_serialclose( void* appC);
+
+int addIoTSubEvent(const char *topic, void (*function)(void));
+int addIoTOpenEvent(void (*function)(int,int));
+int addIoTCloseEvent(void (*function)(int,int));
+void C_iotmessage( void* appC);
+void C_iotopen( void* appC);
+void C_iotclose( void* appC);
