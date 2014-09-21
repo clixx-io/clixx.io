@@ -13,46 +13,6 @@
 #include <util/delay.h>
 #include <core_AVR/iohelp.h>
 
-void initADC()
-{
-  /* this function initialises the ADC 
-
-        ADC Notes
-	
-	Prescaler
-	
-	ADC Prescaler needs to be set so that the ADC input frequency is between 50 - 200kHz.
-	
-	Example prescaler values for various frequencies
-	
-	Clock   Available prescaler values
-   ---------------------------------------
-	 1 MHz   8 (125kHz), 16 (62.5kHz)
-	 4 MHz   32 (125kHz), 64 (62.5kHz)
-	 8 MHz   64 (125kHz), 128 (62.5kHz)
-	16 MHz   128 (125kHz)
-
-   below example set prescaler to 128 for mcu running at 8MHz
-
-
-  */
-
-  ADMUX =
-        //  (1 << ADLAR) |     // left shift result
-            (0 << REFS1) |     // Sets ref. voltage to VCC, bit 1
-            (0 << REFS0) |     // Sets ref. voltage to VCC, bit 0
-            (0 << MUX3)  |     // use ADC2 for input (PB4), MUX bit 3
-            (0 << MUX2)  |     // use ADC2 for input (PB4), MUX bit 2
-            (1 << MUX1)  |     // use ADC2 for input (PB4), MUX bit 1
-            (0 << MUX0);       // use ADC2 for input (PB4), MUX bit 0
-
-  ADCSRA = 
-            (1 << ADEN)  |     // Enable ADC 
-            (1 << ADPS2) |     // set prescaler to 64, bit 2 
-            (1 << ADPS1) |     // set prescaler to 64, bit 1 
-            (0 << ADPS0);      // set prescaler to 64, bit 0  
-}
-
 class App : public clixxIOApp{
 
   public:
@@ -64,7 +24,6 @@ class App : public clixxIOApp{
          and provides for initialisation requirements.
 
         */
-        //initADC();
         adcInit(ADC3);
         
         IoT.begin();
@@ -80,15 +39,7 @@ class App : public clixxIOApp{
         */
         int i = adcRead(ADC3);
 
-        //ADCSRA |= (1 << ADSC);         // start ADC measurement
-        //while (ADCSRA & (1 << ADSC) ); // wait till conversion complete 
-
-        //unsigned value = ADCL;
-        //unsigned i = value | (ADCH << 8);
-
         IoT.publish(i);
-        //IoT.publish(ADCL);
-        //IoT.publish(ADCH);
 
         _delay_ms(333); 
     };
