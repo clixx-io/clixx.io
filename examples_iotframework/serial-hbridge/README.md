@@ -11,7 +11,7 @@ a forward and a reverse pin. To make the motor run forward involves
 applying a Logic 1/High to the forward pin and a logic 0/Low to the
 reverse pin.
 
- pin_fwd.setval(1);
+    pin_fwd.setval(1);
 
 When run, this code will cause the motor to run forward.
 
@@ -26,6 +26,12 @@ micro-controller.
     Serial.echo = 1
 
 This will inform users of the commands that we wish to implement.
+
+Before starting we also need to initialise the GPIO ports both with
+forward and reverse pins set for output.
+
+    pin_fwd.configure(PB4,OUTPUT);
+    pin_rvs.configure(PB3,OUTPUT);
 
 The next step is to modify the serialline() callback so that it
 can react to the short one character commands.
