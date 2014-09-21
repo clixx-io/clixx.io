@@ -30,8 +30,8 @@
     #define PIN_A1i PB4
     #define PIN_A1o PB2
 
-    int input_pins[] = {D1_O,D2_O};
-    int output_pins[] = {D1_I,D2_I};
+    // int input_pins[] = {D1_O,D2_O};
+    // int output_pins[] = {D1_I,D2_I};
     
   #elif defined (__AVR_ATmega324P__) || defined (__AVR_ATmega324A__)  \
    || defined (__AVR_ATmega644P__) || defined (__AVR_ATmega644PA__) \

@@ -27,11 +27,11 @@
 
 #include <stdlib.h>
 #include <inttypes.h>
-// #include "Stream.h"
 
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 
   #include <windows.h>
+  #include "Stream.h"
 
 #elif defined(TARGET_LINUX)  /* presume POSIX */
 
@@ -45,6 +45,7 @@
   #include <sys/types.h>
   #include <sys/stat.h>
   #include <fcntl.h>
+  #include "Stream.h"
 
   using namespace std;
 
@@ -54,7 +55,6 @@ extern void *pMainClass;
 void setMainAppPtr(void *mainClass);
 
 extern char *dec(unsigned x, char *s);
-
 
 #define BUFFSIZE_LINELEN 60		// Defines a Serial-line buffer size
 #define BUFFSIZE_IOTTOPICLEN 30		// Defines a Serial-line buffer size
@@ -72,9 +72,9 @@ class clixxIOSerial
 {
   public:
   
-    unsigned char linemode;
-    unsigned char echo;
-    int iotmode;
+    unsigned short linemode;
+    unsigned short echo;
+    unsigned short iotmode;
     
     clixxIOSerial();
     int begin(const char *portname = 0, long baudrate = 0);
@@ -240,7 +240,7 @@ void analogWrite(int pin, int value);
 int  analogRead(int pin);
 /* ------------------------------------------------------------------------*/
 
-#if defined(TARGET_AVR)  	/* presume Attiny85 */
+#if defined(TARGET_AVR)  
 
   #include <avr/io.h>
 
@@ -282,12 +282,14 @@ class clixxIOGPIOPin
     int setval(short val);
     int getval();
     int configure(const char *logicalname);
-
+    int configure(short pinnumber,short direction=0);
+    
   protected:
     #if defined(TARGET_LINUX)
       string _gpionum;
     #else
       short _gpionum;
+      short _direction;
     #endif
     
   private:

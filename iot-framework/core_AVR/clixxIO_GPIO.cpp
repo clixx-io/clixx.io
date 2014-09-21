@@ -24,37 +24,15 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include <avr/io.h>
 #include "clixxIO.hpp"
 #include "iohelp.h"
-#include <avr/io.h>
 
 /* -------------------------------------------------------------------------
  *
  * GPIO/Pin Functions. Inspired by Wiring
  *
  * ------------------------------------------------------------------------*/
-
-/** Maps an input pin
-*
-* This function turns the switch off
-* 
-*/
-int getInputPin(int portname){ 
-    
-    return input_pins[portname]; 
-    
-};
-
-/** Turns a switch off
-*
-* This function turns the switch off
-* 
-*/
-int getOutputPin(int portname){ 
-    
-    return output_pins[portname]; 
-    
-};
 
 /** Turns a switch off
 *
@@ -99,14 +77,6 @@ int digitalRead(int pin){
 * This function turns the switch off
 * 
 */
-void analogWrite(int pin, int value){
-}
-
-/** Turns a switch off
-*
-* This function turns the switch off
-* 
-*/
 int analogRead(int pin){
     return(0);
 }
@@ -120,6 +90,39 @@ int analogRead(int pin){
 clixxIOGPIOPin::clixxIOGPIOPin()
 {
     
+}
+
+clixxIOGPIOPin::~clixxIOGPIOPin()
+{
+    
+}
+
+int clixxIOGPIOPin::setval(short val)
+{
+    if (val != 0){
+        PORTB |= (1 << _gpionum);   // Turn pin on
+    } else {
+        PORTB &= ~(1 << _gpionum);  // else Turn pin off
+    }
+    return(0);
+}
+
+int clixxIOGPIOPin::getval()
+{
+    return (PINB & (1 << _gpionum));
+}
+
+int clixxIOGPIOPin::configure(short pinnumber,short direction)
+{
+    _gpionum = pinnumber;
+    _direction = direction;
+    
+    if (direction == OUTPUT){
+        DDRB |= (1 << pinnumber);    	    // pin is an Output
+    } else {
+        DDRB &= ~(1<< pinnumber);    		// Pin as an Input
+    }
+    return(0);
 }
 
 /** Writes a string to the serial port
@@ -140,9 +143,7 @@ bool clixxIO_Button::pressed(){
 */
 void clixxIO_Switch::On(){
     
-    digitalWrite(_gpionum, HIGH);
-
-    PORTB |= (1<<_gpionum);    		// Else turn pin on
+    PORTB |= (1<<_gpionum);    		// Turn turn pin on
 
 }
 
@@ -153,8 +154,13 @@ void clixxIO_Switch::On(){
 */
 void clixxIO_Switch::Off(){
     
-    digitalWrite(_gpionum, LOW);
-    
     PORTB &= ~(1<<D1_O);    		// Turn pin off
 
+}
+/** analogWrite
+*
+* Performs a PWM function on a pin
+* 
+*/
+void analogWrite(int pin, int value){
 }
