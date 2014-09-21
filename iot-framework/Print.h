@@ -77,7 +77,7 @@ class Print
     virtual void write(const char *str);
     virtual void write(const uint8_t *buffer, size_t size);
    
-    void print(const String &);
+    // void print(const String &s);
     void print(const char[]);
     void print(char, int = BYTE);
     void print(unsigned char, int = BYTE);
@@ -88,7 +88,7 @@ class Print
     void print(double, int = 2);
     int  print( fstr_t* );
 
-    void println(const String &s);
+    // void println(const String &s);
     void println(const char[]);
     void println(char, int = BYTE);
     void println(unsigned char, int = BYTE);
