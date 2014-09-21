@@ -71,5 +71,15 @@ our Attiny85.
 Then finally, we can log into our Attiny85 through the serial port using
 a common terminal program.
 
-    screen /dev/ttyUSB0 9600
-    
+    >screen /dev/ttyUSB0 9600
+    H-Bridge Motor Controller
+    Commands are: 'f'=Forward,'r'=Reverse,'0'=Off
+    f
+    Forward
+    0
+    Turned Off
+    r
+    Reverse
+    0
+    Turned Off
+
