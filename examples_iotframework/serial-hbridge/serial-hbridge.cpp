@@ -1,8 +1,11 @@
-/* Program
-
-   A simple program created by the clixx.io generator now ready for 
-   customisation.
-
+/* serial-hbridge
+ * 
+ * This program provides a serial port and a command-line-interface for
+ * controlling a h-bridge motor controller.
+ * 
+ * It's designed for the Attiny85. Simply connect the H-Bridge to the
+ * Digital-1 Port.
+ * 
 */
 
 #include <stdio.h>
@@ -25,13 +28,12 @@ class App : public clixxIOApp{
         Serial.puts("Commands are: 'f'=Forward,'r'=Reverse,'0'=Off\r\n");
         Serial.echo = 1;
         
-        pin_rvs.configure(PB3,OUTPUT);
         pin_fwd.configure(PB4,OUTPUT);
+        pin_rvs.configure(PB3,OUTPUT);
 
     };
 
     void serialline(){
-        
         /* SerialLine Event handler
          
          This gets called when a line is received.
@@ -65,8 +67,10 @@ class App : public clixxIOApp{
         
     };
 
-    clixxIOGPIOPin pin_rvs;
+  private:
+    // Devices
     clixxIOGPIOPin pin_fwd;
+    clixxIOGPIOPin pin_rvs;
  
 };
 
