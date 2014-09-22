@@ -8,7 +8,6 @@
  * 
 */
 
-#include <stdio.h>
 #include "clixxIO.hpp"
 #include "serial-hbridge-config.hpp"
 
@@ -16,16 +15,13 @@ class App : public clixxIOApp{
 
   public:
 
-    void setup(){
-        /* setup Event handler
+    void setup()
+    {
+        /* setup Event handler */
 
-         This is a built in handler that will get called on startup
-         and provides for initialisation requirements.
-
-        */
         Serial.begin();
         Serial.puts("\r\nH-Bridge Motor Controller\r\n");
-        Serial.puts("Commands are: 'f'=Forward,'r'=Reverse,'0'=Off\r\n");
+        Serial.puts("Commands are: 'f'=Forward,'r'=Reverse,'b'=Brake,'0'=Off\r\n");
         Serial.echo = 1;
         
         pin_fwd.configure(PB4,OUTPUT);
@@ -33,12 +29,9 @@ class App : public clixxIOApp{
 
     };
 
-    void serialline(){
-        /* SerialLine Event handler
-         
-         This gets called when a line is received.
-         
-        */
+    void serialline()
+    {
+        /* SerialLine Event handler - gets called when a line is received. */
         char *cptr = (char *) Serial.lastline();
         char c = *cptr;
         
@@ -60,6 +53,12 @@ class App : public clixxIOApp{
             pin_fwd.setval(0);
             pin_rvs.setval(0);
         } 
+        else if (c == 'b')
+        {
+            Serial.puts("Brake On\r\n");
+            pin_fwd.setval(1);
+            pin_rvs.setval(1);
+        } 
         else
         {
             Serial.puts("Command not understood. 'f'=Forward,'r'=Reverse,'0'=Off\r\n");
@@ -67,7 +66,7 @@ class App : public clixxIOApp{
         
     };
 
-  private:
+  protected:
     // Devices
     clixxIOGPIOPin pin_fwd;
     clixxIOGPIOPin pin_rvs;
