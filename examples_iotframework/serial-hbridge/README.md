@@ -1,6 +1,8 @@
 Controlling an H-Bridge Driver via Serial
 -----------------------------------------
 
+![circuit-graphic](images/attiny-hbridge.jpg)
+
 An H-Bridge is an electronic circuit that enables a voltage to be applied 
 to DC-Motor in a way that enables it to run in either direction. These 
 circuits are often used in robotics, consumer devices, automotive and 
