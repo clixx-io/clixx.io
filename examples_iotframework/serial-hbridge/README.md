@@ -9,17 +9,14 @@ circuits are often used in robotics, consumer devices, automotive and
 other applications.
 
 Originally there were up to four mechanical switches arranged on a board
-but these days, they've been reduced in size so much that they are mostly
-implemented as a single IC. At this size, they fit nicely on a clixx.io
+but these days, miniturisation in the electronics has reduced them in size 
+so much that they are mostly implemented as a single IC. At this size, they fit nicely on a clixx.io
 board and are really easy to control. 
 
-Controlling the motor through a H-Bridge is done with two pins. There is
-a forward and a reverse pin. To make the motor run forward involves
-applying a Logic 1/High to the forward pin and a logic 0/Low to the
+Controlling the motor through a H-Bridge is done with two logic pins. 
+One is for forward control and the other for reverse. To make the motor run 
+forward involves toggling a Logic 1/High to the forward pin and a logic 0/Low to the
 reverse pin.
-
-The normal i/o pins on the board are slightly remapped to from 'i'=input
-to 'f'=forward and 'o'=output to 'r'=reverse.
 
 With the clixx.io framework, it's very easy to add external control to
 this example by adding the Serial object. This will enable us to process
