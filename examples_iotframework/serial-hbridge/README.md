@@ -3,6 +3,9 @@ Controlling an H-Bridge Driver via Serial
 
 ![circuit-graphic](images/attiny-hbridge.jpg)
 
+If you connect an Electric motor up to a relay or mosfet you quickly
+realise that you can only control a motor in one direction.
+
 H-Bridges are electronic circuits that enables a voltage to be applied 
 to DC-Motor in a way that enables it to run in either direction. These 
 circuits are often used in robotics, consumer devices, automotive and 
