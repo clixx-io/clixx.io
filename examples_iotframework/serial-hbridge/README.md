@@ -47,8 +47,6 @@ forward and reverse pins set for output.
 The next step is to modify the serialline() callback so that it
 can react to the short one character commands.
 
-    pin_fwd.digitalWrite(1);
-
 When run, this code will cause the motor to run forward.
 We will be supporting 'f', 'r', '0' as simple one character commands
 to make the motor move Forward, in Reverse, and Off respectively.
@@ -82,6 +80,7 @@ to make the motor move Forward, in Reverse, and Off respectively.
             Serial.puts("Command not understood. 'f'=Forward,'r'=Reverse,'0'=Off\r\n");
         }
     };
+
 
 With our Makefile now complete, all we need to do is to upload that to
 our Attiny85.
