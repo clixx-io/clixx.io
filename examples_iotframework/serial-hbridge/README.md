@@ -22,9 +22,14 @@ forward involves toggling a Logic 1/High to the forward pin and a logic 0/Low to
 reverse pin.
 
 With the clixx.io framework, it's very easy to add external control to
-this example by adding the Serial object. This will enable us to process
-a line of text at a time and allow external serial control of the 
-micro-controller.
+this example by adding the Serial object. That will mean that we can
+later connect it to either a USB-Serial, Bluetooth or some other serial
+connection to allow us to control it.
+
+The start of our program sets up the serial port and sends some
+commands with the control instructions. Echo is enabled so that
+characters are echoed back to the remote system, allowing us to
+see the characters as we type them in the terminal.
 
     Serial.begin();
     Serial.puts("\r\nH-Bridge Motor Controller\r\n");
