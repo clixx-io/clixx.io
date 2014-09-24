@@ -6,10 +6,10 @@ Controlling an H-Bridge Driver via Serial
 If you connect an Electric motor up to a relay or mosfet you quickly
 realise that you can only control a motor in one direction.
 
-H-Bridges are electronic circuits that enables a voltage to be applied 
-to DC-Motor in a way that enables it to run in either direction. These 
-circuits are often used in robotics, consumer devices, automotive and 
-other applications.
+H-Bridges are electronic circuits that double up the direction control
+circuitry to allow the DC-Motor to run in either direction. The typical use
+for these are in robotics, consumer devices, automotive (electric-windows) 
+and other applications.
 
 Originally there were up to four mechanical switches arranged on a board
 but these days, miniturisation in the electronics has reduced them in size 
