@@ -21,12 +21,7 @@ class App : public clixxIOApp{
   public:
 
     void setup(){
-        /* setup Event handler
-
-         This is a built in handler that will get called on startup
-         and provides for initialisation requirements.
-
-        */
+        /* setup Event handler */
         Debug.puts("Application in Startup event");
         
         IoT.begin();
@@ -35,11 +30,7 @@ class App : public clixxIOApp{
     };
 
     void timer(){
-        /* timer Event handler
-         
-         This will get called automatically by the timer.
-         
-        */
+        /* timer Event handler */
         Debug.puts("Timer Callback");
     }
 
@@ -49,7 +40,7 @@ class App : public clixxIOApp{
         //user must call ReadTemp before any valid temp data is available
         InsideTemp.ReadTemp();  
         Serial.print("Fahrenheit: ");
-        
+
         //functions to get the temperature in various unitsfs
         Serial.println(InsideTemp.Fahrenheit());
         Serial.print("Celsius: ");
