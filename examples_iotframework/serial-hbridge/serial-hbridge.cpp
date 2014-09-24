@@ -38,26 +38,26 @@ class App : public clixxIOApp{
         if (c == 'f')
         {
             Serial.puts("Forward\r\n");
-            pin_fwd.setval(1);
-            pin_rvs.setval(0);
+            pin_fwd.digitalWrite(1);
+            pin_rvs.digitalWrite(0);
         }
         else if (c == 'r')
         {
             Serial.puts("Reverse\r\n");
-            pin_fwd.setval(0);
-            pin_rvs.setval(1);
+            pin_fwd.digitalWrite(0);
+            pin_rvs.digitalWrite(1);
         }
         else if (c == '0')
         {
             Serial.puts("Turned Off\r\n");
-            pin_fwd.setval(0);
-            pin_rvs.setval(0);
+            pin_fwd.digitalWrite(0);
+            pin_rvs.digitalWrite(0);
         } 
         else if (c == 'b')
         {
             Serial.puts("Brake On\r\n");
-            pin_fwd.setval(1);
-            pin_rvs.setval(1);
+            pin_fwd.digitalWrite(1);
+            pin_rvs.digitalWrite(1);
         } 
         else
         {

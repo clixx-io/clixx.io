@@ -279,8 +279,8 @@ class clixxIOGPIOPin
       string getpinnumber();
     #endif
 
-    int setval(short val);
-    int getval();
+    void digitalWrite(short val);
+    int digitalRead();
     int configure(const char *logicalname);
     int configure(short pinnumber,short direction=0);
     

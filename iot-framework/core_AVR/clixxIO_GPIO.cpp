@@ -97,17 +97,16 @@ clixxIOGPIOPin::~clixxIOGPIOPin()
     
 }
 
-int clixxIOGPIOPin::setval(short val)
+void clixxIOGPIOPin::digitalWrite(short val)
 {
     if (val != 0){
         PORTB |= (1 << _gpionum);   // Turn pin on
     } else {
         PORTB &= ~(1 << _gpionum);  // else Turn pin off
     }
-    return(0);
 }
 
-int clixxIOGPIOPin::getval()
+int clixxIOGPIOPin::digitalRead()
 {
     return (PINB & (1 << _gpionum));
 }

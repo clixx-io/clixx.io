@@ -242,7 +242,7 @@ int clixxIOGPIOPin::setval(string val)
  * setval
  *
  **********************************************************************/  
-int clixxIOGPIOPin::setval(short val)
+void clixxIOGPIOPin::digitalWrite(short val)
 {
     string valueStr("0");
     if (val == 0)
@@ -252,14 +252,14 @@ int clixxIOGPIOPin::setval(short val)
     {
         valueStr = "1";
     }
-    return setval(valueStr);
+    setval(valueStr);
 }
 
 /**********************************************************************
  * getval
  *
  **********************************************************************/  
-int clixxIOGPIOPin::getval(){
+int clixxIOGPIOPin::digitalRead(){
 
     string getValStr = "/sys/class/gpio/gpio" + this->_gpionum + "/value";
     char buff[10];
@@ -278,7 +278,6 @@ int clixxIOGPIOPin::getval(){
     }
 
     buff[1]='\0';
-
     string val = string(buff);
 
     if (val.compare("1") != 0 && val.compare("0") != 0 ) {
@@ -328,7 +327,7 @@ bool clixxIO_Button::pressed(){
 */
 void clixxIO_Switch::On()
 {
-    this->setval(1);
+    this->digitalWrite(1);
 }
 
 /** Turns a switch off
@@ -338,5 +337,5 @@ void clixxIO_Switch::On()
 */
 void clixxIO_Switch::Off()
 {
-    this->setval(0);
+    this->digitalWrite(0);
 }
