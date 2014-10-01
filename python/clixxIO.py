@@ -91,7 +91,7 @@ def GetConfigDir():
         else:
             homedir = os.path.join(os.path.expanduser("~"),clixxIOConfigDir)
 
-    elif platform.system()=='Linux':	
+    elif platform.system()=='Linux':
 
         clixxIOLogDir    = "/var/log"
 
@@ -107,12 +107,6 @@ def configPath():
     """
     return os.path.join(clixxIOConfigDir,clixxIOConfigName)
 
-def programmersEditorPath():
-    """
-    Provides the Executeable to the Programmers selected Editor
-    """
-    return None
-
 class clixxIOProject:
     """ 
     A Basic class to simplify project Management
@@ -124,12 +118,6 @@ class clixxIOProject:
         self._OutputChannel = ""
         self._AvailableCommands = []
 
-    def fireProgrammersEditor(self, filename = None):
-        return
-        
-    def openWebHomepage(self, filename = None):
-        return
-        
     def publishText(self, ChannelTopic, ChannelText):
         return
         
@@ -189,12 +177,6 @@ def clixxIORemoveProject(projectname):
     shutil.rmtree(os.path.join(clixxIOProjectDir(),projectname))
     return
 
-def clixxIOAddProjectDevice(projectname):
-    return
-
-def clixxIOStartProject(projectname):
-    return
-
 def clixxIOListProjects():
     """
     Return the names of all projects maintained by the system.
@@ -210,8 +192,48 @@ def clixxIOListProjects():
             projects.append(os.path.basename(d))
     return projects
 
-def clixxIOStopProject(projectname):
-    return
+def clixxIOProjectAutostarts(showDisabled = False):
+    """
+    Return the names of all projects maintained by the system.
+
+    These are typically directories stored in the IoT directory
+    """
+    autostarts = {}
+    
+    pl = clixxIOListProjects()
+    for p in pl:
+        
+        cf = clixxIOlProjectConfigFilename(p)
+        cp = SafeConfigParser()
+        cp.read(cf)
+
+        # Use some strings to hold values
+        ad = clixxIOProjectDir(p)
+        ac = ""
+        aa = ""
+        ae = ""
+        
+        if cp.has_option("autostart","directory"):
+            ad = cp.get("autostart","directory","")
+
+        if cp.has_option("autostart","command"):
+            ac = cp.get("autostart","command")
+
+        if cp.has_option("autostart","arguments"):
+            aa = cp.get("autostart","arguments")
+
+        if cp.has_option("autostart","enabled"):
+            ae = cp.get("autostart","enabled")
+
+        if showDisabled:
+            
+            autostarts[p] = {"directory":ad,"command":ac,"arguments":aa,"enabled":ae}
+            
+        elif ae.lower() == "true":
+            
+            autostarts[p] = {"directory":ad,"command":ac,"arguments":aa,"enabled":ae}
+
+    return autostarts
 
 def clixxIOlProjectConfigFilename(projectname):
     

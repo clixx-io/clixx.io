@@ -21,7 +21,7 @@
 #sip.setapi('QVariant', 2)
 
 from PySide import QtCore, QtGui, QtWebKit
-from PySide.QtCore import SIGNAL
+from PySide.QtCore import SIGNAL, QProcess
 from functools import partial
 import webbrowser
 
@@ -29,6 +29,45 @@ import iot_controller_rc
 
 from clixxIO import *
 
+autostart_processlist = []
+
+class runProcessWindow(QtGui.QWidget):
+    """"""
+ 
+    #----------------------------------------------------------------------
+    def __init__(self):
+        """Constructor"""
+        # super(DialogDemo, self).__init__()
+        QtGui.QWidget.__init__(self)
+ 
+        self.label = QtGui.QLabel("Python rules!")
+ 
+        # create the buttons
+        colorDialogBtn = QtGui.QPushButton("Open Color Dialog")
+        fileDialogBtn =  QtGui.QPushButton("Open File Dialog")
+        self.fontDialogBtn = QtGui.QPushButton("Open Font Dialog")
+        inputDlgBtn = QtGui.QPushButton("Open Input Dialog")
+ 
+        # connect the buttons to the functions (signals to slots)
+        # colorDialogBtn.clicked.connect(self.openColorDialog)
+        # fileDialogBtn.clicked.connect(self.openFileDialog)
+        # self.fontDialogBtn.clicked.connect(self.openFontDialog)
+        # self.connect(inputDlgBtn, QtCore.SIGNAL("clicked()"), self.openInputDialog)
+ 
+        # layout widgets
+        layout = QtGui.QVBoxLayout()
+        layout.addWidget(self.label)
+        layout.addWidget(colorDialogBtn)
+        layout.addWidget(fileDialogBtn)
+        layout.addWidget(self.fontDialogBtn)
+        layout.addWidget(inputDlgBtn)
+        self.setLayout(layout)
+ 
+        # set the position and size of the window
+        self.setGeometry(100, 100, 400, 100)
+ 
+        self.setWindowTitle("Dialog Demo")
+ 
 class Window(QtGui.QDialog):
     def __init__(self):
         super(Window, self).__init__()
@@ -248,6 +287,8 @@ class Window(QtGui.QDialog):
             
         return menu_actions
 
+
+
     def createTrayIcon(self):
          self.trayIconMenu = QtGui.QMenu(self)
          
@@ -302,12 +343,44 @@ def execute_action(projectname, configfile, actionstring):
         c = spawntask(cmdline)
 
     else:
+            
+        processrunner = runProcessWindow()
+        processrunner.show()
+            
         os.chdir(clixxIOProjectDir(projectname))
         
         c = spawntask(actionstring)
         print c
         
+def start_autostarts():
+
+        autostarts = {}
+                
+        sl = clixxIOProjectAutostarts()
+
+        for sp in sl.keys():
+            
+            p = QProcess()
+            p.setWorkingDirectory(sl[sp]["directory"])
+            
+            program = sl[sp]["command"]
+            arguments = sl[sp]["arguments"]
+
+            print sl[sp]
+            print "Starting %s in %s with arguments %s" % (program,sl[sp]["directory"],arguments)
+
+            # Start the process running
+            autostart_processlist.append(p)
+            autostart_processlist[len(autostart_processlist)-1].start(program, [''.join(arguments)])
+            
+            # p.waitForFinished()
+            # self.process_list.append(myProcess)
+
+        
 def performMenuAction(identifier):
+
+    print "Starting processes"
+    start_autostarts()
 
     p = identifier[:identifier.find('/')]
     c = identifier[identifier.find('/')+1:]
@@ -315,6 +388,9 @@ def performMenuAction(identifier):
     menu_actions = []
         
     cf = clixxIOlProjectConfigFilename(p)
+
+    cp = SafeConfigParser()
+    cp.read(cf)
         
     if cp.has_section("menu_actions"):
         menu_actions = cp.items("menu_actions")
