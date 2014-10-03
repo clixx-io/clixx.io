@@ -97,6 +97,9 @@ class Window(QtGui.QDialog):
         self.setWindowTitle("Clixx.io IoT Manager")
         self.resize(400, 300)
 
+        start_autostarts()
+
+
     def setVisible(self, visible):
         self.minimizeAction.setEnabled(visible)
         self.maximizeAction.setEnabled(not self.isMaximized())
@@ -378,9 +381,6 @@ def start_autostarts():
 
         
 def performMenuAction(identifier):
-
-    print "Starting processes"
-    start_autostarts()
 
     p = identifier[:identifier.find('/')]
     c = identifier[identifier.find('/')+1:]
