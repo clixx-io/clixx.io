@@ -47,11 +47,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     if args.operation[0]=="list":
+        
         if len(args.operation)==1:
-            print("Current Projects\nName--------------------- IoT Channel------------------------ Type------------------")
+            print("Current Projects\nName--------------------- Type------------------------ Status------------------")
             projects = clixxIOListProjects()
+            types = clixxIOListProjectbyType()
+            statuses = clixxIOListProjectbyStatus()
+            
             for p in projects:
-                print(p)
+                print("%s %s %s" % ('{:25}'.format(p),'{:<26}'.format(types[p]),'{:<26}'.format(statuses[p])))
+                
         else:
             if args.operation[1]=="input_channels":
                 projname = args.operation[2]

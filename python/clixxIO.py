@@ -192,6 +192,52 @@ def clixxIOListProjects():
             projects.append(os.path.basename(d))
     return projects
 
+def clixxIOListProjectbyStatus():
+    """
+    Return the names of all projects and their status
+
+    These are typically directories stored in the IoT directory
+    """
+    
+    projectlist = {}
+    
+    for p in clixxIOListProjects():
+        
+        cf = clixxIOlProjectConfigFilename(p)
+        cp = SafeConfigParser()
+        cp.read(cf)
+
+        if cp.has_option(p,"status"):
+            ps = cp.get(p,"status")
+            projectlist[p] = ps
+        else:
+            projectlist[p] = ""
+            
+    return projectlist
+
+def clixxIOListProjectbyType():
+    """
+    Return the names of all projects and their type
+
+    These are typically directories stored in the IoT directory
+    """
+    
+    projectlist = {}
+    
+    for p in clixxIOListProjects():
+        
+        cf = clixxIOlProjectConfigFilename(p)
+        cp = SafeConfigParser()
+        cp.read(cf)
+
+        if cp.has_option(p,"project_type"):
+            ps = cp.get(p,"project_type")
+            projectlist[p] = ps
+        else:
+            projectlist[p] = ""
+            
+    return projectlist
+
 def clixxIOProjectAutostarts(showDisabled = False):
     """
     Return the names of all projects maintained by the system.
