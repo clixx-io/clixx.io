@@ -25,8 +25,6 @@ from PySide.QtCore import SIGNAL, QProcess
 from functools import partial
 import webbrowser
 
-import iot_controller_rc
-
 from clixxIO import *
 
 autostart_processlist = []
@@ -108,10 +106,6 @@ class Window(QtGui.QDialog):
 
     def closeEvent(self, event):
         if self.trayIcon.isVisible():
-        #    QtGui.QMessageBox.information(self, "Clixx.io IoT Manager",
-        #            "The program will keep running in the system tray. To "
-        #            "terminate the program, choose <b>Quit</b> in the "
-        #            "context menu of the system tray entry.")
             self.hide()
             event.ignore()
 
@@ -195,7 +189,7 @@ class Window(QtGui.QDialog):
         self.iconGroupBox.setLayout(iconLayout)
 
     def createMessageGroupBox(self):
-        self.messageGroupBox = QtGui.QGroupBox("Balloon Message")
+        self.messageGroupBox = QtGui.QGroupBox("Log Settings")
 
         typeLabel = QtGui.QLabel("Type:")
 
@@ -205,10 +199,10 @@ class Window(QtGui.QDialog):
                 QtGui.QStyle.SP_MessageBoxInformation), "Information",
                 QtGui.QSystemTrayIcon.Information)
         self.typeComboBox.addItem(self.style().standardIcon(
-                QtGui.QStyle.SP_MessageBoxWarning), "Warning",
+                QtGui.QStyle.SP_MessageBoxWarning), "Debug",
                 QtGui.QSystemTrayIcon.Warning)
         self.typeComboBox.addItem(self.style().standardIcon(
-                QtGui.QStyle.SP_MessageBoxCritical), "Critical",
+                QtGui.QStyle.SP_MessageBoxCritical), "None",
                 QtGui.QSystemTrayIcon.Critical)
         self.typeComboBox.setCurrentIndex(1)
 
@@ -227,11 +221,10 @@ class Window(QtGui.QDialog):
 
         self.titleEdit = QtGui.QLineEdit("Internet-of-Things Event")
 
-        bodyLabel = QtGui.QLabel("Body:")
+        bodyLabel = QtGui.QLabel("Log:")
 
         self.bodyEdit = QtGui.QTextEdit()
-        self.bodyEdit.setPlainText("Something on the Intranet went Bing. Not "
-                "sure what exactly it was. Check later when the program works.")
+        self.bodyEdit.setPlainText("Program startup.")
 
         self.showMessageButton = QtGui.QPushButton("Show Message")
         self.showMessageButton.setDefault(True)
@@ -270,7 +263,10 @@ class Window(QtGui.QDialog):
         self.maximizeAction = QtGui.QAction("Ma&ximize", self,
                 triggered=self.showMaximized)
 
-        self.restoreAction = QtGui.QAction("&Add", self,
+        self.newProjectAction = QtGui.QAction("&Add", self,
+                triggered=self.showNormal)
+
+        self.restoreAction = QtGui.QAction("&Settings", self,
                 triggered=self.showNormal)
 
         self.quitAction = QtGui.QAction("&Quit", self,
