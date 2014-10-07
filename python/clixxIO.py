@@ -83,13 +83,12 @@ def GetConfigDir():
         try:
             from win32com.shell import shellcon, shell            
             homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
+            homedir = os.path.join(homedir,"clixx.io")
  
         except ImportError: # quick semi-nasty fallback for non-windows/win32com case
             homedir = os.path.expanduser("~")
             homedir = os.path.join(homedir,"clixx.io")
 
-        else:
-            homedir = os.path.join(os.path.expanduser("~"),clixxIOConfigDir)
 
     elif platform.system()=='Linux':
 
