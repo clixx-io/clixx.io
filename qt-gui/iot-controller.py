@@ -363,17 +363,21 @@ def start_autostarts():
             p.setWorkingDirectory(sl[sp]["directory"])
             
             program = sl[sp]["command"]
-            arguments = sl[sp]["arguments"]
+            arguments = sl[sp]["arguments"].split(' ')
 
-            print sl[sp]
             print "Starting %s in %s with arguments %s" % (program,sl[sp]["directory"],arguments)
 
             # Start the process running
             autostart_processlist.append(p)
-            autostart_processlist[len(autostart_processlist)-1].start(program, [''.join(arguments)])
+            print autostart_processlist[len(autostart_processlist)-1].start(program, arguments)
+
+            print "Arguments=",arguments
             
             # p.waitForFinished()
             # self.process_list.append(myProcess)
+
+        for p in range(0,len(autostart_processlist)-1):
+            print "PID=",autostart_processlist[p].pid()
 
         
 def performMenuAction(identifier):

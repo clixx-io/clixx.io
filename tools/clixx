@@ -58,6 +58,11 @@ if __name__ == "__main__":
                 print("%s %s %s" % ('{:25}'.format(p),'{:<26}'.format(types[p]),'{:<26}'.format(statuses[p])))
                 
         else:
+            if args.operation[1]=="autostarts":
+                autostarts = clixxIOProjectAutostarts()
+                print autostarts
+                sys.exit(0)
+
             if args.operation[1]=="input_channels":
                 projname = args.operation[2]
                 print(clixxIOListProjectMqttSubs(projname))
@@ -71,6 +76,10 @@ if __name__ == "__main__":
             elif args.operation[1]=="commands":
                 projname = args.operation[2]
                 print(clixxIOListProjectMqttCommands(projname))
+                sys.exit(0)
+                
+            else:
+                print("Command error \"%s\" not understood" % args.operation[1])
                 sys.exit(0)
 
     elif args.operation[0]=="pubs":
