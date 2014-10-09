@@ -23,7 +23,8 @@
 from PySide import QtCore, QtGui, QtWebKit
 from PySide.QtCore import SIGNAL, QProcess
 from functools import partial
-import webbrowser
+import logging, webbrowser, sys
+
 
 from clixxIO import *
 
@@ -94,6 +95,10 @@ class Window(QtGui.QDialog):
 
         self.setWindowTitle("Clixx.io IoT Manager")
         self.resize(400, 300)
+
+        logfilename = os.path.join(clixxIOProjectDir(),"clixx.io.log")
+
+        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',filename=logfilename)
 
         start_autostarts()
 
@@ -400,8 +405,6 @@ def performMenuAction(identifier):
             execute_action(p, cp, i[1])
 
 if __name__ == '__main__':
-
-    import sys
 
     app = QtGui.QApplication(sys.argv)
 

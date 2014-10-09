@@ -39,6 +39,7 @@ _ = gettext.gettext
 
 
 clixxIOConfigName= "clixx.io.ini"
+clixxIOLogName = "clixx.io.log"
 clixxIOConfigDir = ".local/share/clixx.io"
 clixxIOConfigDirSuffix = ".local/share/clixx.io"
 
@@ -89,12 +90,11 @@ def GetConfigDir():
             homedir = os.path.expanduser("~")
             homedir = os.path.join(homedir,"clixx.io")
 
-
     elif platform.system()=='Linux':
 
-        clixxIOLogDir    = "/var/log"
+        clixxIOLogDir    = clixxIOProjectDir()
 
-        clixxIOConfigDir = os.path.join(os.path.expanduser("~"),clixxIOConfigDirSuffix)
+        clixxIOConfigDir = os.path.join(os.path.expanduser("~"),)
 
         homedir = clixxIOConfigDir
 
