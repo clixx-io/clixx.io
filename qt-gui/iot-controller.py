@@ -27,8 +27,15 @@ import logging, webbrowser, sys
 
 
 from clixxIO import *
+import iot_controller_rc
 
 autostart_processlist = []
+
+def supported_image_extensions():
+    ''' Get the image file extensions that can be read. '''
+    formats = QtGui.QImageReader().supportedImageFormats()
+    # Convert the QByteArrays to strings
+    return [str(fmt) for fmt in formats]
 
 class runProcessWindow(QtGui.QWidget):
     """"""
@@ -66,6 +73,53 @@ class runProcessWindow(QtGui.QWidget):
         self.setGeometry(100, 100, 400, 100)
  
         self.setWindowTitle("Dialog Demo")
+
+class LogFileList(QtGui.QListWidget):
+    ''' A specialized QListWidget that displays the
+        list of all image files in a given directory. '''
+ 
+    def __init__(self, dirpath, parent=None):
+        QtGui.QListWidget.__init__(self, parent)
+        self.setDirpath(dirpath)
+ 
+ 
+    def setDirpath(self, dirpath):
+        ''' Set the current image directory and refresh the list. '''
+        self._dirpath = dirpath
+        self._populate()
+ 
+ 
+    def _images(self):
+        ''' Return a list of filenames of all
+            supported images in self._dirpath. '''
+ 
+        # Start with an empty list
+        images = []
+ 
+        # Find the matching files for each valid
+        # extension and add them to the images list
+        for extension in supported_image_extensions():
+            pattern = os.path.join(self._dirpath,
+                                   '*.%s' % extension)
+            print glob.glob(pattern)
+            images.extend(glob.glob(pattern))
+ 
+        return images
+ 
+ 
+    def _populate(self):
+        ''' Fill the list with images from the
+            current directory in self._dirpath. '''
+ 
+        # In case we're repopulating, clear the list
+        self.clear()
+ 
+        # Create a list item for each image file,
+        # setting the text and icon appropriately
+        for image in self._images():
+            item = QtGui.QListWidgetItem(self)
+            item.setText(image)
+            item.setIcon(QtGui.QIcon(':/images/circuit-128.png'))
  
 class Window(QtGui.QDialog):
     def __init__(self):
@@ -74,7 +128,7 @@ class Window(QtGui.QDialog):
         self.createIconGroupBox()
         self.createMessageGroupBox()
 
-        self.iconLabel.setMinimumWidth(self.durationLabel.sizeHint().width())
+        # self.iconLabel.setMinimumWidth(self.durationLabel.sizeHint().width())
 
         self.createActions()
         self.createTrayIcon()
@@ -131,11 +185,8 @@ class Window(QtGui.QDialog):
             self.showMessage()
 
     def showMessage(self):
-        icon = QtGui.QSystemTrayIcon.MessageIcon(
-                self.typeComboBox.itemData(self.typeComboBox.currentIndex()))
-        self.trayIcon.showMessage(self.titleEdit.text(),
-                self.bodyEdit.toPlainText(), icon,
-                self.durationSpinBox.value() * 1000)
+                
+        self.trayIcon.showMessage("Event","System is operational.")
 
     def messageClicked(self):
         QtGui.QMessageBox.information(None, "Systray",
@@ -194,58 +245,61 @@ class Window(QtGui.QDialog):
         self.iconGroupBox.setLayout(iconLayout)
 
     def createMessageGroupBox(self):
-        self.messageGroupBox = QtGui.QGroupBox("Log Settings")
+        self.messageGroupBox = QtGui.QGroupBox("Log View")
 
-        typeLabel = QtGui.QLabel("Type:")
+#        typeLabel = QtGui.QLabel("Type:")
 
-        self.typeComboBox = QtGui.QComboBox()
-        self.typeComboBox.addItem("None", QtGui.QSystemTrayIcon.NoIcon)
-        self.typeComboBox.addItem(self.style().standardIcon(
-                QtGui.QStyle.SP_MessageBoxInformation), "Information",
-                QtGui.QSystemTrayIcon.Information)
-        self.typeComboBox.addItem(self.style().standardIcon(
-                QtGui.QStyle.SP_MessageBoxWarning), "Debug",
-                QtGui.QSystemTrayIcon.Warning)
-        self.typeComboBox.addItem(self.style().standardIcon(
-                QtGui.QStyle.SP_MessageBoxCritical), "None",
-                QtGui.QSystemTrayIcon.Critical)
-        self.typeComboBox.setCurrentIndex(1)
+#        self.typeComboBox = QtGui.QComboBox()
+#        self.typeComboBox.addItem("None", QtGui.QSystemTrayIcon.NoIcon)
+#        self.typeComboBox.addItem(self.style().standardIcon(
+#                QtGui.QStyle.SP_MessageBoxInformation), "Information",
+#                QtGui.QSystemTrayIcon.Information)
+#        self.typeComboBox.addItem(self.style().standardIcon(
+#                QtGui.QStyle.SP_MessageBoxWarning), "Debug",
+#                QtGui.QSystemTrayIcon.Warning)
+#        self.typeComboBox.addItem(self.style().standardIcon(
+#                QtGui.QStyle.SP_MessageBoxCritical), "None",
+#                QtGui.QSystemTrayIcon.Critical)
+#        self.typeComboBox.setCurrentIndex(1)
 
-        self.durationLabel = QtGui.QLabel("Duration:")
+#        self.durationLabel = QtGui.QLabel("Duration:")
 
-        self.durationSpinBox = QtGui.QSpinBox()
-        self.durationSpinBox.setRange(5, 60)
-        self.durationSpinBox.setSuffix(" s")
-        self.durationSpinBox.setValue(15)
+#        self.durationSpinBox = QtGui.QSpinBox()
+#        self.durationSpinBox.setRange(5, 60)
+#        self.durationSpinBox.setSuffix(" s")
+#        self.durationSpinBox.setValue(15)
 
-        durationWarningLabel = QtGui.QLabel("(some systems might ignore this "
-                "hint)")
-        durationWarningLabel.setIndent(10)
+#        durationWarningLabel = QtGui.QLabel("(some systems might ignore this "
+#                "hint)")
+#        durationWarningLabel.setIndent(10)
 
-        titleLabel = QtGui.QLabel("Title:")
+#        titleLabel = QtGui.QLabel("Title:")
 
-        self.titleEdit = QtGui.QLineEdit("Internet-of-Things Event")
+#        self.titleEdit = QtGui.QLineEdit("Internet-of-Things Event")
 
         bodyLabel = QtGui.QLabel("Log:")
 
-        self.bodyEdit = QtGui.QTextEdit()
-        self.bodyEdit.setPlainText("Program startup.")
+#        self.bodyEdit = QtGui.QTextEdit()
+#        self.bodyEdit.setPlainText("Program startup.")
 
-        self.showMessageButton = QtGui.QPushButton("Show Message")
+        self.logList = LogFileList("../webinterface/media/icons")
+
+        self.showMessageButton = QtGui.QPushButton("System Check")
         self.showMessageButton.setDefault(True)
 
         messageLayout = QtGui.QGridLayout()
-        messageLayout.addWidget(typeLabel, 0, 0)
-        messageLayout.addWidget(self.typeComboBox, 0, 1, 1, 2)
-        messageLayout.addWidget(self.durationLabel, 1, 0)
-        messageLayout.addWidget(self.durationSpinBox, 1, 1)
-        messageLayout.addWidget(durationWarningLabel, 1, 2, 1, 3)
-        messageLayout.addWidget(titleLabel, 2, 0)
-        messageLayout.addWidget(self.titleEdit, 2, 1, 1, 4)
-        messageLayout.addWidget(bodyLabel, 3, 0)
-        messageLayout.addWidget(self.bodyEdit, 3, 1, 2, 4)
+        messageLayout.addWidget(self.logList,0, 2, 4, 4)
+        #messageLayout.addWidget(typeLabel, 0, 0)
+        #messageLayout.addWidget(self.typeComboBox, 0, 1, 1, 2)
+        #messageLayout.addWidget(self.durationLabel, 1, 0)
+        #messageLayout.addWidget(self.durationSpinBox, 1, 1)
+        #messageLayout.addWidget(durationWarningLabel, 1, 2, 1, 3)
+        #messageLayout.addWidget(titleLabel, 2, 0)
+        #messageLayout.addWidget(self.titleEdit, 2, 1, 1, 4)
+        #messageLayout.addWidget(bodyLabel, 3, 0)
+        #messageLayout.addWidget(self.bodyEdit, 3, 1, 2, 4)
         messageLayout.addWidget(self.showMessageButton, 5, 4)
-        messageLayout.setColumnStretch(3, 1)
+        messageLayout.setColumnStretch(4, 1)
         messageLayout.setRowStretch(4, 1)
         self.messageGroupBox.setLayout(messageLayout)
        
