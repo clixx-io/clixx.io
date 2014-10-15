@@ -14,6 +14,7 @@ setup(
     description = "A python library for clixx.io peripherals",
     author = "David Lyon",
     author_email = "david.lyon@clixx.io",
+    # This needs to be blank
     packages = [''],
     package_dir = {'': 'python'},
 #    package_data={'images': ['qt-gui/images*']},
