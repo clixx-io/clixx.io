@@ -38,10 +38,9 @@ import gettext
 _ = gettext.gettext
 
 
-clixxIOConfigName= "clixx.io.ini"
+clixxIOConfigName= "config.ini"
 clixxIOLogName = "clixx.io.log"
 clixxIOConfigDir = ".local/share/clixx.io"
-clixxIOConfigDirSuffix = ".local/share/clixx.io"
 
 IoTProjectDirSuffix = "IoT"
 
@@ -68,7 +67,7 @@ clixxIOBranding = {}
 clixxIOBrandingSection = "System"
 clixxIOBrandingKeys = ["systemname","ownername","providername","provideraddress","copyrightmsg"]
 
-clixxIOConfig = ConfigParser()
+clixxIOConfig = SafeConfigParser()
 
 logginghandlers = {}
 
@@ -76,7 +75,7 @@ def GetConfigDir():
     """ 
     Return: The Location for configuration files
     """
-    global clixxIOConfigDir, clixxIOConfigDirSuffix
+    global clixxIOConfigDir
     
     homedir = ''
 
@@ -94,17 +93,21 @@ def GetConfigDir():
 
         clixxIOLogDir    = clixxIOProjectDir()
 
-        clixxIOConfigDir = os.path.join(os.path.expanduser("~"),)
-
-        homedir = clixxIOConfigDir
+        homedir = os.path.join(os.path.expanduser("~"),clixxIOConfigDir)
 
     return homedir 
 
-def configPath():
+def clixxIOconfigPath():
     """
     Provides the location of the configuration file
     """
+    global clixxIOConfigDir,clixxIOConfigName
+    
     return os.path.join(clixxIOConfigDir,clixxIOConfigName)
+
+def configPath():
+    
+    return clixxIOconfigPath()
 
 class clixxIOProject:
     """ 
@@ -153,6 +156,15 @@ def clixxIOProjectDir(projectname = None):
         return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,projectname)
     else:
         return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix)
+
+def clixxIOSystemLogFile():
+    """
+    Returns the Master Project Directory for the system.
+
+    These are typically directories stored in the IoT directory
+    """
+    global IoTProjectDirSuffix,clixxIOLogName
+    return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,clixxIOLogName)
 
 def clixxIOAddProject(projectname):
     """

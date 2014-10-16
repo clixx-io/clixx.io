@@ -137,6 +137,7 @@ if __name__ == "__main__":
             sys.exit(clixxIOAddProject(args.operation[2]))
             
     elif args.operation[0]=="remove":
+
         if args.operation[1]=="project":
             # Add a new project
             projname = args.operation[2]
@@ -144,6 +145,26 @@ if __name__ == "__main__":
         else:
             print("Invalid parameter")
             
+    elif args.operation[0]=="show":
+        
+        if args.operation[1]=="config":
+            
+            # Show the location of the configuratino
+            print("Configuration file location is set to %s" % configPath())
+            
+            if (os.path.exists(configPath())):
+                
+                pass
+                
+            else:
+                
+                print("Configuration file %s doesn't exist." % configPath())
+            
+            sys.exit(0)
+            
+        else:
+            print("Invalid parameter")
+
     elif args.operation[0]=='history':
         print(clixxIOLatestValues(args.device[1]))
     elif args.operation[0]=="status":

@@ -123,6 +123,9 @@ class LogFileList(QtGui.QListWidget):
  
 class Window(QtGui.QDialog):
     def __init__(self):
+            
+        global clixxIOConfig,clixxIOConfigDir,clixxIOConfigName,clixxIOLogName
+        
         super(Window, self).__init__()
 
         self.createIconGroupBox()
@@ -147,12 +150,18 @@ class Window(QtGui.QDialog):
         self.iconComboBox.setCurrentIndex(1)
         self.trayIcon.show()
 
-        self.setWindowTitle("Clixx.io IoT Manager")
+        clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
+
+        windowTitle = "Clixx.io IoT Manager"
+        if clixxIOConfig.has_option("GUI","title"):
+            windowTitle = clixxIOConfig.get("GUI","title")
+
+        self.setWindowTitle(windowTitle)
         self.resize(400, 300)
 
-        logfilename = os.path.join(clixxIOProjectDir(),"clixx.io.log")
-
-        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',filename=logfilename)
+        logfilepath = os.path.join(clixxIOProjectDir(),clixxIOLogName)
+        
+        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',filename=logfilepath)
 
         start_autostarts()
 
