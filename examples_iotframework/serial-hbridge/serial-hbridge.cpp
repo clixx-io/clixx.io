@@ -11,6 +11,9 @@
 #include "clixxIO.hpp"
 #include "serial-hbridge-config.hpp"
 
+#define F_CPU 8000000UL
+#include <util/delay.h>
+
 class App : public clixxIOApp{
 
   public:
@@ -32,38 +35,59 @@ class App : public clixxIOApp{
     void serialline()
     {
         /* SerialLine Event handler - gets called when a line is received. */
-        char *cptr = (char *) Serial.lastline();
-        char c = *cptr;
         
-        if (c == 'f')
-        {
-            Serial.puts("Forward\r\n");
-            pin_fwd.digitalWrite(1);
-            pin_rvs.digitalWrite(0);
-        }
-        else if (c == 'r')
-        {
-            Serial.puts("Reverse\r\n");
-            pin_fwd.digitalWrite(0);
-            pin_rvs.digitalWrite(1);
-        }
-        else if (c == '0')
-        {
-            Serial.puts("Turned Off\r\n");
-            pin_fwd.digitalWrite(0);
-            pin_rvs.digitalWrite(0);
-        } 
-        else if (c == 'b')
-        {
-            Serial.puts("Brake On\r\n");
-            pin_fwd.digitalWrite(1);
-            pin_rvs.digitalWrite(1);
-        } 
-        else
-        {
-            Serial.puts("Command not understood. 'f'=Forward,'r'=Reverse,'0'=Off\r\n");
-        }
         
+        for (char *cptr = (char *) Serial.lastline();*cptr!=0;cptr++)
+        {
+
+            char c = *cptr;
+            if (c == 'f')
+            {
+                Serial.puts("Forward\r\n");
+                pin_fwd.digitalWrite(1);
+                pin_rvs.digitalWrite(0);
+            }
+            else if (c == 'r')
+            {
+                Serial.puts("Reverse\r\n");
+                pin_fwd.digitalWrite(0);
+                pin_rvs.digitalWrite(1);
+            }
+            else if (c == '0')
+            {
+                Serial.puts("Turned Off\r\n");
+                pin_fwd.digitalWrite(0);
+                pin_rvs.digitalWrite(0);
+            } 
+            else if (c == 'b')
+            {
+                Serial.puts("Brake On\r\n");
+                pin_fwd.digitalWrite(1);
+                pin_rvs.digitalWrite(1);
+            } 
+            else if ((c >= '0') && (c <= '9'))
+            {
+                int delay = 0;
+                
+                char *eptr = cptr;
+                // Advance to the last number
+                while ((*eptr >= '0') && (*eptr <= '9'))
+                {
+                    delay = (delay * 10) + (int ) (*eptr - 48);
+                    eptr++;
+                    cptr++;
+                }
+                for (int i=0;i<delay;i++)
+                {
+                    _delay_ms(1000);
+                }
+                    
+            }
+            else
+            {
+                Serial.puts("Command not understood. 'f'=Forward,'r'=Reverse,'0'=Off\r\n");
+            }
+        }
     };
 
   protected:
