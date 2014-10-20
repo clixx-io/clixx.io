@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include <avr/io.h>
+#include <util/delay.h>
 #include "clixxIO.hpp"
 #include "iohelp.h"
 
@@ -111,9 +112,9 @@ int clixxIOGPIOPin::digitalRead()
     return (PINB & (1 << _gpionum));
 }
 
-void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds=0)
+void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
 {
-    const short skip_marks = 100 / onpercentage - 1;
+    const short skip_marks = (100 / onpercentage) - 1;
     
     if (seconds > 1)
     {
@@ -129,13 +130,18 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds=0)
             {
                 
                 this->digitalWrite(true);
+                
                 _delay_ms(1);
+                
                 if (e > 0)
                 {
                     if (e-- != 0)
                     {
                         this->digitalWrite(false);
                     }
+                    
+                    _delay_ms(1);
+                    
                 } else
                 {
                     e = skip_marks;
