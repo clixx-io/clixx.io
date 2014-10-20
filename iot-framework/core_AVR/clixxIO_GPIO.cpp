@@ -113,7 +113,7 @@ int clixxIOGPIOPin::digitalRead()
 
 void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds=0)
 {
-    const short pwm_msecs = 10;
+    const short skip_marks = 100 / onpercentage - 1;
     
     if (seconds > 1)
     {
@@ -123,10 +123,23 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds=0)
     {
         for (short i=0; i<deciseconds; i++)
         {
+            short e=skip_marks;
+            
             for (short d=0; d<100; d++)
             {
-                this->digitalWrite(True);
-                _delay_ms(10);
+                
+                this->digitalWrite(true);
+                _delay_ms(1);
+                if (e > 0)
+                {
+                    if (e-- != 0)
+                    {
+                        this->digitalWrite(false);
+                    }
+                } else
+                {
+                    e = skip_marks;
+                }
                 
             }
         }
