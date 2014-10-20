@@ -283,6 +283,8 @@ class clixxIOGPIOPin
     int digitalRead();
     int configure(const char *logicalname);
     int configure(short pinnumber,short direction=0);
+ 
+    void pwmWrite(short onpercentage,int seconds, int deciseconds=0);
     
   protected:
     #if defined(TARGET_LINUX)
