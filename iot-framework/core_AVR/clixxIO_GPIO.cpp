@@ -111,6 +111,29 @@ int clixxIOGPIOPin::digitalRead()
     return (PINB & (1 << _gpionum));
 }
 
+void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds=0)
+{
+    const short pwm_msecs = 10;
+    
+    if (seconds > 1)
+    {
+
+    }
+    if (deciseconds > 0)
+    {
+        for (short i=0; i<deciseconds; i++)
+        {
+            for (short d=0; d<100; d++)
+            {
+                this->digitalWrite(True);
+                _delay_ms(10);
+                
+            }
+        }
+        
+    }
+}
+
 int clixxIOGPIOPin::configure(short pinnumber,short direction)
 {
     _gpionum = pinnumber;
