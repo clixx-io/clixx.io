@@ -23,13 +23,15 @@
 from PySide import QtCore, QtGui, QtWebKit
 from PySide.QtCore import SIGNAL, QProcess
 from functools import partial
-import logging, webbrowser, sys
+import logging, logging.config
+import webbrowser, sys
 
 
 from clixxIO import *
 import iot_controller_rc
 
 autostart_processlist = []
+logger = logging.getLogger('iot-controller-gui')
 
 def supported_image_extensions():
     ''' Get the image file extensions that can be read. '''
@@ -101,7 +103,6 @@ class LogFileList(QtGui.QListWidget):
         for extension in supported_image_extensions():
             pattern = os.path.join(self._dirpath,
                                    '*.%s' % extension)
-            print glob.glob(pattern)
             images.extend(glob.glob(pattern))
  
         return images
@@ -114,17 +115,37 @@ class LogFileList(QtGui.QListWidget):
         # In case we're repopulating, clear the list
         self.clear()
  
+        if not os.path.exists(clixxIOSystemLogFile()):
+            return
+                
+        content = []
+        linestoshow = 15
+            
+        with open(clixxIOSystemLogFile()) as f:
+            content = f.readlines()
+                
+        if len(content) > linestoshow:
+            for l in range(len(content)-linestoshow,len(content)):
+                item = QtGui.QListWidgetItem(self)
+                item.setText(content[l].strip())
+                item.setIcon(QtGui.QIcon(':/images/circuit-128.png'))
+        else:
+            for l in range(len(content)-1,0):
+                item = QtGui.QListWidgetItem(self)
+                item.setText(content[l].strip())
+                item.setIcon(QtGui.QIcon(':/images/circuit-128.png'))
+
         # Create a list item for each image file,
         # setting the text and icon appropriately
-        for image in self._images():
-            item = QtGui.QListWidgetItem(self)
-            item.setText(image)
-            item.setIcon(QtGui.QIcon(':/images/circuit-128.png'))
+        #for image in self._images():
+        #    item = QtGui.QListWidgetItem(self)
+        #    item.setText(image)
+        #    item.setIcon(QtGui.QIcon(':/images/circuit-128.png'))
  
 class Window(QtGui.QDialog):
     def __init__(self):
             
-        global clixxIOConfig,clixxIOConfigDir,clixxIOConfigName,clixxIOLogName
+        global clixxIOConfig,clixxIOConfigDir,clixxIOConfigName,clixxIOLogName, logger
         
         super(Window, self).__init__()
 
@@ -159,9 +180,16 @@ class Window(QtGui.QDialog):
         self.setWindowTitle(windowTitle)
         self.resize(400, 300)
 
-        logfilepath = os.path.join(clixxIOProjectDir(),clixxIOLogName)
+        logfilepath = clixxIOSystemLogFile()
         
-        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',filename=logfilepath)
+        hdlr = logging.FileHandler(logfilepath)
+        formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+        hdlr.setFormatter(formatter)
+        logger.addHandler(hdlr) 
+        logger.setLevel(logging.DEBUG)
+
+        # 'application' code
+        logger.debug("Program Startup")
 
         start_autostarts()
 
@@ -421,6 +449,8 @@ def execute_action(projectname, configfile, actionstring):
         
 def start_autostarts():
 
+        global autostart_processlist, logger
+        
         autostarts = {}
                 
         sl = clixxIOProjectAutostarts()
@@ -433,21 +463,15 @@ def start_autostarts():
             program = sl[sp]["command"]
             arguments = sl[sp]["arguments"].split(' ')
 
-            print "Starting %s in %s with arguments %s" % (program,sl[sp]["directory"],arguments)
+            logger.debug("Starting %s in %s with arguments %s" % (program,sl[sp]["directory"],arguments))
 
             # Start the process running
             autostart_processlist.append(p)
-            print autostart_processlist[len(autostart_processlist)-1].start(program, arguments)
-
-            print "Arguments=",arguments
-            
-            # p.waitForFinished()
-            # self.process_list.append(myProcess)
+            autostart_processlist[len(autostart_processlist)-1].start(program, arguments)
 
         for p in range(0,len(autostart_processlist)-1):
-            print "PID=",autostart_processlist[p].pid()
+            logger.debug("PID="+autostart_processlist[p].pid())
 
-        
 def performMenuAction(identifier):
 
     p = identifier[:identifier.find('/')]
