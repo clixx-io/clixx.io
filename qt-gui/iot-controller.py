@@ -470,7 +470,7 @@ def start_autostarts():
             autostart_processlist[len(autostart_processlist)-1].start(program, arguments)
 
         for p in range(0,len(autostart_processlist)-1):
-            logger.debug("PID="+autostart_processlist[p].pid())
+            logger.debug("PID=%d" % autostart_processlist[p].pid())
 
 def performMenuAction(identifier):
 
