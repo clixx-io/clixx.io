@@ -128,6 +128,40 @@ if __name__ == "__main__":
             projname = args.operation[2]
             clixxIO.clixxIOAddProjectMqttCommands(projname,args.operation[3])
 
+    elif args.operation[0]=="log":
+
+        if (len(args.operation) == 1):
+
+            if not os.path.exists(clixxIOSystemLogFile()):
+                print("Log file %s doesn't exist" % clixxIOSystemLogFile())
+                sys.exit(1)
+                
+            content = []
+            linestoshow = 15
+            
+            with open(clixxIOSystemLogFile()) as f:
+                content = f.readlines()
+                
+            if len(content) > linestoshow:
+                for l in range(len(content)-linestoshow,len(content)):
+                    print(content[l].strip())
+            else:
+                for l in content:
+                    print l.strip()
+                
+        if (len(args.operation)>1):
+            
+            if args.operation[1]=="location":
+                
+                logfilestatus = "File does not exist."
+                
+                if os.path.exists(clixxIOSystemLogFile()):
+                    statinfo = os.stat(clixxIOSystemLogFile())
+                    logfilestatus = "%d bytes" % statinfo.st_size
+                    
+                print("Log file location is %s, %s" % (clixxIOSystemLogFile(),logfilestatus))
+                sys.exit(0)
+
     elif args.operation[0]=="new":
 
         if args.operation[1]=="project":
