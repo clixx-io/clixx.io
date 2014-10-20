@@ -282,7 +282,7 @@ class clixxIOGPIOPin
     void digitalWrite(short val);
     int digitalRead();
     int configure(const char *logicalname);
-    int configure(short pinnumber,short direction=0);
+    int configure(short pinnumber,short direction=0, short source=false);
  
     void pwmWrite(short onpercentage,int seconds, int deciseconds=0);
     

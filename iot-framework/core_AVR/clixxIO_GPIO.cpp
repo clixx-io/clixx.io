@@ -153,7 +153,7 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
     }
 }
 
-int clixxIOGPIOPin::configure(short pinnumber,short direction)
+int clixxIOGPIOPin::configure(short pinnumber,short direction, short source)
 {
     _gpionum = pinnumber;
     _direction = direction;
