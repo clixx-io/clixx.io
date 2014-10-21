@@ -32,6 +32,7 @@ import iot_controller_rc
 
 autostart_processlist = []
 logger = logging.getLogger('iot-controller-gui')
+secondwin = None
 
 def supported_image_extensions():
     ''' Get the image file extensions that can be read. '''
@@ -168,10 +169,14 @@ class Window(QtGui.QDialog):
         mainLayout.addWidget(self.messageGroupBox)
         self.setLayout(mainLayout)
 
-        self.iconComboBox.setCurrentIndex(1)
-        self.trayIcon.show()
+        clixxIOConfig.read(clixxIOconfigPath())
 
-        clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
+        iconindex = 1
+        if clixxIOConfig.has_option("GUI","iconindex"):
+            iconindex  = clixxIOConfig.getint("GUI","iconindex")
+
+        self.iconComboBox.setCurrentIndex(iconindex)
+        self.trayIcon.show()
 
         windowTitle = "Clixx.io IoT Manager"
         if clixxIOConfig.has_option("GUI","title"):
@@ -206,12 +211,25 @@ class Window(QtGui.QDialog):
             event.ignore()
 
     def setIcon(self, index):
-        print index
+            
+        global clixxIOConfig, logger
+        
+        logger.debug("Setting icon to %d" % index)
+        
         icon = self.iconComboBox.itemIcon(index)
         self.trayIcon.setIcon(icon)
         self.setWindowIcon(icon)
 
         self.trayIcon.setToolTip(self.iconComboBox.itemText(index))
+
+        if not clixxIOConfig.has_section("GUI"):
+            clixxIOConfig.add_section("GUI")
+            
+        clixxIOConfig.set('GUI', 'iconindex', str(index))
+        
+        cfgfile = open(clixxIOconfigPath(),'w')
+        clixxIOConfig.write(cfgfile)
+        cfgfile.close()
 
     def iconActivated(self, reason):
         if reason in (QtGui.QSystemTrayIcon.Trigger, QtGui.QSystemTrayIcon.DoubleClick):
@@ -353,14 +371,23 @@ class Window(QtGui.QDialog):
         #  url = QUrl.fromLocalFile(adjust_filename('fox.html', __file__))
 
     def createActions(self):
+            
+        global secondwin
+        
         self.minimizeAction = QtGui.QAction("Mi&nimize", self,
                 triggered=self.hide)
 
         self.maximizeAction = QtGui.QAction("Ma&ximize", self,
                 triggered=self.showMaximized)
 
-        self.newProjectAction = QtGui.QAction("&Add", self,
-                triggered=self.showNormal)
+#        self.maintainProjects = QtGui.QAction("&Maintain Projects", self,
+#                triggered=self.showNormal)
+
+#        self.SerialTerminalAction = QtGui.QAction("&Serial Terminal", self,
+#                triggered=secondwin.showNormal)
+
+#        self.SystemLogAction = QtGui.QAction("&System Log", self,
+#                triggered=self.showNormal)
 
         self.restoreAction = QtGui.QAction("&Settings", self,
                 triggered=self.showNormal)
@@ -383,7 +410,6 @@ class Window(QtGui.QDialog):
         return menu_actions
 
 
-
     def createTrayIcon(self):
          self.trayIconMenu = QtGui.QMenu(self)
          
@@ -403,7 +429,11 @@ class Window(QtGui.QDialog):
                  # mnuAction.Checked = True
         
          self.trayIconMenu.addSeparator()
+         self.trayIconMenu.addAction(self.maintainProjects)
+         self.trayIconMenu.addAction(self.SerialTerminalAction)
+         self.trayIconMenu.addAction(self.SystemLogAction)
          self.trayIconMenu.addAction(self.restoreAction)
+
          self.trayIconMenu.addSeparator()
          self.trayIconMenu.addAction(self.quitAction)
 
@@ -491,6 +521,7 @@ def performMenuAction(identifier):
         if (i[0].lower()==c.lower()):
             execute_action(p, cp, i[1])
 
+
 if __name__ == '__main__':
 
     app = QtGui.QApplication(sys.argv)
@@ -502,6 +533,7 @@ if __name__ == '__main__':
 
     QtGui.QApplication.setQuitOnLastWindowClosed(False)
 
+    secondwin = runProcessWindow()
     window = Window()
     # window.show()
     sys.exit(app.exec_())
