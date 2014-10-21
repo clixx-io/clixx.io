@@ -105,21 +105,30 @@ def clixxIOconfigPath():
     """
     global clixxIOConfigDir,clixxIOConfigName
 
+    homedir = ""
+    
     if platform.system()=='Windows':
         try:
             from win32com.shell import shellcon, shell            
             homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-            homedir = os.path.join(homedir,"clixx.io")
+            homedir = os.path.join(homedir,"clixx.io",clixxIOConfigName)
  
         except ImportError: # quick semi-nasty fallback for non-windows/win32com case
-            homedir = os.path.expanduser("~")
-            homedir = os.path.join(homedir,"clixx.io")
+            homedir = os.path.join(os.path.expanduser("~"),"clixx.io")
 
-        return os.path.join(os.path.join(homedir,clixxIOConfigName))
+        if not os.path.exists(homedir):
+            os.makedirs(homedir)
+
+        return homedir
         
     else:
     
-        return os.path.join(os.path.join(os.path.expanduser("~"),clixxIOConfigDir,clixxIOConfigName))
+        homedir = os.path.join(os.path.join(os.path.expanduser("~"),clixxIOConfigDir,clixxIOConfigName))
+        
+        if not os.path.exists(homedir):
+            os.makedirs(homedir)
+
+        return homedir
 
 def configPath():
     

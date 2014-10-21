@@ -429,9 +429,9 @@ class Window(QtGui.QDialog):
                  # mnuAction.Checked = True
         
          self.trayIconMenu.addSeparator()
-         self.trayIconMenu.addAction(self.maintainProjects)
-         self.trayIconMenu.addAction(self.SerialTerminalAction)
-         self.trayIconMenu.addAction(self.SystemLogAction)
+         #self.trayIconMenu.addAction(self.maintainProjects)
+         #self.trayIconMenu.addAction(self.SerialTerminalAction)
+         #self.trayIconMenu.addAction(self.SystemLogAction)
          self.trayIconMenu.addAction(self.restoreAction)
 
          self.trayIconMenu.addSeparator()
