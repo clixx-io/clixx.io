@@ -79,7 +79,7 @@ def GetConfigDir():
     
     homedir = ''
 
-    if platform.system()=='Windows':	
+    if platform.system()=='Windows':
         try:
             from win32com.shell import shellcon, shell            
             homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
@@ -103,7 +103,7 @@ def clixxIOconfigPath():
     """
     global clixxIOConfigDir,clixxIOConfigName
     
-    return os.path.join(clixxIOConfigDir,clixxIOConfigName)
+    return os.path.join(os.path.join(os.path.expanduser("~"),clixxIOConfigDir,clixxIOConfigName))
 
 def configPath():
     
