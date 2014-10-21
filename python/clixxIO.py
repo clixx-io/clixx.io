@@ -41,6 +41,8 @@ _ = gettext.gettext
 clixxIOConfigName= "config.ini"
 clixxIOLogName = "clixx.io.log"
 clixxIOConfigDir = ".local/share/clixx.io"
+if platform.system()=='Windows':
+    clixxIOConfigDir = "clixx.io"
 
 IoTProjectDirSuffix = "IoT"
 
@@ -102,8 +104,22 @@ def clixxIOconfigPath():
     Provides the location of the configuration file
     """
     global clixxIOConfigDir,clixxIOConfigName
+
+    if platform.system()=='Windows':
+        try:
+            from win32com.shell import shellcon, shell            
+            homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
+            homedir = os.path.join(homedir,"clixx.io")
+ 
+        except ImportError: # quick semi-nasty fallback for non-windows/win32com case
+            homedir = os.path.expanduser("~")
+            homedir = os.path.join(homedir,"clixx.io")
+
+        return os.path.join(os.path.join(homedir,clixxIOConfigName))
+        
+    else:
     
-    return os.path.join(os.path.join(os.path.expanduser("~"),clixxIOConfigDir,clixxIOConfigName))
+        return os.path.join(os.path.join(os.path.expanduser("~"),clixxIOConfigDir,clixxIOConfigName))
 
 def configPath():
     
