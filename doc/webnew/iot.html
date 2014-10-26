@@ -13,7 +13,66 @@
 
       <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
       <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+      <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 
+		<style>
+		/* ------ START OF THEME ------ */
+		/*
+		* Darkside Contrast
+		* Prettify CSS Theme.
+		*
+		* Copyright (c) 2014 Dayle Rees
+		*/
+		pre.theme-darkside-contrast {
+		background-color: #000000;
+		padding: 2em;
+		font-size:.7em;
+		color: #BABABA;
+		}
+		pre.theme-darkside-contrast code {
+		font-family: 'Source Code Pro', Monaco, Consolas, "Lucida Console", monospace;
+		}
+		pre.theme-darkside-contrast .pln {
+		color: #BABABA;
+		}
+		pre.theme-darkside-contrast .str {
+		color: #F2D42C;
+		}
+		pre.theme-darkside-contrast .kwd {
+		color: #1CC3E8;
+		}
+		pre.theme-darkside-contrast .com {
+		color: #494B4D;
+		}
+		pre.theme-darkside-contrast .typ {
+		color: #E8341C;
+		}
+		pre.theme-darkside-contrast .lit {
+		color: #68C244;
+		}
+		pre.theme-darkside-contrast .pun,
+		pre.theme-darkside-contrast .opn,
+		pre.theme-darkside-contrast .clo {
+		color: #BABABA;
+		}
+		pre.theme-darkside-contrast .tag {
+		color: #1CC3E8;
+		}
+		pre.theme-darkside-contrast .atn {
+		color: #E8341C;
+		}
+		pre.theme-darkside-contrast .atv {
+		color: #68C244;
+		}
+		pre.theme-darkside-contrast .dec,
+		pre.theme-darkside-contrast .var {
+		color: #F2D42C;
+		}
+		pre.theme-darkside-contrast .fun {
+		color: #1CC3E8;
+		}
+		/* ------- END OF THEME ------- */
+		</style>
       </head>
 
       <body>
@@ -36,7 +95,8 @@
            -->
                 <h3>Hardware</h3>
                   <a data-role="button" href="processors.html">Processors</a>
-                  <a data-role="button" href="docks.html">Docks</a>
+                  <a data-role="button" href="arduino.html">Arduino</a>
+                  <a data-role="button" href="pi.html">Raspberry Pi</a>
                   <a data-role="button" href="tabs.html">Interface Boards</a>
            <!-- 
                   <a data-role="button" >Processors</a>
@@ -95,13 +155,13 @@
 		   checking is done by timer callbacks which are non-blocking rather than using a 
 		   blocking delay() call in the previous example:</p>
 
-	<pre><code>
+	<pre><code class="prettyprint">
 	/* Simple Application
 	 * 
 	 *  A trivial simple example of an clixx.io Application.
 	 * 
 	*/
-	#include <stdio.h>
+	#include &lt;stdio.h&gt;
 	#include "clixxIO.hpp"
 
 	class App : public clixxIOApp{
@@ -130,8 +190,56 @@
 	  App m;
 	  return m.run();
 	} 
-	#include "app-callbacks.cpp"	// 
 	</code></pre>
+
+<!-- 
+<pre style="font-family:Monaco, monospace; padding:2em; font-size:.7em; background-color: #006699; color: #aec2e0;">
+
+&lt;?php
+
+<span style="color: #267fb5;">namespace</span> Illuminate\Container;
+
+<span style="color: #267fb5;">use</span> Closure;
+<span style="color: #267fb5;">use</span> ArrayAccess;
+
+<span style="color: #324357;">/**
+ * Theme: Tron
+ * Tron.
+ *
+ * Copyright (c) 2014 Dayle Rees
+ */</span>
+<span style="color: #267fb5;">class</span> Container <span style="color: #ffffff;">implements</span> ArrayAccess
+{
+    <span style="color: #324357;">/**
+     * An array of the types that have been resolved.
+     *
+     * <span style="color: #4d6785;">@var</span> array
+     */</span>
+    <span style="color: #ffffff;">protected</span> <span style="color: ;">$resolved</span> <span style="color: #267fb5;">=</span> <span style="color: #267fb5;">array</span>();
+
+    <span style="color: #324357;">/**
+     * Determine if a given type is shared.
+     *
+     * <span style="color: #4d6785;">@param</span>  string  $abstract
+     * <span style="color: #4d6785;">@return</span> bool
+     */</span>
+    <span style="color: #ffffff;">public</span> <span style="color: #267fb5;">function</span> <span style="color: #ffffff;">isShared</span>(<span style="color: ;">$abstract</span>)
+    {
+        <span style="color: #748aa6;">if</span> (<span style="color: #267fb5;">isset</span>(<span style="color: ;">$this</span><span style="color: #748aa6;">-></span><span style="color: ;">bindings</span>[<span style="color: ;">$abstract</span>][<span style="color: #6ee2ff;">'shared'</span>]))
+        {
+            <span style="color: ;">$shared</span> <span style="color: #748aa6;">=</span> <span style="color: ;">$this</span><span style="color: #748aa6;">-></span><span style="color: ;">bindings</span>[<span style="color: ;">$abstract</span>][<span style="color: #6ee2ff;">'shared'</span>];
+        }
+        <span style="color: #748aa6;">else</span>
+        {
+            <span style="color: ;">$shared</span> <span style="color: #748aa6;">=</span> <span style="color: #ffffff;">false</span>;
+        }
+
+        <span style="color: #748aa6;">return</span> <span style="color: #267fb5;">isset</span>(<span style="color: ;">$this</span><span style="color: #748aa6;">-></span><span style="color: ;">instances</span>[<span style="color: ;">$abstract</span>]) <span style="color: #748aa6;">||</span> <span style="color: ;">$shared</span> <span style="color: #748aa6;">===</span> <span style="color: #ffffff;">true</span>;
+    }
+
+}
+</pre>
+-->
 
 	</div><!-- /content -->
 
