@@ -276,6 +276,7 @@ class clixxIOGPIOPin
       clixxIOGPIOPin(clixxIOApp *app, string devicename);
       int setdir(string dir);
       int setval(string val);
+      int setsource(const bool val=true);
       string getpinnumber();
     #endif
 

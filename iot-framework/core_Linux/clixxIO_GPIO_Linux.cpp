@@ -239,6 +239,44 @@ int clixxIOGPIOPin::setval(string val)
 }
 
 /**********************************************************************
+ * setsource
+ * 
+ * val : True to source current, False to sink current
+ *
+ **********************************************************************/  
+int clixxIOGPIOPin::setsource(const bool val)
+{
+    int statusVal = -1;
+    string setValStr = "/sys/class/gpio/gpio" + this->_gpionum + "/active_low";
+    string valStr("0");
+
+    this->valuefd = statusVal = open(setValStr.c_str(), O_WRONLY|O_SYNC);
+    if (statusVal < 0){
+        perror("Error - Could not open SYSFS GPIO value device");
+        return(-1);
+    }
+
+    if (!val)
+    {
+        valStr = "1";
+    }
+    
+    statusVal = write(this->valuefd, valStr.c_str(), valStr.length());
+    if (statusVal < 0){
+        perror("Error - Could not write to SYSFS GPIO value device");
+        return(-1);
+    }
+
+    statusVal = close(this->valuefd);
+    if (statusVal < 0){
+        perror("Error - Could not close SYSFS GPIO value device");
+        return(-1);
+    }
+
+    return statusVal;
+}
+
+/**********************************************************************
  * setval
  *
  **********************************************************************/  
