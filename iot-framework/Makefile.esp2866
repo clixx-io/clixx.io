@@ -1,0 +1,109 @@
+##
+## This file is part of the clixx.io library for avr project.
+##
+## Copyright (C) 2014 David Lyon <david.lyon at clixx.io>
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+##
+
+# Be silent per default, but 'make V=1' will show all compiler calls.
+ifeq ($(MCU),)
+MCU := attiny85
+F_CPU := 8000000UL
+endif
+
+LIBRARY = libclixxIO_ESP2866_$(MCU)
+CC = avr-gcc
+OBJCOPY = avr-objcopy
+CFLAGS += -Wall -g -Os -fpic -mmcu=$(MCU) -DTARGET_ESP2866 -DF_CPU=$(F_CPU) -I./
+LDFLAGS +=
+OBJS = $(PROGRAM).o
+DEVICES = devices
+
+# Be silent per default, but 'make V=1' will show all compiler calls.
+ifneq ($(V),1)
+Q := @
+endif
+
+all: ../lib $(LIBRARY).a
+
+ifeq ($(MCU),attiny85)
+$(LIBRARY).a: clixxIO_EventQ_ESP2866_$(MCU).o  clixxIO_Analog_ESP2866_$(MCU).o clixxIO_Serial_ESP2866_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_GPIO_ESP2866_$(MCU).o \
+              clixxIO_Timers_ESP2866_$(MCU).o  clixxIO_softserial_$(MCU).o clixxIO_softuart_ESP2866_$(MCU).o clixxIO_LM335A_ESP2866_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_EventQ_ESP2866_$(MCU).o clixxIO_softserial_$(MCU).o clixxIO_Serial_ESP2866_$(MCU).o clixxIO_softuart_ESP2866_$(MCU).o
+	ar -cr $(LIBRARY).a clixxIO_Analog_ESP2866_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_GPIO_ESP2866_$(MCU).o clixxIO_Timers_ESP2866_$(MCU).o clixxIO_LM335A_ESP2866_$(MCU).o
+else
+$(LIBRARY).a: clixxIO_EventQ_ESP2866_$(MCU).o  clixxIO_Serial_ESP2866_$(MCU).o clixxIO_Analog_ESP2866_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_GPIO_ESP2866_$(MCU).o clixxIO_Timers_ESP2866_$(MCU).o \
+              clixxIO_ESP2866Serial_$(MCU).o 
+	ar -cr $(LIBRARY).a clixxIO_EventQ_ESP2866_$(MCU).o clixxIO_ESP2866Serial_$(MCU).o clixxIO_Serial_ESP2866_$(MCU).o clixxIO_softuart_ESP2866_$(MCU).o clixxIO_Analog_ESP2866_$(MCU).o clixxIO_SerialIoT_$(MCU).o clixxIO_GPIO_ESP2866_$(MCU).o clixxIO_Timers_ESP2866_$(MCU).o
+endif
+
+$(PROGRAM).elf: $(PROGRAM).o
+	@printf "  LD      $(subst $(shell pwd)/,,$(@))\n"
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+
+$(PROGRAM).hex: $(PROGRAM).elf
+	@printf "  OBJCOPY $(subst $(shell pwd)/,,$(@))\n"
+	$(Q)$(OBJCOPY) -O ihex $< $@
+
+%.o: %.c
+	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
+	$(Q)$(CC) $(CFLAGS) -o $@ -c $<
+
+clixxIO_EventQ_ESP2866_$(MCU).o: clixxIO_EventQ.cpp clixxIO.hpp
+	$(CC) -c $(CFLAGS) -o clixxIO_EventQ_ESP2866_$(MCU).o clixxIO_EventQ.cpp
+
+clixxIO_softserial_$(MCU).o: core_ESP2866/clixxIO_softserial.cpp clixxIO.hpp core_ESP2866/softuart.h
+	$(CC) -c $(CFLAGS) -o clixxIO_softserial_$(MCU).o core_ESP2866/clixxIO_softserial.cpp
+   
+clixxIO_softuart_ESP2866_$(MCU).o: core_ESP2866/softuart.c clixxIO.hpp core_ESP2866/softuart.h
+	$(CC) -c $(CFLAGS) -o clixxIO_softuart_ESP2866_$(MCU).o core_ESP2866/softuart.c
+
+clixxIO_Analog_ESP2866_$(MCU).o: core_ESP2866/clixxIO_analog.c core_ESP2866/iohelp.h
+	$(CC) -c $(CFLAGS) -o clixxIO_Analog_ESP2866_$(MCU).o core_ESP2866/clixxIO_analog.c
+
+clixxIO_GPIO_ESP2866_$(MCU).o: core_ESP2866/clixxIO_GPIO.cpp clixxIO.hpp core_ESP2866/iohelp.h
+	$(CC) -c $(CFLAGS) -o clixxIO_GPIO_ESP2866_$(MCU).o core_ESP2866/clixxIO_GPIO.cpp
+
+clixxIO_SerialIoT_$(MCU).o: clixxIO_SerialIoT.cpp clixxIO.hpp
+	$(CC) -c $(CFLAGS) -o clixxIO_SerialIoT_$(MCU).o clixxIO_SerialIoT.cpp
+
+clixxIO_Timers_ESP2866_$(MCU).o: core_ESP2866/clixxIO_Timers.cpp clixxIO.hpp
+	$(CC) -c $(CFLAGS) -o clixxIO_Timers_ESP2866_$(MCU).o core_ESP2866/clixxIO_Timers.cpp
+
+clixxIO_Serial_ESP2866_$(MCU).o: clixxIO_Serial.cpp clixxIO.hpp
+	$(CC) -c $(CFLAGS) -o clixxIO_Serial_ESP2866_$(MCU).o clixxIO_Serial.cpp
+
+clixxIO_LM335A_ESP2866_$(MCU).o: $(DEVICES)/clixxIO_Temp-LM335A.cpp clixxIO.hpp $(DEVICES)/clixxIO_Temp-LM335A.h
+	$(CC) -c $(CFLAGS) -o clixxIO_LM335A_ESP2866_$(MCU).o $(DEVICES)/clixxIO_Temp-LM335A.cpp
+
+../lib: 
+	@printf "  CREATE ../lib\n"
+	$(Q)mkdir ../lib
+ 
+clean:
+	@printf "  CLEAN   *.o\n"
+	$(Q)rm -f *.o
+	@printf "  CLEAN   *.a\n"
+	$(Q)rm -f *.a
+
+# Install to the Users IoT/libraries directory
+install:
+	@printf "Creating directories\n"
+	$(Q)mkdir -p ~/IoT/libraries/includes
+	@printf "Copying library $(LIBRARY).a to ~/IoT/libraries\n"
+	$(Q)cp $(LIBRARY).a ~/IoT/libraries/$(LIBRARY).a
+	@printf "Copying Include files to ~/IoT/libraries/includes\n"
+	$(Q)cp clixxIO.hpp ~/IoT/libraries/includes/clixxIO.hpp
