@@ -301,3 +301,44 @@ char *dec(unsigned x, char *s)
     for (; x; x/=10) *--s = '0'+x%10;
     return s;
 }
+
+void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
+{
+    const short skip_marks = (100 / onpercentage) - 1;
+    
+    if (seconds > 1)
+    {
+
+    }
+    if (deciseconds > 0)
+    {
+        for (short i=0; i<deciseconds; i++)
+        {
+            short e=skip_marks;
+            
+            for (short d=0; d<100; d++)
+            {
+                
+                this->digitalWrite(true);
+                
+                // _delay_ms(1);
+                
+                if (e > 0)
+                {
+                    if (e-- != 0)
+                    {
+                        this->digitalWrite(false);
+                    }
+                    
+                //    _delay_ms(1);
+                    
+                } else
+                {
+                    e = skip_marks;
+                }
+                
+            }
+        }
+        
+    }
+}
