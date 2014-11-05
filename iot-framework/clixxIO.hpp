@@ -49,6 +49,8 @@
 
   using namespace std;
 
+#elif defined(TARGET_AVR)
+  #include <util/delay.h>
 #endif 
 
 extern void *pMainClass;
@@ -214,6 +216,7 @@ class clixxIOApp{
     #elif defined(TARGET_LINUX)  /* presume POSIX */
       inline void delay_ms( unsigned long ms ){ usleep( ms * 1000 ); }
     #elif defined(TARGET_AVR)
+      inline void delay_ms( unsigned long ms ){ for (unsigned long x = 0; x < ms; x++) _delay_ms(1); }
     #endif 
     
   protected:
@@ -305,7 +308,7 @@ class clixxIOGPIOPin
       int exportfd;
       int unexportfd;
     #endif
-
+    
 };
 
 /* -------------------------------------------------------------------------
@@ -477,3 +480,6 @@ int addIoTCloseEvent(void (*function)(int,int));
 void C_iotmessage( void* appC);
 void C_iotopen( void* appC);
 void C_iotclose( void* appC);
+
+extern void delay_ms(unsigned long ms);
+

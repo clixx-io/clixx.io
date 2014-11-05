@@ -254,7 +254,7 @@ int addTimerEvent(int secs, void (*function)())
 int addIoTSubEvent(const char *topic, void (*function)(void))
 {
     #ifdef TARGET_AVR
-      if (pMainClass = 0)
+      if (pMainClass == 0)
         return(-1);
 
       clixxIOApp *app = (clixxIOApp *) pMainClass;
@@ -302,43 +302,87 @@ char *dec(unsigned x, char *s)
     return s;
 }
 
+/**********************************************************************
+ * PWM write to a GPIO Pin
+ * 
+ * This is software PWM function that oscilates a pin at a particular
+ * percentage value for a time measured in 1/10ths of a second.
+ *
+ * @param onpercentage - A value between 0 - 100 representing the number
+ *                       of on cycles in 100 for the pin to pulse. A
+ *                       value of 10 will give a 10% duty cycle.
+ * 
+ * @param seconds     - number of seconds for the function to run
+ * @param deciseconds - number of 1/10th second units to run.
+ *
+ **********************************************************************/  
 void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
 {
     const short skip_marks = (100 / onpercentage) - 1;
     
-    if (seconds > 1)
+    unsigned long ds = (seconds * 10) + deciseconds;
+    unsigned long oncount=0,offcount=0;
+    
+    #if defined(TARGET_LINUX)
+      printf("pwmwrite running for %d deciseconds\n",seconds+deciseconds);
+    #endif
+    
+    for (unsigned long dc = 0; dc < ds; dc++)
     {
-
-    }
-    if (deciseconds > 0)
-    {
-        for (short i=0; i<deciseconds; i++)
+        short e=skip_marks;
+        
+        for (short d=0; d<100; d++)
         {
-            short e=skip_marks;
             
-            for (short d=0; d<100; d++)
+            this->digitalWrite(true);
+            
+            delay_ms(1);
+            oncount++;
+            
+            if (e > 0)
             {
-                
-                this->digitalWrite(true);
-                
-                // _delay_ms(1);
-                
-                if (e > 0)
+                if (e-- != 0)
                 {
-                    if (e-- != 0)
-                    {
-                        this->digitalWrite(false);
-                    }
-                    
-                //    _delay_ms(1);
-                    
-                } else
-                {
-                    e = skip_marks;
+                    this->digitalWrite(false);
                 }
                 
+                delay_ms(1);
+                offcount++;
+                
+            } else
+            {
+                e = skip_marks;
             }
+            
+            #if defined(TARGET_LINUX)
+              printf("oncount= %lu offcount =%lu\n",oncount,offcount);
+            #endif
         }
         
     }
+
+}
+
+/**********************************************************************
+ * Milisecond delay
+ * 
+ * This is called when the system needs to pause for time.
+ *
+ * @param ms - miliseconds to pause
+ *
+ **********************************************************************/  
+void delay_ms(unsigned long ms)
+{
+
+    #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
+      Sleep( ms ); 
+    #elif defined(TARGET_LINUX)  /* presume POSIX */
+      usleep( ms * 1000 ); 
+    #elif defined(TARGET_AVR)
+      for (unsigned long x = 0; x < ms; x++)
+      {
+          _delay_ms(1); 
+      }
+    #endif 
+    
 }
