@@ -318,6 +318,7 @@ char *dec(unsigned x, char *s)
  **********************************************************************/  
 void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
 {
+    unsigned short on_marks = 1;
     unsigned short skip_marks = (100 / onpercentage) - 1;
     
     unsigned long ds = (seconds * 10) + deciseconds;
@@ -334,11 +335,16 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
         for (short d=0; d<10; d++)
         {
             
-            this->digitalWrite(true);
+            // Writing high pulse values
+            for (short e=0; e < on_marks; e++)
+            {
+                this->digitalWrite(true);
             
-            delay_ms(1);
-            oncount++;
+                delay_ms(1);
+                oncount++;
+            }
             
+            // Writing low pulse values
             for (short e=0; e < skip_marks; e++)
             {
                 
