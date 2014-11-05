@@ -286,7 +286,7 @@ class clixxIOGPIOPin
     void digitalWrite(short val);
     int digitalRead();
     int configure(const char *logicalname);
-    int configure(short pinnumber,short direction=0, short source=false);
+    int configure(short pinnumber,short direction=0, bool source=false);
  
     void pwmWrite(short onpercentage,int seconds, int deciseconds=0);
     
@@ -295,8 +295,9 @@ class clixxIOGPIOPin
       string _gpionum;
     #else
       short _gpionum;
-      short _direction;
     #endif
+    short _direction;
+    bool  _source;
     
   private:
     #if defined(TARGET_LINUX)  	

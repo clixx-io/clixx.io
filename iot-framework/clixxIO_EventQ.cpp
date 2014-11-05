@@ -318,20 +318,20 @@ char *dec(unsigned x, char *s)
  **********************************************************************/  
 void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
 {
-    const short skip_marks = (100 / onpercentage) - 1;
+    unsigned short skip_marks = (100 / onpercentage) - 1;
     
     unsigned long ds = (seconds * 10) + deciseconds;
     unsigned long oncount=0,offcount=0;
     
     #if defined(TARGET_LINUX)
       printf("pwmwrite running for %d deciseconds\n",seconds+deciseconds);
+      printf("pwmwrite will be off %d cycles for every 1 on cycles\n",skip_marks);
     #endif
     
     for (unsigned long dc = 0; dc < ds; dc++)
     {
-        short e=skip_marks;
         
-        for (short d=0; d<100; d++)
+        for (short d=0; d<10; d++)
         {
             
             this->digitalWrite(true);
@@ -339,25 +339,20 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
             delay_ms(1);
             oncount++;
             
-            if (e > 0)
+            for (short e=0; e < skip_marks; e++)
             {
-                if (e-- != 0)
-                {
-                    this->digitalWrite(false);
-                }
                 
+                this->digitalWrite(false);
                 delay_ms(1);
+
                 offcount++;
-                
-            } else
-            {
-                e = skip_marks;
             }
-            
-            #if defined(TARGET_LINUX)
-              printf("oncount= %lu offcount =%lu\n",oncount,offcount);
-            #endif
+           
         }
+        
+        #if defined(TARGET_LINUX)
+          printf("oncount=%lu, offcount =%lu\n",oncount,offcount);
+        #endif
         
     }
 

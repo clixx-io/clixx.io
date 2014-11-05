@@ -98,6 +98,50 @@ int clixxIOGPIOPin::configure(const char *logicalname)
  * valuefd
  *
  **********************************************************************/  
+int clixxIOGPIOPin::configure(short pinnumber,short direction, bool source)
+{
+    int statusVal = -1;
+
+    // Use the pin number
+    _gpionum = pinnumber;
+    _direction = direction;
+    _source = source;
+    
+    if (0 != (statusVal = exportpin()))
+    {
+        perror("Error - Could not open export pin");
+        return(-1);
+    }
+    
+    // Set the direction of the pin as either Input (0) or Output (1)
+    if (direction == 0)
+    {
+        if (0 != (statusVal = setdir("in")))
+        {
+            perror("Error setting direction to input");
+            return(-1);
+        }
+    }
+    else
+    {
+        if (0 != (statusVal = setdir("in")))
+        {
+            perror("Error setting direction to output");
+            return(-1);
+        }
+    }
+
+    if (0 != (statusVal = setsource(source)))
+    {
+        perror("Error setting pin source/sink mode");
+        return(-1);
+    }
+}
+
+/**********************************************************************
+ * valuefd
+ *
+ **********************************************************************/  
 clixxIOGPIOPin::~clixxIOGPIOPin()
 {
     this->unexportpin();
