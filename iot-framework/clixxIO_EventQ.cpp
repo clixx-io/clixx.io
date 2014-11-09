@@ -358,6 +358,10 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
                   off_marks = 9;
                   break;
 
+        case 20 : on_marks = 1;
+                  off_marks = 4;
+                  break;
+
         case 25 : on_marks = 1;
                   off_marks = 3;
                   break;
@@ -366,6 +370,10 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
                   off_marks = 3;
                   break;
                  
+        case 40 : on_marks = 4;
+                  off_marks = 6;
+                  break;
+
         case 50 : on_marks = 1;
                   off_marks = 1;
                   break;
@@ -373,6 +381,10 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
         case 66: 
         case 67 : on_marks = 2;
                   off_marks = 1;
+                  break;
+
+        case 70 : on_marks = 7;
+                  off_marks = 3;
                   break;
 
         case 75 : on_marks = 3;
@@ -396,18 +408,19 @@ void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
                   off_marks = 1;
     }
    
+    // Calculate how many marks will fit into one decisecond
+    unsigned short dc_repeats = 100 / (on_marks + off_marks);
+    
     // We write to a log file for testing/validation
     #ifdef TARGET_LINUX
       ofstream trace_file;
       trace_file.open ("pwmWrite.log");      
-      trace_file << "Writing this to a file.\n";
-      trace_file << "pwmwrite running for @ " << onpercentage << '\n';
+      trace_file << "pwmwrite running for " << onpercentage << "%\n";
       trace_file << "pwmwrite running for "  << seconds+deciseconds << "deciseconds\n";
-      trace_file << "pwmwrite will be off " << off_marks << " and on " << on_marks << " for every cycle\n";
+      trace_file << "pwmwrite will be off " << off_marks << " and on " << on_marks << " for every cycle, total=" << (on_marks+off_marks) << '\n';
+      trace_file << "dc_repeats= " << dc_repeats << '\n';
+      trace_file << "ds = " << ds << '\n';
     #endif
-    
-    // Calculate how many marks will fit into one decisecond
-    unsigned short dc_repeats = 100 / (on_marks + off_marks);
     
     for (unsigned long dc = 0; dc < ds; dc++)
     {
