@@ -33,9 +33,14 @@
 #include <stdio.h>
 
 #ifdef TARGET_LINUX
+
   #include <signal.h>
   #include <unistd.h>
   #include <sys/time.h>
+  #include <iostream>
+  #include <fstream>
+  using namespace std;
+  
 #endif
 
 #include "clixxIO.hpp"
@@ -319,49 +324,136 @@ char *dec(unsigned x, char *s)
 void clixxIOGPIOPin::pwmWrite(short onpercentage,int seconds, int deciseconds)
 {
     unsigned short on_marks = 1;
-    unsigned short skip_marks = (100 / onpercentage) - 1;
+    unsigned short off_marks = (100 / onpercentage) - 1;
     
     unsigned long ds = (seconds * 10) + deciseconds;
     unsigned long oncount=0,offcount=0;
-    
-    #if defined(TARGET_LINUX)
-      printf("pwmwrite running for %d deciseconds\n",seconds+deciseconds);
-      printf("pwmwrite will be off %d cycles for every 1 on cycles\n",skip_marks);
+
+    // onpercentage's are translated down to simple values
+    switch (onpercentage)
+    {
+        case 0 :  on_marks = 0;
+                  off_marks = 10;
+                  break;
+                 
+        case 1 : 
+                  on_marks = 1;
+                  off_marks = 99;
+                  break;
+        case 2 : 
+                  on_marks = 1;
+                  off_marks = 49;
+                  break;
+        case 3 : 
+        case 4 : 
+        case 5 :  on_marks = 1;
+                  off_marks = 19;
+                  break;
+                 
+        case 6  : 
+        case 7  : 
+        case 8  : 
+        case 9  : 
+        case 10 : on_marks = 1;
+                  off_marks = 9;
+                  break;
+
+        case 25 : on_marks = 1;
+                  off_marks = 3;
+                  break;
+                 
+        case 33 : on_marks = 1;
+                  off_marks = 3;
+                  break;
+                 
+        case 50 : on_marks = 1;
+                  off_marks = 1;
+                  break;
+
+        case 66: 
+        case 67 : on_marks = 2;
+                  off_marks = 1;
+                  break;
+
+        case 75 : on_marks = 3;
+                  off_marks = 1;
+                  break;
+                 
+        case 80 : on_marks = 4;
+                  off_marks = 1;
+                  break;
+
+        case 90 : on_marks = 9;
+                  off_marks = 1;
+                  break;
+
+        case 100: on_marks = 10;
+                  off_marks = 0;
+                  break;
+                  
+        default:  // ToDo - Make less common values calculate correctly
+                  on_marks = 0;
+                  off_marks = 1;
+    }
+   
+    // We write to a log file for testing/validation
+    #ifdef TARGET_LINUX
+      ofstream trace_file;
+      trace_file.open ("pwmWrite.log");      
+      trace_file << "Writing this to a file.\n";
+      trace_file << "pwmwrite running for @ " << onpercentage << '\n';
+      trace_file << "pwmwrite running for "  << seconds+deciseconds << "deciseconds\n";
+      trace_file << "pwmwrite will be off " << off_marks << " and on " << on_marks << " for every cycle\n";
     #endif
+    
+    // Calculate how many marks will fit into one decisecond
+    unsigned short dc_repeats = 100 / (on_marks + off_marks);
     
     for (unsigned long dc = 0; dc < ds; dc++)
     {
         
-        for (short d=0; d<10; d++)
+        for (short d=0; d<dc_repeats; d++)
         {
             
             // Writing high pulse values
-            for (short e=0; e < on_marks; e++)
+            for (unsigned short e=0; e < on_marks; e++)
             {
                 this->digitalWrite(true);
             
                 delay_ms(1);
                 oncount++;
+                
+                #ifdef TARGET_LINUX
+                  trace_file << "On \n";
+                #endif
             }
             
             // Writing low pulse values
-            for (short e=0; e < skip_marks; e++)
+            for (unsigned short e=0; e < off_marks; e++)
             {
                 
                 this->digitalWrite(false);
                 delay_ms(1);
 
                 offcount++;
+                
+                #ifdef TARGET_LINUX
+                  trace_file << "Off \n";
+                #endif
+                
             }
            
         }
         
         #if defined(TARGET_LINUX)
-          printf("oncount=%lu, offcount =%lu\n",oncount,offcount);
+          trace_file << "oncount=" << oncount << ",offcount=" << offcount << "\n";
         #endif
         
     }
 
+    #ifdef TARGET_LINUX
+      trace_file.close();
+    #endif
 }
 
 /**********************************************************************

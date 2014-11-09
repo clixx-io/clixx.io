@@ -112,7 +112,7 @@ int clixxIOGPIOPin::digitalRead()
     return (PINB & (1 << _gpionum));
 }
 
-int clixxIOGPIOPin::configure(short pinnumber,short direction, short source)
+int clixxIOGPIOPin::configure(short pinnumber,short direction, bool source)
 {
     _gpionum = pinnumber;
     _direction = direction;
@@ -122,6 +122,24 @@ int clixxIOGPIOPin::configure(short pinnumber,short direction, short source)
     } else {
         DDRB &= ~(1<< pinnumber);    		// Pin as an Input
     }
+    if (source)
+    {
+      #if defined (__AVR_ATmega324P__) || defined (__AVR_ATmega324A__)  \
+       || defined (__AVR_ATmega644P__) || defined (__AVR_ATmega644PA__) \
+       || defined (__AVR_ATmega328P__) || defined (__AVR_ATmega328PA__) \
+       || defined (__AVR_ATmega164P__) || defined (__AVR_ATmega164A__)
+          // PORTD |= (1 << pinnumber);          // PD0 is now an output and is sourcing VCC
+      #endif
+    } else
+    {
+      #if defined (__AVR_ATmega324P__) || defined (__AVR_ATmega324A__)  \
+       || defined (__AVR_ATmega644P__) || defined (__AVR_ATmega644PA__) \
+       || defined (__AVR_ATmega328P__) || defined (__AVR_ATmega328PA__) \
+       || defined (__AVR_ATmega164P__) || defined (__AVR_ATmega164A__)
+        // PORTD &= ~(1 << pinnumber);            // PDO is still an output and is now sinking 0V
+      #endif
+    }
+
     return(0);
 }
 
