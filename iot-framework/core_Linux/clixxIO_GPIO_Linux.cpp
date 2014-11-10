@@ -136,6 +136,9 @@ int clixxIOGPIOPin::configure(short pinnumber,short direction, bool source)
         perror("Error setting pin source/sink mode");
         return(-1);
     }
+    
+    return (0);
+
 }
 
 /**********************************************************************

@@ -24,6 +24,8 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef CLIXXIO_HPP
+#define CLIXXIO_HPP
 
 #include <stdlib.h>
 #include <inttypes.h>
@@ -484,3 +486,4 @@ void C_iotclose( void* appC);
 
 extern void delay_ms(unsigned long ms);
 
+#endif
