@@ -42,6 +42,7 @@ Growl and Ubuntu Notifications
 Test framework
 --------------
 
+ - http://stackoverflow.com/questions/15240/how-do-you-create-a-debug-only-function-that-takes-a-variable-argument-list-lik
  - http://code.google.com/p/googletest/wiki/V1_5_Primer
  
 Windows-8 Tile Updates
