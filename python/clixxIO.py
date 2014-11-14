@@ -143,8 +143,9 @@ class clixxIOProject:
     A Basic class to simplify project Management
     """
 
-    def __init__(self):
+    def __init__(self, projectname = None):
 
+        self._projectname = projectname
         self._InputChannel = ""
         self._OutputChannel = ""
         self._AvailableCommands = []
@@ -173,7 +174,15 @@ class clixxIOProject:
        
     def SetconfigInt(self,section,keyname):
         return
-        
+
+class clixxIOProjectRepository():
+    """ 
+    A Basic class to simplify project Management
+    """
+
+    def __init__(self):
+        pass
+       
 def clixxIOProjectDir(projectname = None):
     """
     Returns the Master Project Directory for the system.
@@ -231,6 +240,22 @@ def clixxIOListProjects():
         if (os.path.basename(d) != 'libraries') and (os.path.basename(d) != clixxIOLogName):
             projects.append(os.path.basename(d))
     return projects
+
+def create_zip_packagefile(projectname):
+
+    target_dir = clixxIOProjectDir(projectname)
+    zip = zipfile.ZipFile(projectname + '.zip', 'w', zipfile.ZIP_DEFLATED)
+    rootlen = len(target_dir) - len(target_dir.split('/').pop())
+
+    for base, dirs, files in os.walk(target_dir):
+        for file in files:
+            fn = os.path.join(base, file)
+            zip.write(fn, fn[rootlen:])
+
+def extract_projectpackagefile(projectfile):
+
+    with zipfile.ZipFile(projectfile, "r") as z:
+        z.extractall(clixxIOProjectDir())
 
 def clixxIOListProjectbyStatus():
     """
