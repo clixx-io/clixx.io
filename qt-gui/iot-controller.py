@@ -185,8 +185,11 @@ class Window(QtGui.QDialog):
         self.setWindowTitle(windowTitle)
         self.resize(400, 300)
 
+        # Create the directory for the logfile if it doesn't exist
         logfilepath = clixxIOSystemLogFile()
-        
+        if not os.path.exists(os.path.dirname(logfilepath)):
+            os.makedirs(os.path.dirname(logfilepath))
+            
         hdlr = logging.FileHandler(logfilepath)
         formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
         hdlr.setFormatter(formatter)
