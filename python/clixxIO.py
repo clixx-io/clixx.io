@@ -182,7 +182,28 @@ class clixxIOProjectRepository():
 
     def __init__(self):
         pass
-       
+
+    def create_zippackagefile(projectname):
+        """
+        Packages a project.
+
+        These are typically directories stored in the IoT directory
+        """
+
+        target_dir = clixxIOProjectDir(projectname)
+        zip = zipfile.ZipFile(projectname + '.zip', 'w', zipfile.ZIP_DEFLATED)
+        rootlen = len(target_dir) - len(target_dir.split('/').pop())
+
+        for base, dirs, files in os.walk(target_dir):
+            for file in files:
+                fn = os.path.join(base, file)
+                zip.write(fn, fn[rootlen:])
+
+    def extract_zippackagefile(projectfile):
+
+        with zipfile.ZipFile(projectfile, "r") as z:
+            z.extractall(clixxIOProjectDir())
+ 
 def clixxIOProjectDir(projectname = None):
     """
     Returns the Master Project Directory for the system.
@@ -241,21 +262,6 @@ def clixxIOListProjects():
             projects.append(os.path.basename(d))
     return projects
 
-def create_zip_packagefile(projectname):
-
-    target_dir = clixxIOProjectDir(projectname)
-    zip = zipfile.ZipFile(projectname + '.zip', 'w', zipfile.ZIP_DEFLATED)
-    rootlen = len(target_dir) - len(target_dir.split('/').pop())
-
-    for base, dirs, files in os.walk(target_dir):
-        for file in files:
-            fn = os.path.join(base, file)
-            zip.write(fn, fn[rootlen:])
-
-def extract_projectpackagefile(projectfile):
-
-    with zipfile.ZipFile(projectfile, "r") as z:
-        z.extractall(clixxIOProjectDir())
 
 def clixxIOListProjectbyStatus():
     """
