@@ -479,7 +479,7 @@ def execute_action(projectname, configfile, actionstring):
         
         c = spawntask(actionstring)
         
-        if 'Error' in c:
+        if 'error' in c.lower():
                 """
                 Show a warning message
                 """
