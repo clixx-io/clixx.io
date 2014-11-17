@@ -75,7 +75,7 @@ class runProcessWindow(QtGui.QWidget):
         # set the position and size of the window
         self.setGeometry(100, 100, 400, 100)
  
-        self.setWindowTitle("Dialog Demo")
+        self.setWindowTitle("Running Process")
 
 class LogFileList(QtGui.QListWidget):
     ''' A specialized QListWidget that displays the
@@ -478,6 +478,18 @@ def execute_action(projectname, configfile, actionstring):
         os.chdir(clixxIOProjectDir(projectname))
         
         c = spawntask(actionstring)
+        
+        if 'Error' in c:
+                """
+                Show a warning message
+                """
+                flags = QtGui.QMessageBox.StandardButton.Ok
+#               msg = c
+                response = QtGui.QMessageBox.warning(self, "An error occurred!",
+                                                     msg, flags)
+                if response == 0:
+                    logger.error(c)
+                            
         print c
         
 def start_autostarts():
