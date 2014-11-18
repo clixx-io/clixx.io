@@ -10,16 +10,16 @@
  *  * Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- *  * Neither the name of the Clixx.io nor the names of its contributors 
- *    may be used to endorse or promote products derived from this software 
+ *  * Neither the name of the Clixx.io nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL CLIXX.IO BE LIABLE FOR ANY DIRECT, INDIRECT, 
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES LOSS OF USE, DATA, 
+ * DISCLAIMED. IN NO EVENT SHALL CLIXX.IO BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES LOSS OF USE, DATA,
  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
@@ -27,8 +27,17 @@
  *
 """
 
-import os, sys, mmap, ctypes, struct, json, platform
-import logging, glob, shutil, subprocess
+import os
+import sys
+import mmap
+import ctypes
+import struct
+import json
+import platform
+import logging
+import glob
+import shutil
+import subprocess
 from ConfigParser import ConfigParser, SafeConfigParser
 from datetime import datetime
 from time import *
@@ -38,15 +47,15 @@ import gettext
 _ = gettext.gettext
 
 
-clixxIOConfigName= "config.ini"
+clixxIOConfigName = "config.ini"
 clixxIOLogName = "clixx.io.log"
 clixxIOConfigDir = ".local/share/clixx.io"
-if platform.system()=='Windows':
+if platform.system() == 'Windows':
     clixxIOConfigDir = "clixx.io"
 
 IoTProjectDirSuffix = "IoT"
 
-formatter = logging.Formatter('%(asctime)s, %(message)s',"%Y-%m-%d %H:%M:%S")
+formatter = logging.Formatter('%(asctime)s, %(message)s', "%Y-%m-%d %H:%M:%S")
 # Console Logging Handler
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
@@ -61,89 +70,104 @@ clixxIOshmfd = None         # Shared Memory File Descriptor used by mmap
 clixxIOshmBuff = None       # Shared Memory Handle
 
 clixxIODevices = {}
-clixxIODeviceKeys = ["status","value","recentHistory","lastActive","driverName",
-                     "deviceId","sensorDescription","logDateTime","logFileSize"]
-clixxIODeviceStatus = {"connected":_("Connected"),"not_connected":_("Not Connected"),"running":_("Running")}
+clixxIODeviceKeys = [
+    "status", "value", "recentHistory", "lastActive", "driverName",
+    "deviceId", "sensorDescription", "logDateTime", "logFileSize"]
+clixxIODeviceStatus = {"connected": _(
+    "Connected"),
+    "not_connected": _("Not Connected"),
+    "running": _("Running")}
 
 clixxIOBranding = {}
 clixxIOBrandingSection = "System"
-clixxIOBrandingKeys = ["systemname","ownername","providername","provideraddress","copyrightmsg"]
+clixxIOBrandingKeys = [
+    "systemname",
+    "ownername",
+    "providername",
+    "provideraddress",
+    "copyrightmsg"]
 
 clixxIOConfig = SafeConfigParser()
 
 logginghandlers = {}
 
+
 def GetConfigDir():
-    """ 
+    """
     Return: The Location for configuration files
     """
     global clixxIOConfigDir
-    
+
     homedir = ''
 
-    if platform.system()=='Windows':
+    if platform.system() == 'Windows':
         try:
-            from win32com.shell import shellcon, shell            
+            from win32com.shell import shellcon, shell
             homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-            homedir = os.path.join(homedir,"clixx.io")
- 
-        except ImportError: # quick semi-nasty fallback for non-windows/win32com case
+            homedir = os.path.join(homedir, "clixx.io")
+
+        except ImportError:  # quick semi-nasty fallback for non-windows/win32com case
             homedir = os.path.expanduser("~")
-            homedir = os.path.join(homedir,"clixx.io")
+            homedir = os.path.join(homedir, "clixx.io")
 
-    elif platform.system()=='Linux':
+    elif platform.system() == 'Linux':
 
-        clixxIOLogDir    = clixxIOProjectDir()
+        clixxIOLogDir = clixxIOProjectDir()
 
-        homedir = os.path.join(os.path.expanduser("~"),clixxIOConfigDir)
+        homedir = os.path.join(os.path.expanduser("~"), clixxIOConfigDir)
 
-    return homedir 
+    return homedir
+
 
 def clixxIOconfigPath():
     """
     Provides the location of the configuration file
     """
-    global clixxIOConfigDir,clixxIOConfigName
+    global clixxIOConfigDir, clixxIOConfigName
 
     homedir = ""
-    
-    if platform.system()=='Windows':
+
+    if platform.system() == 'Windows':
         try:
-            from win32com.shell import shellcon, shell            
+            from win32com.shell import shellcon, shell
             homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-            homedir = os.path.join(homedir,"clixx.io")
-            
+            homedir = os.path.join(homedir, "clixx.io")
+
             if not os.path.exists(homedir):
                 os.makedirs(homedir)
 
-            homedir = os.path.join(homedir,clixxIOConfigName)
- 
-        except ImportError: # quick semi-nasty fallback for non-windows/win32com case
-            homedir = os.path.join(os.path.expanduser("~"),"clixx.io")
+            homedir = os.path.join(homedir, clixxIOConfigName)
+
+        except ImportError:  # quick semi-nasty fallback for non-windows/win32com case
+            homedir = os.path.join(os.path.expanduser("~"), "clixx.io")
 
         return homedir
-        
+
     else:
-    
-        homedir = os.path.join(os.path.join(os.path.expanduser("~"),clixxIOConfigDir))
-        
+
+        homedir = os.path.join(
+            os.path.join(os.path.expanduser("~"), clixxIOConfigDir))
+
         if not os.path.exists(homedir):
             os.makedirs(homedir)
-            
-        homedir = os.path.join(homedir,clixxIOConfigName)
+
+        homedir = os.path.join(homedir, clixxIOConfigName)
 
         return homedir
 
+
 def configPath():
-    
+
     return clixxIOconfigPath()
 
+
 class clixxIOProject:
-    """ 
+
+    """
     A Basic class to simplify project Management
     """
 
-    def __init__(self, projectname = None):
+    def __init__(self, projectname=None):
 
         self._projectname = projectname
         self._InputChannel = ""
@@ -152,7 +176,7 @@ class clixxIOProject:
 
     def publishText(self, ChannelTopic, ChannelText):
         return
-        
+
     def GetProjectType(self):
         return
 
@@ -162,21 +186,23 @@ class clixxIOProject:
 
     def GetconfigPath(self):
         return
-       
-    def GetconfigStr(self,section,keyname):
-        return
-       
-    def GetconfigInt(self,section,keyname):
-        return
-        
-    def SetconfigStr(self,section,keyname):
-        return
-       
-    def SetconfigInt(self,section,keyname):
+
+    def GetconfigStr(self, section, keyname):
         return
 
+    def GetconfigInt(self, section, keyname):
+        return
+
+    def SetconfigStr(self, section, keyname):
+        return
+
+    def SetconfigInt(self, section, keyname):
+        return
+
+
 class clixxIOProjectRepository():
-    """ 
+
+    """
     A Basic class to simplify project Management
     """
 
@@ -203,8 +229,9 @@ class clixxIOProjectRepository():
 
         with zipfile.ZipFile(projectfile, "r") as z:
             z.extractall(clixxIOProjectDir())
- 
-def clixxIOProjectDir(projectname = None):
+
+
+def clixxIOProjectDir(projectname=None):
     """
     Returns the Master Project Directory for the system.
 
@@ -212,9 +239,10 @@ def clixxIOProjectDir(projectname = None):
     """
     global IoTProjectDirSuffix
     if not projectname is None:
-        return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,projectname)
+        return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix, projectname)
     else:
-        return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix)
+        return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix)
+
 
 def clixxIOSystemLogFile():
     """
@@ -222,8 +250,9 @@ def clixxIOSystemLogFile():
 
     These are typically directories stored in the IoT directory
     """
-    global IoTProjectDirSuffix,clixxIOLogName
-    return os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,clixxIOLogName)
+    global IoTProjectDirSuffix, clixxIOLogName
+    return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix, clixxIOLogName)
+
 
 def clixxIOAddProject(projectname):
     """
@@ -232,10 +261,14 @@ def clixxIOAddProject(projectname):
     These are typically directories stored in the IoT directory
     """
     global IoTProjectDirSuffix
-    IoTdir = os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,projectname)
+    IoTdir = os.path.join(
+        os.path.expanduser("~"),
+        IoTProjectDirSuffix,
+        projectname)
     if not os.path.exists(IoTdir):
         os.makedirs(IoTdir)
     return
+
 
 def clixxIORemoveProject(projectname):
     """
@@ -244,8 +277,9 @@ def clixxIORemoveProject(projectname):
     A project is typically one directory stored in the IoT directory
     which can be deleted by recursively deleting it.
     """
-    shutil.rmtree(os.path.join(clixxIOProjectDir(),projectname))
+    shutil.rmtree(os.path.join(clixxIOProjectDir(), projectname))
     return
+
 
 def clixxIOListProjects():
     """
@@ -253,7 +287,7 @@ def clixxIOListProjects():
 
     These are typically directories stored in the IoT directory
     """
-    IoTdir = os.path.join(os.path.expanduser("~"),IoTProjectDirSuffix,'*')
+    IoTdir = os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix, '*')
 
     projects = []
     projectdirs = glob.glob(IoTdir)
@@ -269,22 +303,23 @@ def clixxIOListProjectbyStatus():
 
     These are typically directories stored in the IoT directory
     """
-    
+
     projectlist = {}
-    
+
     for p in clixxIOListProjects():
-        
+
         cf = clixxIOlProjectConfigFilename(p)
         cp = SafeConfigParser()
         cp.read(cf)
 
-        if cp.has_option(p,"status"):
-            ps = cp.get(p,"status")
+        if cp.has_option(p, "status"):
+            ps = cp.get(p, "status")
             projectlist[p] = ps
         else:
             projectlist[p] = ""
-            
+
     return projectlist
+
 
 def clixxIOListProjectbyType():
     """
@@ -292,34 +327,35 @@ def clixxIOListProjectbyType():
 
     These are typically directories stored in the IoT directory
     """
-    
+
     projectlist = {}
-    
+
     for p in clixxIOListProjects():
-        
+
         cf = clixxIOlProjectConfigFilename(p)
         cp = SafeConfigParser()
         cp.read(cf)
 
-        if cp.has_option(p,"project_type"):
-            ps = cp.get(p,"project_type")
+        if cp.has_option(p, "project_type"):
+            ps = cp.get(p, "project_type")
             projectlist[p] = ps
         else:
             projectlist[p] = ""
-            
+
     return projectlist
 
-def clixxIOProjectAutostarts(showDisabled = False):
+
+def clixxIOProjectAutostarts(showDisabled=False):
     """
     Return the names of all projects maintained by the system.
 
     These are typically directories stored in the IoT directory
     """
     autostarts = {}
-    
+
     pl = clixxIOListProjects()
     for p in pl:
-        
+
         cf = clixxIOlProjectConfigFilename(p)
         cp = SafeConfigParser()
         cp.read(cf)
@@ -329,119 +365,135 @@ def clixxIOProjectAutostarts(showDisabled = False):
         ac = ""
         aa = ""
         ae = ""
-        
-        if cp.has_option("autostart","directory"):
-            ad = cp.get("autostart","directory","")
 
-        if cp.has_option("autostart","command"):
-            ac = cp.get("autostart","command")
+        if cp.has_option("autostart", "directory"):
+            ad = cp.get("autostart", "directory", "")
 
-        if cp.has_option("autostart","arguments"):
-            aa = cp.get("autostart","arguments")
+        if cp.has_option("autostart", "command"):
+            ac = cp.get("autostart", "command")
 
-        if cp.has_option("autostart","enabled"):
-            ae = cp.get("autostart","enabled")
+        if cp.has_option("autostart", "arguments"):
+            aa = cp.get("autostart", "arguments")
+
+        if cp.has_option("autostart", "enabled"):
+            ae = cp.get("autostart", "enabled")
 
         if showDisabled:
-            
-            autostarts[p] = {"directory":ad,"command":ac,"arguments":aa,"enabled":ae}
-            
+
+            autostarts[
+                p] = {
+                "directory": ad,
+                "command": ac,
+                "arguments": aa,
+                "enabled": ae}
+
         elif ae.lower() == "true":
-            
-            autostarts[p] = {"directory":ad,"command":ac,"arguments":aa,"enabled":ae}
+
+            autostarts[
+                p] = {
+                "directory": ad,
+                "command": ac,
+                "arguments": aa,
+                "enabled": ae}
 
     return autostarts
 
+
 def clixxIOlProjectConfigFilename(projectname):
-    
+
     d = clixxIOProjectDir(projectname)
-    
-    return (os.path.join(d,projectname + '.ini'))
 
-def clixxIOAddProjectMqttCommands(projectname,newcommand):
-    
+    return (os.path.join(d, projectname + '.ini'))
+
+
+def clixxIOAddProjectMqttCommands(projectname, newcommand):
+
     cf = clixxIOlProjectConfigFilename(projectname)
-        
+
     cp = SafeConfigParser()
     cp.read(cf)
-   
+
     clist = []
-    if cp.has_option("mqtt","commands"):
-        clist = cp.get("mqtt","commands").split(' ')
+    if cp.has_option("mqtt", "commands"):
+        clist = cp.get("mqtt", "commands").split(' ')
     else:
         if not cp.has_section("mqtt"):
             cp.add_section("mqtt")
-            
+
     clist.append(newcommand)
-    
-    cp.set("mqtt","commands"," ".join(clist))
+
+    cp.set("mqtt", "commands", " ".join(clist))
 
     # Writing our configuration file to 'example.cfg'
     with open(cf, 'w') as configfile:
-        cp.write(configfile)    
-    
+        cp.write(configfile)
+
     return clist
 
-def clixxIOAddProjectMqttPubs(projectname,newtopic):
-    
+
+def clixxIOAddProjectMqttPubs(projectname, newtopic):
+
     cf = clixxIOlProjectConfigFilename(projectname)
-        
+
     cp = SafeConfigParser()
     cp.read(cf)
-   
+
     clist = []
-    if cp.has_option("mqtt","output_channels"):
-        clist = cp.get("mqtt","output_channels").split('\n')
+    if cp.has_option("mqtt", "output_channels"):
+        clist = cp.get("mqtt", "output_channels").split('\n')
     else:
         if not cp.has_section("mqtt"):
             cp.add_section("mqtt")
-            
+
     clist.append(newcommand)
-    
-    cp.set("mqtt","input_channels",clist.join("\n"))
+
+    cp.set("mqtt", "input_channels", clist.join("\n"))
 
     # Writing our configuration file to 'example.cfg'
     with open(cf, 'w') as configfile:
-        cp.write(configfile)    
-    
+        cp.write(configfile)
+
     return clist
 
-def clixxIOAddProjectMqttSubs(projectname,newtopic):
-    
+
+def clixxIOAddProjectMqttSubs(projectname, newtopic):
+
     cf = clixxIOlProjectConfigFilename(projectname)
-        
+
     cp = SafeConfigParser()
     cp.read(cf)
-   
+
     clist = []
-    if cp.has_option("mqtt","input_channels"):
-        clist = cp.get("mqtt","input_channels").split('\n')
+    if cp.has_option("mqtt", "input_channels"):
+        clist = cp.get("mqtt", "input_channels").split('\n')
     else:
         if not cp.has_section("mqtt"):
             cp.add_section("mqtt")
-            
+
     clist.append(newcommand)
-    
-    cp.set("mqtt","input_channels",clist.join("\n"))
+
+    cp.set("mqtt", "input_channels", clist.join("\n"))
 
     # Writing our configuration file to 'example.cfg'
     with open(cf, 'w') as configfile:
-        cp.write(configfile)    
-    
+        cp.write(configfile)
+
     return clist
-    
+
+
 def clixxIOListProjectMqttCommands(projectname):
 
     cf = clixxIOlProjectConfigFilename(projectname)
 
     cp = SafeConfigParser()
     cp.read(cf)
-   
+
     clist = []
-    if cp.has_option("mqtt","commands"):
-        clist = cp.get("mqtt","commands").split(' ')
-   
+    if cp.has_option("mqtt", "commands"):
+        clist = cp.get("mqtt", "commands").split(' ')
+
     return clist
+
 
 def clixxIOListProjectMqttPubs(projectname):
 
@@ -449,12 +501,13 @@ def clixxIOListProjectMqttPubs(projectname):
 
     cp = SafeConfigParser()
     cp.read(cf)
-   
-    clist = [] 
-    if cp.has_option("mqtt","output_channels"):
-        clist = cp.get("mqtt","output_channels").split(' ')
-   
+
+    clist = []
+    if cp.has_option("mqtt", "output_channels"):
+        clist = cp.get("mqtt", "output_channels").split(' ')
+
     return clist
+
 
 def clixxIOListProjectMqttSubs(projectname):
 
@@ -462,30 +515,32 @@ def clixxIOListProjectMqttSubs(projectname):
 
     cp = SafeConfigParser()
     cp.read(cf)
-   
-    clist = [] 
-    if cp.has_option("mqtt","input_channels"):
-        clist = cp.get("mqtt","input_channels").split(' ')
-   
+
+    clist = []
+    if cp.has_option("mqtt", "input_channels"):
+        clist = cp.get("mqtt", "input_channels").split(' ')
+
     return clist
+
 
 def clixxIOListAllProjectMqttSubs():
     """  Read all Project
     """
     allsubs = []
-    
+
     for p in clixxIOListProjects():
-        
+
         pcmds = clixxIOListProjectMqttSubs(p)
         for c in pcmds:
             allsubs.append(c)
-        
+
     return allsubs
+
 
 def spawntask(cmdline):
     # Put stderr and stdout into pipes
-    proc = subprocess.Popen(cmdline, \
-        shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    proc = subprocess.Popen(cmdline,
+                            shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     return_code = proc.wait()
 
     output = []
@@ -495,18 +550,21 @@ def spawntask(cmdline):
     for line in proc.stderr:
         print("stderr: " + line.rstrip())
 
-    return (return_code,output)
+    return (return_code, output)
+
 
 def sensorLogPath(sensorname):
     """
     Returns the full path of a Log file for a particular sensor
     """
-    f = os.path.join(GetConfigDir(),SensorLogDir,sensorname + ".csv")
+    f = os.path.join(GetConfigDir(), SensorLogDir, sensorname + ".csv")
 
     return f
 
+
 class ow_system:
-    """ 
+
+    """
     Provided to extend access to the Dallas One Communication Bus
 
     For Ubuntu, here's a list of packages: https://launchpad.net/ubuntu/+source/owfs
@@ -516,12 +574,14 @@ class ow_system:
 
         spawntask("apt-get install -y owfs ow-shell python-ow")
 
+
 class i2c_system:
-    """ 
+
+    """
     Provided to extend access to the I2C Bus.
     """
 
-    def __init__(self, busnumber = 1):
+    def __init__(self, busnumber=1):
 
         self.busnumber = busnumber
 
@@ -531,72 +591,74 @@ class i2c_system:
             sys.stderr.write("Warning: smbus module is not installed...")
 
     def rpi_install(self):
-      """
-      Function to install the necessary software to run I2C
+        """
+        Function to install the necessary software to run I2C
 
-      Based on http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step2/Enable-I2C/
+        Based on http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step2/Enable-I2C/
 
-      """
+        """
 
-      # Update module blacklist file
-      blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf")
-      lines = blacklist_conf.readlines()
-      blacklist_conf.close()
-      new_content = []
-      for l in lines:
-          if l.rstrip() == 'blacklist i2c-bcm2708':
-              new_content.append('#blacklist i2c-bcm2708\n')
-          else:
-              new_content.append(l.rstrip())
+        # Update module blacklist file
+        blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf")
+        lines = blacklist_conf.readlines()
+        blacklist_conf.close()
+        new_content = []
+        for l in lines:
+            if l.rstrip() == 'blacklist i2c-bcm2708':
+                new_content.append('#blacklist i2c-bcm2708\n')
+            else:
+                new_content.append(l.rstrip())
 
-      blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf",'w')
-      blacklist_conf.write('\n'.join(new_content))
+        blacklist_conf = open("/etc/modprobe.d/raspi-blacklist.conf", 'w')
+        blacklist_conf.write('\n'.join(new_content))
 
-      # Update /etc/modules
-      etc_modules = open("/etc/modules")
-      lines = etc_modules.readlines()
-      etc_modules.close()
-      new_content = []
-      i2c_found = False
-      for l in lines:
-          if 'i2c-dev' in l:
-              i2c_found = True
-      if not i2c_found:
-          etc_modules = open("/etc/modules",'w+')
-          etc_modules.write(''.join(lines)+'\ni2c-dev\n')
-          etc_modules.close()
+        # Update /etc/modules
+        etc_modules = open("/etc/modules")
+        lines = etc_modules.readlines()
+        etc_modules.close()
+        new_content = []
+        i2c_found = False
+        for l in lines:
+            if 'i2c-dev' in l:
+                i2c_found = True
+        if not i2c_found:
+            etc_modules = open("/etc/modules", 'w+')
+            etc_modules.write(''.join(lines) + '\ni2c-dev\n')
+            etc_modules.close()
 
-      # http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step4/Install-Necessary-Packages/
-      if not os.path.exists("/usr/sbin/i2cdetect"):
-        spawntask("apt-get install -y i2c-tools")
-        
-      spawntask("apt-get install -y python-smbus")
-      
-      spawntask("adduser pi i2c")
+        # http://www.instructables.com/id/Raspberry-Pi-I2C-Python/step4/Install-Necessary-Packages/
+        if not os.path.exists("/usr/sbin/i2cdetect"):
+            spawntask("apt-get install -y i2c-tools")
 
-    def installed(self):        
-    
-      return os.path.exists("/usr/sbin/i2cdetect")
+        spawntask("apt-get install -y python-smbus")
+
+        spawntask("adduser pi i2c")
+
+    def installed(self):
+
+        return os.path.exists("/usr/sbin/i2cdetect")
 
     def scan(self):
-       """ P
-       erform a scan on the I2C Bus
-       """
-       devices = []
-       rcode,o = spawntask("i2cdetect -y %d" % self.busnumber)
-       if (rcode == 0):
-         for l in o:
-            r = s[3:].replace(' --','')
-       return devices
+        """ P
+        erform a scan on the I2C Bus
+        """
+        devices = []
+        rcode, o = spawntask("i2cdetect -y %d" % self.busnumber)
+        if (rcode == 0):
+            for l in o:
+                r = s[3:].replace(' --', '')
+        return devices
 
-    def probe(self):    
-      return
+    def probe(self):
+        return
 
 # General i2c device class so that other devices can be added easily
+
+
 class i2c_device:
-   
+
     def __init__(self, addr, port):
-        
+
         try:
             import smbus
         except ImportError:
@@ -611,20 +673,25 @@ class i2c_device:
     def read(self):
         return self.bus.read_byte(self.addr)
 
-    def read_nbytes_data(self, data, n): # For sequential reads > 1 byte
+    def read_nbytes_data(self, data, n):  # For sequential reads > 1 byte
         return self.bus.read_i2c_block_data(self.addr, data, n)
 
+
 class mcp23017:
+
     """
     http://hertaville.com/2013/04/01/interfacing-an-i2c-gpio-expander-mcp23017-to-the-raspberry-pi-using-c/
     """
 
+
 class displayRotaryLeds(i2c_device):
-    """ 
+
+    """
     Rotary LED display based on the PCF8574
     """
-    def setbits(self,value):
-        self.write( 0xff ^ value)
+
+    def setbits(self, value):
+        self.write(0xff ^ value)
         return
 
     def display(self, value, maximum):
@@ -648,28 +715,33 @@ class displayRotaryLeds(i2c_device):
         elif v < 9:
             self.setbits(0xff)
 
+
 class tempSensorMCP9808(i2c_device):
-    """ 
+
+    """
     MCP9808 is an I2C Temperature sensor
     """
+
     def read_temperature(self):
-        b = self.read_nbytes_data(5,3)
+        b = self.read_nbytes_data(5, 3)
         t = (b[1] / 16) + b[2] * 16
         return t
 
+
 class RaspberryPiPinOuts:
     # Pin Definitions for the RaspberryPi WiringPi2
-    
-    pins = {'Serial_1' : {'i':2, 'o':3},
-            'Digital_1' : {'i':5, 'o':6, '*':4},
-            'Digital_2' : {'i':2, 'o':3, '*':0},
-            'Digital_3' : {'i':1, 'o':11, '*':10}
-           }
 
-    def pin(portname,portpin):
-        return pins[portname,portpin]
+    pins = {'Serial_1': {'i': 2, 'o': 3},
+            'Digital_1': {'i': 5, 'o': 6, '*': 4},
+            'Digital_2': {'i': 2, 'o': 3, '*': 0},
+            'Digital_3': {'i': 1, 'o': 11, '*': 10}
+            }
 
-def sensorLog(value,sensorname):
+    def pin(portname, portpin):
+        return pins[portname, portpin]
+
+
+def sensorLog(value, sensorname):
     """
     Sends a Sensor Value to the logging system
     """
@@ -687,7 +759,7 @@ def sensorLog(value,sensorname):
 
         device = {}
 
-        clixxIOHistoryFill(sensorname,device)
+        clixxIOHistoryFill(sensorname, device)
         device["status"] = clixxIODeviceStatus["running"]
 
         clixxIODevices[sensorname] = device
@@ -706,10 +778,15 @@ def sensorLog(value,sensorname):
 
         clixxIODevices[sensorname]["value"] = value
 
-    clixxIODevices[sensorname]["lastActive"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    clixxIODevices[
+        sensorname][
+        "lastActive"] = datetime.now(
+    ).strftime(
+        '%Y-%m-%d %H:%M:%S')
     clixxIOUpdateDevice(clixxIODevices[sensorname])
 
     return
+
 
 def sensorPin(pinnumber):
     """
@@ -717,16 +794,18 @@ def sensorPin(pinnumber):
     """
     return None
 
+
 def clixxIOHistoryFillAll():
     return
 
-def clixxIOHistoryFill(sensorname,device):
+
+def clixxIOHistoryFill(sensorname, device):
     """
     Fills in the details of a device from configuration/log files
     """
     global clixxIOConfig
 
-    clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
+    clixxIOConfig.read(os.path.join(clixxIOConfigDir, clixxIOConfigName))
 
     for k in clixxIODeviceKeys:
         device[k] = None
@@ -742,22 +821,25 @@ def clixxIOHistoryFill(sensorname,device):
         device["sensorDescription"] = "Ambient Temperature"
     return
 
-def clixxIODeviceUpdate(sensorname,device):
+
+def clixxIODeviceUpdate(sensorname, device):
     """
     Updates the information in the memory buffer
     """
     return
+
 
 def clixxIOLoadBrandingData(pageholder):
     """
     Loads all local branding information.
     """
 
-    clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
+    clixxIOConfig.read(os.path.join(clixxIOConfigDir, clixxIOConfigName))
 
     for k in clixxIOBrandingKeys:
         clixxIOBranding[k] = clixxIOConfig._sections[clixxIOBrandingSection][k]
     return
+
 
 def clixxIOSetupSHM():
     """
@@ -767,26 +849,33 @@ def clixxIOSetupSHM():
     """
     global clixxIOshmfd, clixxIOshmBuff
 
-    if clixxIOshmfd == None:
+    if clixxIOshmfd is None:
 
         # Create new empty file to back memory map on disk
         if not os.path.exists(clixxIOshmPath):
-            clixxIOshmfd = os.open(clixxIOshmPath, os.O_CREAT | os.O_TRUNC | os.O_RDWR)
+            clixxIOshmfd = os.open(
+                clixxIOshmPath,
+                os.O_CREAT | os.O_TRUNC | os.O_RDWR)
 
             # Zero out the file to insure it's the right size
             os.write(clixxIOshmfd, ' ' * mmap.PAGESIZE)
-            os.lseek(clixxIOshmfd,0,os.SEEK_SET)
+            os.lseek(clixxIOshmfd, 0, os.SEEK_SET)
             os.write(clixxIOshmfd, '\n')
- 
+
         else:
             clixxIOshmfd = os.open(clixxIOshmPath, os.O_RDWR)
- 
+
         # Create the mmap instace with the following params:
         # fd: File descriptor which backs the mapping or -1 for anonymous mapping
         # length: Must in multiples of PAGESIZE (usually 4 KB)
         # flags: MAP_SHARED means other processes can share this mmap
         # prot: PROT_WRITE means this process can write to this mmap
-        clixxIOshmBuff = mmap.mmap(clixxIOshmfd, mmap.PAGESIZE, mmap.MAP_SHARED, mmap.PROT_WRITE)
+        clixxIOshmBuff = mmap.mmap(
+            clixxIOshmfd,
+            mmap.PAGESIZE,
+            mmap.MAP_SHARED,
+            mmap.PROT_WRITE)
+
 
 def clixxIOWriteSHM(value):
     """
@@ -794,16 +883,17 @@ def clixxIOWriteSHM(value):
     """
     # Now ceate a pointer to the shared memory area
     s_type = ctypes.c_char * len(value)
- 
+
     # Now create the ctypes instance
     s = s_type.from_buffer(clixxIOshmBuff, 0)
     # And finally set it
     s.raw = value
- 
-    os.lseek(clixxIOshmfd,0,os.SEEK_SET)
-    os.write(clixxIOshmfd,value + '\n')
+
+    os.lseek(clixxIOshmfd, 0, os.SEEK_SET)
+    os.write(clixxIOshmfd, value + '\n')
 
     return
+
 
 def clixxIOReadSHM():
     """
@@ -812,26 +902,27 @@ def clixxIOReadSHM():
 
     # global clixxIOshmfd, clixxIOshmBuff
 
-    if clixxIOshmfd == None:
+    if clixxIOshmfd is None:
         clixxIOSetupSHM()
 
-    os.lseek(clixxIOshmfd,0,os.SEEK_SET)
-    s = os.read(clixxIOshmfd,mmap.PAGESIZE)
+    os.lseek(clixxIOshmfd, 0, os.SEEK_SET)
+    s = os.read(clixxIOshmfd, mmap.PAGESIZE)
 
     # And finally set it
     return s[:s.index("\n")]
+
 
 def clixxIOReadDevice(deviceID):
     """
     Low Level routine to read values for a particular device
     """
 
-    if clixxIOshmfd == None:
+    if clixxIOshmfd is None:
         clixxIOSetupSHM()
 
     alldevices = {}
     js = clixxIOReadSHM()
-    if len(js)>0:
+    if len(js) > 0:
         alldevices = json.loads(js)
 
     if deviceID not in alldevices.keys():
@@ -848,13 +939,14 @@ def clixxIOReadDevice(deviceID):
 
         return alldevices[deviceID]
 
+
 def clixxIOReadDevices():
     """
     Low Level routine to read values for all devices
     """
-    global clixxIOConfigDir,clixxIOConfigName
-    
-    clixxIOConfig.read(os.path.join(clixxIOConfigDir,clixxIOConfigName))
+    global clixxIOConfigDir, clixxIOConfigName
+
+    clixxIOConfig.read(os.path.join(clixxIOConfigDir, clixxIOConfigName))
 
     alldevices = []
 
@@ -864,17 +956,18 @@ def clixxIOReadDevices():
 
     return alldevices
 
+
 def clixxIOUpdateDevice(deviceInfo):
     """
     Low Level routine to update the Share-Memory-Space for one device
     """
 
-    if clixxIOshmfd == None:
+    if clixxIOshmfd is None:
         clixxIOSetupSHM()
 
     alldevices = {}
     js = clixxIOReadSHM()
-    if len(js)>0:
+    if len(js) > 0:
         alldevices = json.loads(js)
 
     alldevices[deviceInfo["deviceId"]] = deviceInfo
@@ -883,7 +976,8 @@ def clixxIOUpdateDevice(deviceInfo):
 
     return
 
-def clixxIOLatestValues(deviceId,when='today'):
+
+def clixxIOLatestValues(deviceId, when='today'):
     """
     Read the latest values for a particular device from the device log file
     """
@@ -899,13 +993,13 @@ def clixxIOLatestValues(deviceId,when='today'):
             results.append(l.rstrip())
 
     # Use this to convert back to datetime
-    entry_date = datetime.strptime('2013-05-23 10:48:46','%Y-%m-%j %H:%M:%S')
+    entry_date = datetime.strptime('2013-05-23 10:48:46', '%Y-%m-%j %H:%M:%S')
 
     return results
+
 
 def clixxIOInfo(deviceId):
     """
     Read known summary metadata for a device
     """
     return results
-

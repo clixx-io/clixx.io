@@ -26,6 +26,10 @@ Python Serial
 
 https://github.com/libopencm3
 
+Pulse Audio Monitor
+-------------------
+pamon --latency 100 | hexdump -C
+
 Boards to do
 ------------
 
