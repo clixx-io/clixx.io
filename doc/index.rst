@@ -18,58 +18,6 @@ About
 
    source/About.rst
 
-IO Boards
----------
-
-.. toctree::
-   :maxdepth: 1
-
-   source/Digital-Button
-   source/Digital-LED
-   source/Digital-soic8
-   source/Analog-Potentiometer
-   source/Digital-InfraRed
-   source/Sensor-Temp-I2C
-
-Displays
---------
-
-.. toctree::
-   :maxdepth: 1
-
-   source/Display-I2C-2x16CharLCD
-   source/Display-RotaryGauge
-   
-Docks
------
-
-.. toctree::
-   :maxdepth: 1
-
-   source/Dock-RaspberryPi
-   source/Dock-Arduino-Duemilanove
-
-Processor Boards
-----------------
-
-.. toctree::
-   :maxdepth: 1
-
-   source/PIC-8SOIC
-   source/Processor-Attiny
-   source/Processor-ICSP-Programmer
-
-Power
------
-
-.. toctree::
-   :maxdepth: 1
-
-   source/Power-Voltmeter
-   source/Power-CoinCell
-   source/Power-VReg
-   source/Power-Mosfet
-   source/Power-VregMosfet
 
 Software Support
 ----------------
