@@ -44,6 +44,7 @@ can then customise to suit your needs.
 """
 
 	project_types = { 
+			   "lua-nodemcu"		: "Lua NodeMCU",
 			   "c++"				: "Event-Framework",
 			   "python_service"		: "Python Project",
 #			   "Web_Application"	: "Web Application",
@@ -53,7 +54,8 @@ can then customise to suit your needs.
 			   "attiny13" 			: "program_setup|program_loop|program_timers|program_pinchange",
 			   "attiny85" 			: "program_setup|program_loop|program_timers|program_pinchange|program_serial|program_iot",
 			   "linux"    			: "program_setup|program_shutdown|program_loop|program_timers|program_pinchange|program_serial|program_iot",
-			   "msp430"   			: "program_setup|program_loop|program_timers|program_pinchange|program_serial"
+			   "msp430"   			: "program_setup|program_loop|program_timers|program_pinchange|program_serial",
+			   "esp8266"			: "program_setup|program_loop|program_timers|program_pinchange|program_serial"
 				}
 
 	prompts = {"program_setup" 		: "Does the program need a setup function (y,n,i) ? ",
@@ -149,7 +151,10 @@ can then customise to suit your needs.
 			while not self.project_type in self.project_types.keys():
 				self.project_type = raw_input(ptypes)
 
-		if self.project_type == "c++":
+		if self.deployment_platform == "esp8266":
+			self.project_type = "lua-nodemcu"
+        
+		elif self.project_type == "c++":
 		
 			self.deployment_platform = ''
 			while not self.deployment_platform in self.target_platforms.keys():
@@ -180,7 +185,6 @@ can then customise to suit your needs.
 							else:
 								print("Sorry, no further information on that item.")
 
-				
 		if "program_iot" in self.selections:
 			if self.iot_input_channel != '':
 				# If there is an input_channel, collect up all the respond-to commands
