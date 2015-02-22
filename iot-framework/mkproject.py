@@ -54,6 +54,7 @@ can then customise to suit your needs.
 			   "attiny13" 			: "program_setup|program_loop|program_timers|program_pinchange",
 			   "attiny85" 			: "program_setup|program_loop|program_timers|program_pinchange|program_serial|program_iot",
 			   "linux"    			: "program_setup|program_shutdown|program_loop|program_timers|program_pinchange|program_serial|program_iot",
+			   "windows"   			: "program_setup|program_shutdown|program_loop|program_timers|program_pinchange|program_serial|program_iot",
 			   "msp430"   			: "program_setup|program_loop|program_timers|program_pinchange|program_serial",
 			   "esp8266"			: "program_setup|program_loop|program_timers|program_pinchange|program_serial"
 				}
@@ -389,9 +390,10 @@ if __name__ == "__main__":
 
 	usage = "usage: %prog [options] arg1 arg2"
 	parser = optparse.OptionParser(usage=usage)
-	parser.add_option("-t", "--target",
-					  action="store", dest="platform", default=None,
-					  help="Target Platform. Example Linux, atttiny85")
+	parser.add_option("-p", "--platform", action="store", dest="platform", default=None,
+					  help="Target Platform. ie " + ', '.join(clixxIOEventTemplateBuilder.target_platforms))
+	parser.add_option("-t", "--type", action="store", dest="projecttype", default=None,
+					  help="Project Type ie " + ', '.join(clixxIOEventTemplateBuilder.project_types))
 
 	(options, args) = parser.parse_args()
 
