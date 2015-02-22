@@ -26,56 +26,12 @@ from functools import partial
 import logging, logging.config
 import webbrowser, sys
 
-
 from clixxIO import *
 import iot_controller_rc
 
 autostart_processlist = []
 logger = logging.getLogger('iot-controller-gui')
 secondwin = None
-
-def supported_image_extensions():
-    ''' Get the image file extensions that can be read. '''
-    formats = QtGui.QImageReader().supportedImageFormats()
-    # Convert the QByteArrays to strings
-    return [str(fmt) for fmt in formats]
-
-class runProcessWindow(QtGui.QWidget):
-    """"""
- 
-    #----------------------------------------------------------------------
-    def __init__(self):
-        """Constructor"""
-        # super(DialogDemo, self).__init__()
-        QtGui.QWidget.__init__(self)
- 
-        self.label = QtGui.QLabel("Python rules!")
- 
-        # create the buttons
-        colorDialogBtn = QtGui.QPushButton("Open Color Dialog")
-        fileDialogBtn =  QtGui.QPushButton("Open File Dialog")
-        self.fontDialogBtn = QtGui.QPushButton("Open Font Dialog")
-        inputDlgBtn = QtGui.QPushButton("Open Input Dialog")
- 
-        # connect the buttons to the functions (signals to slots)
-        # colorDialogBtn.clicked.connect(self.openColorDialog)
-        # fileDialogBtn.clicked.connect(self.openFileDialog)
-        # self.fontDialogBtn.clicked.connect(self.openFontDialog)
-        # self.connect(inputDlgBtn, QtCore.SIGNAL("clicked()"), self.openInputDialog)
- 
-        # layout widgets
-        layout = QtGui.QVBoxLayout()
-        layout.addWidget(self.label)
-        layout.addWidget(colorDialogBtn)
-        layout.addWidget(fileDialogBtn)
-        layout.addWidget(self.fontDialogBtn)
-        layout.addWidget(inputDlgBtn)
-        self.setLayout(layout)
- 
-        # set the position and size of the window
-        self.setGeometry(100, 100, 400, 100)
- 
-        self.setWindowTitle("Running Process")
 
 class LogFileList(QtGui.QListWidget):
     ''' A specialized QListWidget that displays the
@@ -447,6 +403,43 @@ class Window(QtGui.QDialog):
          self.trayIcon = QtGui.QSystemTrayIcon(self)
          self.trayIcon.setContextMenu(self.trayIconMenu)
 
+class runProcessWindow(QtGui.QWidget):
+    """"""
+ 
+    #----------------------------------------------------------------------
+    def __init__(self):
+        """Constructor"""
+        # super(DialogDemo, self).__init__()
+        QtGui.QWidget.__init__(self)
+ 
+        self.label = QtGui.QLabel("Python rules!")
+ 
+        # create the buttons
+        colorDialogBtn = QtGui.QPushButton("Open Color Dialog")
+        fileDialogBtn =  QtGui.QPushButton("Open File Dialog")
+        self.fontDialogBtn = QtGui.QPushButton("Open Font Dialog")
+        inputDlgBtn = QtGui.QPushButton("Open Input Dialog")
+ 
+        # connect the buttons to the functions (signals to slots)
+        # colorDialogBtn.clicked.connect(self.openColorDialog)
+        # fileDialogBtn.clicked.connect(self.openFileDialog)
+        # self.fontDialogBtn.clicked.connect(self.openFontDialog)
+        # self.connect(inputDlgBtn, QtCore.SIGNAL("clicked()"), self.openInputDialog)
+ 
+        # layout widgets
+        layout = QtGui.QVBoxLayout()
+        layout.addWidget(self.label)
+        layout.addWidget(colorDialogBtn)
+        layout.addWidget(fileDialogBtn)
+        layout.addWidget(self.fontDialogBtn)
+        layout.addWidget(inputDlgBtn)
+        self.setLayout(layout)
+ 
+        # set the position and size of the window
+        self.setGeometry(100, 100, 400, 100)
+ 
+        self.setWindowTitle("Running Process")
+
 def execute_action(projectname, configfile, actionstring):
 
     print actionstring
@@ -540,6 +533,12 @@ def performMenuAction(identifier):
         if (i[0].lower()==c.lower()):
             execute_action(p, cp, i[1])
 
+def supported_image_extensions():
+    """ Get the image file extensions that can be read. 
+    """
+    formats = QtGui.QImageReader().supportedImageFormats()
+    # Convert the QByteArrays to strings
+    return [str(fmt) for fmt in formats]
 
 if __name__ == '__main__':
 
