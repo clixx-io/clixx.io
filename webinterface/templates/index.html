@@ -8,10 +8,15 @@
 
 <form method="post" action="change">
   <label for="slider-1">Projects/Devices on this machine:</label>
-  {% for item in projects %}
-        <li><a href="{{ item.href }}"/iot/iot>{{ item }}</a></li>
-  {% endfor %}
+  {% if not projects %}
+      <p>Currently there are no projects set up on this machine.</p>
+  {% else %}
+	  {% for item in projects %}
+			<li><a href="/iot/{{ item }}">{{ item }}</a></li>
+	  {% endfor %}
+  {% endif %}
   <br />
+  <a href="new-project" data-role="button" data-mini="true">Create a Project</a>
   
 </form>
 

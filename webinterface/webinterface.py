@@ -37,9 +37,17 @@ def show_project_profile(projectname):
        
         return render_template('project.html',commands = commands,config = config)
         
-        
     else:
         return 'Project %s is not a valid project.' % projectname
+
+@app.route('/new-project')
+def new_project():
+    """ Set up a new IoT project
+    """
+       
+    # return render_template('project.html',commands = commands,config = config)
+        
+    return 'Setting up a new IoT Project'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
