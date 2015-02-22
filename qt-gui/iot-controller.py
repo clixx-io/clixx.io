@@ -392,6 +392,9 @@ class Window(QtGui.QDialog):
 #        self.SystemLogAction = QtGui.QAction("&System Log", self,
 #                triggered=self.showNormal)
 
+        self.newprojectAction = QtGui.QAction("&New Project", self,
+                triggered=self.showNormal)
+
         self.restoreAction = QtGui.QAction("&Settings", self,
                 triggered=self.showNormal)
 
@@ -435,6 +438,7 @@ class Window(QtGui.QDialog):
          #self.trayIconMenu.addAction(self.maintainProjects)
          #self.trayIconMenu.addAction(self.SerialTerminalAction)
          #self.trayIconMenu.addAction(self.SystemLogAction)
+         self.trayIconMenu.addAction(self.newprojectAction)
          self.trayIconMenu.addAction(self.restoreAction)
 
          self.trayIconMenu.addSeparator()
