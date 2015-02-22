@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block body %}
+<div data-role="header">
+  <h1>{{ config.name }}</h1>
+</div>
+
+<div data-role="content">
+
+<form action="/new_project" method="post">
+<form>  
+
+<div data-role="fieldcontain">
+   <label for="select-choice-1" class="select">Type of Project</label>
+   <select name="select-choice-1" id="select-choice-1">
+      <option value="Windows/Python">Windows/Python</option>
+      <option value="ESP8266/Lua">ESP8266/Lua</option>
+      <option value="Linux/Python">Linux/Python</option>
+      <option value="Linux/C++">Linux/C++</option>
+   </select>
+</div>
+
+<label for="basic">Name of Project</label>
+<input type="text" name="name" id="projectname" value=""  />
+
+<div data-role="fieldcontain">
+    <label for="select-choice-a" class="select">Input</label>
+    <select name="select-choice-a" id="select-choice-a">
+    <option value="Input on GPIO Pin">Input on GPIO Pin</option>
+    <option value="Timer">Timer</option>
+    <option value="MQTT Message">MQTT Message</option>
+   </select>
+</div>
+
+<div data-role="fieldcontain">
+   <label for="select-choice-3" class="select">Output</label>
+   <select name="select-choice-3" id="select-choice-3">
+      <option value="Output on GPIO Pin">Ouput on GPIO Pin</option>
+      <option value="MQTT Message">MQTT Message</option>
+   </select>
+</div>
+
+{% if config.enable_onoff %}
+<p>Message sent: {{ value }}</p>
+
+    <label for="flip-checkbox-1">Flip toggle switch checkbox:</label>
+    <input data-role="flipswitch" name="flip-checkbox-1" id="flip-checkbox-1" type="checkbox">
+{% endif %}
+
+<input value="Create Project" type="submit">
+
+</form>
+
+{% if value %}
+<p>Message sent: {{ value }}</p>
+{% endif %}
+
+{% if config.enable_table %}
+{% endif %}
+       
+{% if value %}
+<p>Message sent: {{ value }}</p>
+{% endif %}
+
+</div>
+{% endblock %}
+
+

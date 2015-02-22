@@ -1,7 +1,7 @@
 import platform
 
 from flask import Flask
-from flask import render_template, request
+from flask import render_template, request, redirect
 
 from clixxIO import *
 
@@ -40,14 +40,24 @@ def show_project_profile(projectname):
     else:
         return 'Project %s is not a valid project.' % projectname
 
-@app.route('/new-project')
+@app.route('/new_project', methods=['POST', 'GET'])
 def new_project():
     """ Set up a new IoT project
     """
-       
-    # return render_template('project.html',commands = commands,config = config)
-        
-    return 'Setting up a new IoT Project'
+   
+    config = {}
+    config['name'] = 'New Project'
+    config['enable_onoff'] = False
+    config['enable_table'] = True
+
+    commands = ["Stop", "Start","Restart"]
+
+    if request.method == 'POST':
+		
+        projectname = request.form['projectname']
+        print("The Project name is '" + projectname + "'")
+           
+    return render_template('new-project.html',commands = commands,config = config)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
