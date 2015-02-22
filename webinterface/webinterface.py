@@ -1,3 +1,5 @@
+import platform
+
 from flask import Flask
 from flask import render_template, request
 
@@ -10,11 +12,10 @@ def index():
     """ Generate a home page with a list of projects
     """
     config = {}
-    config['name'] = "Lesters Insurance Machine"
+    config['name'] = "Clixx.io IoT running on %s" % platform.node()
     projects = clixxIOListProjects()
     
     return render_template('index.html',projects = projects,config = config)
-    # return "<h1>Welcome to clixx.io</h1>" + plist
 
 @app.route('/iot/<projectname>')
 def show_project_profile(projectname):
@@ -26,7 +27,6 @@ def show_project_profile(projectname):
         pc = open(clixxIOlProjectConfigFilename(projectname))
         lines = pc.read()
         pc.close()
-        # pc.close()
         
         config = {}
         config['name'] = projectname
@@ -37,7 +37,6 @@ def show_project_profile(projectname):
        
         return render_template('project.html',commands = commands,config = config)
         
-        # return "<h1>%s</h1>" % projectname + "<p>" + lines + "</p>"
         
     else:
         return 'Project %s is not a valid project.' % projectname
