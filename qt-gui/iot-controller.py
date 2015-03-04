@@ -35,7 +35,7 @@ secondwin = None
 
 class LogFileList(QtGui.QListWidget):
     ''' A specialized QListWidget that displays the
-        list of all image files in a given directory. '''
+        contents of the system log file'''
  
     def __init__(self, dirpath, parent=None):
         QtGui.QListWidget.__init__(self, parent)
@@ -262,7 +262,6 @@ class Window(QtGui.QDialog):
         self.messageGroupBox = QtGui.QGroupBox("Log View")
 
 #        typeLabel = QtGui.QLabel("Type:")
-
 #        self.typeComboBox = QtGui.QComboBox()
 #        self.typeComboBox.addItem("None", QtGui.QSystemTrayIcon.NoIcon)
 #        self.typeComboBox.addItem(self.style().standardIcon(
@@ -275,24 +274,16 @@ class Window(QtGui.QDialog):
 #                QtGui.QStyle.SP_MessageBoxCritical), "None",
 #                QtGui.QSystemTrayIcon.Critical)
 #        self.typeComboBox.setCurrentIndex(1)
-
 #        self.durationLabel = QtGui.QLabel("Duration:")
-
 #        self.durationSpinBox = QtGui.QSpinBox()
 #        self.durationSpinBox.setRange(5, 60)
 #        self.durationSpinBox.setSuffix(" s")
 #        self.durationSpinBox.setValue(15)
-
 #        durationWarningLabel = QtGui.QLabel("(some systems might ignore this "
 #                "hint)")
 #        durationWarningLabel.setIndent(10)
-
 #        titleLabel = QtGui.QLabel("Title:")
-
 #        self.titleEdit = QtGui.QLineEdit("Internet-of-Things Event")
-
-        bodyLabel = QtGui.QLabel("Log:")
-
 #        self.bodyEdit = QtGui.QTextEdit()
 #        self.bodyEdit.setPlainText("Program startup.")
 
@@ -301,6 +292,7 @@ class Window(QtGui.QDialog):
         self.showMessageButton = QtGui.QPushButton("System Check")
         self.showMessageButton.setDefault(True)
 
+        bodyLabel = QtGui.QLabel("Log:")
         messageLayout = QtGui.QGridLayout()
         messageLayout.addWidget(self.logList,0, 2, 4, 4)
         #messageLayout.addWidget(typeLabel, 0, 0)
@@ -469,25 +461,27 @@ def execute_action(projectname, configfile, actionstring):
 
     else:
             
-        processrunner = runProcessWindow()
-        processrunner.show()
+#        processrunner = runProcessWindow()
+#        processrunner.show()
             
+        logger.debug("Changing to directory %s" % clixxIOProjectDir(projectname))
         os.chdir(clixxIOProjectDir(projectname))
         
+        logger.info("Starting %s" % actionstring)
+
         c = spawntask(actionstring)
         
-        if 'error' in ''.join(c).lower():
-                """
-                Show a warning message
-                """
-                flags = QtGui.QMessageBox.StandardButton.Ok
-#               msg = c
-                response = QtGui.QMessageBox.warning(self, "An error occurred!",
-                                                     msg, flags)
-                if response == 0:
-                    logger.error(c)
+#        if 'error' in ''.join(c).lower():
+#        if 'error' in ''.join(c).lower():
+#                """
+#                Show a warning message
+#                """
+#                flags = QtGui.QMessageBox.StandardButton.Ok
+#                msg = c
+#                response = QtGui.QMessageBox.warning(self, "An error occurred!", msg, flags)
+#                if response == 0:
+#                    logger.error(c)
                             
-        print c
         
 def start_autostarts():
 
