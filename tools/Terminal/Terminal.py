@@ -66,7 +66,7 @@ def main(args):
 	ports_cb.currentIndexChanged[str].connect(portChanged)
 	
 	for port in reversed(matchedPorts):
-		ports_cb.addItem(port)	# TODO: add QVariant with port data
+		ports_cb.addItem(port)
 	
 	connect = QPushButton("Connect")
 	connect.clicked.connect(tryConnect)
