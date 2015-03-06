@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os, sys, platform
+import os, sys, platform, glob
 import serial
 from PySide import QtGui, QtCore
 from PySide.QtCore import *
