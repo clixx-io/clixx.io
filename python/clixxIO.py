@@ -46,12 +46,9 @@ from time import *
 import gettext
 _ = gettext.gettext
 
-
+# Configuration constants
 clixxIOConfigName = "config.ini"
 clixxIOLogName = "clixx.io.log"
-clixxIOConfigDir = ".local/share/clixx.io"
-if platform.system() == 'Windows':
-    clixxIOConfigDir = "clixx.io"
 
 IoTProjectDirSuffix = "IoT"
 
@@ -96,65 +93,20 @@ def GetConfigDir():
     """
     Return: The Location for configuration files
     """
-    global clixxIOConfigDir
-
-    homedir = ''
-
-    if platform.system() == 'Windows':
-        try:
-            from win32com.shell import shellcon, shell
-            homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-            homedir = os.path.join(homedir, "clixx.io")
-
-        except ImportError:  # quick semi-nasty fallback for non-windows/win32com case
-            homedir = os.path.expanduser("~")
-            homedir = os.path.join(homedir, "clixx.io")
-
-    elif platform.system() == 'Linux':
-
-        clixxIOLogDir = clixxIOProjectDir()
-
-        homedir = os.path.join(os.path.expanduser("~"), clixxIOConfigDir)
-
-    return homedir
-
+    return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix)
 
 def clixxIOconfigPath():
     """
     Provides the location of the configuration file
     """
-    global clixxIOConfigDir, clixxIOConfigName
+    global clixxIOConfigName
 
-    homedir = ""
+    homedir = GetConfigDir()
 
-    if platform.system() == 'Windows':
-        try:
-            from win32com.shell import shellcon, shell
-            homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-            homedir = os.path.join(homedir, "clixx.io")
+    if not os.path.exists(homedir):
+        os.makedirs(homedir)
 
-            if not os.path.exists(homedir):
-                os.makedirs(homedir)
-
-            homedir = os.path.join(homedir, clixxIOConfigName)
-
-        except ImportError:  # quick semi-nasty fallback for non-windows/win32com case
-            homedir = os.path.join(os.path.expanduser("~"), "clixx.io")
-
-        return homedir
-
-    else:
-
-        homedir = os.path.join(
-            os.path.join(os.path.expanduser("~"), clixxIOConfigDir))
-
-        if not os.path.exists(homedir):
-            os.makedirs(homedir)
-
-        homedir = os.path.join(homedir, clixxIOConfigName)
-
-        return homedir
-
+    return os.path.join(homedir,clixxIOConfigName)
 
 def configPath():
 
@@ -162,9 +114,8 @@ def configPath():
 
 
 class clixxIOProject:
-
     """
-    A Basic class to simplify project Management
+    A Basic class to simplify represent an individual project 
     """
 
     def __init__(self, projectname=None):
@@ -201,11 +152,9 @@ class clixxIOProject:
 
 
 class clixxIOProjectRepository():
-
     """
-    A Basic class to simplify project Management
+    A class to simplify project Management
     """
-
     def __init__(self):
         pass
 
