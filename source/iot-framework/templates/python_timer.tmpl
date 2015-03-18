@@ -11,10 +11,10 @@ class App(Component):
 
     def timer(self):
         """ Timer Event handler
-        Fired once in 3 seconds.
+        Fired once in ${timer_interval} seconds.
         """
 
-        print("Timer Event")
+        ${timer_event_code}
 
     def started(self, component):
         """started Event handler
@@ -26,7 +26,7 @@ class App(Component):
         """
 
         # Timer(seconds, event, persist=False)
-        Timer(3, Event.create("timer"), persist=True).register(self)
+        Timer(${timer_interval}, Event.create("timer"), persist=True).register(self)
 
 
 App().run()
