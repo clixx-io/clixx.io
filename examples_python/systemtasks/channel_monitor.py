@@ -8,13 +8,12 @@
 # http://knolleary.net/arduino-client-for-mqtt/api/
 #http://oliversmith.io/technology/2010/08/15/first-steps-using-python-and-mqtt/
 
-import pynotify
 import mosquitto
 import sys, platform
 import clixxIO 
 
 #define what happens after connection
-def on_connect(rc):
+def on_connect(rc, obj, x):
     print("Connected to %s as %s" % ('test.mosquitto.org',platform.node()))
 
 #define what happens if connection drops
@@ -22,14 +21,11 @@ def on_disconnect(rc):
     print("Disconnect")
 
 #On recipt of a message create a pynotification and show it
-def on_message(msg):
+def on_message(msg, obj, x):
     if msg.topic == "clixx.io/hello":
-        n = pynotify.Notification (msg.topic, msg.payload)
-        n.show ()
+        print "Received %s %s" % (msg.topic, msg.payload)
     else:
         print "Received %s %s" % (msg.topic, msg.payload)
-
-pynotify.init(platform.node())
 
 #create a broker using our machine name
 mqttc = mosquitto.Mosquitto(platform.node())
