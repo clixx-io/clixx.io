@@ -3,14 +3,12 @@ d1_output = 3
 d1_input  = 4
 
 --Show a User Message
-print("Welcome to the clixx.io Wifi Controller")
+print("Welcome to the clixx.io Web PWM Controller")
 
-tmr.delay(5000000)
-ip = wifi.sta.getip()
-if (ip == nil) then
-    ip = "<Not Connected>"
-end
-print("IP Address="..ip)
+-- set gpio 0 as output.
+gpio.mode(d1_output, gpio.OUTPUT)
+gpio.write(d1_output,gpio.LOW)
+gpio.mode(d1_input, gpio.INPUT)
 
 srv=net.createServer(net.TCP) 
 srv:listen(80,function(conn) 
@@ -40,8 +38,11 @@ srv:listen(80,function(conn)
               pwm.setup(d1_output, 1000, tonumber(_GET.pwmvalue))
               pwm.start(d1_output)
         elseif(_GET.pin == "OFF")then
-              _off = " selected=\"true\"";
+              _off = " selected=\"false\"";
               pwm.close(d1_output)
+              
+              gpio.mode(d1_output, gpio.OUTPUT)
+              gpio.write(d1_output,gpio.LOW)
         end
         buf = buf.."<option".._on..">ON</opton><option".._off..">OFF</option></select><br><br>";
         buf = buf.."</form>";
