@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-"""Simple Timers
+"""Serial Port Monitor
 
-A trivial simple example of using circuits and timers.
+A Timer based utility to check for serial ports added or removed from
+the system.
 
 """
 
@@ -31,7 +32,7 @@ def list_serial_ports():
 
 class App(Component):
 
-    timer_interval = 5
+    timer_interval = 2
     serial_ports = []
     network_ips = []
 
@@ -42,31 +43,31 @@ class App(Component):
 
         current_ports = self.read_serial_ports()
         for p in current_ports:
-			if not p in self.serial_ports:
-				print "New serial port %s found" % p
-				self.serial_ports.append(p)
+            if not p in self.serial_ports:
+                print "New serial port %s found" % p
+                self.serial_ports.append(p)
 
         for p in self.serial_ports:
-			if not p in current_ports:
-				print "Serial port %s disconnected" % p
-				i = self.serial_ports.index(p)
-				del self.serial_ports[i]				
+            if not p in current_ports:
+                print "Serial port %s disconnected" % p
+                i = self.serial_ports.index(p)
+                del self.serial_ports[i]
 
     def read_serial_ports(self):
-		return list_serial_ports()
-		
+        return list_serial_ports()
+
     def read_network_ips(self):
-		return
-		
+        return
+
     def started(self, component):
-		"""started Event handler
+        """started Event handler
 
-		"""
+        """
 
-		self.serial_ports = self.read_serial_ports()
+        self.serial_ports = self.read_serial_ports()
 
-		# Timer(seconds, event, persist=False)
-		Timer(self.timer_interval, Event.create("timer"), persist=True).register(self)
+        # Timer(seconds, event, persist=False)
+        Timer(self.timer_interval, Event.create("timer"), persist=True).register(self)
 
 App().run()
 
