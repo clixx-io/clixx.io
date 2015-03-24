@@ -1,4 +1,4 @@
-A Simple Directory Path Watcher
+GPIO Notifier
 
-With this system you can watch a directory. Changes to the
-directory are published to an mqtt channel.
+Watches MQTT channels and will write to the GPIO
+system if any of the registered topics are detected.

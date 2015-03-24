@@ -1,4 +1,4 @@
-A Simple Directory Path Watcher
+Simple Graphical Terminal
 
-With this system you can watch a directory. Changes to the
-directory are published to an mqtt channel.
+A Simple line based terminal program for talking to Serial
+devices on temporary serial ports.

@@ -1,4 +1,4 @@
-A Simple Directory Path Watcher
+Serial Ports Monitor
 
-With this system you can watch a directory. Changes to the
-directory are published to an mqtt channel.
+Monitors removeable serial ports reports the addition of new
+ports and removals to an MQTT Channel.

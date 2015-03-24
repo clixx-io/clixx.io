@@ -1,4 +1,3 @@
-A Simple Directory Path Watcher
+MQTT Logger
 
-With this system you can watch a directory. Changes to the
-directory are published to an mqtt channel.
+Logs traffic from one or more MQTT Channels to a log file.

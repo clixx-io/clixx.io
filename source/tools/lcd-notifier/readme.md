@@ -1,4 +1,3 @@
-A Simple Directory Path Watcher
+LCD Notifier
 
-With this system you can watch a directory. Changes to the
-directory are published to an mqtt channel.
+Sends text from an MQTT Channel to an LCD display.
