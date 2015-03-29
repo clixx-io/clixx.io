@@ -38,10 +38,10 @@ def change():
         lcd.write(lcdText)
     else:
         lcdText = None
-    return render_template('index.html', value=lcdText)
+    return render_template('weblcd.html', value=lcdText)
 
 
 if __name__ == "__main__":
     app.debug = True
-    app.run('0.0.0.0',80)
+    app.run('0.0.0.0',8081)
 
