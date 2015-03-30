@@ -22,7 +22,7 @@ setup(
 # use_2to3 = True,
     test_suite = "tests.tests",
     zip_safe = False,
-    install_requires = ['setuptools','mako','pyside','flask','circuits','mosquitto'],
+    install_requires = ['setuptools','mako','flask','circuits','paho-mqtt'],
     classifiers = [
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
