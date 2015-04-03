@@ -8,14 +8,21 @@ the system.
 
 from circuits import Event, Component, Timer
 import platform, glob, subprocess
-import socket, fcntl, struct
-
+import socket
+if platform.system() != "Windows":
+    import fcntl, struct
+    
 def ping_address(ip_address):
+    
+    if platform.system() == "Windows":
+        packet_count_option = "-n"
+    else:
+        packet_count_option = "-c"
     
     output = None
     try:
         print("Checking host %s" % ip_address)
-        output=subprocess.check_output(["ping","-c","1",ip_address])
+        output=subprocess.check_output(["ping",packet_count_option,"1",ip_address])
     except:
         pass
         
@@ -25,15 +32,25 @@ def host_alive(ip_address):
     r = ping_address(ip_address)
     if r is None:
         return False
-        
-    if r.find('0% packet loss') != -1:
+    
+    if platform.system() == "Windows":
+        if r.find('Destination host unreachable') != -1:
+            print "Host not detected"
+            return False
+        else:
+            print "Host Alive"
+            return True
+	
+    if (r.find('0% packet loss') != -1) or (r.find('0% loss') != -1):
         return True
     else:
         return False
     
 def get_net_if():
     if_name = None
-    if platform.system() == "Linux":
+    if platform.system() == "Windows":
+		return "eth0"
+    else:
         netif = open("/proc/net/dev")
         contents = netif.read()
         if_pos = contents.find("eth")
@@ -46,11 +63,14 @@ def get_net_if():
         
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    return socket.inet_ntoa(fcntl.ioctl(
-        s.fileno(),
-        0x8915,  # SIOCGIFADDR
-        struct.pack('256s', ifname[:15])
-    )[20:24])
+    if platform.system() == "Windows":
+        return socket.gethostbyname(socket.getfqdn())
+    else:
+        return socket.inet_ntoa(fcntl.ioctl(
+            s.fileno(),
+            0x8915,  # SIOCGIFADDR
+            struct.pack('256s', ifname[:15])
+            )[20:24])
 
 def get_ip_net_base(ip_address):
     last_dot_pos = ip_address.rfind('.')
