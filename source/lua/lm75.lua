@@ -1,8 +1,8 @@
 ---
 -- @description Provides an interface to the LM75 I2C Temperature Sensor
--- MCP23008 Datasheet: http://ww1.microchip.com/downloads/en/DeviceDoc/21919e.pdf
+-- LM75B Datasheet: http://www.ti.com/lit/ds/symlink/lm75b.pdf
 -- Tested on NodeMCU 0.9.5 build 20150213.
--- @date March 02, 2015
+-- @date April 08, 2015
 -- @author David Lyon 
 --  GitHub: https://github.com/clixx-io 
 --  Website: http://clixx.io
@@ -31,10 +31,7 @@ local bus = 0
 -- @return void
 ---------------------------------------------------------------------------
 function M.init(self, sda, scl)
-   self.bus = 0
-   self.address = 72
-   self.temp_reg = 0
-   i2c.setup(self.bus, sda, scl, i2c.SLOW)
+   i2c.setup(bus, sda, scl, i2c.SLOW)
 end
 
 ---
@@ -43,15 +40,15 @@ end
 -- @return A String of data representing the temperature
 ----------------------------------------------------------
 function M.readTemp(self)
- i2c.start(self.bus)
- i2c.address(self.bus, self.address, i2c.TRANSMITTER)
- i2c.write(self.bus, self.temp_reg)
- i2c.stop(self.bus)
+ i2c.start(bus)
+ i2c.address(bus, address, i2c.TRANSMITTER)
+ i2c.write(bus, temp_reg)
+ i2c.stop(bus)
 
- i2c.start(self.bus)
- i2c.address(self.bus, self.address, i2c.RECEIVER)
- c=i2c.read(self.bus, 2)
- i2c.stop(self.bus)
+ i2c.start(bus)
+ i2c.address(bus, address, i2c.RECEIVER)
+ c=i2c.read(bus, 2)
+ i2c.stop(bus)
 
  h,l = string.byte(c,1,2)
  if h > 127 then h = h - 255 end        -- negative values - 2 complement representation
