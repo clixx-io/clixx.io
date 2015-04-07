@@ -8,9 +8,7 @@ the system.
 
 from circuits import Event, Component, Timer
 import platform, glob, subprocess
-import socket
-if platform.system() != "Windows":
-    import fcntl, struct
+from socket import socket, SOCK_DGRAM, AF_INET 
     
 def ping_address(ip_address):
     
@@ -40,7 +38,7 @@ def host_alive(ip_address):
         else:
             print "Host Alive"
             return True
-	
+
     if (r.find('0% packet loss') != -1) or (r.find('0% loss') != -1):
         return True
     else:
@@ -49,7 +47,7 @@ def host_alive(ip_address):
 def get_net_if():
     if_name = None
     if platform.system() == "Windows":
-		return "eth0"
+        return "eth0"
     else:
         netif = open("/proc/net/dev")
         contents = netif.read()
@@ -62,15 +60,12 @@ def get_net_if():
     return if_name
         
 def get_ip_address(ifname):
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     if platform.system() == "Windows":
         return socket.gethostbyname(socket.getfqdn())
     else:
-        return socket.inet_ntoa(fcntl.ioctl(
-            s.fileno(),
-            0x8915,  # SIOCGIFADDR
-            struct.pack('256s', ifname[:15])
-            )[20:24])
+        s = socket(AF_INET, SOCK_DGRAM)
+        s.connect(('google.com',0))
+        return s.getsockname()[0]
 
 def get_ip_net_base(ip_address):
     last_dot_pos = ip_address.rfind('.')
