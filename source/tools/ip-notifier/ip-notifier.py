@@ -26,6 +26,18 @@ def ping_address(ip_address):
         
     return output
 
+def get_mac_address(ip_address):
+    
+    output = None
+    if platform.system() == "Windows":
+        try:
+            print("Getting MAC address %s" % ip_address)
+            output=subprocess.check_output(["nbtstat","-a",ip_address])
+        except:
+            pass
+    
+    return output
+
 def host_alive(ip_address):
     r = ping_address(ip_address)
     if r is None:
