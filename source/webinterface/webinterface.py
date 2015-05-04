@@ -59,5 +59,28 @@ def new_project():
            
     return render_template('new-project.html',commands = commands,config = config)
 
+@app.route('/logsensor/<projectname>')
+def log_sensor(projectname):
+    # Allows a user to log a sensor
+    projects = clixxIOListProjects()
+    
+    if projectname in projects:
+        
+        pc = open(clixxIOlProjectConfigFilename(projectname))
+        lines = pc.read()
+        pc.close()
+        
+        config = {}
+        config['name'] = projectname
+        config['enable_onoff'] = False
+        config['enable_table'] = True
+        
+        commands = ["Stop", "Start","Restart"]
+       
+        return 'Values logged for %s.' % projectname
+        
+    else:
+        return 'Project %s is not a valid project.' % projectname
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
