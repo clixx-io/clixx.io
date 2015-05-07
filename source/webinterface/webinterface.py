@@ -61,22 +61,20 @@ def new_project():
 
 @app.route('/logsensor/<projectname>')
 def log_sensor(projectname):
-    # Allows a user to log a sensor
+    """ Allows a user to log a sensor
+    """
     projects = clixxIOListProjects()
     
     if projectname in projects:
         
+        # Open an 
         pc = open(clixxIOlProjectConfigFilename(projectname))
         lines = pc.read()
         pc.close()
-        
-        config = {}
-        config['name'] = projectname
-        config['enable_onoff'] = False
-        config['enable_table'] = True
-        
-        commands = ["Stop", "Start","Restart"]
-       
+      
+        for k in request.args.keys():
+			print k,request.args[k]
+			
         return 'Values logged for %s.' % projectname
         
     else:
