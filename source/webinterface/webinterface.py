@@ -1,4 +1,5 @@
 import platform
+import csv, datetime, re
 
 from flask import Flask
 from flask import render_template, request, redirect
@@ -64,18 +65,43 @@ def log_sensor(projectname):
     """ Allows a user to log a sensor
     """
     projects = clixxIOListProjects()
-    
+    num_format = re.compile("^[1-9][0-9]*\.?[0-9]*")
+	    
     if projectname in projects:
         
-        # Open an 
-        pc = open(clixxIOlProjectConfigFilename(projectname))
-        lines = pc.read()
-        pc.close()
-      
-        for k in request.args.keys():
-			print k,request.args[k]
+        # Obtain a timestamp
+        ds = datetime
+        ds = ds.now()
+        
+        # Place the logfile in the project directory
+        logpath = os.path.join(clixxIOProjectDir(projectname),projectname + ".csv")
+        
+        header_row = None
+        if not os.path.exists(logpath):
+            header_row = ['Timestamp']
+            for k in request.args.keys():
+			    header_row.append(k)
 			
-        return 'Values logged for %s.' % projectname
+        ofile  = open(logpath, "ab")
+        writer = csv.writer(ofile, quoting=csv.QUOTE_NONNUMERIC)
+        
+        # Add the header row with field names
+        if header_row:
+            writer.writerow(header_row)  
+
+        # Build the row and write it        
+        r = [ds.isoformat(' '),]
+        for k in request.args.keys():
+			
+            isnumber = re.match(num_format,request.args[k])
+            if isnumber:
+				r.append(float(request.args[k]))
+            else:
+				r.append(request.args[k])
+			
+        writer.writerow(r)  
+			
+        return 'Thank you. Those values have now been logged to %s.csv.' % projectname
         
     else:
         return 'Project %s is not a valid project.' % projectname
