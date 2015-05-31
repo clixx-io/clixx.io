@@ -72,12 +72,12 @@ def get_net_if():
     return if_name
         
 def get_ip_address(ifname):
-    if platform.system() == "Windows":
-        return socket.gethostbyname(socket.getfqdn())
-    else:
-        s = socket(AF_INET, SOCK_DGRAM)
-        s.connect(('google.com',0))
-        return s.getsockname()[0]
+	s = socket(AF_INET, SOCK_DGRAM)
+	s.connect(('google.com',0))
+	return s.getsockname()[0]
+
+#    if platform.system() == "Windows":
+#        return socket.gethostbyname(socket.getfqdn())
 
 def get_ip_net_base(ip_address):
     last_dot_pos = ip_address.rfind('.')

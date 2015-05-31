@@ -17,9 +17,10 @@ setup(
     # This needs to be blank
     packages = [''],
     package_dir = {'': 'source/python'},
-#    package_data={'images': ['qt-gui/images*']},
-    scripts=['source/tools/clixx','source/qt-gui/iot-controller.py'],
-# use_2to3 = True,
+    scripts=['source/tools/iot','source/qt-gui/iot-controller.py'],
+# Unknown options
+#   use_2to3 = True,
+#   package_data={'images': ['qt-gui/images*']},
     test_suite = "tests.tests",
     zip_safe = False,
     install_requires = ['setuptools','mako','flask','circuits','paho-mqtt'],
