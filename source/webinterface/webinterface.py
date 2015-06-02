@@ -12,32 +12,35 @@ app = Flask(__name__)
 def index():
     """ Generate a home page with a list of projects
     """
+
     config = {}
     config['name'] = "Clixx.io IoT running on %s" % platform.node()
+    config['enable_addproject'] = True
+
     projects = clixxIOListProjects()
-    
+
     return render_template('index.html',projects = projects,config = config)
 
 @app.route('/iot/<projectname>')
 def show_project_profile(projectname):
     # show the user profile for that user
     projects = clixxIOListProjects()
-    
+
     if projectname in projects:
-        
+
         pc = open(clixxIOlProjectConfigFilename(projectname))
         lines = pc.read()
         pc.close()
-        
+
         config = {}
         config['name'] = projectname
         config['enable_onoff'] = False
         config['enable_table'] = True
-        
+
         commands = ["Stop", "Start","Restart"]
-       
+
         return render_template('project.html',commands = commands,config = config)
-        
+
     else:
         return 'Project %s is not a valid project.' % projectname
 
@@ -54,10 +57,10 @@ def new_project():
     commands = ["Stop", "Start","Restart"]
 
     if request.method == 'POST':
-		
+
         projectname = request.form['projectname']
         print("The Project name is '" + projectname + "'")
-           
+
     return render_template('new-project.html',commands = commands,config = config)
 
 @app.route('/logsensor/<projectname>')
@@ -66,22 +69,22 @@ def log_sensor(projectname):
     """
     projects = clixxIOListProjects()
     num_format = re.compile("^[1-9][0-9]*\.?[0-9]*")
-	    
+
     if projectname in projects:
-        
+
         # Obtain a timestamp
         ds = datetime
         ds = ds.now()
-        
+
         # Place the logfile in the project directory
         logpath = os.path.join(clixxIOProjectDir(projectname),projectname + ".csv")
-        
+
         header_row = None
         if not os.path.exists(logpath):
             header_row = ['Timestamp']
             for k in request.args.keys():
-			    header_row.append(k)
-			
+                header_row.append(k)
+
         ofile  = open(logpath, "ab")
         writer = csv.writer(ofile, quoting=csv.QUOTE_NONNUMERIC)
         
@@ -92,17 +95,17 @@ def log_sensor(projectname):
         # Build the row and write it        
         r = [ds.isoformat(' '),]
         for k in request.args.keys():
-			
+
             isnumber = re.match(num_format,request.args[k])
             if isnumber:
-				r.append(float(request.args[k]))
+                r.append(float(request.args[k]))
             else:
-				r.append(request.args[k])
-			
+                r.append(request.args[k])
+
         writer.writerow(r)  
-			
+
         return 'Thank you. Those values have now been logged to %s.csv.' % projectname
-        
+
     else:
         return 'Project %s is not a valid project.' % projectname
 

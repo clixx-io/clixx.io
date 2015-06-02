@@ -16,7 +16,9 @@
 	  {% endfor %}
   {% endif %}
   <br />
+{% if config.enable_addproject %}  
   <a href="new_project" data-role="button" data-mini="true">Create a Project</a>
+{% endif %}
   
 </form>
 
