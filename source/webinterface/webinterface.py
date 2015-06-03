@@ -28,9 +28,12 @@ def show_project_profile(projectname):
 
     if projectname in projects:
 
-        pc = open(clixxIOlProjectConfigFilename(projectname))
-        lines = pc.read()
-        pc.close()
+        projectconfig_path = clixxIOlProjectConfigFilename(projectname)
+        if os.path.exists(projectconfig_path):
+            
+            pc = open(projectconfig_path)
+            lines = pc.read()
+            pc.close()
 
         config = {}
         config['name'] = projectname
