@@ -47,14 +47,25 @@ def main(args):
 			s.port = ports_cb.currentText()
 			s.open()
 			connect.setText('Connected')
-	
+
+	def readChipID():
+		s.write("print(node.chipid())\n")
+
+	def showip():
+		s.write('print(wifi.sta.getip())\n')
+
+	def setwifi():
+		s.write('wifi.sta.config("%s", "%s")\n' % (str(ssidtext.text()), str(pwdtext.text())))
+		s.write('wifi.sta.connect()\n')
+		#print 'status\n', se.readAll().decode("utf-8")
+
 	def sendStr():
 		t = str(sendtext.toPlainText()+'\n')
 		print "Text=",t
 		if len(t)>0:
 			s.write(t)
-		
 	def write():
+		#print 'NEW DATA?',se.readAll().decode("utf-8")
 		textedit.setText(textedit.toPlainText() + se.readAll().decode("utf-8"))
 		return
 	
@@ -70,16 +81,62 @@ def main(args):
 	
 	connect = QPushButton("Connect")
 	connect.clicked.connect(tryConnect)
-	
-	send = QPushButton("Send")
-	send.clicked.connect(sendStr)
-	
+
+	uart = QHBoxLayout()
+	uart.addWidget(ports_cb)
+	uart.addWidget(connect)
+
+	#chipid = QPushButton("Read chipID")
+	#chipid.clicked.connect(readChipID)
+	wifi = QHBoxLayout()
+	wifi1 = QVBoxLayout()
+	ssidlabel = QLabel('SSID:')
+	ssidlabel.setAlignment(Qt.AlignLeft)
+	ssidtext = QLineEdit()
+	ssidtext.setMaxLength(32)
+	ssidtext.setMaximumWidth(80)
+	ssidtext.setAlignment(Qt.AlignLeft)
+	wifi1.addWidget(ssidlabel)
+	wifi1.addWidget(ssidtext)
+	wifi2 = QVBoxLayout()
+	pwdlabel = QLabel('Password:')
+	pwdlabel.setAlignment(Qt.AlignLeft)
+	pwdtext = QLineEdit()
+	pwdtext.setMaxLength(32)
+	pwdtext.setMaximumWidth(80)
+	pwdtext.setEchoMode(QLineEdit.Password)
+	pwdtext.setAlignment(Qt.AlignLeft)
+	wifi2.addWidget(pwdlabel)
+	wifi2.addWidget(pwdtext)
+	wifi3 = QVBoxLayout()
+	setupwifi = QPushButton("Setup Wifi")
+	setupwifi.clicked.connect(setwifi)
+	ip = QPushButton('Show IP')
+	ip.clicked.connect(showip)
+	wifi3.addWidget(ip)
+	wifi3.addWidget(setupwifi)
+	wifi.addLayout(wifi1)
+	#wifi.addStretch(1)
+	wifi.addLayout(wifi2)
+	wifi.addLayout(wifi3)
+
+	comm = QVBoxLayout()
 	textedit = QTextEdit()
 	sendlabel = QLabel('Send Text')
-	sendlabel.setAlignment(Qt.AlignLeft)
 	sendtext = QTextEdit()
 	sendtext.setMaximumHeight(sendlabel.sizeHint().height() * 4)
-       	
+	send = QPushButton("Send")
+	send.clicked.connect(sendStr)
+	comm.addWidget(textedit)
+	comm.addWidget(sendlabel)
+	comm.addWidget(sendtext)
+	comm.addWidget(send)
+
+	full = QVBoxLayout()
+	full.addLayout(uart)
+	full.addLayout(wifi)
+	full.addLayout(comm)
+
 	s = serial.Serial()
 	
 	se = SerialEvents(s)
@@ -89,14 +146,7 @@ def main(args):
 	window =  QWidget()
 	layout =  QVBoxLayout()
 	
-	layout.addWidget(ports_cb)
-	layout.addWidget(connect)
-	layout.addWidget(textedit)
-	layout.addWidget(sendlabel)
-	layout.addWidget(sendtext)
-	layout.addWidget(send)
-	
-	window.setLayout(layout)
+	window.setLayout(full)
 	window.show()
 	
 	r = a.exec_()
@@ -106,4 +156,4 @@ def main(args):
 if __name__ == "__main__":
 
 	main(sys.argv)
-	
+
