@@ -15,14 +15,17 @@
 
 
         {% for item in projects %}
-          <!-- <a href="/iot/{{ item }}">{{ item }}</a> -->
 
-          <div class="tile " data-role="tile">
-                <div class="tile-content iconic">
-                    <span class="icon mif-cogs"></span>
-                </div>
-                <div class="tile-label">{{ item }}</div>
-          </div>
+			<!-- Tile with slide-down effect -->
+			<a id="qq" href="/iot/{{ item }}" class="tile" class="tile-wide" data-role="tile">
+			<div class="tile-content slide-down">
+				<div class="slide-over op-green text-small padding10">
+					Clixx.io IoT Project
+				</div>
+				<div class="tile-label">{{ item }}</div>
+			</div>
+			</a>
+          
         {% endfor %}
         </div>
 
