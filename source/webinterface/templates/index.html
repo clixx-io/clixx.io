@@ -7,13 +7,25 @@
 <div data-role="content">
 
 <form method="post" action="change">
-  <label for="slider-1">Projects/Devices on this machine:</label>
   {% if not projects %}
       <p>Currently there are no projects set up on this machine.</p>
   {% else %}
-	  {% for item in projects %}
-			<li><a href="/iot/{{ item }}">{{ item }}</a></li>
-	  {% endfor %}
+       <h4>Projects on this Machine</h4>
+        <div class="tile-container bg-darkCobalt">
+
+
+        {% for item in projects %}
+          <!-- <a href="/iot/{{ item }}">{{ item }}</a> -->
+
+          <div class="tile " data-role="tile">
+                <div class="tile-content iconic">
+                    <span class="icon mif-cogs"></span>
+                </div>
+                <div class="tile-label">{{ item }}</div>
+          </div>
+        {% endfor %}
+        </div>
+
   {% endif %}
   <br />
 {% if config.enable_addproject %}  
