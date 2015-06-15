@@ -1,0 +1,62 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+		<link href="http://metroui.org.ua/css/metro.css" rel="stylesheet">
+		<link href="http://metroui.org.ua/css/metro-icons.css" rel="stylesheet">
+		<link href="http://metroui.org.ua/css/docs.css" rel="stylesheet">
+
+		<script src="http://metroui.org.ua/js/jquery-2.1.3.min.js"></script>
+		<script src="http://metroui.org.ua/js/metro.js"></script>
+		<script src="http://metroui.org.ua/js/docs.js"></script>
+		<script src="http://metroui.org.ua/js/prettify/run_prettify.js"></script>
+		<script src="http://metroui.org.ua/js/ga.js"></script>
+		
+        <script type="text/javascript"  src="http://dygraphs.com/1.1.1/dygraph-combined-dev.js"></script>
+        
+		<style>
+		.metro
+		{
+		  //!important is probably not necessary 
+		  width:100%;
+		  height:100%; 
+		}
+		</style>
+
+    </head>
+
+    <body>
+
+		<div class="app-bar" data-role="appbar">
+			<a class="app-bar-element" href="/">Home</a>
+			<span class="app-bar-divider"></span>
+			<ul class="app-bar-menu">
+				<li><a href="/">Home</a></li>
+			</ul>
+		</div>
+    
+        <div class="page">
+            <div class="page-header">
+                <div class="page-header-content">
+                <h1>Temperature Sensor</h1>
+                </div>
+            </div>
+     
+			<div class="example" data-text="History">
+
+				<div id="graphdiv2"
+				  style="width:500px; height:300px;"></div>
+				<script type="text/javascript">
+				  g2 = new Dygraph(
+					document.getElementById("graphdiv2"),
+					"/static/temperatures.csv", // path to CSV file
+					{}          // options
+				  );
+				</script>
+
+				</br>
+					
+			</div>        
+		</div>
+    </body>
+    </html>
+
