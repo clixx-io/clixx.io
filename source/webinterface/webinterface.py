@@ -1,8 +1,8 @@
-import platform
+import platform, StringIO
 import csv, datetime, re
 
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, send_from_directory
 
 from clixxIO import *
 
@@ -14,7 +14,7 @@ def index():
     """
 
     config = {}
-    config['name'] = "Clixx.io IoT running on %s" % platform.node()
+    config['name'] = "IoT running on %s" % platform.node()
     config['enable_addproject'] = True
 
     projects = clixxIOListProjects()
@@ -23,6 +23,9 @@ def index():
 
 @app.route('/iot/<projectname>')
 def show_project_profile(projectname):
+    
+    max_lines = 40
+    
     # show the user profile for that user
     projects = clixxIOListProjects()
 
@@ -39,13 +42,76 @@ def show_project_profile(projectname):
         config['name'] = projectname
         config['enable_onoff'] = False
         config['enable_table'] = True
+        config['csv_data'] = False
+        config['log_data'] = False
+        config['ini_data'] = False
 
-        commands = ["Stop", "Start","Restart"]
+        commands = [] # "Stop", "Start","Restart"]
 
-        return render_template('project.html',commands = commands,config = config)
+        cfgfile_lines = []
+        logfile_lines = []
+
+        projectdir = clixxIOProjectDir(projectname)
+        csvname = os.path.join(projectdir,projectname + '.csv')
+        cfgname = os.path.join(projectdir,projectname + '.ini')
+        logname = os.path.join(projectdir,projectname + '.log')
+        
+        if os.path.exists(csvname):
+
+            # We don't actually send the data here, just indicate
+            # that it's available.
+            config['csv_data'] = True
+        
+        if os.path.exists(logname):
+            # Read in the logfile
+            lf = open(logname)
+            logfile_lines = lf.readlines()
+            lf.close()
+            
+            # Trim the file
+            if len(logfile_lines) > max_lines:
+                for i in range(0,len(logfile_lines)-max_lines):
+                    del logfile_lines[0]
+                    
+            # Reverse the list so newest entries are at the top
+            logfile_lines.reverse()
+                
+            config['log_data'] = True
+
+        if os.path.exists(cfgname):
+            # Read in the logfile
+            lf = open(cfgname)
+            cfgfile_temp = lf.readlines()
+            lf.close()
+            
+            for l in cfgfile_temp:
+                cfgfile_lines.append(l.strip())
+            
+            # Trim the file
+            if len(cfgfile_lines) > max_lines:
+                for i in range(0,len(cfgfile_lines)-max_lines):
+                    del cfgfile_lines[0]
+                    
+            # cfgfile_lines = ["Line 1","","Line 3"]
+            config['ini_data'] = True
+
+        return render_template('project.html',commands = commands,config = config, logfile = logfile_lines, cfgfile = cfgfile_lines)
 
     else:
         return 'Project %s is not a valid project.' % projectname
+
+@app.route('/csvdata/<projectname>')
+def get_project_csvdata(projectname):
+    
+    # show the user profile for that user
+    # projects = clixxIOListProjects()
+    # if projectname in projects:
+
+        return send_from_directory('static',"temperatures.csv", as_attachment=True)
+
+    # else:
+    #    return 'Project %s is not a valid project.' % projectname
+
 
 @app.route('/new_project', methods=['POST', 'GET'])
 def new_project():

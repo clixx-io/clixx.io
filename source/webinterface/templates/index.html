@@ -1,8 +1,17 @@
 {% extends "base.html" %}
 {% block body %}
-<div data-role="header">
-  <h1>{{ config.name }}</h1>
-</div>
+
+       <div class="app-bar" data-role="appbar">
+          <a class="app-bar-element" href="/">Home</a> 
+          <span class="app-bar-divider"></span> 
+        </div>
+    
+        <div class="page">
+            <div class="page-header">
+                <div class="page-header-content">
+                <h1>{{ config.name }}</h1>
+                </div>
+            </div>
 
 <div data-role="content">
 
@@ -19,7 +28,7 @@
 			<!-- Tile with slide-down effect -->
 			<a id="qq" href="/iot/{{ item }}" class="tile" class="tile-wide" data-role="tile">
 			<div class="tile-content slide-down">
-				<div class="slide-over op-green text-small padding10">
+				<div class="slide-over op-cyan fg-white text-small padding10">
 					Clixx.io IoT Project
 				</div>
 				<div class="tile-label">{{ item }}</div>

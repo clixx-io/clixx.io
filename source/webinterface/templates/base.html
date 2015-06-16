@@ -16,6 +16,7 @@
     <script src="http://metroui.org.ua/js/docs.js"></script>
     <script src="http://metroui.org.ua/js/prettify/run_prettify.js"></script>
     <script src="http://metroui.org.ua/js/ga.js"></script>
+    <script type="text/javascript"  src="http://dygraphs.com/1.1.1/dygraph-combined-dev.js"></script>
 
     <title>{{ controller_name }}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -34,8 +35,6 @@ $( document ).bind( "mobileinit", function() {
     </script>
 </head>
 <body>
-<div data-role="page" data-title="Control" id="control">
 {% block body %}{% endblock %}
-</div>
 </body>
 </html>
