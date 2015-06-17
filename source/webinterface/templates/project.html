@@ -28,7 +28,7 @@
 				<script type="text/javascript">
 				  g2 = new Dygraph(
 					document.getElementById("graphdiv2"),
-					"/csvdata/{{config.name}}", // path to CSV file
+					"/static/temperatures.csv", // path to CSV file
 					{}          // options
 				  );
 				</script>
@@ -38,6 +38,7 @@
 {% endif %}
 
 {% if config.log_data %}
+    <div class="example" data-text="Log">
     <table class="table striped hovered cell-hovered border bordered">
       <thead>
         <tr>
@@ -48,14 +49,15 @@
     <tr><td><small>{{ li }}</small></td></tr>
   {% endfor %}
     </table>
+    </div>
 {% endif %}
 
 {% if config.ini_data %}
-            <div class="example" data-text="Configuration File">
-                <h5>{{config.name}}.ini</h5>
-<pre class="prettyprint linenums"><code>{% for l in cfgfile %}
+    <div class="example" data-text="Configuration File">
+      <h5>{{config.name}}.ini</h5>
+      <pre class="prettyprint linenums"><code>{% for l in cfgfile %}
 {{ l }}{% endfor %}</code></pre>
-            </div>
+    </div>
 {% endif %}
             
 
