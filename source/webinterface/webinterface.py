@@ -104,13 +104,13 @@ def show_project_profile(projectname):
 def get_project_csvdata(projectname):
     
     # show the user profile for that user
-    # projects = clixxIOListProjects()
-    # if projectname in projects:
+    projects = clixxIOListProjects()
+    if projectname in projects:
 
-        return send_from_directory('static',"temperatures.csv", as_attachment=True)
+        return send_from_directory(clixxIOProjectDir(projectname),projectname+".csv", as_attachment=True)
 
-    # else:
-    #    return 'Project %s is not a valid project.' % projectname
+    else:
+        return 'Project %s is not a valid project.' % projectname
 
 
 @app.route('/new_project', methods=['POST', 'GET'])
