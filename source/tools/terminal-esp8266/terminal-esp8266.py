@@ -147,8 +147,8 @@ def main(args):
 	window =  QWidget()
 	layout =  QVBoxLayout()
 	
-	window.setWindowTitle('Serial Terminal')
 	window.setLayout(full)
+	window.setWindowTitle('Terminal for ESP8266')
 	window.show()
 	
 	r = a.exec_()
