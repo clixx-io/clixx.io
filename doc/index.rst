@@ -10,6 +10,52 @@
 Welcome to clixx.io's documentation!
 ====================================
 
+Web Interface
+-------------
+
+.. toctree::
+   :maxdepth: 2
+
+   web-overview
+   web-installation
+   web-creating-projects
+   
+
+Tools
+-----
+
+.. toctree::
+   :maxdepth: 2
+
+   cli-interface
+   terminal
+   terminal-esp8266
+
+
+Example Projects
+----------------
+
+.. toctree::
+   :maxdepth: 2
+
+    examples-overview
+	directory-monitor
+	email-collector
+	email-notifier
+	esptool.py
+	gpio-monitor
+	gpio-notifier
+	i2c-monitor
+	ip-notifier
+	lcd-notifier
+	logline-counter
+	luatool.py
+	mqtt-logger
+	mqtt-notifier
+	oldfilecleaner
+	py2exe.py
+	serialports-monitor
+
 About
 ---------
 
@@ -18,27 +64,3 @@ About
 
    source/About.rst
 
-
-Software Support
-----------------
-
-.. toctree::
-   :maxdepth: 2
-
-   source/Python-Circuits
-   source/C++-Interface
-   source/Socket-Interface
-   source/Jabber-Interface
-   source/RSS-Interface
-   source/Web-Interface
-   source/Python-Module
-   source/Command-Line-Interface
-
-..
-	Examples
-	--------
-
-	.. toctree::
-	   :maxdepth: 2
-
-	   source/Socket-Interface
