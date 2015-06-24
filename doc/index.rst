@@ -18,8 +18,16 @@ Web Interface
 
    web-overview
    web-installation
-   web-creating-projects
    
+Projects
+--------
+
+.. toctree::
+   :maxdepth: 2
+
+   iot-overview
+   web-creating-projects
+   iot-example-projects
 
 Tools
 -----
@@ -30,37 +38,5 @@ Tools
    cli-interface
    terminal
    terminal-esp8266
-
-
-Example Projects
-----------------
-
-.. toctree::
-   :maxdepth: 2
-
-    examples-overview
-	directory-monitor
-	email-collector
-	email-notifier
-	esptool.py
-	gpio-monitor
-	gpio-notifier
-	i2c-monitor
-	ip-notifier
-	lcd-notifier
-	logline-counter
-	luatool.py
-	mqtt-logger
-	mqtt-notifier
-	oldfilecleaner
-	py2exe.py
-	serialports-monitor
-
-About
----------
-
-.. toctree::
-   :maxdepth: 1
-
-   source/About.rst
+   web-interface
 
