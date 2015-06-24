@@ -29,6 +29,15 @@ Projects
    web-creating-projects
    iot-example-projects
 
+Programming
+-----------
+
+.. toctree::
+   :maxdepth: 2
+   
+   elua-support
+   python-iot-framework
+
 Tools
 -----
 
@@ -38,5 +47,5 @@ Tools
    cli-interface
    terminal
    terminal-esp8266
-   web-interface
+   web-server
 
