@@ -241,7 +241,7 @@ def clixxIOListProjects():
     projects = []
     projectdirs = glob.glob(IoTdir)
     for d in projectdirs:
-        if (os.path.basename(d) != 'libraries') and (os.path.basename(d) != clixxIOLogName):
+        if (os.path.basename(d) != 'libraries') and (os.path.basename(d) != clixxIOLogName) and (os.path.basename(d) != clixxIOConfigName):
             projects.append(os.path.basename(d))
     return projects
 

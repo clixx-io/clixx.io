@@ -17,7 +17,7 @@ setup(
     # This needs to be blank
     packages = [''],
     package_dir = {'': 'source/python'},
-    scripts=['source/tools/iot','source/qt-gui/iot-controller.py'],
+    scripts=['source/tools/clixx','source/qt-gui/iot-controller.py'],
 # Unknown options
 #   use_2to3 = True,
 #   package_data={'images': ['qt-gui/images*']},
