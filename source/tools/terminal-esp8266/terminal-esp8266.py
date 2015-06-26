@@ -69,6 +69,10 @@ def main(args):
 		#print 'NEW DATA?',se.readAll().decode("utf-8")
 		textedit.setText(textedit.toPlainText() + se.readAll().decode("utf-8"))
 		return
+
+	def restart():
+		textedit.setText("")
+		s.write('node.restart()\n')
 	
 	a = QtGui.QApplication(args)
 	
@@ -128,10 +132,16 @@ def main(args):
 	sendtext.setMaximumHeight(sendlabel.sizeHint().height() * 4)
 	send = QPushButton("Send")
 	send.clicked.connect(sendStr)
+
+	reset = QPushButton("Restart")
+	reset.clicked.connect(restart)
+
 	comm.addWidget(textedit)
 	comm.addWidget(sendlabel)
 	comm.addWidget(sendtext)
 	comm.addWidget(send)
+
+	comm.addWidget(reset)
 
 	full = QVBoxLayout()
 	full.addLayout(uart)
