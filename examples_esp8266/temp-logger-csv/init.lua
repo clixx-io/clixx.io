@@ -1,17 +1,27 @@
-print('Welcome to temperature logger...')
+-- Configure Gpio
+sda = 4
+scl = 3
+
+-- Show a User Message
+print("Welcome to the clixx.io Temperature Logger")
+
+-- Import the lm75 module
+require('lm75')
+
+-- Initialise
+lm75:init(sda, scl)
+print(lm75:readTemp())
+
 --wifi.setmode(wifi.STATION)
 --wifi.sta.config("sufi", "abbas123")
 --wifi.sta.connect()
-
-count = 0
 
 function log_temperature()
 sk=net.createConnection(net.TCP, 0)
 sk:on("receive", function(sck, c) print(c) end )
 sk:connect(5000,"192.168.43.94")
 print('sending...')
-sk:send("GET /logsensor/frank?temp="..count.." HTTP/1.1 \\r\\n\\r\\n")
-count = count + 1
+sk:send("GET /logsensor/frank?temp="..lm75:readTemp().." HTTP/1.1 \\r\\n\\r\\n")
 end
 
 tmr.alarm(1, 10000, 1, log_temperature)
