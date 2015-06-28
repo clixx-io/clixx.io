@@ -12,26 +12,6 @@ import time
 
 verbose = 1
 
-# A function that tries to list serial ports on most common platforms
-def list_serial_ports():
-    system_name = platform.system()
-    if system_name == "Windows":
-        # Scan for available ports.
-        available = []
-        for i in range(256):
-            try:
-                s = serial.Serial(i)
-                available.append("COM%d" % (i+1))
-                s.close()
-            except serial.SerialException:
-                pass
-        return available
-    elif system_name == "Darwin":
-        # Mac
-        return glob.glob('/dev/tty*') + glob.glob('/dev/cu*')
-    else:
-        # Assume Linux or something else
-        return glob.glob('/dev/ttyS*') + glob.glob('/dev/ttyUSB*')
         
 def main(args):
 	
@@ -54,6 +34,18 @@ def main(args):
 	def showip():
 		s.write('print(wifi.sta.getip())\n')
 
+	def list_accesspoints():
+		""" This function will print out the Access-Point list """
+		listap = ["function listap(t)\n",
+                  "  for k,v in pairs(t) do\n",
+                  "    print(k..\" : \"..v)\n",
+                  "  end\n",
+                  "end\n",
+                  "wifi.sta.getap(listap)\n"]
+                  
+		for c in listap:
+			s.write(c)    
+    
 	def setwifi():
 		s.write('wifi.setmode(wifi.STATION)\n')
 		s.write('wifi.sta.config("%s", "%s")\n' % (str(ssidtext.text()), str(pwdtext.text())))
@@ -74,6 +66,27 @@ def main(args):
 		textedit.setText("")
 		s.write('node.restart()\n')
 	
+	# A function that tries to list serial ports on most common platforms
+	def list_serial_ports():
+		system_name = platform.system()
+		if system_name == "Windows":
+			# Scan for available ports.
+			available = []
+			for i in range(256):
+				try:
+					s = serial.Serial(i)
+					available.append("COM%d" % (i+1))
+					s.close()
+				except serial.SerialException:
+					pass
+			return available
+		elif system_name == "Darwin":
+			# Mac
+			return glob.glob('/dev/tty*') + glob.glob('/dev/cu*')
+		else:
+			# Assume Linux or something else
+			return glob.glob('/dev/ttyS*') + glob.glob('/dev/ttyUSB*')
+
 	a = QtGui.QApplication(args)
 	
 	matchedPorts = list_serial_ports()
