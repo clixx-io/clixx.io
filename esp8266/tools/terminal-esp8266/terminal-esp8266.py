@@ -9,6 +9,7 @@ from PySide.QtGui import *
 from serialevents import SerialEvents
 from pyterm_exceptions import *
 import time
+from time import sleep
 
 verbose = 1
 
@@ -41,11 +42,12 @@ def main(args):
                   "    print(k..\" : \"..v)\n",
                   "  end\n",
                   "end\n",
+                  "print('***Wifi Networks:***')\n",
                   "wifi.sta.getap(listap)\n"]
-                  
 		for c in listap:
-			s.write(c)    
-    
+			s.write(c)
+			sleep(.5)
+
 	def setwifi():
 		s.write('wifi.setmode(wifi.STATION)\n')
 		s.write('wifi.sta.config("%s", "%s")\n' % (str(ssidtext.text()), str(pwdtext.text())))
@@ -65,7 +67,6 @@ def main(args):
 	def restart():
 		textedit.setText("")
 		s.write('node.restart()\n')
-	
 	# A function that tries to list serial ports on most common platforms
 	def list_serial_ports():
 		system_name = platform.system()
@@ -149,12 +150,16 @@ def main(args):
 	reset = QPushButton("Restart")
 	reset.clicked.connect(restart)
 
+	listAP = QPushButton("List AP")
+	listAP.clicked.connect(list_accesspoints)
+
 	comm.addWidget(textedit)
 	comm.addWidget(sendlabel)
 	comm.addWidget(sendtext)
 	comm.addWidget(send)
 
 	comm.addWidget(reset)
+	comm.addWidget(listAP)
 
 	full = QVBoxLayout()
 	full.addLayout(uart)
