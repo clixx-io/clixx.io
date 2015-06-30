@@ -13,16 +13,12 @@ require('inifile')
 lm75:init(sda, scl)
 print(lm75:readTemp())
 
---wifi.setmode(wifi.STATION)
---wifi.sta.config("sufi", "abbas123")
---wifi.sta.connect()
-
 function log_temperature()
 sk=net.createConnection(net.TCP, 0)
 sk:on("receive", function(sck, c) print(c) end )
 sk:connect(5000,"192.168.43.94")
 print('sending...')
-sk:send("GET /logsensor/frank?temp="..lm75:readTemp().." HTTP/1.1 \\r\\n\\r\\n")
+sk:send("GET /logsensor/temp-logger-csv?temp="..lm75:readTemp().." HTTP/1.1 \\r\\n\\r\\n")
 end
 
 config = inifile.parse('config.ini')
