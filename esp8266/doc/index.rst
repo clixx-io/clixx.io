@@ -11,6 +11,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   getting-started
+   installation
+   terminal-esp8266
+   temperature-logger
 
 
 Indices and tables
