@@ -7,6 +7,7 @@ print("Welcome to the clixx.io Temperature Logger")
 
 -- Import the lm75 module
 require('lm75')
+require('inifile')
 
 -- Initialise
 lm75:init(sda, scl)
@@ -24,5 +25,8 @@ print('sending...')
 sk:send("GET /logsensor/frank?temp="..lm75:readTemp().." HTTP/1.1 \\r\\n\\r\\n")
 end
 
-tmr.alarm(1, 10000, 1, log_temperature)
+config = inifile.parse('config.ini')
+interval = (config['Transmission']['interval']) * 1000
+print('interavl', interval)
+tmr.alarm(1, interval, 1, log_temperature)
 --tmr.alarm(2, 5000, 1, connect_thread)
