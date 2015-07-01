@@ -40,7 +40,7 @@ if s then
 section = s
 t[section] = t[section] or {}
 end
-local key, value = line:match("^(%w+)%s-=%s-(.+)$")
+local key, value = line:match("^(%w+)%s-=%s-(.+)\\n$")
 if key and value then
 if tonumber(value) then value = tonumber(value) end
 if value == "true" then value = true end
