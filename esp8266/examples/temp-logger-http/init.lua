@@ -16,13 +16,16 @@ print(lm75:readTemp())
 function log_temperature()
 sk=net.createConnection(net.TCP, 0)
 sk:on("receive", function(sck, c) print(c) end )
-sk:connect(5000,"192.168.43.94")
+sk:connect(sport, sip)
 print('sending...')
-sk:send("GET /logsensor/temp-logger-csv?temp="..lm75:readTemp().." HTTP/1.1 \\r\\n\\r\\n")
+sk:send("GET /logsensor/"..project.."?temp="..lm75:readTemp().." HTTP/1.1 \\r\\n\\r\\n")
 end
 
 config = inifile.parse('config.ini')
 interval = (config['Transmission']['interval']) * 1000
-print('interavl', interval)
+sport = config['Transmission']['serverport']
+sip = config['Transmission']['serverip']
+project = config['Project']['name']
+
 tmr.alarm(1, interval, 1, log_temperature)
 --tmr.alarm(2, 5000, 1, connect_thread)
