@@ -12,14 +12,17 @@ import time
 from time import sleep
 
 verbose = 1
+config_mode = 0
 
-        
 def main(args):
 	
 	def quit():
 		se.stop()
 		s.close()
-	
+
+	def delay():
+		for i in range(5):
+			sleep(.1)
 	def portChanged(portName):
 		print('Port changed: ', portName)
 		
@@ -46,8 +49,27 @@ def main(args):
                   "wifi.sta.getap(listap)\n"]
 		for c in listap:
 			s.write(c)
-			sleep(.5)
+			delay()
+	def loconf():
+		global config_mode
+		config_mode=1
+		textedit.setText("")
+		s.write('file.open("config.ini")\n')
+		delay()
+		s.write('print(file.read())\n')
+		delay()
+		s.write('file.close()\n')
+		delay()
 
+	def writeconf():
+		s.write('file.open("config.ini", "w+")\n')
+		delay()
+		l = str(fedit.toPlainText())
+		for line in l.splitlines():
+			delay()
+			s.write('file.writeline("%s")\n' % line)
+		delay()
+		s.write('file.close()\n')
 	def setwifi():
 		s.write('wifi.setmode(wifi.STATION)\n')
 		s.write('wifi.sta.config("%s", "%s")\n' % (str(ssidtext.text()), str(pwdtext.text())))
@@ -60,8 +82,15 @@ def main(args):
 		if len(t)>0:
 			s.write(t)
 	def write():
-		#print 'NEW DATA?',se.readAll().decode("utf-8")
 		textedit.setText(textedit.toPlainText() + se.readAll().decode("utf-8"))
+		global config_mode
+		if config_mode == 1:
+			cfg = textedit.toPlainText()
+			ind2 = cfg.find("> file.close()")
+			if ind2 > 0:
+				ind1 = cfg.find("[")
+				fedit.setText(cfg[ind1:ind2])
+				config_mode = 0
 		return
 
 	def restart():
@@ -101,9 +130,13 @@ def main(args):
 	connect = QPushButton("Connect")
 	connect.clicked.connect(tryConnect)
 
+	reset = QPushButton("Restart")
+	reset.clicked.connect(restart)
+
 	uart = QHBoxLayout()
 	uart.addWidget(ports_cb)
 	uart.addWidget(connect)
+	uart.addWidget(reset)
 
 	#chipid = QPushButton("Read chipID")
 	#chipid.clicked.connect(readChipID)
@@ -134,10 +167,15 @@ def main(args):
 	ip.clicked.connect(showip)
 	wifi3.addWidget(ip)
 	wifi3.addWidget(setupwifi)
+
+	listAP = QPushButton("List AP")
+	listAP.clicked.connect(list_accesspoints)
+
 	wifi.addLayout(wifi1)
 	#wifi.addStretch(1)
 	wifi.addLayout(wifi2)
 	wifi.addLayout(wifi3)
+	wifi.addWidget(listAP)
 
 	comm = QVBoxLayout()
 	textedit = QTextEdit()
@@ -147,24 +185,35 @@ def main(args):
 	send = QPushButton("Send")
 	send.clicked.connect(sendStr)
 
-	reset = QPushButton("Restart")
-	reset.clicked.connect(restart)
-
-	listAP = QPushButton("List AP")
-	listAP.clicked.connect(list_accesspoints)
-
 	comm.addWidget(textedit)
 	comm.addWidget(sendlabel)
 	comm.addWidget(sendtext)
 	comm.addWidget(send)
 
-	comm.addWidget(reset)
-	comm.addWidget(listAP)
+	loadconf = QPushButton("Load Config")
+	loadconf.clicked.connect(loconf)
+	#shwconf = QPushButton("Show Config")
+	#shwconf.clicked.connect(showconf)
+	wconf = QPushButton("Write Config")
+	wconf.clicked.connect(writeconf)
+	fedit = QTextEdit()
+	configlabel = QLabel('config.ini:')
+
+	conf_box = QVBoxLayout()
+	conf_box.addWidget(loadconf)
+	#comm.addWidget(shwconf)
+	conf_box.addWidget(wconf)
+	conf_box.addWidget(configlabel)
+	conf_box.addWidget(fedit)
+
+	full_comm = QHBoxLayout()
+	full_comm.addLayout(comm)
+	full_comm.addLayout(conf_box)
 
 	full = QVBoxLayout()
 	full.addLayout(uart)
 	full.addLayout(wifi)
-	full.addLayout(comm)
+	full.addLayout(full_comm)
 
 	s = serial.Serial()
 	
