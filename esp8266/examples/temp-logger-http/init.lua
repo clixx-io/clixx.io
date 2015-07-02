@@ -11,28 +11,21 @@ require('inifile')
 
 -- Initialise
 lm75:init(sda, scl)
-print("Temp="..lm75:readTemp())
+print(lm75:readTemp())
 
--- Connection information
-serverip="192.168.0.2"
-serverport=5000
-interval=10
-projectname="frank"
-
--- Callback Function to transmit the temperature
 function log_temperature()
-temp=lm75:readTemp()
 sk=net.createConnection(net.TCP, 0)
 sk:on("receive", function(sck, c) print(c) end )
-sk:on("connection", function(sck) 
-      sk:send("GET /logsensor/"..projectname.."?temp="..temp.." HTTP/1.0")
-      tmr.delay(10000)
-      print('.')
-      sk:close()
-      end )
-sk:connect(serverport,serverip)
-tmr.delay(10000)
-end 
+sk:connect(sport, sip)
+print('sending...')
+sk:send("GET /logsensor/"..project.."?temp="..lm75:readTemp().." HTTP/1.1 \\r\\n\\r\\n")
+end
 
--- Start a Timer with a periodic Callback
-tmr.alarm(1, interval * 1000, 1, log_temperature)
+config = inifile.parse('config.ini')
+interval = (config['Transmission']['interval']) * 1000
+sport = config['Transmission']['serverport']
+sip = config['Transmission']['serverip']
+project = config['Project']['name']
+
+tmr.alarm(1, interval, 1, log_temperature)
+--tmr.alarm(2, 5000, 1, connect_thread)
