@@ -15,14 +15,16 @@ verbose = 1
 config_mode = 0
 
 def main(args):
-	
+	def writeln(data):
+		s.write(data)
+		sleep(.3)
 	def quit():
 		se.stop()
 		s.close()
 
-	def delay():
-		for i in range(5):
-			sleep(.1)
+	#def delay():
+	#	for i in range(5):
+	#		sleep(.1)
 	def portChanged(portName):
 		print('Port changed: ', portName)
 		
@@ -31,12 +33,15 @@ def main(args):
 			s.port = ports_cb.currentText()
 			s.open()
 			connect.setText('Connected')
+	def restart():
+		textedit.setText("")
+		writeln('node.restart()\n')
 
 	def readChipID():
-		s.write("print(node.chipid())\n")
+		writeln("print(node.chipid())\n")
 
 	def showip():
-		s.write('print(wifi.sta.getip())\n')
+		writeln('print(wifi.sta.getip())\n')
 
 	def list_accesspoints():
 		""" This function will print out the Access-Point list """
@@ -48,34 +53,58 @@ def main(args):
                   "print('***Wifi Networks:***')\n",
                   "wifi.sta.getap(listap)\n"]
 		for c in listap:
-			s.write(c)
-			delay()
-	def loconf():
+			writeln(c)
+	def setwifi():
+		writeln('wifi.setmode(wifi.STATION)\n')
+		writeln('wifi.sta.config("%s", "%s")\n' % (str(ssidtext.text()), str(pwdtext.text())))
+		writeln('wifi.sta.connect()\n')
+
+	def down():
 		global config_mode
 		config_mode=1
 		textedit.setText("")
-		s.write('file.open("config.ini")\n')
-		delay()
-		s.write('print(file.read())\n')
-		delay()
-		s.write('file.close()\n')
-		delay()
+		writeln('file.open("%s")\n' % str(fname.text()))
+		writeln('print(file.read())\n')
+		writeln('file.close()\n')
+		flabel.setText(fname.text())
 
-	def writeconf():
-		s.write('file.open("config.ini", "w+")\n')
-		delay()
+	def uploadfile():
+		fileName,_ = QFileDialog.getOpenFileName(upload, "Open File", QtCore.QDir.currentPath())
+		if fileName:
+			try:
+				f = open(fileName, "rt")
+			except:
+				textedit.setText(textedit.toPlainText() + "\nCould not open input file \"%s\"\n" % fileName)
+			fileonesp = fileName[fileName.rfind('/')+1:]
+			for ln in f:
+				if len(ln) > 230:
+					textedit.setText(textedit.toPlainText() + "File \"%s\" contains a line with more than 240 "
+						"characters. This exceeds the size of the serial buffer.\n"
+						% fileName)
+					f.close()
+			f.seek(0)
+			textedit.setText(textedit.toPlainText() + "\nStage 1. Deleting old file from flash memory\n")
+			writeln("file.open(\"" + fileonesp + "\", \"w\")\n")
+			writeln("file.close()\n")
+			writeln("file.remove(\"" + fileonesp + "\")\n")
+
+			writeln("file.open(\"" + fileonesp + "\", \"w+\")\n")
+			line = f.readline()
+			textedit.setText(textedit.toPlainText() + "\nStage 3. Start writing data to flash memory...\n")
+			while line != '':
+				writeln('file.writeline("%s")\n' % line.strip())
+				line = f.readline()
+
+			f.close()
+			writeln("file.flush()\r")
+			writeln("file.close()\r")
+	def writef():
+		flabel.setText(fname.text())
+		writeln('file.open("%s", "w+")\n' % str(fname.text()))
 		l = str(fedit.toPlainText())
 		for line in l.splitlines():
-			delay()
-			s.write('file.writeline("%s")\n' % line)
-		delay()
-		s.write('file.close()\n')
-	def setwifi():
-		s.write('wifi.setmode(wifi.STATION)\n')
-		s.write('wifi.sta.config("%s", "%s")\n' % (str(ssidtext.text()), str(pwdtext.text())))
-		s.write('wifi.sta.connect()\n')
-		#print 'status\n', se.readAll().decode("utf-8")
-
+			writeln('file.writeline("%s")\n' % line)
+		writeln('file.close()\n')
 	def sendStr():
 		t = str(sendtext.toPlainText()+'\n')
 		print "Text=",t
@@ -88,14 +117,11 @@ def main(args):
 			cfg = textedit.toPlainText()
 			ind2 = cfg.find("> file.close()")
 			if ind2 > 0:
-				ind1 = cfg.find("[")
+				ind1 = cfg.find("file.read())")
 				fedit.setText(cfg[ind1:ind2])
 				config_mode = 0
 		return
 
-	def restart():
-		textedit.setText("")
-		s.write('node.restart()\n')
 	# A function that tries to list serial ports on most common platforms
 	def list_serial_ports():
 		system_name = platform.system()
@@ -138,8 +164,6 @@ def main(args):
 	uart.addWidget(connect)
 	uart.addWidget(reset)
 
-	#chipid = QPushButton("Read chipID")
-	#chipid.clicked.connect(readChipID)
 	wifi = QHBoxLayout()
 	wifi1 = QVBoxLayout()
 	ssidlabel = QLabel('SSID:')
@@ -168,14 +192,19 @@ def main(args):
 	wifi3.addWidget(ip)
 	wifi3.addWidget(setupwifi)
 
+	wifi4 = QVBoxLayout()
+	chipid = QPushButton("Read chipID")
+	chipid.clicked.connect(readChipID)
 	listAP = QPushButton("List AP")
 	listAP.clicked.connect(list_accesspoints)
+	wifi4.addWidget(chipid)
+	wifi4.addWidget(listAP)
 
 	wifi.addLayout(wifi1)
 	#wifi.addStretch(1)
 	wifi.addLayout(wifi2)
 	wifi.addLayout(wifi3)
-	wifi.addWidget(listAP)
+	wifi.addLayout(wifi4)
 
 	comm = QVBoxLayout()
 	textedit = QTextEdit()
@@ -190,20 +219,34 @@ def main(args):
 	comm.addWidget(sendtext)
 	comm.addWidget(send)
 
-	loadconf = QPushButton("Load Config")
-	loadconf.clicked.connect(loconf)
+	upload = QPushButton("Upload File")
+	upload.clicked.connect(uploadfile)
+
+	rw = QHBoxLayout()
+	flabel = QLabel('File:')
+	fname = QLineEdit()
+	fname.setMaxLength(32)
+	fname.setMaximumWidth(80)
+	fname.setAlignment(Qt.AlignLeft)
+
+	dl = QPushButton("Download")
+	dl.clicked.connect(down)
 	#shwconf = QPushButton("Show Config")
 	#shwconf.clicked.connect(showconf)
-	wconf = QPushButton("Write Config")
-	wconf.clicked.connect(writeconf)
+	wfile = QPushButton("Write Back")
+	wfile.clicked.connect(writef)
+	rw.addWidget(flabel)
+	rw.addWidget(fname)
+	rw.addWidget(dl)
+	rw.addWidget(wfile)
+
 	fedit = QTextEdit()
-	configlabel = QLabel('config.ini:')
+	flabel = QLabel('')
 
 	conf_box = QVBoxLayout()
-	conf_box.addWidget(loadconf)
-	#comm.addWidget(shwconf)
-	conf_box.addWidget(wconf)
-	conf_box.addWidget(configlabel)
+	conf_box.addWidget(upload)
+	conf_box.addLayout(rw)
+	conf_box.addWidget(flabel)
 	conf_box.addWidget(fedit)
 
 	full_comm = QHBoxLayout()
