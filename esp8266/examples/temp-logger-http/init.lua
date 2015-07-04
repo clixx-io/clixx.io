@@ -18,7 +18,7 @@ sk=net.createConnection(net.TCP, 0)
 sk:on("receive", function(sck, c) print(c) end )
 sk:connect(sport, sip)
 print('sending...')
-sk:send("GET /logsensor/"..project.."?temp="..lm75:readTemp().." HTTP/1.1 \\r\\n\\r\\n")
+sk:send("GET /logsensor/"..project.."?temp="..lm75:readTemp().." HTTP/1.1 \r\n\r\n")
 end
 
 config = inifile.parse('config.ini')

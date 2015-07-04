@@ -18,6 +18,8 @@ def main(args):
 	def writeln(data):
 		s.write(data)
 		sleep(.3)
+	def writer(data):
+		writeln("file.writeline([==[" + data + "]==])\n")
 	def quit():
 		se.stop()
 		s.close()
@@ -68,6 +70,14 @@ def main(args):
 		writeln('file.close()\n')
 		flabel.setText(fname.text())
 
+	def removef():
+		writeln("file.open(\"" + fname.text() + "\", \"w\")\n")
+		writeln("file.close()\n")
+		writeln("file.remove(\"" + fname.text() + "\")\n")
+
+
+	def listfiles():
+		writeln("local l = file.list();for k,v in pairs(l) do print('filename: '..k..', size:'..v)end\n")
 	def uploadfile():
 		fileName,_ = QFileDialog.getOpenFileName(upload, "Open File", QtCore.QDir.currentPath())
 		if fileName:
@@ -92,19 +102,37 @@ def main(args):
 			line = f.readline()
 			textedit.setText(textedit.toPlainText() + "\nStage 3. Start writing data to flash memory...\n")
 			while line != '':
-				writeln('file.writeline("%s")\n' % line.strip())
+				writer(line.strip())
 				line = f.readline()
 
 			f.close()
-			writeln("file.flush()\r")
-			writeln("file.close()\r")
+			writeln("file.flush()\n")
+			writeln("file.close()\n")
 	def writef():
 		flabel.setText(fname.text())
-		writeln('file.open("%s", "w+")\n' % str(fname.text()))
+		fileonesp = fname.text()
 		l = str(fedit.toPlainText())
+		for ln in l.splitlines():
+			if len(ln) > 230:
+				textedit.setText(textedit.toPlainText() + "File \"%s\" contains a line with more than 240 "
+				"characters. This exceeds the size of the serial buffer.\n"
+				% fileonesp)
+		textedit.setText(textedit.toPlainText() + "\nStage 1. Deleting old file from flash memory\n")
+		writeln("file.open(\"" + fileonesp + "\", \"w\")\n")
+		writeln("file.close()\n")
+		writeln("file.remove(\"" + fileonesp + "\")\n")
+
+		writeln("file.open(\"" + fileonesp + "\", \"w+\")\n")
+		textedit.setText(textedit.toPlainText() + "\nStage 3. Start writing data to flash memory...\n")
 		for line in l.splitlines():
-			writeln('file.writeline("%s")\n' % line)
-		writeln('file.close()\n')
+			writer(line.strip())
+
+		writeln("file.flush()\n")
+		writeln("file.close()\n")
+
+	def clearlog():
+		textedit.setText("")
+
 	def sendStr():
 		t = str(sendtext.toPlainText()+'\n')
 		print "Text=",t
@@ -115,10 +143,10 @@ def main(args):
 		global config_mode
 		if config_mode == 1:
 			cfg = textedit.toPlainText()
+			ind1 = cfg.find("print(file.read())\n")
 			ind2 = cfg.find("> file.close()")
-			if ind2 > 0:
-				ind1 = cfg.find("file.read())")
-				fedit.setText(cfg[ind1:ind2])
+			if ind2 > 0 and ind1 > 0:
+				fedit.setText(cfg[ind1+len("print(file.read())\n"):ind2])
 				config_mode = 0
 		return
 
@@ -207,6 +235,7 @@ def main(args):
 	wifi.addLayout(wifi4)
 
 	comm = QVBoxLayout()
+	comm2 = QHBoxLayout()
 	textedit = QTextEdit()
 	sendlabel = QLabel('Send Text')
 	sendtext = QTextEdit()
@@ -214,16 +243,29 @@ def main(args):
 	send = QPushButton("Send")
 	send.clicked.connect(sendStr)
 
+	clrlog = QPushButton("Clear Log")
+	clrlog.clicked.connect(clearlog)
+
+	comm2.addWidget(sendlabel)
+	comm2.addWidget(clrlog)
+
 	comm.addWidget(textedit)
-	comm.addWidget(sendlabel)
+	comm.addLayout(comm2)
 	comm.addWidget(sendtext)
 	comm.addWidget(send)
+
+	ul = QHBoxLayout()
+	listf = QPushButton("List Files")
+	listf.clicked.connect(listfiles)
 
 	upload = QPushButton("Upload File")
 	upload.clicked.connect(uploadfile)
 
+	ul.addWidget(listf)
+	ul.addWidget(upload)
+
 	rw = QHBoxLayout()
-	flabel = QLabel('File:')
+	flabel = QLabel('File Name:')
 	fname = QLineEdit()
 	fname.setMaxLength(32)
 	fname.setMaximumWidth(80)
@@ -233,21 +275,25 @@ def main(args):
 	dl.clicked.connect(down)
 	#shwconf = QPushButton("Show Config")
 	#shwconf.clicked.connect(showconf)
+	rmf = QPushButton("Remove")
+	rmf.clicked.connect(removef)
+
 	wfile = QPushButton("Write Back")
 	wfile.clicked.connect(writef)
 	rw.addWidget(flabel)
 	rw.addWidget(fname)
 	rw.addWidget(dl)
-	rw.addWidget(wfile)
+	rw.addWidget(rmf)
 
 	fedit = QTextEdit()
 	flabel = QLabel('')
 
 	conf_box = QVBoxLayout()
-	conf_box.addWidget(upload)
+	conf_box.addLayout(ul)
 	conf_box.addLayout(rw)
 	conf_box.addWidget(flabel)
 	conf_box.addWidget(fedit)
+	conf_box.addWidget(wfile)
 
 	full_comm = QHBoxLayout()
 	full_comm.addLayout(comm)
