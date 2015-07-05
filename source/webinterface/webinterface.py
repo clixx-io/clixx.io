@@ -1,5 +1,6 @@
 import platform, StringIO
 import csv, datetime, re
+from time import strftime
 
 from flask import Flask
 from flask import render_template, request, redirect, send_from_directory
@@ -107,7 +108,7 @@ def get_project_csvdata(projectname):
     projects = clixxIOListProjects()
     if projectname in projects:
 
-        return send_from_directory(clixxIOProjectDir(projectname),projectname+".csv", as_attachment=True)
+        return send_from_directory(clixxIOProjectDir(projectname),projectname+".csv", as_attachment=False)
 
     else:
         return 'Project %s is not a valid project.' % projectname
@@ -141,10 +142,6 @@ def log_sensor(projectname):
 
     if projectname in projects:
 
-        # Obtain a timestamp
-        ds = datetime
-        ds = ds.now()
-
         # Place the logfile in the project directory
         logpath = os.path.join(clixxIOProjectDir(projectname),projectname + ".csv")
 
@@ -155,14 +152,18 @@ def log_sensor(projectname):
                 header_row.append(k)
 
         ofile  = open(logpath, "ab")
-        writer = csv.writer(ofile, quoting=csv.QUOTE_NONNUMERIC)
+        writer = csv.writer(ofile, quoting=csv.QUOTE_MINIMAL)
         
         # Add the header row with field names
         if header_row:
             writer.writerow(header_row)  
 
+        # Obtain a timestamp. It needs to be formatted this way to support
+        # dygraphs. 
+        ds = strftime("%Y-%m-%d %H:%M:%S")
+
         # Build the row and write it        
-        r = [ds.isoformat(' '),]
+        r = [ds,]
         for k in request.args.keys():
 
             isnumber = re.match(num_format,request.args[k])
