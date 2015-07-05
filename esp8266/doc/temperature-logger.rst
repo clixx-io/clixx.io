@@ -8,9 +8,9 @@ and logs the sensor data to the webserver after an interval of every 30 seconds.
 
 host machine's usb port <--> USB-TTL <--> esp8266 module <--> LM75
 
-2) Create a new IoT project with the name frank
+2) Create a new IoT project with the name templog
 
-clixx.io$ source/tools/clixx new project frank
+clixx.io$ source/tools/clixx new project templog
 
 3) Run the webserver on linux host machine (replace 0.0.0.0 in webinterface.py with the IP address of host machine running webserver) 
 
