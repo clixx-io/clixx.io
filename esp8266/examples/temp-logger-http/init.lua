@@ -12,12 +12,14 @@ require('inifile')
 -- Initialise
 lm75:init(sda, scl)
 print("Temp="..lm75:readTemp())
+print('interavl', interval)
 
 -- Connection information
-serverip="192.168.0.2"
-serverport=5000
-interval=10
-projectname="frank"
+config = inifile.parse('config.ini')
+interval = (config['Transmission']['interval']) * 1000
+serverport = config['Transmission']['serverport']
+serverip = config['Transmission']['serverip']
+projectname = config['Project']['name']
 
 -- Callback Function to transmit the temperature
 function log_temperature()
