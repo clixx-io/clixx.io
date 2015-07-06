@@ -37,7 +37,8 @@ def main(args):
 
 	def list_accesspoints():
 		""" This function will print out the Access-Point list """
-		listap = ["function listap(t)\n",
+		listap = ['wifi.setmode(wifi.STATION)\n',
+                  "function listap(t)\n",
                   "  for k,v in pairs(t) do\n",
                   "    print(k..\" : \"..v)\n",
                   "  end\n",
