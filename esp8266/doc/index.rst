@@ -9,11 +9,30 @@ Welcome to Clixx.io ESP8266's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    getting-started
+   elua-firmware
    installation
    terminal-esp8266
+   connect-ap
+   
+Networking and Software:
+
+.. toctree::
+   :maxdepth: 1
+   
+   webservers-http
+   socket-tcp
+   socket-udp
+   mqtt
+
+Example Projects:
+
+.. toctree::
+   :maxdepth: 1
+
+   temperature-webpage
    temperature-logger
 
 
