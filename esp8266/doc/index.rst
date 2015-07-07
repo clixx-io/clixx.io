@@ -16,6 +16,11 @@ Contents:
    installation
    terminal-esp8266
    connect-ap
+   new-project
+   upload-project
+   config-project
+   deploy-project
+   power-esp8266
    
 Networking and Software:
 
