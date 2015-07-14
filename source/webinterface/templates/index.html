@@ -22,7 +22,6 @@
        <h4>Projects on this Machine</h4>
         <div class="tile-container bg-darkCobalt">
 
-
         {% for item in projects %}
 
 {# Loop through a pre-selection of tile colours #}
@@ -34,13 +33,26 @@
 {% if loop.index % 5 == 0 %}{% set bgcolor = "bg-pink" %}{% endif %}
         
 			<!-- Tile with slide-down effect -->
-			<a id="qq" href="/iot/{{ item }}" class="tile {{ bgcolor }} {{fgcolor}}" class="tile-wide data-role="tile"">
-			
-			<div class="tile-content slide-down">
+			<a id="qq" href="/iot/{{ item }}" class="tile {{ bgcolor }} {{fgcolor}}" class="tile-wide" data-role="tile"">
+
+				<div class="tile-content slide-down">
 				<div class="slide-over op-cyan fg-white text-small padding10">
+{% if item.description %}
+					{{ item.description }}
+{% else %}
 					Clixx.io IoT Project
+{% endif %}
 				</div>
 				<div class="tile-label">{{ item }}</div>
+
+{% if item.image %}
+                        {# -- Display an image in the tile if available #}
+                        <div class="slide">
+                            <img src="{{item.image}}" data-role="fitImage" data-format="fill">
+                        <!-- Assign an image ie static/4.jpg -->
+                        </div>
+{% endif %}
+
 			</div>
 			</a>
           
