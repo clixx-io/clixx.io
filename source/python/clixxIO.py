@@ -203,7 +203,7 @@ def clixxIOSystemLogFile():
     return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix, clixxIOLogName)
 
 
-def clixxIOAddProject(projectname):
+def clixxIOAddProject(projectname,projecttype=None,projectoptions=None):
     """
     Add a Project Directory to the system.
 

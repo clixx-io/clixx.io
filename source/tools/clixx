@@ -45,12 +45,13 @@ if __name__ == "__main__":
                     action="store_true")
    
     args = parser.parse_args()
+
+    projects = clixxIOListProjects()
     
     if args.operation[0]=="list":
         
         if len(args.operation)==1:
             print("Current Projects\nName--------------------- Type------------------------ Status------------------")
-            projects = clixxIOListProjects()
             types = clixxIOListProjectbyType()
             statuses = clixxIOListProjectbyStatus()
             
@@ -167,17 +168,34 @@ if __name__ == "__main__":
         if args.operation[1]=="project":
             # Add a new project
             projname = args.operation[2]
-            print("Creating new project %s" % projname)
+            projtype = None
+            
+            if args.operation[3]=="for":
+                
+                allowable_projecttypes = ["python","c++","esp8266"]
+                
+                if args.operation[4] in allowable_projecttypes:
+                    projtype = args.operation[4]
+                else:
+                    print("Unrecognised platform %s - must be %s" % (args.operation[4],', '.join(allowable_projecttypes)))
+                    sys.exit(1)
+            
+            print("Creating new project %s for %s" % (projname,projtype))
+            
             sys.exit(clixxIOAddProject(args.operation[2]))
+            
+        else:
+            print("Unrecognised option %s" % args.operation[1])
+            sys.exit(1)
             
     elif args.operation[0]=="remove":
 
-        if args.operation[1]=="project":
-            # Add a new project
-            projname = args.operation[2]
-            sys.exit(clixxIORemoveProject(projname))
+        # Add a new project
+        if args.operation[1] in projects:
+            print("Removing project")
+            sys.exit(clixxIORemoveProject(args.operation[1]))
         else:
-            print("Invalid parameter")
+            print("Invalid Project name %s. This project does not exist." % args.operation[1])
             
     elif args.operation[0]=="show":
         
@@ -205,5 +223,45 @@ if __name__ == "__main__":
         print(clixxIOReadDevice(args.device[1]))
     elif args.operation[0]=='watch':
         pass
+    elif args.operation[0]=="web":
+
+        # Add a new project
+        if args.operation[2] in projects:
+            projname = args.operation[2]
+        else:
+            print("Error: Invalid Project name %s. This project does not exist." % args.operation[2])
+            sys.exit(1)
+            
+        if args.operation[1] == "assignip":
+            assignip = args.operation[3]
+            print("Error: Assign IP to %s. Not Implemented." % assignip)
+            sys.exit(1)
+        elif args.operation[1] == "assignmac":
+            assignmac = args.operation[3]
+            print("Error: Assign MAC to %s. Not Implemented." % assignmac)
+            sys.exit(1)
+        elif args.operation[1] == "icongraphic":
+            webgraphic = args.operation[3]
+            print("Error: Assign Webgraphic to %s. Not Implemented." % webgraphic)
+            sys.exit(1)
+        elif args.operation[1] == "iconaction":
+            iconaction = None
+            if args.operation[3] == "webip":
+                webip = args.operation[4]
+                iconaction = args.operation[3]
+            elif args.operation[3] == "button":
+                iconaction = args.operation[3]
+            elif args.operation[3] == "iconaction":
+                iconaction = args.operation[3]
+            elif args.operation[3] == "display":
+                iconaction = args.operation[3]
+            else:
+                print("Option %s not recognised." % (args.operation[3]))
+                sys.exit(1)
+
+            print("Error: Assign IconAction on project %s to %s. Not Implemented." % (projname,iconaction))
+            sys.exit(1)
+            
+            
     else:
         print("Unknown command.")
