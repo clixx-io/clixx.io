@@ -221,6 +221,14 @@ if __name__ == "__main__":
         print(clixxIOLatestValues(args.device[1]))
     elif args.operation[0]=="status":
         print(clixxIOReadDevice(args.device[1]))
+    elif args.operation[0]=='scan':
+        
+        if args.operation[1] in ["mac","ip","serial","i2c"]:
+            print("Error: Scan network for %s addresses. Not Implemented." % args.operation[1])
+            sys.exit(1)
+        else:
+            print("Invalid Option")
+            
     elif args.operation[0]=='watch':
         pass
     elif args.operation[0]=="web":
