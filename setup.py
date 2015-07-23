@@ -1,4 +1,4 @@
-import sys
+import sys, platform
 if sys.version_info < (2, 5):
     print(sys.stderr, "{}: need Python 2.5 or later.".format(sys.argv[0]))
     print(sys.stderror, "Your python is {}".format(sys.version))
@@ -6,6 +6,10 @@ if sys.version_info < (2, 5):
 
 from setuptools import setup
 
+clixx_scripts = ['source/tools/clixx']
+if platform.system() == 'Windows':
+    clixx_scripts = ['source/tools/clixx.bat']
+    
 setup(
     name = "clixx_IO",
     version = "0.1.0",
@@ -17,12 +21,16 @@ setup(
     # This needs to be blank
     packages = [''],
     package_dir = {'': 'source/python'},
-    scripts=['source/tools/clixx','source/qt-gui/iot-controller.py'],
-# Unknown options
-#   use_2to3 = True,
-#   package_data={'images': ['qt-gui/images*']},
+    scripts=clixx_scripts,
     test_suite = "tests.tests",
     zip_safe = False,
+
+#    entry_points={
+#        "console_scripts": ["clixx=source.python.__main__:main",
+#        ]
+#    },
+#   package_data={'images': ['qt-gui/images*']},
+
     install_requires = ['setuptools','mako','flask','circuits','paho-mqtt'],
     classifiers = [
         'Development Status :: 3 - Alpha',
