@@ -16,9 +16,25 @@ def index():
 
     config = {}
     config['name'] = "IoT running on %s" % platform.node()
-    config['enable_addproject'] = True
+    config['enable_addproject'] = False
 
-    projects = clixxIOListProjects()
+    projects = {}
+
+    for pn in clixxIOListProjects():
+        
+        p = clixxIOProject(pn)
+        
+        # Add a dictionary for every project
+        pi = {}
+        pi['name'] = pn
+        pi['tiledescription'] = p.getConfig('Web_Interface','tiledescription')
+        pi['tileimage']       = p.getConfig('Web_Interface','tileimage')
+        pi['tilecolor']       = p.getConfig('Web_Interface','tilecolor')
+        pi['redirect_ip']     = p.getConfig('Web_Interface','redirect_ip')
+        pi['iconaction']      = p.getConfig('Web_Interface','iconaction')
+        
+        projects[pn] = pi
+        
 
     return render_template('index.html',projects = projects,config = config)
 

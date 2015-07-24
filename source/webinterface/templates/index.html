@@ -22,7 +22,7 @@
        <h4>Projects on this Machine</h4>
         <div class="tile-container bg-darkCobalt">
 
-        {% for item in projects %}
+        {% for item in projects.keys() %}
 
 {# Loop through a pre-selection of tile colours #}
 {% set fgcolor = "fg-white" %}
@@ -37,15 +37,15 @@
 
 				<div class="tile-content slide-down">
 				<div class="slide-over op-cyan fg-white text-small padding10">
-{% if item.description %}
-					{{ item.description }}
+{% if projects[item]['description'] %}
+					{{ projects[item]['description'] }}
 {% else %}
 					Clixx.io IoT Project
 {% endif %}
 				</div>
-				<div class="tile-label">{{ item }}</div>
+				<div class="tile-label">{{ projects[item]['name'] }}</div>
 
-{% if item.image %}
+{% if item['image'] %}
                         {# -- Display an image in the tile if available #}
                         <div class="slide">
                             <img src="{{item.image}}" data-role="fitImage" data-format="fill">

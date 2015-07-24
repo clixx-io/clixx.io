@@ -124,7 +124,24 @@ class clixxIOProject:
         self._InputChannel = ""
         self._OutputChannel = ""
         self._AvailableCommands = []
+        self._config = SafeConfigParser()
+        
+        if projectname != None:
+            if os.path.exists(self.getConfigPath()):
+                self.readConfig()
 
+    def readConfig(self):        
+        
+        return self._config.read(self.getConfigPath())
+
+    def writeConfig(self):
+    
+        # Writing our configuration file to 'example.cfg'
+        with open(self.getConfigPath(), 'w') as configfile:
+            self._config.write(configfile)
+
+        return
+    
     def publishText(self, ChannelTopic, ChannelText):
         return
 
@@ -135,20 +152,24 @@ class clixxIOProject:
         commands = []
         return commands
 
-    def GetconfigPath(self):
-        return
+    def getConfigPath(self):
+        return clixxIOlProjectConfigFilename(self._projectname)
 
-    def GetconfigStr(self, section, keyname):
-        return
+    def getConfig(self, section, keyname, default = None):
+        
+        if self._config.has_option(section, keyname):
+            
+            return self._config.get(section, keyname)
+            
+        else:
+            return default
 
-    def GetconfigInt(self, section, keyname):
-        return
+    def setConfig(self, section, keyname, value):
 
-    def SetconfigStr(self, section, keyname):
-        return
-
-    def SetconfigInt(self, section, keyname):
-        return
+        if not self._config.has_section(section):
+            self._config.add_section(section)
+            
+        return self._config.set(section, keyname, value)
 
 
 class clixxIOProjectRepository():
@@ -626,13 +647,6 @@ class i2c_device:
         return self.bus.read_i2c_block_data(self.addr, data, n)
 
 
-class mcp23017:
-
-    """
-    http://hertaville.com/2013/04/01/interfacing-an-i2c-gpio-expander-mcp23017-to-the-raspberry-pi-using-c/
-    """
-
-
 class displayRotaryLeds(i2c_device):
 
     """
@@ -735,13 +749,6 @@ def sensorLog(value, sensorname):
     clixxIOUpdateDevice(clixxIODevices[sensorname])
 
     return
-
-
-def sensorPin(pinnumber):
-    """
-    Reads a sensor Pin number from the configuration file
-    """
-    return None
 
 
 def clixxIOHistoryFillAll():

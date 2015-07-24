@@ -240,18 +240,60 @@ if __name__ == "__main__":
             print("Error: Invalid Project name %s. This project does not exist." % args.operation[2])
             sys.exit(1)
             
-        if args.operation[1] == "assignip":
-            assignip = args.operation[3]
-            print("Error: Assign IP to %s. Not Implemented." % assignip)
-            sys.exit(1)
-        elif args.operation[1] == "assignmac":
-            assignmac = args.operation[3]
-            print("Error: Assign MAC to %s. Not Implemented." % assignmac)
-            sys.exit(1)
-        elif args.operation[1] == "icongraphic":
+        p = clixxIOProject(projname)
+            
+        if args.operation[1] == "redirect_ip":
+            
+            redirect_ip = args.operation[3]
+            
+            p.setConfig('Web_Interface','redirect_ip',redirect_ip)
+            p.writeConfig()
+            sys.exit(0)
+            
+        elif args.operation[1] == "hide":
+            
+            p.setConfig('Web_Interface','show_icon','False')
+            p.writeConfig()
+            sys.exit(0)
+            
+        elif args.operation[1] == "show":
+            
+            p.setConfig('Web_Interface','show_icon','True')
+            p.writeConfig()
+            sys.exit(0)
+            
+        elif args.operation[1] == "redirect_mac":
+            
+            redirect_mac = args.operation[3]
+            
+            p.setConfig('Web_Interface','redirect_mac',redirect_mac)
+            p.writeConfig()
+            sys.exit(0)
+            
+        elif args.operation[1] == "tilegraphic":
+            
             webgraphic = args.operation[3]
-            print("Error: Assign Webgraphic to %s. Not Implemented." % webgraphic)
-            sys.exit(1)
+            
+            p.setConfig('Web_Interface','tilegraphic',webgraphic)
+            p.writeConfig()
+            sys.exit(0)
+
+        elif args.operation[1] == "tiledescription":
+            
+            tiledescription = args.operation[3]
+            
+            p.setConfig('Web_Interface','tiledescription',tiledescription)
+            p.writeConfig()
+            sys.exit(0)
+
+        elif args.operation[1] == "pulldowndescription":
+            
+            icondescription = args.operation[3]
+            
+            p.setConfig('Web_Interface','pulldowndescription',icondescription)
+            p.writeConfig()
+            sys.exit(0)
+
         elif args.operation[1] == "iconaction":
             iconaction = None
             if args.operation[3] == "webip":
@@ -269,7 +311,6 @@ if __name__ == "__main__":
 
             print("Error: Assign IconAction on project %s to %s. Not Implemented." % (projname,iconaction))
             sys.exit(1)
-            
             
     else:
         print("Unknown command.")
