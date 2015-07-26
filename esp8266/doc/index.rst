@@ -52,11 +52,3 @@ Example Projects:
    n-channel-mosfet-switch
    remote-movement
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
