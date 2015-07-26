@@ -21,6 +21,14 @@ Contents:
    config-project
    deploy-project
    power-esp8266
+
+Managing multiple Devices:
+
+.. toctree::
+   :maxdepth: 1
+   
+   web-server
+   web-interface
    
 Networking and Software:
 

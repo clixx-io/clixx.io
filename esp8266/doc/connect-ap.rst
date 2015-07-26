@@ -4,15 +4,26 @@ Connect to your Wifi Access-Point
 The Terminal-ESP8266 provides an easy way to connect to
 your access point.
 
-- Plug your ESP to your USB and Click 'Connect'
- 
-- Click the 'Scan' button
- 
-- Select your the access point from the list of Access-Points
- 
-- Enter your wifi password
- 
-- When you have successfully connected, your IP address will be
-  displayed.
-   
+Setting up Wifi - Scan for Access Points
+----------------------------------------
 
+Since the ESP8266 has native wifi, the first step is to
+connect it to your access point.
+
+To do this press the 'Scan' button.
+
+Once this is complete a list of all the wifi Access points
+that are visible will be shown.
+
+Setting up Wifi - Connect to your Access Point
+----------------------------------------------
+
+Select or type in your SSID and enter your wifi password.
+
+Press [Connect]
+
+Display your IP address
+-----------------------
+
+The final step is to display for IP address. Click the
+[Display IP] button.
