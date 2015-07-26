@@ -36,7 +36,7 @@ import json
 import platform
 import logging
 import glob
-import shutil
+import shutil, zipfile
 import subprocess
 from ConfigParser import ConfigParser, SafeConfigParser
 from datetime import datetime
@@ -194,7 +194,7 @@ class clixxIOProjectRepository():
     def __init__(self):
         pass
 
-    def create_zippackagefile(projectname):
+    def create_zippackagefile(self,projectname):
         """
         Packages a project.
 
@@ -210,7 +210,7 @@ class clixxIOProjectRepository():
                 fn = os.path.join(base, file)
                 zip.write(fn, fn[rootlen:])
 
-    def extract_zippackagefile(projectfile):
+    def extract_zippackagefile(self, projectfile):
 
         with zipfile.ZipFile(projectfile, "r") as z:
             z.extractall(clixxIOProjectDir())

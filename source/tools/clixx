@@ -260,6 +260,37 @@ if __name__ == "__main__":
             
     elif args.operation[0]=='watch':
         pass
+
+    elif args.operation[0]=="package":
+		
+        # Change the latest value in a project
+        if args.operation[1] in projects:
+            projname = args.operation[1]
+        else:
+            print("Error: Invalid Project name %s. This project does not exist." % args.operation[1])
+            sys.exit(1)
+            
+        r = clixxIOProjectRepository()
+        
+        print("Creating package for Project %s." % args.operation[1])
+        r.create_zippackagefile(projname)
+        sys.exit(0)
+
+    elif args.operation[0]=="unpackage":
+		
+        # Change the latest value in a project
+        if os.path.exists(args.operation[1]):
+            pkgname = args.operation[1]
+        else:
+            print("Error: Package file doesnt exist %s." % args.operation[1])
+            sys.exit(1)
+            
+        r = clixxIOProjectRepository()
+        
+        print("Unpacking package file for %s." % args.operation[1])
+        r.extract_zippackagefile(pkgname)
+        sys.exit(0)
+
     elif args.operation[0]=="web":
 
         # Add a new project
