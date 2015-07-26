@@ -24,14 +24,19 @@ def index():
         
         p = clixxIOProject(pn)
         
+        if p.getConfig('Web_Interface','show_icon','true').lower() == 'false':
+			continue
+        
         # Add a dictionary for every project
         pi = {}
         pi['name'] = pn
         pi['tiledescription'] = p.getConfig('Web_Interface','tiledescription')
         pi['tileimage']       = p.getConfig('Web_Interface','tileimage')
         pi['tilecolor']       = p.getConfig('Web_Interface','tilecolor')
-        pi['redirect_ip']     = p.getConfig('Web_Interface','redirect_ip')
+        pi['http_redirect']   = p.getConfig('Web_Interface','http_redirect')
         pi['iconaction']      = p.getConfig('Web_Interface','iconaction')
+        pi['statuslabel']     = p.getConfig('Web_Interface','statuslabel')
+        pi['statusvalue']     = p.getConfig('Status','last_value')
         
         projects[pn] = pi
         

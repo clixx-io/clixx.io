@@ -32,27 +32,47 @@
 {% if loop.index % 5 == 4 %}{% set bgcolor = "bg-orange" %}{% endif %}
 {% if loop.index % 5 == 0 %}{% set bgcolor = "bg-pink" %}{% endif %}
         
+{% if projects[item]['http_redirect'] %}
+{% set http_target = projects[item]['http_redirect'] %}
+{% else %}
+{% set http_target = "/iot/" + item %}
+{% endif %}
+
+{% if projects[item]['tilecolor'] %}
+{% set bgcolor = projects[item]['tilecolor'] %}
+{% endif %}
+
 			<!-- Tile with slide-down effect -->
-			<a id="qq" href="/iot/{{ item }}" class="tile {{ bgcolor }} {{fgcolor}}" class="tile-wide" data-role="tile"">
+			<a id="qq" href="{{http_target}}" class="tile {{ bgcolor }} {{fgcolor}}" class="tile-wide" data-click="transform" data-role="tile"">
 
 				<div class="tile-content slide-down">
 				<div class="slide-over op-cyan fg-white text-small padding10">
-{% if projects[item]['description'] %}
-					{{ projects[item]['description'] }}
+{% if projects[item]['tiledescription'] %}
+					{{ projects[item]['tiledescription'] }}
 {% else %}
 					Clixx.io IoT Project
 {% endif %}
 				</div>
 				<div class="tile-label">{{ projects[item]['name'] }}</div>
 
-{% if item['image'] %}
-                        {# -- Display an image in the tile if available #}
-                        <div class="slide">
-                            <img src="{{item.image}}" data-role="fitImage" data-format="fill">
-                        <!-- Assign an image ie static/4.jpg -->
-                        </div>
+                <div class="brand">
+{% if projects[item]['statuslabel'] %}
+                    <span class="label fg-steel">{{projects[item]['statuslabel']}}</span>
 {% endif %}
-
+{% if projects[item]['statusvalue'] %}
+                    <span class="badge bg-orange">{{projects[item]['statusvalue']}}</span>
+{% endif %}
+                </div>
+        
+{% if projects[item]['tileimage'] %}
+                {# -- Display an image in the tile if available #}
+                <div class="slide">
+                    {# -- Use Assign an image ie static/4.jpg #}
+                    <img src="{{projects[item]['tileimage']}}" data-role="fitImage" data-format="fill">
+                </div>
+{% elif projects[item]['tilehtml'] %}
+                {{projects[item]['tilehtml']}}
+{% endif %}
 			</div>
 			</a>
           

@@ -112,6 +112,22 @@ def configPath():
 
     return clixxIOconfigPath()
 
+def clixxIOconfigGet(section, keyname, default = None):
+    """
+    Read a value from the global configuration file
+    """
+
+    config = SafeConfigParser()
+    
+    config.read(clixxIOconfigPath())
+
+    if config.has_option(section, keyname):
+		
+        return config.get(section, keyname)
+		
+    else:
+        return default
+
 
 class clixxIOProject:
     """
@@ -136,7 +152,6 @@ class clixxIOProject:
 
     def writeConfig(self):
     
-        # Writing our configuration file to 'example.cfg'
         with open(self.getConfigPath(), 'w') as configfile:
             self._config.write(configfile)
 
@@ -221,6 +236,7 @@ def clixxIOSystemLogFile():
     These are typically directories stored in the IoT directory
     """
     global IoTProjectDirSuffix, clixxIOLogName
+    
     return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix, clixxIOLogName)
 
 
@@ -231,12 +247,18 @@ def clixxIOAddProject(projectname,projecttype=None,projectoptions=None):
     These are typically directories stored in the IoT directory
     """
     global IoTProjectDirSuffix
+    
     IoTdir = os.path.join(
         os.path.expanduser("~"),
         IoTProjectDirSuffix,
         projectname)
     if not os.path.exists(IoTdir):
         os.makedirs(IoTdir)
+        
+    p = clixxIOProject(projectname)
+    if projecttype:
+        p.setConfig(projectname, 'project_type', projecttype)
+       
     return
 
 

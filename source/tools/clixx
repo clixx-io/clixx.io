@@ -38,6 +38,15 @@ sensors.
 
 if __name__ == "__main__":
 
+    template_colors = ["black","white","lime","green","emerald","teal","blue","cyan","cobalt",
+					   "indigo","violet","pink","magenta","crimson","red","orange","amber",
+					   "yellow","brown","olive","steel","mauve","taupe","gray","dark","darker",
+					   "darkBrown","darkCrimson","darkMagenta","darkIndigo","darkCyan","darkCobalt",
+					   "darkTeal","darkEmerald","darkGreen","darkOrange","darkRed","darkPink",
+					   "darkViolet","darkBlue","lightBlue","lightRed","lightGreen","lighterBlue",
+					   "lightTeal","lightOlive","lightOrange","lightPink","grayDark","grayDarker",
+					   "gray","LightgrayLighter"]
+
     parser = argparse.ArgumentParser()
     parser.add_argument('operation', nargs='+', help="Perform an operation on a device [add/remove/activate/deactive/list/history/status]")
 
@@ -182,7 +191,7 @@ if __name__ == "__main__":
             
             print("Creating new project %s for %s" % (projname,projtype))
             
-            sys.exit(clixxIOAddProject(args.operation[2]))
+            sys.exit(clixxIOAddProject(projname,projtype))
             
         else:
             print("Unrecognised option %s" % args.operation[1])
@@ -217,6 +226,26 @@ if __name__ == "__main__":
         else:
             print("Invalid parameter")
 
+    elif args.operation[0]=="value":
+		
+        # Change the latest value in a project
+        if args.operation[1] in projects:
+            projname = args.operation[1]
+        else:
+            print("Error: Invalid Project name %s. This project does not exist." % args.operation[1])
+            sys.exit(1)
+            
+        p = clixxIOProject(projname)
+            
+        last_value = args.operation[2]
+        
+        p.setConfig('Status','last_value',last_value)
+        p.writeConfig()
+            
+        print("Operation succeeded. Last value for project %s set to %s." % (projname, last_value))
+            
+        sys.exit(0)
+        
     elif args.operation[0]=='history':
         print(clixxIOLatestValues(args.device[1]))
     elif args.operation[0]=="status":
@@ -242,24 +271,33 @@ if __name__ == "__main__":
             
         p = clixxIOProject(projname)
             
-        if args.operation[1] == "redirect_ip":
+        if args.operation[1] == "http_redirect":
             
-            redirect_ip = args.operation[3]
+            http_redirect = args.operation[3]
             
-            p.setConfig('Web_Interface','redirect_ip',redirect_ip)
+            p.setConfig('Web_Interface','http_redirect',http_redirect)
             p.writeConfig()
+            
+            print("Operation succeeded. Web redirection of Tile %s set to %s." % (projname, http_redirect))
+            
             sys.exit(0)
             
         elif args.operation[1] == "hide":
             
             p.setConfig('Web_Interface','show_icon','False')
             p.writeConfig()
+            
+            print("Operation succeeded. Web Tile %s display set to false." % (projname))
+            
             sys.exit(0)
             
         elif args.operation[1] == "show":
             
             p.setConfig('Web_Interface','show_icon','True')
             p.writeConfig()
+
+            print("Operation succeeded. Web Tile %s display set to true." % (projname))
+            
             sys.exit(0)
             
         elif args.operation[1] == "redirect_mac":
@@ -269,13 +307,34 @@ if __name__ == "__main__":
             p.setConfig('Web_Interface','redirect_mac',redirect_mac)
             p.writeConfig()
             sys.exit(0)
-            
-        elif args.operation[1] == "tilegraphic":
+
+        elif args.operation[1] == "tileimage":
             
             webgraphic = args.operation[3]
             
-            p.setConfig('Web_Interface','tilegraphic',webgraphic)
+            p.setConfig('Web_Interface','tileimage',webgraphic)
             p.writeConfig()
+            
+            print("Operation succeeded. Web Tile graphic %s display set to %s" % (projname,webgraphic))
+            
+            sys.exit(0)
+
+        elif args.operation[1] == "tilecolor":
+            
+            tilecolor = args.operation[3]
+
+            if not tilecolor in template_colors:
+				
+				print("Error: Unknown tile color. Valid options are %s." % ", ".join(template_colors))
+				sys.exit(1)
+                          
+            tilecolor = "bg-" + tilecolor
+            
+            p.setConfig('Web_Interface','tilecolor',tilecolor)
+            p.writeConfig()
+            
+            print("Operation succeeded. Web Tile color %s display set to %s" % (projname,tilecolor))
+            
             sys.exit(0)
 
         elif args.operation[1] == "tiledescription":
@@ -310,6 +369,10 @@ if __name__ == "__main__":
                 sys.exit(1)
 
             print("Error: Assign IconAction on project %s to %s. Not Implemented." % (projname,iconaction))
+            sys.exit(1)
+            
+        else:
+            print("Error: Unrecognised option %s." % (args.operation[1]))
             sys.exit(1)
             
     else:
