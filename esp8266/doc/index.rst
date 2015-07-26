@@ -37,8 +37,12 @@ Example Projects:
 .. toctree::
    :maxdepth: 1
 
+   hello-world
+   input-button
    temperature-webpage
    temperature-logger
+   n-channel-mosfet-switch
+   remote-movement
 
 
 Indices and tables
