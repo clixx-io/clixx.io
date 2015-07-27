@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import platform, StringIO
 import csv, datetime, re
 from time import strftime
@@ -201,4 +202,8 @@ def log_sensor(projectname):
         return 'Project %s is not a valid project.' % projectname
 
 if __name__ == '__main__':
+
+    # To run with higher permissions we need to do this
+    SetUserDir(os.path.abspath('../..'))
+
     app.run(host='0.0.0.0')
