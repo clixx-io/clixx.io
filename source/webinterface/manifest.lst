@@ -1,0 +1,8 @@
+# Package Manifest
+webinterface.py
+templates/base.html
+templates/index.html
+templates/new-project.html
+templates/project.html
+templates/send_value.html
+static/favicon.ico
