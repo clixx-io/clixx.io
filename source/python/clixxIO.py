@@ -194,21 +194,55 @@ class clixxIOProjectRepository():
     def __init__(self):
         pass
 
-    def create_zippackagefile(self,projectname):
+    def create_zippackagefile(self,projectname=None,projectdir=None):
         """
         Packages a project.
 
         These are typically directories stored in the IoT directory
         """
 
-        target_dir = clixxIOProjectDir(projectname)
+        if projectdir:
+            
+            target_dir = os.path.abspath(projectdir)
+            if projectname is None:
+                projectname = os.path.basename(os.path.abspath(projectdir))
+                
+        elif projectname:
+            
+            target_dir = clixxIOProjectDir(projectname)
+            
+        else:
+            return
+            
+        print("Creating ProjectFile %s" % (projectname + '.zip'))
+        
         zip = zipfile.ZipFile(projectname + '.zip', 'w', zipfile.ZIP_DEFLATED)
-        rootlen = len(target_dir) - len(target_dir.split('/').pop())
-
-        for base, dirs, files in os.walk(target_dir):
-            for file in files:
-                fn = os.path.join(base, file)
+        rootlen = projectdir.find(projectname)
+            
+        mp = os.path.join(target_dir,'manifest.lst')
+        if os.path.exists(mp):
+            
+            print("Using manifest file %s" % mp)
+            
+            mf = open(mp)
+            for l in mf.readlines():
+                
+                if l.startswith('#'):
+                    continue
+                    
+                fn = os.path.join(target_dir,l.strip())
+                
+                print(" - adding %s" % fn[rootlen:])
+                
                 zip.write(fn, fn[rootlen:])
+                    
+        else:
+
+            for base, dirs, files in os.walk(target_dir):
+                for file in files:
+                    fn = os.path.join(base, file)
+                    print(" - adding %s" % fn[rootlen:])
+                    zip.write(fn, fn[rootlen:])
 
     def extract_zippackagefile(self, projectfile):
 

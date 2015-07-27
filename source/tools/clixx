@@ -262,7 +262,7 @@ if __name__ == "__main__":
         pass
 
     elif args.operation[0]=="package":
-		
+
         # Change the latest value in a project
         if args.operation[1] in projects:
             projname = args.operation[1]
@@ -273,11 +273,26 @@ if __name__ == "__main__":
         r = clixxIOProjectRepository()
         
         print("Creating package for Project %s." % args.operation[1])
-        r.create_zippackagefile(projname)
+        r.create_zippackagefile(projectname=projname)
+        sys.exit(0)
+
+    elif args.operation[0]=="packagedir":
+
+        # Change the latest value in a project
+        if os.path.exists(args.operation[1]) and os.path.isdir(args.operation[1]):
+            dirname = os.path.abspath(args.operation[1])
+        else:
+            print("Error: Directory %s does not exist" % args.operation[1])
+            sys.exit(1)
+            
+        r = clixxIOProjectRepository()
+        
+        print("Creating package for directory %s" % dirname)
+        r.create_zippackagefile(projectdir=dirname)
         sys.exit(0)
 
     elif args.operation[0]=="unpackage":
-		
+
         # Change the latest value in a project
         if os.path.exists(args.operation[1]):
             pkgname = args.operation[1]
