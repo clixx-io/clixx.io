@@ -51,6 +51,7 @@ clixxIOConfigName = "config.ini"
 clixxIOLogName = "clixx.io.log"
 
 IoTProjectDirSuffix = "IoT"
+IoTUserDir = None
 
 formatter = logging.Formatter('%(asctime)s, %(message)s', "%Y-%m-%d %H:%M:%S")
 # Console Logging Handler
@@ -89,11 +90,25 @@ clixxIOConfig = SafeConfigParser()
 logginghandlers = {}
 
 
+def SetUserDir(dirPath):
+    global IoTUserDir
+    
+    IoTUserDir = dirPath
+    return
+    
+def GetUserDir():
+    global IoTUserDir
+
+    if IoTUserDir:
+        return IoTUserDir
+    else:
+        return os.path.expanduser("~")
+    
 def GetConfigDir():
     """
     Return: The Location for configuration files
     """
-    return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix)
+    return os.path.join(GetUserDir(), IoTProjectDirSuffix)
 
 def clixxIOconfigPath():
     """
@@ -122,9 +137,9 @@ def clixxIOconfigGet(section, keyname, default = None):
     config.read(clixxIOconfigPath())
 
     if config.has_option(section, keyname):
-		
+
         return config.get(section, keyname)
-		
+
     else:
         return default
 
@@ -258,9 +273,9 @@ def clixxIOProjectDir(projectname=None):
     """
     global IoTProjectDirSuffix
     if not projectname is None:
-        return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix, projectname)
+        return os.path.join(GetUserDir(), IoTProjectDirSuffix, projectname)
     else:
-        return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix)
+        return os.path.join(GetUserDir(), IoTProjectDirSuffix)
 
 
 def clixxIOSystemLogFile():
@@ -271,7 +286,7 @@ def clixxIOSystemLogFile():
     """
     global IoTProjectDirSuffix, clixxIOLogName
     
-    return os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix, clixxIOLogName)
+    return os.path.join(GetUserDir(), IoTProjectDirSuffix, clixxIOLogName)
 
 
 def clixxIOAddProject(projectname,projecttype=None,projectoptions=None):
@@ -283,7 +298,7 @@ def clixxIOAddProject(projectname,projecttype=None,projectoptions=None):
     global IoTProjectDirSuffix
     
     IoTdir = os.path.join(
-        os.path.expanduser("~"),
+        GetUserDir(),
         IoTProjectDirSuffix,
         projectname)
     if not os.path.exists(IoTdir):
@@ -313,7 +328,7 @@ def clixxIOListProjects():
 
     These are typically directories stored in the IoT directory
     """
-    IoTdir = os.path.join(os.path.expanduser("~"), IoTProjectDirSuffix, '*')
+    IoTdir = os.path.join(GetUserDir(), IoTProjectDirSuffix, '*')
 
     projects = []
     projectdirs = glob.glob(IoTdir)
