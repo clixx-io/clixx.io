@@ -15,8 +15,10 @@ def index():
     """ Generate a home page with a list of projects
     """
 
+    w = clixxIOProject('webinterface')
+        
     config = {}
-    config['name'] = "IoT running on %s" % platform.node()
+    config['name'] = w.getConfig('display','system_name',"IoT running on %s" % platform.node())
     config['enable_addproject'] = False
 
     projects = {}
@@ -26,7 +28,7 @@ def index():
         p = clixxIOProject(pn)
         
         if p.getConfig('Web_Interface','show_icon','true').lower() == 'false':
-			continue
+            continue
         
         # Add a dictionary for every project
         pi = {}
@@ -203,7 +205,8 @@ def log_sensor(projectname):
 
 if __name__ == '__main__':
 
-    # To run with higher permissions we need to do this
-    SetUserDir(os.path.abspath('../..'))
+    if os.geteuid() == 0:              # If you are root user...     
+        # Change the root directory to access configuration
+        SetUserDir(os.path.abspath('../..'))
 
     app.run(host='0.0.0.0')
