@@ -29,6 +29,7 @@ Managing multiple Devices:
    
    web-server
    web-interface
+   web-interface-icons
    
 Networking and Software:
 
