@@ -205,7 +205,8 @@ def log_sensor(projectname):
 
 if __name__ == '__main__':
 
-    if os.geteuid() == 0:              # If you are root user...     
+    if os.name in ['posix'] and os.geteuid() == 0:              
+		# If you are root user...     
         # Change the root directory to access configuration
         SetUserDir(os.path.abspath('../..'))
 
