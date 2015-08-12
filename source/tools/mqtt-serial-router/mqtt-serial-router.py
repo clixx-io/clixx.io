@@ -45,7 +45,7 @@ class SerialToMosquitto:
         self.port = portname
         self.topic_pub = topic_pub
         self.topic_sub = topic_sub
-        
+
         self.linebuffer = ""
         self.last_msg = ""
 
@@ -57,7 +57,7 @@ class SerialToMosquitto:
         self.s.baudrate = baudrate
         self.s.timeout = 0
         self.serial_connect()
-        
+
         # mqtt setup on
         self.client = mosquitto.Mosquitto(self.clientName)
         self.client.on_connect = self.on_connect
@@ -108,10 +108,10 @@ class SerialToMosquitto:
             if self.s.inWaiting():
 
                 newchars = self.s.read()
-                
+
                 # Add newly received characters to the linebuffer
                 self.linebuffer += newchars
-                
+
                 if ('\n' in self.linebuffer):
                     n = self.linebuffer.index('\n')
                     msg = self.linebuffer[:n]
@@ -134,7 +134,6 @@ class SerialToMosquitto:
         if self.s.isOpen() == True:
 
             self.s.write(llapMsg)
-
 
     def main(self):
 
@@ -212,7 +211,7 @@ class SerialToMosquitto:
             self.queue.task_done()
 
             print "Publishing msg", msg
-            
+
         return True
 
 
@@ -223,18 +222,18 @@ if __name__ == "__main__":
                         help="Serial port file name")
     parser.add_argument("baudrate", type=int,
                         help="Baudrate setting")
-                    
+
     parser.add_argument("publish_topic", type=str, help="Topic to publish on. Characters received on the Serial Stream are written out on this topic.", default="clixx.io/hello")    
     parser.add_argument("subscribe_topic", type=str, help="Topic to subscribe to. MQTT messages received are written to the serial port.", default=None)    
     parser.add_argument("-v", "--verbose", help="increase output verbosity",
                     action="store_true")
-   
+
     args = parser.parse_args()
-    
+
     if not os.path.exists(args.portname):
         print ("Port doesnt exist %s" % args.portname)
         sys.exit(0)
-        
+
     if not args.baudrate in [2400,9600,19200,57600,115200]:
         print ("Baudrate is not supported %s" % args.baudrate)
         sys.exit(0)
