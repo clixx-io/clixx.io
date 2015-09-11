@@ -1,9 +1,5 @@
-Projects
-------------
+IoT and Networking Overview
+---------------------------
 
-The Web Interface is a 'Flask' program written in Python.
-
-It is started from the Command-Line with the following command:
-
-    python webinterface.py
-
+.. image:: network-iot-overview.png
+   :scale: 50 %

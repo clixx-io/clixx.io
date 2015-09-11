@@ -1,8 +1,12 @@
 Getting Started
 ===============
 
-The ESP8266-01's are small 3.3V processors with Wifi and two GPIO
-pins.
+The ESP8266-01's are small IoT wifi devices with two GPIO
+pins. You can link multiple devices together and add a web-server
+to get access to each of the different devices that you might have:
+
+.. image:: network-iot-overview.png
+   :scale: 50 %
 
 To start off with the ESP8266, take the processor board and connect
 it to the USB-Adaptor then insert that into a spare USB port on your

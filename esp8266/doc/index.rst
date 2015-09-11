@@ -22,6 +22,17 @@ Contents:
    deploy-project
    power-esp8266
 
+Networking and Software:
+
+.. toctree::
+   :maxdepth: 1
+
+   iot-overview
+   webservers-http
+   socket-tcp
+   socket-udp
+   mqtt
+
 Managing multiple Devices:
 
 .. toctree::
@@ -31,16 +42,6 @@ Managing multiple Devices:
    web-interface
    web-interface-icons
    
-Networking and Software:
-
-.. toctree::
-   :maxdepth: 1
-   
-   webservers-http
-   socket-tcp
-   socket-udp
-   mqtt
-
 Example Projects:
 
 .. toctree::
