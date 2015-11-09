@@ -1,0 +1,4 @@
+
+*.pyc
+
+macosx/pyside_postinstall.py
