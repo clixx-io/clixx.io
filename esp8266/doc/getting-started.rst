@@ -5,7 +5,7 @@ The ESP8266-01's are small IoT wifi devices with two GPIO
 pins. You can link multiple devices together and add a web-server
 to get access to each of the different devices that you might have:
 
-.. image:: network-iot-overview.png
+.. image:: esp8266-system-by-notebook.png
    :scale: 50 %
 
 To start off with the ESP8266, take the processor board and connect
