@@ -8,7 +8,7 @@ from setuptools import setup
 
 clixx_scripts = ['source/tools/clixx']
 if platform.system() == 'Windows':
-    clixx_scripts = ['source/tools/clixx.bat']
+    clixx_scripts.append('source/tools/clixx.bat')
     
 setup(
     name = "clixx_IO",
