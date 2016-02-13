@@ -11,7 +11,8 @@ d1_input  = 4
 -- set gpio 0 as output.
 gpio.mode(d1_output, gpio.OUTPUT,gpio.PULLUP);
 gpio.write(d1_output,gpio.LOW);
-gpio.mode(d1_input, gpio.INT,gpio.PULLUP);
+
+gpio.mode(d1_input, gpio.INT);
 
 --Show a User Message
 print("Welcome to the clixx.io Web PWM Controller")
