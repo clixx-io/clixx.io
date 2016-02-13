@@ -22,16 +22,16 @@ function buttonpress(level)
       delay = tmr.now()+100000
       count = count + 1
       if (output_state == 0) then
-          gpio.write(3,gpio.HIGH);
+          gpio.write(d1_output,gpio.HIGH);
           output_state = 1;
           print("Switch On");
       else
-          gpio.write(3,gpio.LOW);
+          gpio.write(d1_output,gpio.LOW);
           output_state = 0;
           print("Switch Off");
           end
       end
-   -- gpio.mode(d1_input, gpio.INT);
+   gpio.write(d1_input, gpio.HIGH);
    gpio.trig(4, "down",buttonpress);
    print("finished");
    end
