@@ -58,12 +58,23 @@ def main(args):
 		_serial.write('wifi.sta.connect()\n')
 		#print 'status\n', se.readAll().decode("utf-8")
 
-	#TODO
 	def sendStr():
 		t = str(sendtext.toPlainText()+'\n')
 		print "Text=",t
 		if len(t)>0:
-			_serial.write(t)
+			s.write(t)
+			
+	def send_to_serial(string_to_send):
+		if len(string_to_send) < 1:
+			return
+		if not string_to_send.endswith('\n'):
+			string_to_send = string_to_send + '\n'
+		try:
+			_bytes = string_to_send.encode('utf-8')
+			_serial.write(_bytes)
+		except serial.SerialException as e:
+			append_to_console(e)
+			
 	def write():
 		#print 'NEW DATA?',se.readAll().decode("utf-8")
 		textedit.setText(textedit.toPlainText() + _serial_events.readAll().decode("utf-8"))
@@ -129,11 +140,14 @@ def main(args):
 				# Scan for available ports.
 				available = []
 				for i in range(256):
+					com = "COM%d" % (i+1)
+					#print "Testing serial port:", com
 					try:
-						s = serial.Serial(i)
-						available.append("COM%d" % (i+1))
+						s = serial.Serial(com)
+						available.append(com)
 						s.close()
-					except serial.SerialException:
+					except serial.SerialException as e:
+						#print Exception, e
 						pass
 				return available
 			elif system_name == "Darwin":
@@ -160,6 +174,8 @@ def main(args):
 			#first we retrieve the current selected serial port
 			_serial_port = _combobox_serial_ports.currentText()
 			append_to_console("Connection Attempt To: [" + _serial_port+ "]")
+			if(_serial.isOpen):
+				_serial.close()
 			if not _serial.isOpen():
 				try:
 					_serial.port = _serial_port
@@ -271,8 +287,25 @@ def main(args):
 		layout_groupbox_command.addWidget(_list_actions, 1, 0)
 		
 		#the command groupbox has a command text field
-		layout_groupbox_command.addWidget(QLabel("Or type your commands below:"), 0,1)
+		
 		_text_command = QTextEdit()
+		
+				
+		def _text_command_text_changed():
+			current_text = _text_command.toPlainText()
+			if current_text.endswith("\n"):
+				append_to_console(current_text)
+				_text_command.clear()
+				send_to_serial(current_text)
+				
+		
+
+		_text_command.textChanged.connect(_text_command_text_changed)
+
+		layout_groupbox_command.addWidget(QLabel("Or type your commands below:"), 0,1)
+		
+		
+
 		layout_groupbox_command.addWidget(_text_command, 1,1)
 		
 		_layout_central_widget.addStretch()
