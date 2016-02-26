@@ -4,15 +4,17 @@
 --
 -- (c) 2016 David Lyon
 ----------------------------------------------------------------
-print("clixx.io RGB LED Colour Cycling Example (c) 2016 clixx.io Pty Limited" )
+print("clixx.io RGB LED Colour Cycling Example (c) 2016 clixx.io Pty Limited")
+port = 80
 
 coloridx=1
 numcolors=0
 colorvals = {
              -- R & G & B
-             {0,255,255},
-             {255,255,0},
-             {255,0,255},
+             {0,0,0},
+             {0,0,255},
+             {0,255,0},
+             {255,0,0},
              {0,0,0},
 
              -- Blue's
@@ -70,6 +72,22 @@ colorvals = {
             }
 
 for _ in pairs(colorvals) do numcolors = numcolors + 1 end
+
+srv=net.createServer(net.TCP)
+srv:listen(port,
+     function(conn)
+          conn:send("HTTP/1.1 200 OK\nContent-Type: text/html\nRefresh: 5\n\n" ..
+              "<!DOCTYPE HTML>" ..
+              "<html><body>" ..
+              "<h1>ESP8266</h1><h2>RGB Color Cycling</h2></br>" ..
+              "Node ChipID : " .. node.chipid() .. "<br>" ..
+              "Node MAC : " .. wifi.sta.getmac() .. "<br>" ..
+              "Node Heap : " .. node.heap() .. "<br>" ..
+              "Timer Ticks : " .. tmr.now() .. "<br>" ..
+              "</p></html></body>")          
+          conn:on("sent",function(conn) conn:close() end)
+     end
+)
 
 -- This timer loop cycles through the list of colours
 tmr.alarm(0,1000,1,function()
