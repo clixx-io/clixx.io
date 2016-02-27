@@ -16,7 +16,6 @@ port = 80
 gpio_0i, gpio_0o = 4,3
 
 coloridx=1
-numcolors=0
 colorvals = {
              -- Blue's
              {0,131,215},
@@ -57,16 +56,18 @@ colorvals = {
              {255,0,0},
     }
 
+numcolors = #colorvals
+
 tempmappings = {
              -- A temperature threshold then an index into the rgb-table
              {-3,1},
              {0,3},
              {5,6},           
-             {10,21},         
+             {10,7},         
              {15,23},
              {20,25},         
-             {25,26},     
-             {30,27},     
+             {25,22},     
+             {30,21},     
              {35,28},     
              {40,29},     
      }            
@@ -91,8 +92,6 @@ srv:listen(port,
           conn:on("sent",function(conn) conn:close() end)
      end
 )
-
-for _ in pairs(colorvals) do numcolors = numcolors + 1 end;
 
 -- This timer loop displays a colour by it's index in the temperature table
 tmr.alarm(0,1000,1,function()
