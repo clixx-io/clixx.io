@@ -8,3 +8,4 @@ in and then send the appropriate LUA command and you will have colours.
 Here we use a strip of twelve boards connected end to end and send the LUA
 commands on startup to activate them into a strip.
 
+To use this example, upload the init.lua script to the ESP8266 and reboot. 
