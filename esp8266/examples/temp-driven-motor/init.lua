@@ -15,6 +15,10 @@ port = 80
 -- ESP-01 GPIO Mapping
 gpio_0i, gpio_0o = 4,3
 
+
+orv = 0
+mappingmarkup = ""
+
 pwm.setup(gpio_0o, 500, 512)
 pwm.start(gpio_0o)
 
@@ -27,8 +31,16 @@ tempmappings = {
              {25,500},     
              {30,600},     
              {35,800},     
-             {40,1024},     
+             {40,1023},     
      }            
+
+-- Generate a Table showing the current temperature thresholds
+mappingmarkup = "<br/><table border=\"1\" style=\"width:35%\"><caption>Temperature Run Settings</caption>"
+mappingmarkup = mappingmarkup .. "<tr><th>Temperature</th><th>PWM Value 0-1023</th></tr>"
+for k,v in pairs(tempmappings) do
+     mappingmarkup = mappingmarkup .. "<tr>" .. "<td>" .. v[1] .. "</td><td>" .. v[2] .. "</td></tr>"
+     end
+mappingmarkup = mappingmarkup .. "</table>"
 
 ds18b20.setup(gpio_0i)
 
@@ -40,12 +52,13 @@ srv:listen(port,
           conn:send("HTTP/1.1 200 OK\nContent-Type: text/html\nRefresh: 5\n\n" ..
               "<!DOCTYPE HTML>" ..
               "<html><body>" ..
-              "<b>ESP8266</b></br>" ..
+              "<h2>Clixx.io Temperature to PWM Controller</h2></br>" ..
               "Temperature : " .. ds18b20.read() .. "<br>" ..
-              "Node ChipID : " .. node.chipid() .. "<br>" ..
+              "Current PWM Run Value : " .. orv .. "<br>" ..
               "Node MAC : " .. wifi.sta.getmac() .. "<br>" ..
               "Node Heap : " .. node.heap() .. "<br>" ..
               "Timer Ticks : " .. tmr.now() .. "<br>" ..
+              mappingmarkup ..
               "</html></body>")          
           conn:on("sent",function(conn) conn:close() end)
      end
@@ -62,8 +75,8 @@ tmr.alarm(0,1000,1,function()
      
   for k,v in pairs(tempmappings) do
       if t < v[1] then
-          print(v[2])
-          pwm.setduty(gpio_0o, v[2])
+          orv = v[2]
+          pwm.setduty(gpio_0o, orv)
           return end
   end
   
