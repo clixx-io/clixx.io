@@ -2,7 +2,7 @@
 --
 -- Clixx.IO 
 --
--- Drive a DC-Motor based based on temperature
+-- Change Colour on a WS2812 RGBLED based on temperature
 --
 -- (c) 2016 David Lyon
 --
@@ -15,24 +15,66 @@ port = 80
 -- ESP-01 GPIO Mapping
 gpio_0i, gpio_0o = 4,3
 
-pwm.setup(gpio_0o, 500, 512)
-pwm.start(gpio_0o)
+coloridx=1
+colorvals = {
+             -- Blue's
+             {0,131,215},
+             {0,153,255},
+             {0,102,204},     -- darker with more blue again
+             {0,51,153},      -- darker with more blue
+             {62,154,222},
+             {51,51,102},     -- Brighter Cyan
+
+             -- Green Group
+             {0,5,10},
+             {0,10,10},
+             {0,25,10},
+             {0,255,40},
+             {0,255,30},
+             {0,255,20},
+             {10,255,20},
+             {20,255,20},
+             {30,255,20},
+             {0,86,10},
+             {0,102,0},
+             {0,153,0},
+             {0,202,0},
+             {0,255,0},
+
+             -- Pinks
+             {255,153,51},
+             {255,121,75},
+             {255,219,157},
+             {255,204,102},
+             {255,255,153},
+
+             -- Orange Group
+             {153,102,0},     -- Lime Yellow
+             {204,153,0},     -- Yellow Orange
+             {255,204,0}, 
+             {255,51,0},
+             {255,0,0},
+    }
+
+numcolors = #colorvals
 
 tempmappings = {
-             -- A temperature threshold then a PWM value for the output port
-             {0,0},
-             {10,200},         
-             {15,300},
-             {20,400},         
-             {25,500},     
-             {30,600},     
-             {35,800},     
-             {40,1024},     
+             -- A temperature threshold then an index into the rgb-table
+             {-3,1},
+             {0,3},
+             {5,6},           
+             {10,7},         
+             {15,23},
+             {20,25},         
+             {25,22},     
+             {30,21},     
+             {35,28},     
+             {40,29},     
      }            
 
 ds18b20.setup(gpio_0i)
 
-print("clixx.io Temperature Controlled Motor")
+print("clixx.io RGB Temperature Controlled LED")
 
 srv=net.createServer(net.TCP)
 srv:listen(port,
@@ -55,6 +97,7 @@ srv:listen(port,
 tmr.alarm(0,1000,1,function()
   local tempindex = 1;
   local t = ds18b20.read();
+  local ci = 0
   if (t == nil) then
      -- If there's no temp sensor, try setting it up again for next time
      ds18b20.setup(gpio_0i)
@@ -62,8 +105,8 @@ tmr.alarm(0,1000,1,function()
      
   for k,v in pairs(tempmappings) do
       if t < v[1] then
-          print(v[2])
-          pwm.setduty(gpio_0o, v[2])
+          ci = v[2]
+          ws2812.writergb(gpio_0o, string.char(colorvals[ci][1],colorvals[ci][2],colorvals[ci][3]));
           return end
   end
   
