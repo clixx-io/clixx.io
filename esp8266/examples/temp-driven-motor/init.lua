@@ -16,6 +16,7 @@ port = 80
 
 gpio_0i, gpio_0o = 4,3   -- ESP-01 GPIO Mapping
 orv = 0                  -- PWM Pin Output value
+activelow = 1
 
 ds18b20.setup(gpio_0i)
 
@@ -73,6 +74,8 @@ srv:listen(port,
 tmr.alarm(0,1000,1,function()
   local tempindex = 1;
   local t = ds18b20.read();
+  local pwmdc
+  
   if (t == nil) then
      -- If there's no temp sensor, try setting it up again for next time
      ds18b20.setup(gpio_0i)
@@ -81,8 +84,9 @@ tmr.alarm(0,1000,1,function()
      -- Convert a temperature to a PWM value using the lookup table
      for k,v in pairs(tempmappings) do
            if t < v[1] then
+               if (activelow) then pwmdc = 1023 - orv else pwmdc = orv end
                orv = v[2]
-               pwm.setduty(gpio_0o, orv)
+               pwm.setduty(gpio_0o, pwmdc)
                return end
        end
   
