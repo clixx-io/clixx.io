@@ -12,8 +12,7 @@ require('ds18b20')
 
 port = 80
 
--- ESP-01 GPIO Mapping
-gpio_0i, gpio_0o = 4,3
+gpio_0i, gpio_0o = 4,3        -- ESP-01 GPIO Mapping
 
 coloridx=1
 colorvals = {
@@ -76,6 +75,23 @@ ds18b20.setup(gpio_0i)
 
 print("clixx.io RGB Temperature Controlled LED")
 
+function statusReportHtml()
+     -- Generate a Table showing the current temperature thresholds
+     local mappingmarkup
+     
+     mappingmarkup = "<br/><table border=\"1\" style=\"width:35%\"><caption>Temperature Run Settings</caption>"
+     mappingmarkup = mappingmarkup .. "<tr><th>Temperature</th><th>Color Index</th></tr>"
+     for k,v in pairs(tempmappings) do
+          if (v[2] == coloridx) then
+               mappingmarkup = mappingmarkup .. "<tr bgcolor=\"#1E88E5\">" .. "<td>" .. v[1] .. "</td><td>" .. v[2] .. "</td></tr>"
+          else
+               mappingmarkup = mappingmarkup .. "<tr>" .. "<td>" .. v[1] .. "</td><td>" .. v[2] .. "</td></tr>"
+               end     
+          end
+     mappingmarkup = mappingmarkup .. "</table>"
+     return mappingmarkup 
+     end
+
 srv=net.createServer(net.TCP)
 srv:listen(port,
      function(conn)
@@ -88,6 +104,7 @@ srv:listen(port,
               "Node MAC : " .. wifi.sta.getmac() .. "<br>" ..
               "Node Heap : " .. node.heap() .. "<br>" ..
               "Timer Ticks : " .. tmr.now() .. "<br>" ..
+              statusReportHtml() ..
               "</html></body>")          
           conn:on("sent",function(conn) conn:close() end)
      end
@@ -107,6 +124,7 @@ tmr.alarm(0,1000,1,function()
       if t < v[1] then
           ci = v[2]
           ws2812.writergb(gpio_0o, string.char(colorvals[ci][1],colorvals[ci][2],colorvals[ci][3]));
+          coloridx = ci
           return end
   end
   
