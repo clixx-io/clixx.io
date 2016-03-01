@@ -98,7 +98,7 @@ srv:listen(port,
           conn:send("HTTP/1.1 200 OK\nContent-Type: text/html\nRefresh: 5\n\n" ..
               "<!DOCTYPE HTML>" ..
               "<html><body>" ..
-              "<b>ESP8266</b></br>" ..
+              "<h2>Clixx.io Simple Thermo-RGB-LED Controller</h2></br>" ..
               "Temperature : " .. ds18b20.read() .. "<br>" ..
               "Node ChipID : " .. node.chipid() .. "<br>" ..
               "Node MAC : " .. wifi.sta.getmac() .. "<br>" ..
