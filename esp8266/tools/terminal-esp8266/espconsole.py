@@ -75,7 +75,7 @@ def main(args):
 			_serial.write(_bytes)
 			print len(_bytes), _bytes
 		except serial.SerialException as e:
-			append_to_console(e)
+			append_to_console(repr(e))
 			
 	def write():
 		#print 'NEW DATA?',se.readAll().decode("utf-8")
@@ -260,7 +260,7 @@ def main(args):
 		
 		_groupbox_console = QGroupBox("Device Console")
 		_layout_central_widget.addWidget(_groupbox_console)
-		layout_groupbox_console = QHBoxLayout()
+		layout_groupbox_console = QVBoxLayout()
 		_groupbox_console.setLayout(layout_groupbox_console)
 		
 		#the console groupbox has a console text field
@@ -270,59 +270,132 @@ def main(args):
 		_text_console.setStyleSheet("QTextEdit {color:green;  background-color: black;  }");
 		layout_groupbox_console.addWidget(_text_console)
 		
-		_layout_central_widget.addStretch()
+		#_layout_central_widget.addStretch()
+
+		#the console groupbox has a command input field
+
+		_text_command_input = QLineEdit()
+		_text_command_input.setPlaceholderText("Type a command here and press Enter")
+		layout_groupbox_console.addWidget(_text_command_input)
+
+
+		#the console groupbox has a history combobox
 		
+		_combobox_history = QComboBox()
+		_combobox_history.addItem("Command History")
+		layout_groupbox_console.addWidget(_combobox_history)
+
+		def _combobox_history_currentIndexChanged(currentIndex):
+			if(currentIndex == 0):
+				return
+			_text_command_input.setText(_combobox_history.currentText())
+			_combobox_history.setCurrentIndex(0)
+			_text_command_input.setFocus()
+		
+			
+		_combobox_history.currentIndexChanged.connect(_combobox_history_currentIndexChanged)
+		
+
+
+		#the console groupbox has a quick actions combobox
+		
+		_combobox_actions = QComboBox()
+		_combobox_actions.addItem("Quick Actions")
+		_combobox_actions.addItem("Upload Project ...")
+
+		_quick_actions = {}
+		_quick_actions["restart -- reboot the module"] = "restart"
+		_quick_actions["show ip -- show ip address"] = "show ip"
+		_quick_actions["list ap -- list access points"] = "list ap"
+		_quick_actions["flash firmware"] = "flash firmware"
+		for _action in sorted(_quick_actions):
+			_combobox_actions.addItem(_action)
+
+
+		def _combobox_actions_currentIndexChanged(currentIndex):
+			if(currentIndex == 0):
+				return
+			if(currentIndex == 1):
+				_combobox_actions.setCurrentIndex(0)
+				msgBox = QMessageBox()
+				msgBox.setText("TODO::UPLOAD Project Dialog")
+				msgBox.exec_()
+				return
+			_text_command_input.setText(_quick_actions[_combobox_actions.currentText()])
+			_combobox_actions.setCurrentIndex(0)
+			_text_command_input.setFocus()
+		
+			
+		_combobox_actions.currentIndexChanged.connect(_combobox_actions_currentIndexChanged)
+			
+		layout_groupbox_console.addWidget(_combobox_actions)
+
+		#let's process events for our text_command_input
+
+		def _text_command_input_returnPressed():
+			current_text = _text_command_input.text()
+			if len(current_text) > 0:
+				append_to_console("> " +current_text)
+				_text_command_input.clear()
+				_combobox_history.insertItem(1,current_text)
+				send_to_serial(current_text)
+
+				
+		
+		_text_command_input.returnPressed.connect(_text_command_input_returnPressed)
+
+
 		
 		###
 		###Let's add the command groupbox
 		###
 		
-		_groupbox_command = QGroupBox("Command Center")
-		_layout_central_widget.addWidget(_groupbox_command)
-		layout_groupbox_command = QGridLayout()
-		_groupbox_command.setLayout(layout_groupbox_command)
+		# _groupbox_command = QGroupBox("Command Center")
+		# _layout_central_widget.addWidget(_groupbox_command)
+		# layout_groupbox_command = QGridLayout()
+		# _groupbox_command.setLayout(layout_groupbox_command)
 		
-		#The command groupbox has a quick actions section
-		layout_groupbox_command.addWidget(QLabel("Select a Quick Action below:"), 0, 0)
-		_list_actions = QListWidget()
+		# #The command groupbox has a quick actions section
+		# layout_groupbox_command.addWidget(QLabel("Select a Quick Action below:"), 0, 0)
+		# _list_actions = QListWidget()
 		
-		def _list_actions_currentTextChanged(currentText):
-			append_to_console(currentText)
+		# def _list_actions_currentTextChanged(currentText):
+		# 	append_to_console(currentText)
 			
-		_list_actions.currentTextChanged.connect(_list_actions_currentTextChanged)
+		# _list_actions.currentTextChanged.connect(_list_actions_currentTextChanged)
 		
-		_actions = ["restart", "show ip", "list ap", "flash firmware", "upload project"]
+		# _actions = ["restart", "show ip", "list ap", "flash firmware", "upload project"]
 		
-		for _action in _actions:
-			_list_actions.addItem(_action)
+		# for _action in _actions:
+		# 	_list_actions.addItem(_action)
 			
 
 		
-		layout_groupbox_command.addWidget(_list_actions, 1, 0)
+		# layout_groupbox_command.addWidget(_list_actions, 1, 0)
 		
-		#the command groupbox has a command text field
+		# #the command groupbox has a command text field
 		
-		_text_command = QTextEdit()
+		# _text_command = QTextEdit()
 		
 				
-		def _text_command_text_changed():
-			current_text = _text_command.toPlainText()
-			if current_text.endswith("\n"):
-				append_to_console(current_text)
-				_text_command.clear()
-				send_to_serial(current_text)
+		# def _text_command_text_changed():
+		# 	current_text = _text_command.toPlainText()
+		# 	if current_text.endswith("\n"):
+		# 		append_to_console(current_text)
+		# 		_text_command.clear()
+		# 		send_to_serial(current_text)
 				
 		
 
-		_text_command.textChanged.connect(_text_command_text_changed)
+		# _text_command.textChanged.connect(_text_command_text_changed)
 
-		layout_groupbox_command.addWidget(QLabel("Or type your commands below:"), 0,1)
+		# layout_groupbox_command.addWidget(QLabel("Or type your commands below:"), 0,1)
 		
 		
 
-		layout_groupbox_command.addWidget(_text_command, 1,1)
+		# layout_groupbox_command.addWidget(_text_command, 1,1)
 		
-		_layout_central_widget.addStretch()
+		# #_layout_central_widget.addStretch()
 	
 		
 	def _serial_events_readyRead():
