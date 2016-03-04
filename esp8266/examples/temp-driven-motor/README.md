@@ -18,3 +18,30 @@ A simple Web Interface is also provided so it's possible to access the device
 by wifi to read the interface and see what it's doing.
 
 To use this example, upload the init.lua script to the ESP8266 and reboot. 
+
+
+| Temperature   | PWM Value    |
+| ------------- |:------------:|
+| 0             | 0            | 
+| 10            | 200          | 
+| 15            | 300          | 
+| 20            | 400          | 
+| 25            | 500          | 
+| 30            | 600          | 
+| 35            | 800          | 
+| 40            | 1023         | 
+
+To modify the PWM values, you need to modify this table in init.lua:
+
+```lua
+tempmappings = {
+             {0,0},
+             {10,200},         
+             {15,300},
+             {20,400},         
+             {25,500},     
+             {30,600},     
+             {35,800},     
+             {40,1023},     
+     }            
+```
