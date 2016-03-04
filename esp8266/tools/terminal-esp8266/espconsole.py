@@ -58,6 +58,7 @@ def main(args):
 		_serial.write('wifi.sta.connect()\n')
 		#print 'status\n', se.readAll().decode("utf-8")
 
+	#TO_DELETE
 	def sendStr():
 		t = str(sendtext.toPlainText()+'\n')
 		print "Text=",t
@@ -72,6 +73,7 @@ def main(args):
 		try:
 			_bytes = string_to_send.encode('utf-8')
 			_serial.write(_bytes)
+			print len(_bytes), _bytes
 		except serial.SerialException as e:
 			append_to_console(e)
 			
@@ -173,16 +175,28 @@ def main(args):
 		def _button_connect_clicked():
 			#first we retrieve the current selected serial port
 			_serial_port = _combobox_serial_ports.currentText()
-			append_to_console("Connection Attempt To: [" + _serial_port+ "]")
-			if(_serial.isOpen):
+			_button_connect.setText("Connect")
+			_combobox_serial_ports.setEnabled(True)
+
+
+			if(_serial.isOpen()):
+				append_to_console("Disconnecting : " + _serial_port)
+				_window.statusBar().showMessage(" ")
 				_serial.close()
+				append_to_console("Disconnected : " + _serial_port)
+				return
+
+
 			if not _serial.isOpen():
 				try:
 					_serial.port = _serial_port
+					append_to_console("Connection Attempt To: [" + _serial_port+ "]")
 					_serial.open()
 					_window.statusBar().showMessage("Connected To: " + _serial_port)
 					append_to_console("Connected To: " + _serial_port)
 					_current_serial_port = _serial_port
+					_button_connect.setText("Disconnect")
+					_combobox_serial_ports.setEnabled(False)
 				except (OSError, IOError) as e:
 					_error = "I/O error({0}): {1}".format(e.errno, e.strerror)
 					append_to_console(_error);
