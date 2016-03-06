@@ -264,6 +264,50 @@ class clixxIOProjectRepository():
         with zipfile.ZipFile(projectfile, "r") as z:
             z.extractall(clixxIOProjectDir())
 
+    def AddProject(self, projectname, projecttype=None):
+        """
+        Add a Project Directory to the system.
+
+        These are typically directories stored in the IoT directory
+        """
+        global IoTProjectDirSuffix
+                                    
+        IoTdir = os.path.join(GetUserDir(),
+                              IoTProjectDirSuffix,
+                              projectname)
+        if not os.path.exists(IoTdir):
+            os.makedirs(IoTdir)
+                                            
+        p = clixxIOProject(projectname)
+        if (projecttype is not None):
+            p.setConfig(projectname, 'project_type', projecttype)
+	    p.writeConfig()
+            return
+
+    def RemoveProject(self, projectname):
+        """
+        Removes a projects maintained by the system.
+
+        A project is typically one directory stored in the IoT directory
+        which can be deleted by recursively deleting it.
+        """
+        shutil.rmtree(os.path.join(clixxIOProjectDir(), projectname))
+        return
+
+    def List(self):
+    	"""
+    	Return the names of all projects maintained by the system.
+
+    	These are typically directories stored in the IoT directory
+    	"""
+    	IoTdir = os.path.join(GetUserDir(), IoTProjectDirSuffix, '*')
+
+    	projects = []
+    	projectdirs = glob.glob(IoTdir)
+    	for d in projectdirs:
+    	    if (os.path.basename(d) != 'libraries') and (os.path.basename(d) != clixxIOLogName) and (os.path.basename(d) != clixxIOConfigName):
+    			projects.append(os.path.basename(d))
+    	return projects
 
 def clixxIOProjectDir(projectname=None):
     """
@@ -287,39 +331,6 @@ def clixxIOSystemLogFile():
     global IoTProjectDirSuffix, clixxIOLogName
     
     return os.path.join(GetUserDir(), IoTProjectDirSuffix, clixxIOLogName)
-
-
-def clixxIOAddProject(projectname,projecttype=None,projectoptions=None):
-    """
-    Add a Project Directory to the system.
-
-    These are typically directories stored in the IoT directory
-    """
-    global IoTProjectDirSuffix
-    
-    IoTdir = os.path.join(
-        GetUserDir(),
-        IoTProjectDirSuffix,
-        projectname)
-    if not os.path.exists(IoTdir):
-        os.makedirs(IoTdir)
-        
-    p = clixxIOProject(projectname)
-    if projecttype:
-        p.setConfig(projectname, 'project_type', projecttype)
-       
-    return
-
-
-def clixxIORemoveProject(projectname):
-    """
-    Removes a projects maintained by the system.
-
-    A project is typically one directory stored in the IoT directory
-    which can be deleted by recursively deleting it.
-    """
-    shutil.rmtree(os.path.join(clixxIOProjectDir(), projectname))
-    return
 
 
 def clixxIOListProjects():

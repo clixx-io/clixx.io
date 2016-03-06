@@ -55,7 +55,7 @@ if __name__ == "__main__":
    
     args = parser.parse_args()
 
-    projects = clixxIOListProjects()
+    projects = clixxIOProjectRepository()
     
     if args.operation[0]=="list":
         
@@ -64,7 +64,7 @@ if __name__ == "__main__":
             types = clixxIOListProjectbyType()
             statuses = clixxIOListProjectbyStatus()
             
-            for p in projects:
+            for p in projects.List():
                 print("%s %s %s" % ('{:25}'.format(p),'{:<26}'.format(types[p]),'{:<26}'.format(statuses[p])))
                 
         else:
@@ -191,7 +191,7 @@ if __name__ == "__main__":
             
             print("Creating new project %s for %s" % (projname,projtype))
             
-            sys.exit(clixxIOAddProject(projname,projtype))
+            sys.exit(projects.AddProject(projname,projtype))
             
         else:
             print("Unrecognised option %s" % args.operation[1])
@@ -200,9 +200,9 @@ if __name__ == "__main__":
     elif args.operation[0]=="remove":
 
         # Add a new project
-        if args.operation[1] in projects:
+        if args.operation[1] in projects.List():
             print("Removing project")
-            sys.exit(clixxIORemoveProject(args.operation[1]))
+            sys.exit(projects.RemoveProject(args.operation[1]))
         else:
             print("Invalid Project name %s. This project does not exist." % args.operation[1])
             
