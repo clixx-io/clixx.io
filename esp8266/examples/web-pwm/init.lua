@@ -25,18 +25,23 @@ srv:listen(80,function(conn)
                 print(k,'=',v);
             end 
         end
-        buf = buf.."<h1>ESP8266 IoT Device</h1>";
+        buf = buf.."<h1>Clixx.io ESP8266 Web PWM Device</h1>";
         buf = buf.."<form src=\"/\">";
         buf = buf.."PWM Value (0-1023):<br>";
-        buf = buf.."<input type=\"text\" name=\"pwmvalue\"><br>";
+        buf = buf.."<input type=\"text\" name=\"pwmvalue\" value=\"1023\"><br>";
 --      buf = buf.."Time to run (Seconds):<br>";
 --      buf = buf.."<input type=\"text\" name=\"runtime\"><br>";
         buf = buf.."<br>Turn Digital Output Pin (gpio4) <select name=\"pin\" onchange=\"form.submit()\">";
         local _on,_off = "",""
         if(_GET.pin == "ON")then
               _on = " selected=true";
-              pwm.setup(d1_output, 1000, tonumber(_GET.pwmvalue))
-              pwm.start(d1_output)
+              if (_GET.pwmvalue == "") then
+                  gpio.mode(d1_output, gpio.OUTPUT)
+                  gpio.write(d1_output,gpio.HIGH)
+              else    
+                  pwm.setup(d1_output, 1000, tonumber(_GET.pwmvalue))
+                  pwm.start(d1_output)
+                  end
         elseif(_GET.pin == "OFF")then
               _off = " selected=\"false\"";
               pwm.close(d1_output)
@@ -44,7 +49,7 @@ srv:listen(80,function(conn)
               gpio.mode(d1_output, gpio.OUTPUT)
               gpio.write(d1_output,gpio.LOW)
         end
-        buf = buf.."<option".._on..">ON</opton><option".._off..">OFF</option></select><br><br>";
+        buf = buf.."<option".._off..">OFF</opton><option".._on..">ON</option></select><br><br>";
         buf = buf.."</form>";
         client:send(buf);
         client:close();
