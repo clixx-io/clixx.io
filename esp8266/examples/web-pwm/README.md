@@ -13,6 +13,8 @@ access it via your web browser.
 
 This example can be used to variably control lighting or DC-Motors remotely.
 
+### Controlling the Device from the Command-Line over the Network ##
+
 You can use the popular command wget to control the device over the command line:
 
 To Turn the motor on:
