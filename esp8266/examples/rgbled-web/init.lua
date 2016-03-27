@@ -98,9 +98,7 @@ srv:listen(port,
                  end 
              end
 
-             local r = 180
-             local g = 80
-             local b = 180
+             local r,g,b = 50,0,20
              if _GET.r ~= "" then r = tonumber(_GET.r) end
              if _GET.g ~= "" then g = tonumber(_GET.g) end
              if _GET.b ~= "" then b = tonumber(_GET.b) end
