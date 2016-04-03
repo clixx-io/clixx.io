@@ -1,0 +1,46 @@
+require('ds18b20')
+
+-- Configuration to connect to the MQTT broker.
+BROKER = "192.168.0.2"    -- Ip/hostname of MQTT broker
+BRPORT = 1883             -- MQTT broker port
+BRUSER = "user"           -- If MQTT authenitcation is used then define the user
+BRPWD  = "pwd"            -- The above user password
+CLIENTID = "ESP8266-" ..  node.chipid() -- The MQTT ID. Change to something you like
+TXINTVLMS = 10000         -- Transmission interval in Miliseconds
+
+-- Control variables.
+gpio_0i, gpio_0o = 4,3        -- ESP-01 GPIO Mapping
+pub_sem = 0               -- MQTT Publish semaphore. Stops the publishing whne the previous hasn't ended
+
+-- Initialise the Temperature Sensor
+ds18b20.setup(gpio_0i)
+
+tmr.alarm(1, 1500, 1, function()
+    if wifi.sta.getip()== nil then
+        print("IP unavaiable, Waiting...")
+        -- Turn On the LED to show the system is operational
+        ws2812.writergb(3, string.char(200,10,10))
+    else
+        tmr.stop(1)
+        print("ESP8266 mode is: " .. wifi.getmode())
+        print("The module MAC address is: " .. wifi.ap.getmac())
+        print("Config done, IP is "..wifi.sta.getip())
+        -- Connect to the broker
+        ws2812.writergb(3, string.char(20,180,180))
+     
+        print "Connecting to MQTT broker. Please wait..."
+        m = mqtt.Client( CLIENTID, 120, BRUSER, BRPWD)
+        m:connect( BROKER , BRPORT, 0, function(conn)
+            print("Connected to MQTT:" .. BROKER .. ":" .. BRPORT .." as " .. CLIENTID )
+            tmr.alarm(2, TXINTVLMS, 1, function()
+                 local d = ds18b20.read()
+                 m:publish("/rgbled/cmd/temperature",d,0,0, function(conn) 
+                    -- Callback function. We've sent the data
+                    print("Data sent: " .. d)
+                 end)
+            end)
+        end)
+    
+     end
+ end)
+
