@@ -27,6 +27,8 @@ m:on("offline", function(m)
      ws2812.writergb(3, COLOR_CONNECTBROKER)
      print ("\n\nDisconnected from broker")
      print("Heap: ", node.heap())
+     -- Reset the unit and try to reconnect
+     node.reset()
 end)
 
 
