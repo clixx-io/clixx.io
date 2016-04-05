@@ -1,20 +1,19 @@
 require('ds18b20')
 
 -- Configuration to connect to the MQTT broker.
-BROKER = "192.168.0.2"    -- Ip/hostname of MQTT broker
-BRPORT = 1883             -- MQTT broker port
-BRUSER = "user"           -- If MQTT authenitcation is used then define the user
-BRPWD  = "pwd"            -- The above user password
-CLIENTID = "ESP8266-" ..  node.chipid() -- The MQTT ID. Change to something you like
-TXINTVLMS = 10000         -- Transmission interval in Miliseconds
+BROKER = "test.mosquitto.org"               -- Ip/hostname of MQTT broker
+BRPORT = 1883                               -- MQTT broker port
+BRUSER = ""                                 -- If MQTT authenitcation is used then define the user
+BRPWD  = ""                                 -- The above user password
+CLIENTID = "ESP8266-" ..  node.chipid()     -- The MQTT ID. Change to something you like
+TXINTVLMS = 10000                           -- Transmission interval in Miliseconds
 COLOR_NOWIFI = string.char(200,10,10)
 COLOR_CONNECTBROKER = string.char(20,120,80)
 COLOR_ONLINE = string.char(0,220,220)
-MQTT_CHANNEL = "/clixx.io/temperature"
+MQTT_CHANNEL = "/clixx.io/temperature"      -- Channel Topic
 
 -- Control variables.
-gpio_0i, gpio_0o = 4,3        -- ESP-01 GPIO Mapping
-pub_sem = 0               -- MQTT Publish semaphore. Stops the publishing whne the previous hasn't ended
+gpio_0i, gpio_0o = 4,3                      -- ESP-01 GPIO Mapping
 
 -- Initialise the Temperature Sensor
 ds18b20.setup(gpio_0i)
@@ -66,7 +65,6 @@ tmr.alarm(1, 1500, 1, function()
                 end
             end)
         end)
-    
      end
  end)
 
