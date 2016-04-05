@@ -10,6 +10,7 @@ TXINTVLMS = 10000         -- Transmission interval in Miliseconds
 COLOR_NOWIFI = string.char(200,10,10)
 COLOR_CONNECTBROKER = string.char(20,120,80)
 COLOR_ONLINE = string.char(0,220,220)
+MQTT_CHANNEL = "/clixx.io/temperature"
 
 -- Control variables.
 gpio_0i, gpio_0o = 4,3        -- ESP-01 GPIO Mapping
@@ -20,7 +21,7 @@ ds18b20.setup(gpio_0i)
 
 -- Create an MQTT Object
 m = mqtt.Client( CLIENTID, 120, BRUSER, BRPWD)
-
+MQTT_CHANNEL = MQTT_CHANNEL .. '/' .. CLIENTID
 
 -- When client disconnects, print a message and list space left on stack
 m:on("offline", function(m)
@@ -56,7 +57,7 @@ tmr.alarm(1, 1500, 1, function()
                 ok, json = pcall(cjson.encode, {temp_c=t})
                 if ok then
                   d = json
-                  m:publish("/rgbled/cmd/temperature",d,0,0, function(conn) 
+                  m:publish(MQTT_CHANNEL,d,0,0, function(conn) 
                     -- Callback function. We've sent the data
                     print("Data sent: " .. d)
                   end)
