@@ -30,6 +30,8 @@ def main(args):
 	
 	_text_console = None
 	
+	_command_results = []
+	
 	#TODO
 	def readChipID():
 		_serial.write("print(node.chipid())\n")
@@ -40,17 +42,17 @@ def main(args):
 	#TODO
 	def list_accesspoints():
 		""" This function will print out the Access-Point list """
-		_access_points = ['wifi.setmode(wifi.STATION)\n',
-                  "function listap(t)\n",
-                  "  for k,v in pairs(t) do\n",
-                  "    print(k..\" : \"..v)\n",
-                  "  end\n",
-                  "end\n",
-                  "print('***Wifi Networks:***')\n",
-                  "wifi.sta.getap(listap)\n"]
-		for _access_point in _access_points:
-			_serial.write(_access_point)
-			sleep(.5)
+		_access_point_cmd = "wifi.setmode(wifi.STATION)\n'," \
+							"function listap(t)\n" \
+							"  for k,v in pairs(t) do\\n" \
+							"    print(k..\\\" : \\\"..v)\\n" \
+							"  end\\n" \
+							"end\\n" \
+							"print('***Wifi Networks:***')\\n" \
+							"wifi.sta.getap(listap)\\n"
+		
+		send_to_serial(_access_point_cmd)
+		
 	#TODO
 	def setwifi():
 		_serial.write('wifi.setmode(wifi.STATION)\n')
@@ -58,13 +60,10 @@ def main(args):
 		_serial.write('wifi.sta.connect()\n')
 		#print 'status\n', se.readAll().decode("utf-8")
 
-	#TO_DELETE
-	def sendStr():
-		t = str(sendtext.toPlainText()+'\n')
-		print "Text=",t
-		if len(t)>0:
-			s.write(t)
-			
+    #Send a command to the device
+	def sendCommand(waitfor_list):
+		return
+		
 	def send_to_serial(string_to_send):
 		if len(string_to_send) < 1:
 			return
@@ -73,19 +72,17 @@ def main(args):
 		try:
 			_bytes = string_to_send.encode('utf-8')
 			_serial.write(_bytes)
-			print len(_bytes), _bytes
+			sleep(.1)
+			# print len(_bytes), _bytes
 		except serial.SerialException as e:
 			append_to_console(repr(e))
 			
 	def write():
-		#print 'NEW DATA?',se.readAll().decode("utf-8")
 		textedit.setText(textedit.toPlainText() + _serial_events.readAll().decode("utf-8"))
 		return
 
-	#TODO
 	def restart():
-		textedit.setText("")
-		_serial.write('node.restart()\n')
+		send_to_serial('node.restart()\n')
 	
 	def append_to_console(text):
 		global _text_console
@@ -230,7 +227,7 @@ def main(args):
 		
 		#The wifi groupbox has an SSID QComboBox
 		_combobox_ssid = QComboBox()
-		_combobox_ssid.addItem("Select SSID")
+		_combobox_ssid.addItem("Scan Wifi")
 		_combobox_ssid.addItem("SSID1")
 		_combobox_ssid.addItem("SSID2")
 		layout_groupbox_wifi.addWidget(_combobox_ssid)
@@ -265,7 +262,7 @@ def main(args):
 		
 		#the console groupbox has a console text field
 		_text_console = QTextEdit()
-		_text_console.append("Waiting for connection...")
+		_text_console.append("Not connected.")
 		_text_console.setReadOnly(True)
 		_text_console.setStyleSheet("QTextEdit {color:green;  background-color: black;  }");
 		layout_groupbox_console.addWidget(_text_console)
@@ -273,14 +270,49 @@ def main(args):
 		#_layout_central_widget.addStretch()
 
 		#the console groupbox has a command input field
-
 		_text_command_input = QLineEdit()
 		_text_command_input.setPlaceholderText("Type a command here and press Enter")
 		layout_groupbox_console.addWidget(_text_command_input)
 
 
-		#the console groupbox has a history combobox
+		#the console groupbox has a quick actions combobox
 		
+		_combobox_actions = QComboBox()
+		_combobox_actions.addItem("Quick Actions")
+		_combobox_actions.addItem("Upload Project ...")
+
+		_quick_actions = {}
+		_quick_actions["restart -- reboot the module"] = "node.restart()"
+		_quick_actions["show ip -- show ip address"] = "show ip"
+		_quick_actions["list ap -- list access points"] = "list ap"
+		_quick_actions["flash firmware"] = "flash firmware"
+		for _action in sorted(_quick_actions):
+			_combobox_actions.addItem(_action)
+
+
+		def _combobox_actions_currentIndexChanged(currentIndex):
+			if(currentIndex == 1):
+				restart()
+				return
+			if(currentIndex == 2):
+				_combobox_actions.setCurrentIndex(0)
+				msgBox = QMessageBox()
+				msgBox.setText("TODO::UPLOAD Project Dialog")
+				msgBox.exec_()
+				return
+			if(currentIndex == 3):
+				list_accesspoints()
+				return
+			_text_command_input.setText(_quick_actions[_combobox_actions.currentText()])
+			_combobox_actions.setCurrentIndex(0)
+			_text_command_input.setFocus()
+		
+			
+		_combobox_actions.currentIndexChanged.connect(_combobox_actions_currentIndexChanged)
+			
+		layout_groupbox_console.addWidget(_combobox_actions)
+
+		#the console groupbox has a history combobox
 		_combobox_history = QComboBox()
 		_combobox_history.addItem("Command History")
 		layout_groupbox_console.addWidget(_combobox_history)
@@ -294,41 +326,6 @@ def main(args):
 		
 			
 		_combobox_history.currentIndexChanged.connect(_combobox_history_currentIndexChanged)
-		
-
-
-		#the console groupbox has a quick actions combobox
-		
-		_combobox_actions = QComboBox()
-		_combobox_actions.addItem("Quick Actions")
-		_combobox_actions.addItem("Upload Project ...")
-
-		_quick_actions = {}
-		_quick_actions["restart -- reboot the module"] = "restart"
-		_quick_actions["show ip -- show ip address"] = "show ip"
-		_quick_actions["list ap -- list access points"] = "list ap"
-		_quick_actions["flash firmware"] = "flash firmware"
-		for _action in sorted(_quick_actions):
-			_combobox_actions.addItem(_action)
-
-
-		def _combobox_actions_currentIndexChanged(currentIndex):
-			if(currentIndex == 0):
-				return
-			if(currentIndex == 1):
-				_combobox_actions.setCurrentIndex(0)
-				msgBox = QMessageBox()
-				msgBox.setText("TODO::UPLOAD Project Dialog")
-				msgBox.exec_()
-				return
-			_text_command_input.setText(_quick_actions[_combobox_actions.currentText()])
-			_combobox_actions.setCurrentIndex(0)
-			_text_command_input.setFocus()
-		
-			
-		_combobox_actions.currentIndexChanged.connect(_combobox_actions_currentIndexChanged)
-			
-		layout_groupbox_console.addWidget(_combobox_actions)
 
 		#let's process events for our text_command_input
 
@@ -341,66 +338,13 @@ def main(args):
 				send_to_serial(current_text)
 
 				
-		
+	
 		_text_command_input.returnPressed.connect(_text_command_input_returnPressed)
 
-
-		
-		###
-		###Let's add the command groupbox
-		###
-		
-		# _groupbox_command = QGroupBox("Command Center")
-		# _layout_central_widget.addWidget(_groupbox_command)
-		# layout_groupbox_command = QGridLayout()
-		# _groupbox_command.setLayout(layout_groupbox_command)
-		
-		# #The command groupbox has a quick actions section
-		# layout_groupbox_command.addWidget(QLabel("Select a Quick Action below:"), 0, 0)
-		# _list_actions = QListWidget()
-		
-		# def _list_actions_currentTextChanged(currentText):
-		# 	append_to_console(currentText)
-			
-		# _list_actions.currentTextChanged.connect(_list_actions_currentTextChanged)
-		
-		# _actions = ["restart", "show ip", "list ap", "flash firmware", "upload project"]
-		
-		# for _action in _actions:
-		# 	_list_actions.addItem(_action)
-			
-
-		
-		# layout_groupbox_command.addWidget(_list_actions, 1, 0)
-		
-		# #the command groupbox has a command text field
-		
-		# _text_command = QTextEdit()
-		
-				
-		# def _text_command_text_changed():
-		# 	current_text = _text_command.toPlainText()
-		# 	if current_text.endswith("\n"):
-		# 		append_to_console(current_text)
-		# 		_text_command.clear()
-		# 		send_to_serial(current_text)
-				
-		
-
-		# _text_command.textChanged.connect(_text_command_text_changed)
-
-		# layout_groupbox_command.addWidget(QLabel("Or type your commands below:"), 0,1)
-		
-		
-
-		# layout_groupbox_command.addWidget(_text_command, 1,1)
-		
-		# #_layout_central_widget.addStretch()
-	
 		
 	def _serial_events_readyRead():
-		msg = _serial_events.readAll().decode("utf-8")
-		print "something new in serial port", msg
+		msg = _serial_events.readAll() #.decode("utf-8")
+		# print "Received: ", msg
 		append_to_console(msg)
 		
 		
