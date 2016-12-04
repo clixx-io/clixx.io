@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="http://codemirror.net/lib/codemirror.css">
+    <link rel="stylesheet" href="http://codemirror.net/theme/neat.css">
+    <script src="http://codemirror.net/addon/edit/matchbrackets.js"></script>
+    <script src="http://codemirror.net/lib/codemirror.js"></script>
+    <script src="http://codemirror.net/mode/lua/lua.js"></script>
+{% endblock %}
+{% block body %}
+
+    <div class="app-bar" data-role="appbar">
+        <a class="app-bar-element" href="/">Home</a>
+        <span class="app-bar-divider"></span>
+        <ul class="app-bar-menu">
+    {% for cmd in commands %}
+            <li><a href="">{{ cmd }}</a></li>
+    {% endfor %}
+
+        </ul>
+    </div>
+        
+        <div class="page">
+            <div class="page-header">
+                <div class="page-header-content">
+                <h1>{{ config.name }}</h1>
+                </div>
+            </div>
+
+<div data-role="content">
+
+<h2>Lua Script</h2>
+<form><textarea id="code" name="code" style="display: none;">--[[
+example useless code to show lua syntax highlighting
+this is multiline comment
+]]
+
+function blahblahblah(x)
+
+  local table = {
+    "asd" = 123,
+    "x" = 0.34,  
+  }
+  if x ~= 3 then
+    print( x )
+  elseif x == "string"
+    my_custom_function( 0x34 )
+  else
+    unknown_function( "some string" )
+  end
+
+  --single line comment
+  
+end
+
+function blablabla3()
+
+  for k,v in ipairs( table ) do
+    --abcde..
+    y=[=[
+  x=[[
+      x is a multi line string
+   ]]
+  but its definition is iside a highest level string!
+  ]=]
+    print(" \"\" ")
+
+    s = math.sin( x )
+  end
+
+end
+</textarea>
+    </form>
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        matchBrackets: true,
+        theme: "neat"
+      });
+    </script>
+
+    <p>Loosely based on Franciszek
+    Wawrzak's <a href="http://codemirror.net/1/contrib/lua">CodeMirror
+    1 mode</a>. One configuration parameter is
+    supported, <code>specials</code>, to which you can provide an
+    array of strings to have those identifiers highlighted with
+    the <code>lua-special</code> style.</p>
+    <p><strong>MIME types defined:</strong> <code>text/x-lua</code>.</p>
+
+
+{% if editorfile %}
+{{ editorfile }}
+{% endif %}
+
+</div>
+{% endblock %}
