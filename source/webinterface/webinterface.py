@@ -10,6 +10,48 @@ from clixxIO import *
 
 app = Flask(__name__)
 
+editorlines = """
+--[[
+example useless code to show lua syntax highlighting
+this is multiline comment
+]]
+
+function blahblahblah(x)
+
+  local table = {
+    "asd" = 123,
+    "x" = 0.34,  
+  }
+  if x ~= 3 then
+    print( x )
+  elseif x == "string"
+    my_custom_function( 0x34 )
+  else
+    unknown_function( "some string" )
+  end
+
+  --single line comment
+  
+end
+
+function blablabla3()
+
+  for k,v in ipairs( table ) do
+    --abcde..
+    y=[=[
+  x=[[
+      x is a multi line string
+   ]]
+  but its definition is iside a highest level string!
+  ]=]
+    print(" \"\" ")
+
+    s = math.sin( x )
+  end
+
+end
+"""
+
 @app.route('/')
 def index():
     """ Generate a home page with a list of projects
@@ -121,6 +163,28 @@ def show_project_profile(projectname):
             config['ini_data'] = True
 
         return render_template('project.html',commands = commands,config = config, logfile = logfile_lines, cfgfile = cfgfile_lines)
+
+    else:
+        return 'Project %s is not a valid project.' % projectname
+
+@app.route('/editor/<projectname>')
+def get_project_editor(projectname):
+
+
+    
+    # show the user profile for that user
+    projects = clixxIOListProjects()
+    if projectname in projects:
+		
+        config = {}
+        config['name'] = projectname
+        config['enable_onoff'] = False
+        config['enable_table'] = True
+        config['csv_data'] = False
+        config['log_data'] = False
+        config['ini_data'] = False
+        		
+        return render_template('editor.html',config = config, editorfile = editorlines.split('\n'))
 
     else:
         return 'Project %s is not a valid project.' % projectname
