@@ -181,7 +181,7 @@ if __name__ == "__main__":
             
             if args.operation[3]=="for":
                 
-                allowable_projecttypes = ["python","c++","esp8266"]
+                allowable_projecttypes = ["python","flask","c++","esp8266"]
                 
                 if args.operation[4] in allowable_projecttypes:
                     projtype = args.operation[4]
