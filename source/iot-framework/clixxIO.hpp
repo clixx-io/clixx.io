@@ -39,7 +39,6 @@
 
   #include <unistd.h>
   #include <iostream>
-  #include <mosquittopp.h>
   #include <string>
   #include <sstream>
   #include <errno.h>
@@ -48,6 +47,10 @@
   #include <sys/stat.h>
   #include <fcntl.h>
   #include "Stream.h"
+
+  #if defined(USE_MOSQUITTO)
+    #include <mosquittopp.h>
+  #endif
 
   using namespace std;
 
@@ -147,7 +150,7 @@ extern int serial_feed_close(int tty_fd);
  * IoT Subscriber Class. Inspired by Mosquitto
  *
  * ------------------------------------------------------------------------*/
-#ifdef TARGET_LINUX
+#if defined(USE_MOSQUITTO)
 class ClixxIO_IoTSub : public mosquittopp::mosquittopp 
 #else
 class ClixxIO_IoTSub : public clixxIOSerial
@@ -155,7 +158,7 @@ class ClixxIO_IoTSub : public clixxIOSerial
 {
   public:
 
-    #ifdef TARGET_LINUX
+    #if defined(USE_MOSQUITTO)
     ClixxIO_IoTSub(const char* id);
     ~ClixxIO_IoTSub();
     int connect(const char *host, int port=1883, int keepalive=60, bool clean_session=true);
@@ -175,7 +178,7 @@ class ClixxIO_IoTSub : public clixxIOSerial
     int  _port, _keepalive;
     bool _clean_session;
 
-    #ifdef TARGET_LINUX
+    #if defined(USE_MOSQUITTO)
     uint16_t mid;
 
     void on_connect(int rc);
