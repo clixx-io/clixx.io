@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>A futuristic (Tron-style) ring clock</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  <link href='https://fonts.googleapis.com/css?family=Raleway:600,700' rel='stylesheet' type='text/css'>
+
+<div class="demo">
+    <div class="rings">
+        <div class="h" style="">
+            <input class="knob hour" data-min="0" data-max="1440" data-readOnly="true" data-bgColor="#333" data-fgColor="#508491" data-displayInput=false data-width="500" data-height="500" data-thickness=".25">
+        </div>
+        <div class="m" style="">
+            <input class="knob minute" data-min="0" data-max="3600" data-readOnly="true" data-bgColor="#333" data-fgColor="#90CEDE" data-displayInput=false data-width="350" data-height="350" data-thickness=".4">
+        </div>
+        <div class="s" style="">
+            <input class="knob second" data-min="0" data-max="60000" data-readOnly="true" data-bgColor="#333" data-fgColor="#BFF2FF" data-displayInput=false data-width="194" data-height="194" data-thickness=".2">
+        </div>
+        <div class="clock" style="">
+            <span class="hour"></span>:<span class="minute"></span>:<span class="second"></span>
+        </div>
+    </div>
+</div>
+
+<!-- Dependencies -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
+  
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>
