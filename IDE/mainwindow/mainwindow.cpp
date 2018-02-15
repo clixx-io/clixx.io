@@ -75,10 +75,9 @@
 #include <QDebug>
 
 static const char message[] =
-    "<p><b>Qt Main Window Example</b></p>"
+    "<p><b>Clixx.io Development IDE</b></p>"
 
-    "<p>This is a demonstration of the QMainWindow, QToolBar and "
-    "QDockWidget classes.</p>"
+    "<p>This is the Development IDE for Clixx.io Software.</p>"
 
     "<p>The tool bar and dock widgets can be dragged around and rearranged "
     "using the mouse or via the menu.</p>"
