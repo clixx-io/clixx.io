@@ -99,7 +99,7 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     : QMainWindow(parent, flags)
 {
     setObjectName("MainWindow");
-    setWindowTitle("Qt Main Window Example");
+    setWindowTitle("Clixx.IO Development Environment");
 
     QTextEdit *center = new QTextEdit(this);
     center->setReadOnly(true);
@@ -135,14 +135,18 @@ void MainWindow::setupMenuBar()
 {
     QMenu *menu = menuBar()->addMenu(tr("&File"));
 
-    menu->addAction(tr("Save layout..."), this, &MainWindow::saveLayout);
-    menu->addAction(tr("Load layout..."), this, &MainWindow::loadLayout);
-    menu->addAction(tr("Switch layout direction"),this, &MainWindow::switchLayoutDirection);
+    menu->addAction(tr("New Project.."),this, &MainWindow::switchLayoutDirection);
+    menu->addAction(tr("Load Project.."), this, &MainWindow::loadLayout);
+    menu->addAction(tr("Save layout.."), this, &MainWindow::saveLayout);
 
     menu->addSeparator();
     menu->addAction(tr("&Quit"), this, &QWidget::close);
 
-    mainWindowMenu = menuBar()->addMenu(tr("Main window"));
+    // FileMenu = menuBar()->addMenu(tr("&File"));
+    EditMenu = menuBar()->addMenu(tr("&Edit"));
+    // HelpMenu = menuBar()->addMenu(tr("&Help"));
+
+    mainWindowMenu = menuBar()->addMenu(tr("&Hardware"));
 
     QAction *action = mainWindowMenu->addAction(tr("Animated docks"));
     action->setCheckable(true);
@@ -174,7 +178,7 @@ void MainWindow::setupMenuBar()
     action->setChecked(dockOptions() & GroupedDragging);
     connect(action, &QAction::toggled, this, &MainWindow::setDockOptions);
 
-    QMenu *toolBarMenu = menuBar()->addMenu(tr("Tool bars"));
+    QMenu *toolBarMenu = menuBar()->addMenu(tr("&Software"));
     for (int i = 0; i < toolBars.count(); ++i)
         toolBarMenu->addMenu(toolBars.at(i)->toolbarMenu());
 
@@ -187,7 +191,9 @@ void MainWindow::setupMenuBar()
     connect(action, &QAction::toggled, this, &QMainWindow::setUnifiedTitleAndToolBarOnMac);
 #endif
 
-    dockWidgetMenu = menuBar()->addMenu(tr("&Dock Widgets"));
+    NetworkMenu = menuBar()->addMenu(tr("&Network"));
+    dockWidgetMenu = menuBar()->addMenu(tr("&Help"));
+
 }
 
 void MainWindow::setDockOptions()

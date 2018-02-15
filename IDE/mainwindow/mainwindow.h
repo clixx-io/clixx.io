@@ -84,6 +84,11 @@ private:
 
     QList<ToolBar*> toolBars;
     QMenu *dockWidgetMenu;
+    QMenu *FileMenu;
+    QMenu *EditMenu;
+    QMenu *NetworkMenu;
+    QMenu *HelpMenu;
+
     QMenu *mainWindowMenu;
     QList<QDockWidget *> extraDockWidgets;
     QMenu *destroyDockWidgetMenu;
