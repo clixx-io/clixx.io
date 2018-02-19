@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="overview.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="198.57143"
+     inkscape:cy="475.87266"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1024"
+     inkscape:window-height="535"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#729fcf"
+       id="rect3386"
+       width="677.14288"
+       height="100"
+       x="37.142857"
+       y="43.790775" />
+    <rect
+       style="fill:#8ae234;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect3336"
+       width="200"
+       height="134.28572"
+       x="57.142857"
+       y="292.36221" />
+    <rect
+       y="415.21936"
+       x="288.57144"
+       height="134.28572"
+       width="200"
+       id="rect3338"
+       style="fill:#fce94f;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <rect
+       style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect3340"
+       width="200"
+       height="134.28572"
+       x="285.71429"
+       y="189.50507" />
+    <rect
+       y="289.50507"
+       x="508.57144"
+       height="134.28572"
+       width="200"
+       id="rect3342"
+       style="fill:#fcaf3e;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <rect
+       y="515.21936"
+       x="57.142857"
+       height="134.28572"
+       width="200"
+       id="rect3344"
+       style="fill:#e9b96e;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <rect
+       y="638.07648"
+       x="288.57144"
+       height="134.28572"
+       width="200"
+       id="rect3346"
+       style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <rect
+       style="fill:#ad7fa8;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect3348"
+       width="200"
+       height="134.28572"
+       x="511.42859"
+       y="489.50507" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:31.18538475px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="320.71457"
+       y="469.80161"
+       id="text3350"
+       sodipodi:linespacing="125%"
+       transform="scale(0.96516702,1.0360901)"><tspan
+         sodipodi:role="line"
+         id="tspan3352"
+         x="320.71457"
+         y="469.80161">Processors</tspan></text>
+    <text
+       transform="scale(0.96516702,1.0360901)"
+       sodipodi:linespacing="125%"
+       id="text3354"
+       y="254.70724"
+       x="326.63507"
+       style="font-style:normal;font-weight:normal;font-size:31.18538475px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="254.70724"
+         x="326.63507"
+         id="tspan3356"
+         sodipodi:role="line">Networks</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:31.18538475px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="92.774742"
+       y="355.36038"
+       id="text3358"
+       sodipodi:linespacing="125%"
+       transform="scale(0.96516702,1.0360901)"><tspan
+         sodipodi:role="line"
+         id="tspan3360"
+         x="92.774742"
+         y="355.36038">Sensors</tspan></text>
+    <text
+       transform="scale(0.96516702,1.0360901)"
+       sodipodi:linespacing="125%"
+       id="text3362"
+       y="544.25732"
+       x="584.17749"
+       style="font-style:normal;font-weight:normal;font-size:31.18538475px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="544.25732"
+         x="584.17749"
+         id="tspan3364"
+         sodipodi:role="line">Power</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:31.18538475px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="557.53522"
+       y="351.22391"
+       id="text3366"
+       sodipodi:linespacing="125%"
+       transform="scale(0.96516702,1.0360901)"><tspan
+         sodipodi:role="line"
+         id="tspan3368"
+         x="557.53522"
+         y="351.22391">Actuators</tspan></text>
+    <text
+       transform="scale(0.96516702,1.0360901)"
+       sodipodi:linespacing="125%"
+       id="text3370"
+       y="555.28778"
+       x="80.933723"
+       style="font-style:normal;font-weight:normal;font-size:31.18538475px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="555.28778"
+         x="80.933723"
+         id="tspan3372"
+         sodipodi:role="line">Computer</tspan><tspan
+         y="594.26953"
+         x="80.933723"
+         sodipodi:role="line"
+         id="tspan3378">Vision</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:31.18538475px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="322.1947"
+       y="672.48663"
+       id="text3374"
+       sodipodi:linespacing="125%"
+       transform="scale(0.96516702,1.0360901)"><tspan
+         sodipodi:role="line"
+         id="tspan3376"
+         x="322.1947"
+         y="672.48663">Human</tspan><tspan
+         sodipodi:role="line"
+         x="322.1947"
+         y="711.46838"
+         id="tspan3380">Interfaces</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="131.42857"
+       y="100.93363"
+       id="text3382"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3384"
+         x="131.42857"
+         y="100.93363">Clixx.IO System Overview</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="67.142853"
+       y="875.21936"
+       id="text3392"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3394"
+         x="67.142853"
+         y="875.21936">Clixx.io is a Computing Framework for Eduction and Industrial use that provides</tspan><tspan
+         sodipodi:role="line"
+         x="67.142853"
+         y="893.96936"
+         id="tspan3396">a set of components for building projects and interconnected systems via a group</tspan><tspan
+         sodipodi:role="line"
+         x="67.142853"
+         y="912.71936"
+         id="tspan3398">of standardised Software and Hardware Interfaces.</tspan></text>
+  </g>
+</svg>
