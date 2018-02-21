@@ -74,6 +74,8 @@
 #include <QTextEdit>
 #include <QDebug>
 
+#include "codeeditor.h"
+
 static const char message[] =
     "<p><b>Clixx.io Development IDE</b></p>"
 
@@ -100,8 +102,7 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     setObjectName("MainWindow");
     setWindowTitle("Clixx.IO Development Environment");
 
-    QTextEdit *center = new QTextEdit(this);
-    center->setReadOnly(true);
+    CodeEditor *center = new CodeEditor(this);
     center->setMinimumSize(400, 205);
     setCentralWidget(center);
 
