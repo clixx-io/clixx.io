@@ -261,7 +261,20 @@ void ColorDock::setCustomSizeHint(const QSize &size)
 ColorSwatch::ColorSwatch(const QString &colorName, QMainWindow *parent, Qt::WindowFlags flags)
     : QDockWidget(parent, flags), mainWindow(parent)
 {
-    setObjectName(colorName + QLatin1String(" Dock Widget"));
+    // setObjectName(colorName + QLatin1String(" Dock Widget"));
+    if (colorName == QString("Green"))
+        setObjectName(QLatin1String("Serial Port Communicator Window"));
+    else if (colorName == QString("Red"))
+        setObjectName(QLatin1String("Network Communicator Window"));
+    else if (colorName == QString("Black"))
+        setObjectName(QLatin1String("Processing View"));
+    else if (colorName == QString("White"))
+        setObjectName(QLatin1String("Hardware View"));
+    else if (colorName == QString("Yellow"))
+        setObjectName(QLatin1String("Output Window"));
+    else
+        setObjectName(colorName + QLatin1String(" Widget"));
+
     setWindowTitle(objectName() + QLatin1String(" [*]"));
 
     ColorDock *swatch = new ColorDock(colorName, this);
