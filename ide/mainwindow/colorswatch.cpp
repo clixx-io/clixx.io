@@ -148,8 +148,11 @@ void ColorDock::paintEvent(QPaintEvent *)
 
     p.save();
 
-    extern void render_qt_text(QPainter *, int, int, const QColor &);
-    render_qt_text(&p, width(), height(), fgColorForName(color));
+    // extern void render_qt_text(QPainter *, int, int, const QColor &);
+    // render_qt_text(&p, width(), height(), fgColorForName(color));
+
+    p.setPen(QPen(Qt::black, 12, Qt::DashDotLine, Qt::RoundCap));
+    p.drawLine(0, 0, 200, 200);
 
     p.restore();
 

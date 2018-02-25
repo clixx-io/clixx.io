@@ -73,8 +73,11 @@
 #include <QPushButton>
 #include <QTextEdit>
 #include <QDebug>
+#include <QDockWidget>
+#include <QListWidget>
 
 #include "codeeditor.h"
+#include "communicatorserialwidget.h"
 
 static const char message[] =
     "<p><b>Clixx.io Development IDE</b></p>"
@@ -100,15 +103,39 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     : QMainWindow(parent, flags)
 {
     setObjectName("MainWindow");
-    setWindowTitle("Clixx.IO Development Environment");
+    setWindowTitle("Clixx.IO IoT Developer");
 
+    // Compiler Output Area
+    QDockWidget *dock = new QDockWidget(tr("Build Output"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    QListWidget *customerList = new QListWidget(dock);
+    customerList->addItems(QStringList()
+            << "Ready."
+//          << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
+            );
+    dock->setWidget(customerList);
+    addDockWidget(Qt::BottomDockWidgetArea, dock);
+    //dock->setMinimumHeight(300);
+    dock->setMinimumWidth(400);
+    dock->show();
+
+    // A Multipurpose communicator
+    QDockWidget *myframe = new QDockWidget(this);
+    CommunicatorSerialWidget *comm = new CommunicatorSerialWidget(myframe);
+    addDockWidget(Qt::RightDockWidgetArea, myframe);
+    myframe->setMinimumWidth(400);
+    myframe->setMinimumHeight(300);
+    myframe->show();
+
+    // Central Code Editor area
     CodeEditor *center = new CodeEditor(this);
     center->setMinimumSize(400, 205);
     setCentralWidget(center);
 
+
     setupToolBar();
     setupMenuBar();
-    setupDockWidgets(customSizeHints);
+    // setupDockWidgets(customSizeHints);
 
     statusBar()->showMessage(tr("Status Bar"));
 }
