@@ -106,7 +106,7 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     setWindowTitle("Clixx.IO IoT Developer");
 
     // Compiler Output Area
-    QDockWidget *dock = new QDockWidget(tr("Build Output"), this);
+    QDockWidget *dock = new QDockWidget(tr("Output"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     QListWidget *customerList = new QListWidget(dock);
     customerList->addItems(QStringList()
@@ -120,7 +120,7 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     dock->show();
 
     // A Multipurpose communicator
-    QDockWidget *myframe = new QDockWidget(this);
+    QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
     CommunicatorSerialWidget *comm = new CommunicatorSerialWidget(myframe);
     addDockWidget(Qt::RightDockWidgetArea, myframe);
     myframe->setMinimumWidth(400);
@@ -131,7 +131,6 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     CodeEditor *center = new CodeEditor(this);
     center->setMinimumSize(400, 205);
     setCentralWidget(center);
-
 
     setupToolBar();
     setupMenuBar();
