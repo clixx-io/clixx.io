@@ -75,9 +75,11 @@
 #include <QDebug>
 #include <QDockWidget>
 #include <QListWidget>
+#include <QTreeWidget>
 
 #include "codeeditor.h"
 #include "communicatorserialwidget.h"
+#include "projectwidget.h"
 
 static const char message[] =
     "<p><b>Clixx.io Development IDE</b></p>"
@@ -108,16 +110,26 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     // Compiler Output Area
     QDockWidget *dock = new QDockWidget(tr("Output"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    QListWidget *customerList = new QListWidget(dock);
-    customerList->addItems(QStringList()
+    QListWidget *outputList = new QListWidget(dock);
+    outputList->addItems(QStringList()
             << "Ready."
 //          << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
             );
-    dock->setWidget(customerList);
+    dock->setWidget(outputList);
     addDockWidget(Qt::BottomDockWidgetArea, dock);
     //dock->setMinimumHeight(300);
     dock->setMinimumWidth(400);
     dock->show();
+
+    // Project Window
+    QDockWidget *myproject = new QDockWidget(tr("Project"),this);
+    ProjectWidget *proj = new ProjectWidget(myproject);
+    QTreeWidget *projectList = new QTreeWidget(myproject);
+    myproject->setWidget(projectList);
+    myproject->setMinimumWidth(200);
+    //myproject->setMinimumHeight(300);
+    addDockWidget(Qt::LeftDockWidgetArea, myproject);
+    myproject->show();
 
     // A Multipurpose communicator
     QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
