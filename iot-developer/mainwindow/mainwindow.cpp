@@ -107,46 +107,9 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     setObjectName("MainWindow");
     setWindowTitle("Clixx.IO IoT Developer");
 
-    // Compiler Output Area
-    QDockWidget *dock = new QDockWidget(tr("Output"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    QListWidget *outputList = new QListWidget(dock);
-    outputList->addItems(QStringList()
-            << "Ready."
-//          << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
-            );
-    dock->setWidget(outputList);
-    addDockWidget(Qt::BottomDockWidgetArea, dock);
-    //dock->setMinimumHeight(300);
-    dock->setMinimumWidth(400);
-    dock->show();
-
-    // Project Window
-    QDockWidget *myproject = new QDockWidget(tr("Project"),this);
-    ProjectWidget *proj = new ProjectWidget(myproject);
-    QTreeWidget *projectList = new QTreeWidget(myproject);
-    myproject->setWidget(projectList);
-    myproject->setMinimumWidth(200);
-    //myproject->setMinimumHeight(300);
-    addDockWidget(Qt::LeftDockWidgetArea, myproject);
-    myproject->show();
-
-    // A Multipurpose communicator
-    QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
-    CommunicatorSerialWidget *comm = new CommunicatorSerialWidget(myframe);
-    addDockWidget(Qt::RightDockWidgetArea, myframe);
-    myframe->setMinimumWidth(400);
-    myframe->setMinimumHeight(300);
-    myframe->show();
-
-    // Central Code Editor area
-    CodeEditor *center = new CodeEditor(this);
-    center->setMinimumSize(400, 205);
-    setCentralWidget(center);
-
     setupToolBar();
     setupMenuBar();
-    // setupDockWidgets(customSizeHints);
+    setupDockWidgets(customSizeHints);
 
     statusBar()->showMessage(tr("Status Bar"));
 }
@@ -337,6 +300,47 @@ static QAction *addCornerAction(const QString &text, QMainWindow *mw, QMenu *men
 
 void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
 {
+
+    // Compiler Output Area
+    QDockWidget *dock = new QDockWidget(tr("Output"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    QListWidget *outputList = new QListWidget(dock);
+    outputList->addItems(QStringList()
+            << "Ready."
+//          << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
+            );
+    dock->setWidget(outputList);
+    addDockWidget(Qt::BottomDockWidgetArea, dock);
+    //dock->setMinimumHeight(300);
+    dock->setMinimumWidth(400);
+    dock->show();
+
+    // Project Window
+    QDockWidget *myproject = new QDockWidget(tr("Project"),this);
+    ProjectWidget *proj = new ProjectWidget(myproject);
+    QTreeWidget *projectList = new QTreeWidget(myproject);
+    projectList->setHeaderLabel(tr("Files"));
+    myproject->setWidget(projectList);
+    myproject->setMinimumWidth(200);
+    //myproject->setMinimumHeight(300);
+    addDockWidget(Qt::LeftDockWidgetArea, myproject);
+    myproject->show();
+
+    // A Multipurpose communicator
+    QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
+    CommunicatorSerialWidget *comm = new CommunicatorSerialWidget(myframe);
+    addDockWidget(Qt::RightDockWidgetArea, myframe);
+    myframe->setMinimumWidth(400);
+    myframe->setMinimumHeight(300);
+    myframe->show();
+
+    // Central Code Editor area
+    CodeEditor *center = new CodeEditor(this);
+    center->setMinimumSize(400, 205);
+    setCentralWidget(center);
+
+    return;
+
     qRegisterMetaType<QDockWidget::DockWidgetFeatures>();
 
     QMenu *cornerMenu = dockWidgetMenu->addMenu(tr("Top left corner"));
