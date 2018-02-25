@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>196</height>
+    <height>264</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -25,7 +25,7 @@
      <x>10</x>
      <y>20</y>
      <width>381</width>
-     <height>181</height>
+     <height>231</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -54,12 +54,12 @@
        <x>10</x>
        <y>30</y>
        <width>171</width>
-       <height>141</height>
+       <height>191</height>
       </rect>
      </property>
      <column>
       <property name="text">
-       <string>Devices</string>
+       <string>Devices / Channels</string>
       </property>
      </column>
      <item>
@@ -95,6 +95,16 @@
      <item>
       <property name="text">
        <string>IFTTT</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>I2C</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CAN</string>
       </property>
      </item>
     </widget>
@@ -138,7 +148,7 @@
      <property name="geometry">
       <rect>
        <x>290</x>
-       <y>130</y>
+       <y>180</y>
        <width>81</width>
        <height>41</height>
       </rect>
@@ -184,7 +194,7 @@
        <x>10</x>
        <y>20</y>
        <width>351</width>
-       <height>111</height>
+       <height>161</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -206,8 +216,8 @@
     <widget class="QCommandLinkButton" name="sendButton">
      <property name="geometry">
       <rect>
-       <x>281</x>
-       <y>140</y>
+       <x>280</x>
+       <y>190</y>
        <width>81</width>
        <height>41</height>
       </rect>
@@ -219,8 +229,8 @@
     <widget class="QCommandLinkButton" name="CloseCommandLinkButton">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>140</y>
+       <x>9</x>
+       <y>190</y>
        <width>81</width>
        <height>41</height>
       </rect>
