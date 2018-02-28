@@ -73,7 +73,7 @@ public:
 public slots:
     void actionTriggered(QAction *action);
     void saveLayout();
-    void loadLayout();
+    void loadProject();
     void switchLayoutDirection();
     void setDockOptions();
 

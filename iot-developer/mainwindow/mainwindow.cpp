@@ -72,6 +72,7 @@
 #include <QDockWidget>
 #include <QListWidget>
 #include <QTreeWidget>
+#include <QInputDialog>
 
 #include "codeeditor.h"
 #include "communicatorserialwidget.h"
@@ -140,7 +141,7 @@ void MainWindow::setupMenuBar()
     QMenu *menu = menuBar()->addMenu(tr("&File"));
 
     menu->addAction(tr("New Project.."),this, &MainWindow::switchLayoutDirection);
-    menu->addAction(tr("Load Project.."), this, &MainWindow::loadLayout);
+    menu->addAction(tr("Load Project.."), this, &MainWindow::loadProject);
     menu->addAction(tr("Save layout.."), this, &MainWindow::saveLayout);
 
     menu->addSeparator();
@@ -252,44 +253,20 @@ void MainWindow::saveLayout()
     }
 }
 
-void MainWindow::loadLayout()
+void MainWindow::loadProject()
 {
-    QString fileName
-        = QFileDialog::getOpenFileName(this, tr("Load layout"));
-    if (fileName.isEmpty())
-        return;
-    QFile file(fileName);
-    if (!file.open(QFile::ReadOnly)) {
-        QString msg = tr("Failed to open %1\n%2")
-                        .arg(QDir::toNativeSeparators(fileName), file.errorString());
-        QMessageBox::warning(this, tr("Error"), msg);
-        return;
+
+    QStringList items;
+
+    bool ok;
+    QString item = QInputDialog::getItem(this, tr("Open Project Directory"),
+                                         tr("Project Name:"), Projects->list(), 0, false, &ok);
+    if (ok && !item.isEmpty()) {
+    //    itemLabel->setText(item);
     }
 
-    uchar geo_size;
-    QByteArray geo_data;
-    QByteArray layout_data;
+    return;
 
-    bool ok = file.getChar((char*)&geo_size);
-    if (ok) {
-        geo_data = file.read(geo_size);
-        ok = geo_data.size() == geo_size;
-    }
-    if (ok) {
-        layout_data = file.readAll();
-        ok = layout_data.size() > 0;
-    }
-
-    if (ok)
-        ok = restoreGeometry(geo_data);
-    if (ok)
-        ok = restoreState(layout_data);
-
-    if (!ok) {
-        QString msg = tr("Error reading %1").arg(QDir::toNativeSeparators(fileName));
-        QMessageBox::warning(this, tr("Error"), msg);
-        return;
-    }
 }
 
 static QAction *addCornerAction(const QString &text, QMainWindow *mw, QMenu *menu, QActionGroup *group,

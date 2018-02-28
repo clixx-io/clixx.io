@@ -1,6 +1,9 @@
 #include "clixxiotprojects.h"
 
 #include <QDir>
+#include <QStandardPaths>
+
+#define projectPathDir "/IoT"
 
 ClixxIoTProjects::ClixxIoTProjects()
 {
@@ -14,6 +17,10 @@ QStringList ClixxIoTProjects::list()
 
     settings.beginGroup("projects");
     QString workdir = settings.value("directory").toString();
+    if (!workdir.length()) {
+        workdir = QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0] + projectPathDir;
+        settings.setValue("directory", workdir);
+    }
     settings.endGroup();
 
     QDir dir(workdir);
@@ -23,7 +30,7 @@ QStringList ClixxIoTProjects::list()
     for (int i = 0; i < list.size(); ++i) {
         QFileInfo fileInfo = list.at(i);
 
-        if (!fileInfo.fileName().endsWith(".ini"))
+        if (!fileInfo.fileName().endsWith(".ini") && (!fileInfo.fileName().startsWith(".")))
             results += fileInfo.fileName();
 
     }
