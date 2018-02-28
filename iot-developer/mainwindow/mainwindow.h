@@ -53,6 +53,9 @@
 
 #include <QMainWindow>
 
+QT_FORWARD_DECLARE_CLASS(ClixxIoTProject)
+QT_FORWARD_DECLARE_CLASS(ClixxIoTProjects)
+
 class ToolBar;
 QT_FORWARD_DECLARE_CLASS(QMenu)
 
@@ -92,6 +95,10 @@ private:
     QMenu *mainWindowMenu;
     QList<QDockWidget *> extraDockWidgets;
     QMenu *destroyDockWidgetMenu;
+
+    ClixxIoTProjects *Projects;
+    ClixxIoTProject  *currentProject;
+
 };
 
 #endif // MAINWINDOW_H

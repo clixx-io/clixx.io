@@ -1,6 +1,6 @@
 #include <qstring.h>
 
-#include "clixxiothardwarebase.h"
+#include "clixxIoT.h"
 
 ClixxIoTHardwareBase::ClixxIoTHardwareBase()
 {

@@ -1,6 +1,5 @@
-#ifndef CLIXXIOTHARDWAREBASE_H
-#define CLIXXIOTHARDWAREBASE_H
-
+#ifndef CLIXXIOT_H
+#define CLIXXIOT_H
 
 class ClixxIoTHardwareBase
 {
@@ -45,4 +44,4 @@ public:
     ClixxIoTProcessorDevice();
 };
 
-#endif // CLIXXIOTHARDWAREBASE_H
+#endif // CLIXXIOT_H

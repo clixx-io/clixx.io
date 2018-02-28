@@ -48,10 +48,6 @@
 **
 ****************************************************************************/
 
-#include "mainwindow.h"
-#include "colorswatch.h"
-#include "toolbar.h"
-
 #include <QAction>
 #include <QLayout>
 #include <QMenu>
@@ -80,6 +76,10 @@
 #include "codeeditor.h"
 #include "communicatorserialwidget.h"
 #include "projectwidget.h"
+#include "clixxiotprojects.h"
+#include "mainwindow.h"
+#include "colorswatch.h"
+#include "toolbar.h"
 
 static const char message[] =
     "<p><b>Clixx.io Development IDE</b></p>"
@@ -105,7 +105,10 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     : QMainWindow(parent, flags)
 {
     setObjectName("MainWindow");
+
     setWindowTitle("Clixx.IO IoT Developer");
+    Projects = new ClixxIoTProjects();
+    currentProject = new ClixxIoTProject();
 
     setupToolBar();
     setupMenuBar();
@@ -325,6 +328,12 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     //myproject->setMinimumHeight(300);
     addDockWidget(Qt::LeftDockWidgetArea, myproject);
     myproject->show();
+    for(int i=0; i<5; i++)
+    {
+        QTreeWidgetItem * item = new QTreeWidgetItem();
+        item->setText(0,"file-" + QString::number(i+1) + ".c");
+        projectList->addTopLevelItem(item);
+    }
 
     // A Multipurpose communicator
     QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);

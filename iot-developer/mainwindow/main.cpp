@@ -48,13 +48,14 @@
 **
 ****************************************************************************/
 
-#include "mainwindow.h"
-
 #include <QApplication>
 #include <QPainterPath>
 #include <QPainter>
 #include <QMap>
 #include <QDebug>
+
+#include "clixxiotprojects.h"
+#include "mainwindow.h"
 
 void render_qt_text(QPainter *painter, int w, int h, const QColor &color)
 {

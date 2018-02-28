@@ -6,6 +6,9 @@ CommunicatorSerialWidget::CommunicatorSerialWidget(QWidget *parent) :
     ui(new Ui::CommunicatorSerialWidget)
 {
     ui->setupUi(this);
+
+
+    QLineEdit *x = ui->SendInput->lineEdit();
 }
 
 CommunicatorSerialWidget::~CommunicatorSerialWidget()
