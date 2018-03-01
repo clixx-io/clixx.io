@@ -13,17 +13,8 @@ ClixxIoTProjects::ClixxIoTProjects()
 QStringList ClixxIoTProjects::list()
 {
     QStringList results;
-    QSettings settings("clixx.io", "IoT Framework");
 
-    settings.beginGroup("projects");
-    QString workdir = settings.value("directory").toString();
-    if (!workdir.length()) {
-        workdir = QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0] + projectPathDir;
-        settings.setValue("directory", workdir);
-    }
-    settings.endGroup();
-
-    QDir dir(workdir);
+    QDir dir(getProjectDir());
     dir.setFilter(QDir::Dirs);
 
     QFileInfoList list = dir.entryInfoList();
@@ -37,6 +28,26 @@ QStringList ClixxIoTProjects::list()
 
     return(results);
 
+}
+
+QString ClixxIoTProjects::getProjectDir()
+{
+
+    QSettings settings("clixx.io", "IoT Framework");
+
+    settings.beginGroup("projects");
+    QString workdir = settings.value("directory").toString();
+    if (!workdir.length()) {
+        workdir = QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0] + projectPathDir;
+        if (!QDir(workdir).exists())
+        {
+            workdir = QStandardPaths::HomeLocation;
+        }
+        settings.setValue("directory", workdir);
+    }
+    settings.endGroup();
+
+    return workdir;
 }
 
 ClixxIoTProject::ClixxIoTProject(QString projectname)

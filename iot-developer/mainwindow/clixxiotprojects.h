@@ -10,6 +10,7 @@ class ClixxIoTProjects
 public:
     ClixxIoTProjects();
 
+    QString getProjectDir();
     QStringList list();
 
 };

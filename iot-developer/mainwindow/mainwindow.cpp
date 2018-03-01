@@ -258,12 +258,15 @@ void MainWindow::loadProject()
 
     QStringList items;
 
-    bool ok;
-    QString item = QInputDialog::getItem(this, tr("Open Project Directory"),
-                                         tr("Project Name:"), Projects->list(), 0, false, &ok);
-    if (ok && !item.isEmpty()) {
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                 Projects->getProjectDir(),
+                                                 QFileDialog::ShowDirsOnly
+                                                 | QFileDialog::DontResolveSymlinks);
+
+    if (!dir.isEmpty()) {
     //    itemLabel->setText(item);
     }
+
 
     return;
 
