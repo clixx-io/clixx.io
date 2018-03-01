@@ -259,12 +259,22 @@ void MainWindow::loadProject()
     QStringList items;
 
     QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                 Projects->getProjectDir(),
+                                                 Projects->getProjectsDir(),
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
     if (!dir.isEmpty()) {
-    //    itemLabel->setText(item);
+
+        currentProject->setProjectDir(dir);
+        QStringList projectfiles = currentProject->listfiles();
+
+        projectFileList->clear();
+        for(int i=0; i<projectfiles.size(); i++)
+        {
+            QTreeWidgetItem * item = new QTreeWidgetItem();
+            item->setText(0,projectfiles[i]);
+            projectFileList->addTopLevelItem(item);
+        }
     }
 
 
@@ -301,9 +311,9 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     // Project Window
     QDockWidget *myproject = new QDockWidget(tr("Project"),this);
     ProjectWidget *proj = new ProjectWidget(myproject);
-    QTreeWidget *projectList = new QTreeWidget(myproject);
-    projectList->setHeaderLabel(tr("Files"));
-    myproject->setWidget(projectList);
+    projectFileList = new QTreeWidget(myproject);
+    projectFileList->setHeaderLabel(tr("Files"));
+    myproject->setWidget(projectFileList);
     myproject->setMinimumWidth(200);
     //myproject->setMinimumHeight(300);
     addDockWidget(Qt::LeftDockWidgetArea, myproject);
@@ -312,7 +322,7 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     {
         QTreeWidgetItem * item = new QTreeWidgetItem();
         item->setText(0,"file-" + QString::number(i+1) + ".c");
-        projectList->addTopLevelItem(item);
+        projectFileList->addTopLevelItem(item);
     }
 
     // A Multipurpose communicator

@@ -14,7 +14,7 @@ QStringList ClixxIoTProjects::list()
 {
     QStringList results;
 
-    QDir dir(getProjectDir());
+    QDir dir(getProjectsDir());
     dir.setFilter(QDir::Dirs);
 
     QFileInfoList list = dir.entryInfoList();
@@ -30,7 +30,7 @@ QStringList ClixxIoTProjects::list()
 
 }
 
-QString ClixxIoTProjects::getProjectDir()
+QString ClixxIoTProjects::getProjectsDir()
 {
 
     QSettings settings("clixx.io", "IoT Framework");
@@ -57,9 +57,14 @@ ClixxIoTProject::ClixxIoTProject(QString projectname)
 
 }
 
-QString ClixxIoTProject::getprojectdirectory()
+QString ClixxIoTProject::getProjectDir()
 {
     return(projectpath);
+}
+
+void ClixxIoTProject::setProjectDir(QString dirname)
+{
+    projectpath = dirname;
 }
 
 QString ClixxIoTProject::getprojectconfigpath()

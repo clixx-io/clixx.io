@@ -58,6 +58,7 @@ QT_FORWARD_DECLARE_CLASS(ClixxIoTProjects)
 
 class ToolBar;
 QT_FORWARD_DECLARE_CLASS(QMenu)
+QT_FORWARD_DECLARE_CLASS(QTreeWidget)
 
 class MainWindow : public QMainWindow
 {
@@ -98,6 +99,7 @@ private:
 
     ClixxIoTProjects *Projects;
     ClixxIoTProject  *currentProject;
+    QTreeWidget *projectFileList;
 
 };
 

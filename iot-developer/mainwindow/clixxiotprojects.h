@@ -10,7 +10,7 @@ class ClixxIoTProjects
 public:
     ClixxIoTProjects();
 
-    QString getProjectDir();
+    QString getProjectsDir();
     QStringList list();
 
 };
@@ -26,8 +26,9 @@ protected:
 public:
     ClixxIoTProject(QString projectname = "");
 
-    QString getprojectdirectory();
+    QString getProjectDir();
     QString getprojectconfigpath();
+    void setProjectDir(QString dirname);
 
     QStringList listfiles();
 
