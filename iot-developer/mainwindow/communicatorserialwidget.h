@@ -2,6 +2,7 @@
 #define COMMUNICATORSERIALWIDGET_H
 
 #include <QWidget>
+#include <QStringList>
 
 namespace Ui {
 class CommunicatorSerialWidget;
@@ -15,11 +16,11 @@ public:
     explicit CommunicatorSerialWidget(QWidget *parent = 0);
     ~CommunicatorSerialWidget();
 
+    QStringList ListSerialPorts();
+
 private slots:
     void on_commandLinkButton_pressed();
-
     void on_sendButton_pressed();
-
     void on_CloseCommandLinkButton_pressed();
 
 private:

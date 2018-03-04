@@ -57,8 +57,8 @@ QT_FORWARD_DECLARE_CLASS(ClixxIoTProject)
 QT_FORWARD_DECLARE_CLASS(ClixxIoTProjects)
 QT_FORWARD_DECLARE_CLASS(ProjectWidget)
 QT_FORWARD_DECLARE_CLASS(CodeEditor)
-
-class ToolBar;
+QT_FORWARD_DECLARE_CLASS(CommunicatorSerialWidget)
+QT_FORWARD_DECLARE_CLASS(ToolBar)
 QT_FORWARD_DECLARE_CLASS(QMenu)
 QT_FORWARD_DECLARE_CLASS(QTreeWidget)
 
@@ -80,6 +80,7 @@ public:
 
     ProjectWidget *projectWindow;
     CodeEditor *center;
+    CommunicatorSerialWidget *commWindow;
 
 public slots:
     void actionTriggered(QAction *action);

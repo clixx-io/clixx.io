@@ -129,11 +129,10 @@ void MainWindow::setupToolBar()
     setUnifiedTitleAndToolBarOnMac(true);
 #endif
 
-    for (int i = 0; i < 3; ++i) {
-        ToolBar *tb = new ToolBar(QString::fromLatin1("Tool Bar %1").arg(i + 1), this);
-        toolBars.append(tb);
-        addToolBar(tb);
-    }
+    ToolBar *tb = new ToolBar(QString::fromLatin1("Tool Bar 1"), this);
+    toolBars.append(tb);
+    addToolBar(tb);
+
 }
 
 void MainWindow::setupMenuBar()
@@ -256,13 +255,12 @@ void MainWindow::saveLayout()
 void MainWindow::loadProject()
 {
 
-    QStringList items;
-
     QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
                                                  Projects->getProjectsDir(),
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
+    if (dir.length())
         projectWindow->LoadProject(dir);
 
     return;
@@ -306,7 +304,7 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
 
     // A Multipurpose communicator
     QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
-    CommunicatorSerialWidget *comm = new CommunicatorSerialWidget(myframe);
+    commWindow = new CommunicatorSerialWidget(myframe);
     addDockWidget(Qt::RightDockWidgetArea, myframe);
     myframe->setMinimumWidth(400);
     myframe->setMinimumHeight(300);

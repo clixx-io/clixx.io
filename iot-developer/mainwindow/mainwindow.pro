@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += widgets
+QT += widgets serialport
 
 HEADERS += colorswatch.h mainwindow.h toolbar.h \
     codeeditor.h \

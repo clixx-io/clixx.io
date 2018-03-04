@@ -13,13 +13,6 @@ ProjectWidget::ProjectWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    for(int i=0; i<5; i++)
-    {
-        QTreeWidgetItem * item = new QTreeWidgetItem();
-        item->setText(0,"file-" + QString::number(i+1) + ".c");
-        ui->projectFileList->addTopLevelItem(item);
-    }
-
 }
 
 ProjectWidget::~ProjectWidget()
