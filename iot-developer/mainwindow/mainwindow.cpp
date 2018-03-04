@@ -263,20 +263,7 @@ void MainWindow::loadProject()
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
-    if (!dir.isEmpty()) {
-
-        currentProject->setProjectDir(dir);
-        QStringList projectfiles = currentProject->listfiles();
-
-        projectFileList->clear();
-        for(int i=0; i<projectfiles.size(); i++)
-        {
-            QTreeWidgetItem * item = new QTreeWidgetItem();
-            item->setText(0,projectfiles[i]);
-            projectFileList->addTopLevelItem(item);
-        }
-    }
-
+        projectWindow->LoadProject(dir);
 
     return;
 
@@ -310,20 +297,12 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
 
     // Project Window
     QDockWidget *myproject = new QDockWidget(tr("Project"),this);
-    ProjectWidget *proj = new ProjectWidget(myproject);
-    projectFileList = new QTreeWidget(myproject);
-    projectFileList->setHeaderLabel(tr("Files"));
-    myproject->setWidget(projectFileList);
+    projectWindow = new ProjectWidget(myproject);
     myproject->setMinimumWidth(200);
-    //myproject->setMinimumHeight(300);
+    myproject->setMinimumHeight(100);
     addDockWidget(Qt::LeftDockWidgetArea, myproject);
+    projectWindow->setMainWindow(this);
     myproject->show();
-    for(int i=0; i<5; i++)
-    {
-        QTreeWidgetItem * item = new QTreeWidgetItem();
-        item->setText(0,"file-" + QString::number(i+1) + ".c");
-        projectFileList->addTopLevelItem(item);
-    }
 
     // A Multipurpose communicator
     QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
@@ -334,7 +313,7 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     myframe->show();
 
     // Central Code Editor area
-    CodeEditor *center = new CodeEditor(this);
+    center = new CodeEditor(this);
     center->setMinimumSize(400, 205);
     setCentralWidget(center);
 
@@ -523,4 +502,13 @@ void MainWindow::destroyDockWidget(QAction *action)
 
     if (destroyDockWidgetMenu->isEmpty())
         destroyDockWidgetMenu->setEnabled(false);
+}
+
+void MainWindow::LoadCodeSource(const QString filename)
+{
+    QFile file(filename);
+
+    file.open(QFile::ReadOnly | QFile::Text);
+    center->setPlainText(file.readAll());
+
 }

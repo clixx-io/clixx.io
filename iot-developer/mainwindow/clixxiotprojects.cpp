@@ -50,10 +50,12 @@ QString ClixxIoTProjects::getProjectsDir()
     return workdir;
 }
 
-ClixxIoTProject::ClixxIoTProject(QString projectname)
+ClixxIoTProject::ClixxIoTProject(QString project)
 {
-    if (!projectname.length())
+    if (!project.length())
         return;
+
+    projectpath = project;
 
 }
 

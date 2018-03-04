@@ -24,7 +24,7 @@ protected:
     QSettings *settings;
 
 public:
-    ClixxIoTProject(QString projectname = "");
+    ClixxIoTProject(QString project = "");
 
     QString getProjectDir();
     QString getprojectconfigpath();

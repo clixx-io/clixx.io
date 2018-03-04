@@ -55,6 +55,8 @@
 
 QT_FORWARD_DECLARE_CLASS(ClixxIoTProject)
 QT_FORWARD_DECLARE_CLASS(ClixxIoTProjects)
+QT_FORWARD_DECLARE_CLASS(ProjectWidget)
+QT_FORWARD_DECLARE_CLASS(CodeEditor)
 
 class ToolBar;
 QT_FORWARD_DECLARE_CLASS(QMenu)
@@ -70,6 +72,14 @@ public:
     explicit MainWindow(const CustomSizeHintMap &customSizeHints,
                         QWidget *parent = Q_NULLPTR,
                         Qt::WindowFlags flags = 0);
+
+    void LoadCodeSource(const QString filename);
+
+    ClixxIoTProjects *Projects;
+    ClixxIoTProject  *currentProject;
+
+    ProjectWidget *projectWindow;
+    CodeEditor *center;
 
 public slots:
     void actionTriggered(QAction *action);
@@ -97,9 +107,6 @@ private:
     QList<QDockWidget *> extraDockWidgets;
     QMenu *destroyDockWidgetMenu;
 
-    ClixxIoTProjects *Projects;
-    ClixxIoTProject  *currentProject;
-    QTreeWidget *projectFileList;
 
 };
 
