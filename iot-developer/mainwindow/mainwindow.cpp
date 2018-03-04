@@ -510,3 +510,8 @@ void MainWindow::LoadCodeSource(const QString filename)
     center->setPlainText(file.readAll());
 
 }
+
+void MainWindow::showStatusMessage(const QString &message)
+{
+//    m_status->setText(message);
+}

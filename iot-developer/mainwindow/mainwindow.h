@@ -74,6 +74,7 @@ public:
                         Qt::WindowFlags flags = 0);
 
     void LoadCodeSource(const QString filename);
+    void showStatusMessage(const QString &message);
 
     ClixxIoTProjects *Projects;
     ClixxIoTProject  *currentProject;
@@ -107,7 +108,6 @@ private:
     QMenu *mainWindowMenu;
     QList<QDockWidget *> extraDockWidgets;
     QMenu *destroyDockWidgetMenu;
-
 
 };
 

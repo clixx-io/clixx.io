@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QStringList>
 
+QT_FORWARD_DECLARE_CLASS(QSerialPort)
+
 namespace Ui {
 class CommunicatorSerialWidget;
 }
@@ -17,6 +19,8 @@ public:
     ~CommunicatorSerialWidget();
 
     QStringList ListSerialPorts();
+    bool openSerialPort();
+    void closeSerialPort();
 
 private slots:
     void on_commandLinkButton_pressed();
@@ -25,6 +29,9 @@ private slots:
 
 private:
     Ui::CommunicatorSerialWidget *ui;
+
+    QSerialPort *serialPort = nullptr;
+
 };
 
 #endif // COMMUNICATORSERIALWIDGET_H

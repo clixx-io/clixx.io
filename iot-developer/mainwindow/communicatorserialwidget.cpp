@@ -1,5 +1,7 @@
 #include <QStringList>
+#include <QtSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
+#include <QMessageBox>
 
 #include "communicatorserialwidget.h"
 #include "ui_communicatorserialwidget.h"
@@ -22,8 +24,12 @@ CommunicatorSerialWidget::~CommunicatorSerialWidget()
 
 void CommunicatorSerialWidget::on_commandLinkButton_pressed()
 {
-    ui->stackedWidget->setCurrentIndex(1);
-    ui->SendInput->setFocus();
+    if (openSerialPort())
+    {
+        ui->stackedWidget->setCurrentIndex(1);
+        ui->SendInput->setFocus();
+    }
+
 }
 
 void CommunicatorSerialWidget::on_sendButton_pressed()
@@ -51,9 +57,70 @@ QStringList CommunicatorSerialWidget::ListSerialPorts()
         {
             QTreeWidgetItem * portitem = new QTreeWidgetItem();
             portitem->setText(0,serialPortInfo.portName());
+
             item->addChild(portitem);
         }
     }
 
     return(results);
+}
+
+bool CommunicatorSerialWidget::openSerialPort()
+{
+    bool retval(true);
+
+    ui->BaudrateSpeedDial->setMaximum(115200);
+
+    if (!serialPort)
+        serialPort = new QSerialPort();
+    else
+        serialPort->close();
+
+    serialPort->setPortName("COM4:");
+    serialPort->setBaudRate(9600);
+    serialPort->setDataBits(QSerialPort::Data8);
+
+    // Parity
+    if (ui->parityNRadioButton->isChecked())
+        serialPort->setParity(QSerialPort::NoParity);
+    else if (ui->parityERadioButton->isChecked())
+        serialPort->setParity(QSerialPort::EvenParity);
+    else if (ui->parityORadioButton->isChecked())
+        serialPort->setParity(QSerialPort::OddParity);
+
+    if (ui->stop1bitsRadioButton->isChecked())
+        serialPort->setStopBits(QSerialPort::OneStop);
+    else
+        serialPort->setStopBits(QSerialPort::TwoStop);
+
+    if (serialPort->open(QIODevice::ReadWrite)) {
+        //m_console->setEnabled(true);
+        //m_console->setLocalEchoEnabled(p.localEchoEnabled);
+        //m_ui->actionConnect->setEnabled(false);
+        //m_ui->actionDisconnect->setEnabled(true);
+        //m_ui->actionConfigure->setEnabled(false);
+        //showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
+        //                  .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
+        //                  .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
+    } else {
+        QMessageBox::critical(this, tr("Error"), serialPort->errorString());
+
+        //showStatusMessage(tr("Open error"));
+        retval = false;
+    }
+
+    return(retval);
+}
+//! [4]
+
+//! [5]
+void CommunicatorSerialWidget::closeSerialPort()
+{
+    if (serialPort->isOpen())
+        serialPort->close();
+    //m_console->setEnabled(false);
+    //m_ui->actionConnect->setEnabled(true);
+    //m_ui->actionDisconnect->setEnabled(false);
+    //m_ui->actionConfigure->setEnabled(true);
+    //showStatusMessage(tr("Disconnected"));
 }
