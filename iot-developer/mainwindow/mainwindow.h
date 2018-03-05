@@ -104,6 +104,7 @@ private:
     QMenu *EditMenu;
     QMenu *NetworkMenu;
     QMenu *HelpMenu;
+    QMenu *buildWindowMenu;
 
     QMenu *mainWindowMenu;
     QList<QDockWidget *> extraDockWidgets;

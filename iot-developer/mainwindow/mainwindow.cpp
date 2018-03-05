@@ -141,17 +141,55 @@ void MainWindow::setupMenuBar()
 
     menu->addAction(tr("New Project.."),this, &MainWindow::switchLayoutDirection);
     menu->addAction(tr("Load Project.."), this, &MainWindow::loadProject);
-    menu->addAction(tr("Save layout.."), this, &MainWindow::saveLayout);
-
+    menu->addAction(tr("Recent Projects"), this, &MainWindow::saveLayout);
     menu->addSeparator();
     menu->addAction(tr("&Quit"), this, &QWidget::close);
 
-    // FileMenu = menuBar()->addMenu(tr("&File"));
     EditMenu = menuBar()->addMenu(tr("&Edit"));
-    // HelpMenu = menuBar()->addMenu(tr("&Help"));
+    EditMenu->addAction(tr("Cut"),this, &MainWindow::switchLayoutDirection);
+    EditMenu->addAction(tr("Copy"), this, &MainWindow::loadProject);
+    EditMenu->addAction(tr("Paste"), this, &MainWindow::saveLayout);
+    menu->addSeparator();
+    EditMenu->addAction(tr("Select All"), this, &MainWindow::saveLayout);
+    menu->addSeparator();
+    EditMenu->addAction(tr("Find/Replace"), this, &MainWindow::saveLayout);
+    menu->addSeparator();
+    EditMenu->addAction(tr("Goto Line"), this, &MainWindow::saveLayout);
+    menu->addSeparator();
+    EditMenu->addAction(tr("Settings"), this, &MainWindow::saveLayout);
 
-    mainWindowMenu = menuBar()->addMenu(tr("&Hardware"));
+    buildWindowMenu = menuBar()->addMenu(tr("&Build"));
+    buildWindowMenu->addAction(tr("Build.."),this, &MainWindow::switchLayoutDirection);
+    buildWindowMenu->addAction(tr("Deploy.."), this, &MainWindow::loadProject);
+    buildWindowMenu->addAction(tr("Clean"), this, &MainWindow::saveLayout);
+    buildWindowMenu->addAction(tr("Unit Test"), this, &MainWindow::saveLayout);
+    buildWindowMenu->addAction(tr("Run"), this, &MainWindow::saveLayout);
 
+    QMenu *toolBarMenu = menuBar()->addMenu(tr("&Design"));
+    toolBarMenu->addAction(tr("GPIO Connections"),this, &MainWindow::switchLayoutDirection);
+    toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::loadProject);
+    toolBarMenu->addAction(tr("Ladder Logic"), this, &MainWindow::saveLayout);
+    toolBarMenu->addAction(tr("Software Interrupts"), this, &MainWindow::saveLayout);
+    toolBarMenu->addAction(tr("Sensors/Actuators"), this, &MainWindow::saveLayout);
+    toolBarMenu->addAction(tr("Deployment Architecture"), this, &MainWindow::saveLayout);
+    toolBarMenu->addAction(tr("Operating System"), this, &MainWindow::saveLayout);
+//    for (int i = 0; i < toolBars.count(); ++i)
+//        toolBarMenu->addMenu(toolBars.at(i)->toolbarMenu());
+
+    NetworkMenu = menuBar()->addMenu(tr("&Analyse"));
+    NetworkMenu->addAction(tr("Generate Visualisation"), this, &MainWindow::saveLayout);
+    NetworkMenu->addAction(tr("Event Playback"), this, &MainWindow::saveLayout);
+
+#ifdef Q_OS_OSX
+    toolBarMenu->addSeparator();
+
+    action = toolBarMenu->addAction(tr("Unified"));
+    action->setCheckable(true);
+    action->setChecked(unifiedTitleAndToolBarOnMac());
+    connect(action, &QAction::toggled, this, &QMainWindow::setUnifiedTitleAndToolBarOnMac);
+#endif
+
+    mainWindowMenu = menuBar()->addMenu(tr("&Window"));
     QAction *action = mainWindowMenu->addAction(tr("Animated docks"));
     action->setCheckable(true);
     action->setChecked(dockOptions() & AnimatedDocks);
@@ -182,21 +220,8 @@ void MainWindow::setupMenuBar()
     action->setChecked(dockOptions() & GroupedDragging);
     connect(action, &QAction::toggled, this, &MainWindow::setDockOptions);
 
-    QMenu *toolBarMenu = menuBar()->addMenu(tr("&Software"));
-    for (int i = 0; i < toolBars.count(); ++i)
-        toolBarMenu->addMenu(toolBars.at(i)->toolbarMenu());
-
-#ifdef Q_OS_OSX
-    toolBarMenu->addSeparator();
-
-    action = toolBarMenu->addAction(tr("Unified"));
-    action->setCheckable(true);
-    action->setChecked(unifiedTitleAndToolBarOnMac());
-    connect(action, &QAction::toggled, this, &QMainWindow::setUnifiedTitleAndToolBarOnMac);
-#endif
-
-    NetworkMenu = menuBar()->addMenu(tr("&Network"));
     dockWidgetMenu = menuBar()->addMenu(tr("&Help"));
+    action = dockWidgetMenu->addAction(tr("About"));
 
 }
 
