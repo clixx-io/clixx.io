@@ -2,6 +2,7 @@
 #include <QtSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QMessageBox>
+#include <QTreeWidgetItem>
 
 #include "communicatorserialwidget.h"
 #include "ui_communicatorserialwidget.h"
@@ -14,7 +15,11 @@ CommunicatorSerialWidget::CommunicatorSerialWidget(QWidget *parent) :
 
     ListSerialPorts();
 
-    // QLineEdit *x = ui->SendInput->lineEdit();
+    serialTimer = new QTimer(this);
+    serialTimer->setInterval(200);
+    serialTimer->setSingleShot(false);
+    connect(serialTimer, SIGNAL(timeout()),this,SLOT(on_TimerEvent()));
+
 }
 
 CommunicatorSerialWidget::~CommunicatorSerialWidget()
@@ -24,7 +29,8 @@ CommunicatorSerialWidget::~CommunicatorSerialWidget()
 
 void CommunicatorSerialWidget::on_commandLinkButton_pressed()
 {
-    if (openSerialPort())
+
+    if (openSerialPort(portName))
     {
         ui->stackedWidget->setCurrentIndex(1);
         ui->SendInput->setFocus();
@@ -34,6 +40,13 @@ void CommunicatorSerialWidget::on_commandLinkButton_pressed()
 
 void CommunicatorSerialWidget::on_sendButton_pressed()
 {
+
+    const char nl = '\r';
+    QString terminatedOutput = ui->SendInput->currentText() + nl;
+
+    // - Write the users input to the Serial Port
+    serialPort->write(terminatedOutput.toLatin1());
+
     ui->SerialDisplaylistWidget->addItem(ui->SendInput->currentText());
     ui->SendInput->addItem(ui->SendInput->currentText());
     ui->SendInput->clearEditText();
@@ -57,30 +70,33 @@ QStringList CommunicatorSerialWidget::ListSerialPorts()
         {
             QTreeWidgetItem * portitem = new QTreeWidgetItem();
             portitem->setText(0,serialPortInfo.portName());
-
             item->addChild(portitem);
+
+            // Set the Dial range to the number of Baudrates that are available
+            ui->BaudrateSpeedDial->setMaximum(serialPortInfo.standardBaudRates().length());
+
+            availableBaudRates = serialPortInfo.standardBaudRates();
+
         }
     }
 
     return(results);
 }
 
-bool CommunicatorSerialWidget::openSerialPort()
+bool CommunicatorSerialWidget::openSerialPort(const QString serialportname)
 {
     bool retval(true);
-
-    ui->BaudrateSpeedDial->setMaximum(115200);
 
     if (!serialPort)
         serialPort = new QSerialPort();
     else
         serialPort->close();
 
-    serialPort->setPortName("COM4:");
-    serialPort->setBaudRate(9600);
+    serialPort->setPortName(serialportname);
+    serialPort->setBaudRate(availableBaudRates[ui->BaudrateSpeedDial->value()]);
     serialPort->setDataBits(QSerialPort::Data8);
 
-    // Parity
+    // - Parity
     if (ui->parityNRadioButton->isChecked())
         serialPort->setParity(QSerialPort::NoParity);
     else if (ui->parityERadioButton->isChecked())
@@ -88,17 +104,17 @@ bool CommunicatorSerialWidget::openSerialPort()
     else if (ui->parityORadioButton->isChecked())
         serialPort->setParity(QSerialPort::OddParity);
 
+    // - Stop Bits
     if (ui->stop1bitsRadioButton->isChecked())
         serialPort->setStopBits(QSerialPort::OneStop);
     else
         serialPort->setStopBits(QSerialPort::TwoStop);
 
     if (serialPort->open(QIODevice::ReadWrite)) {
-        //m_console->setEnabled(true);
-        //m_console->setLocalEchoEnabled(p.localEchoEnabled);
-        //m_ui->actionConnect->setEnabled(false);
-        //m_ui->actionDisconnect->setEnabled(true);
-        //m_ui->actionConfigure->setEnabled(false);
+
+       // - Create a Timer for reading data
+       serialTimer -> start();
+
         //showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
         //                  .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
         //                  .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
@@ -118,9 +134,44 @@ void CommunicatorSerialWidget::closeSerialPort()
 {
     if (serialPort->isOpen())
         serialPort->close();
-    //m_console->setEnabled(false);
-    //m_ui->actionConnect->setEnabled(true);
-    //m_ui->actionDisconnect->setEnabled(false);
-    //m_ui->actionConfigure->setEnabled(true);
     //showStatusMessage(tr("Disconnected"));
+}
+
+void CommunicatorSerialWidget::on_BaudrateSpeedDial_sliderMoved(int position)
+{
+    if (position >= 0)
+        ui->dialLabel->setText(tr("%1 Baud").arg(availableBaudRates[position]));
+}
+
+void CommunicatorSerialWidget::on_portSelectiontreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    if (item->isSelected())
+        qDebug("Item is selected item");
+
+    QString msg = item->text(0);
+
+}
+
+void CommunicatorSerialWidget::on_portSelectiontreeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    portName = current->text(0);
+}
+
+void CommunicatorSerialWidget::on_TimerEvent()
+{
+    const QByteArray data = serialPort->readAll();
+    const char nl = '\n';
+
+    if (data.indexOf(nl) != -1)
+    {
+        serialBuffer += data.left(data.indexOf(nl)-1);
+
+        ui->SerialDisplaylistWidget->addItem(serialBuffer);
+
+        serialBuffer = data.right(data.length()-serialBuffer.length());
+
+    } else
+
+        serialBuffer += data;
+
 }

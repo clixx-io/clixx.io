@@ -5,6 +5,9 @@
 #include <QStringList>
 
 QT_FORWARD_DECLARE_CLASS(QSerialPort)
+QT_FORWARD_DECLARE_CLASS(QTreeWidgetItem)
+QT_FORWARD_DECLARE_CLASS(QTimer)
+QT_FORWARD_DECLARE_CLASS(QByteArray)
 
 namespace Ui {
 class CommunicatorSerialWidget;
@@ -19,18 +22,29 @@ public:
     ~CommunicatorSerialWidget();
 
     QStringList ListSerialPorts();
-    bool openSerialPort();
+    bool openSerialPort(const QString serialportname);
     void closeSerialPort();
 
 private slots:
     void on_commandLinkButton_pressed();
     void on_sendButton_pressed();
     void on_CloseCommandLinkButton_pressed();
+    void on_TimerEvent();
+
+    void on_BaudrateSpeedDial_sliderMoved(int position);
+
+    void on_portSelectiontreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    void on_portSelectiontreeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 private:
     Ui::CommunicatorSerialWidget *ui;
 
     QSerialPort *serialPort = nullptr;
+    QList <int> availableBaudRates;
+    QString portName, portType;
+    QTimer *serialTimer;
+    QByteArray serialBuffer;
 
 };
 
