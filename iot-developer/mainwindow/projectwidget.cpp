@@ -1,5 +1,8 @@
 #include <QDockWidget>
 #include <QTreeWidgetItem>
+#include <QProcess>
+#include <QDebug>
+#include <QStringList>
 
 #include "mainwindow.h"
 
@@ -18,9 +21,13 @@ ProjectWidget::ProjectWidget(QWidget *parent) :
 ProjectWidget::~ProjectWidget()
 {
     delete ui;
+
+    if (builder)
+        delete builder;
+
 }
 
-void ProjectWidget::LoadProject(QString dir)
+void ProjectWidget::LoadProject(const QString dir)
 {
     if (!dir.isEmpty()) {
 
@@ -38,6 +45,31 @@ void ProjectWidget::LoadProject(QString dir)
             ui->projectFileList->addTopLevelItem(item);
         }
     }
+}
+
+void ProjectWidget::BuildProject(const QString buildspecifier)
+{
+    QString make("C:\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe");
+    QStringList makeparams;
+
+    makeparams << "-f" << "Makefile";
+
+    if (!builder)
+        builder = new QProcess(this);
+
+    builder->setProcessChannelMode(QProcess::MergedChannels);
+    builder->setWorkingDirectory(mainwindow->currentProject->getProjectDir());
+    builder->start(make,makeparams);
+
+    if (!builder->waitForFinished())
+    {
+        qDebug() << "Build failed" << builder->errorString();
+
+    } else
+    {
+        qDebug() << "Build Succeeded" << builder->readAll();
+    }
+
 }
 
 void ProjectWidget::on_projectFileList_itemDoubleClicked(QTreeWidgetItem *item, int column)

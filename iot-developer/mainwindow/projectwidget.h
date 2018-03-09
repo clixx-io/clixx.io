@@ -5,6 +5,7 @@
 
 QT_FORWARD_DECLARE_CLASS(MainWindow)
 QT_FORWARD_DECLARE_CLASS(QTreeWidgetItem)
+QT_FORWARD_DECLARE_CLASS(QProcess)
 
 namespace Ui {
 class ProjectWidget;
@@ -18,7 +19,9 @@ public:
     explicit ProjectWidget(QWidget *parent = 0);
     ~ProjectWidget();
 
-    void LoadProject(QString dir);
+    void LoadProject(const QString dir);
+    void BuildProject(const QString buildspecifier);
+
     inline void setMainWindow(MainWindow *main) { mainwindow = main; }
 
 private slots:
@@ -27,7 +30,10 @@ private slots:
 private:
     Ui::ProjectWidget *ui;
 
-    MainWindow *mainwindow;
+    MainWindow *mainwindow = nullptr;
+
+    QProcess *builder = nullptr;
+
 };
 
 #endif // PROJECTWIDGET_H
