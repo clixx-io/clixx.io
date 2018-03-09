@@ -423,6 +423,8 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
 
 void MainWindow::switchLayoutDirection()
 {
+    projectWindow->BuildProject("");
+
     if (layoutDirection() == Qt::LeftToRight)
         QApplication::setLayoutDirection(Qt::RightToLeft);
     else
