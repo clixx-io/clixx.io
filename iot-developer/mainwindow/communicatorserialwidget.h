@@ -25,6 +25,8 @@ public:
     bool openSerialPort(const QString serialportname);
     void closeSerialPort();
 
+    void showStatusMessage(const QString &message);
+
 private slots:
     void on_commandLinkButton_pressed();
     void on_sendButton_pressed();

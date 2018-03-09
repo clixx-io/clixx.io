@@ -3,6 +3,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QMessageBox>
 #include <QTreeWidgetItem>
+#include <QDebug>
 
 #include "communicatorserialwidget.h"
 #include "ui_communicatorserialwidget.h"
@@ -73,7 +74,7 @@ QStringList CommunicatorSerialWidget::ListSerialPorts()
             item->addChild(portitem);
 
             // Set the Dial range to the number of Baudrates that are available
-            ui->BaudrateSpeedDial->setMaximum(serialPortInfo.standardBaudRates().length());
+            ui->BaudrateSpeedDial->setMaximum(serialPortInfo.standardBaudRates().length() - 1);
 
             availableBaudRates = serialPortInfo.standardBaudRates();
 
@@ -141,6 +142,8 @@ void CommunicatorSerialWidget::on_BaudrateSpeedDial_sliderMoved(int position)
 {
     if (position >= 0)
         ui->dialLabel->setText(tr("%1 Baud").arg(availableBaudRates[position]));
+
+    qDebug() << "Slider position " << position << " baudrate" << availableBaudRates[position];
 }
 
 void CommunicatorSerialWidget::on_portSelectiontreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -173,5 +176,10 @@ void CommunicatorSerialWidget::on_TimerEvent()
     } else
 
         serialBuffer += data;
+
+}
+
+void CommunicatorSerialWidget::showStatusMessage(const QString &message)
+{
 
 }
