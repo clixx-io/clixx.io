@@ -39,6 +39,8 @@ private slots:
 
     void on_portSelectiontreeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
+    void on_portSelectiontreeWidget_itemPressed(QTreeWidgetItem *item, int column);
+
 private:
     Ui::CommunicatorSerialWidget *ui;
 

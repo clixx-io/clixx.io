@@ -16,6 +16,9 @@ CommunicatorSerialWidget::CommunicatorSerialWidget(QWidget *parent) :
 
     ListSerialPorts();
 
+    // - A Timer is used to monitor for new serial ports (plugged in)
+    //   and when a Port is open, that timer is used to read characters
+    //   received.
     serialTimer = new QTimer(this);
     serialTimer->setInterval(200);
     serialTimer->setSingleShot(false);
@@ -67,6 +70,7 @@ QStringList CommunicatorSerialWidget::ListSerialPorts()
     QList<QTreeWidgetItem*> clist = ui->portSelectiontreeWidget->findItems(tr("Serial"), Qt::MatchContains|Qt::MatchRecursive, 0);
     foreach(QTreeWidgetItem* item, clist)
     {
+
         foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
         {
             QTreeWidgetItem * portitem = new QTreeWidgetItem();
@@ -181,5 +185,38 @@ void CommunicatorSerialWidget::on_TimerEvent()
 
 void CommunicatorSerialWidget::showStatusMessage(const QString &message)
 {
+
+}
+
+void CommunicatorSerialWidget::on_portSelectiontreeWidget_itemPressed(QTreeWidgetItem *item, int column)
+{
+    if (item->text(0) == tr("Serial"))
+    {
+        ui->TargetstackedWidget->setCurrentIndex(0);
+    }
+    else if (item->text(0) == tr("TCP"))
+    {
+        ui->TargetstackedWidget->setCurrentIndex(1);
+    }
+    else if (item->text(0) == tr("UDP"))
+    {
+        ui->TargetstackedWidget->setCurrentIndex(1);
+    }
+    else if (item->text(0) == tr("UDP"))
+    {
+        ui->TargetstackedWidget->setCurrentIndex(1);
+    }
+    else if (item->text(0) == tr("I2C"))
+    {
+        ui->TargetstackedWidget->setCurrentIndex(1);
+    }
+    else if (item->text(0) == tr("MQTT"))
+    {
+        ui->TargetstackedWidget->setCurrentIndex(1);
+    }
+    else if (item->text(0) == tr("IFTTT"))
+    {
+        ui->TargetstackedWidget->setCurrentIndex(1);
+    }
 
 }
