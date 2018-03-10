@@ -92,31 +92,32 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
     menu = new QMenu("Welcome", this);
     const QIcon welcomeIcon(QPixmap(":/res/res/welcome-32.png"));
     menu->setIcon(welcomeIcon);
-    //const QIcon qtIcon(QPixmap(":/res/res/coderwall-logo-32.png"));
-    //menu->setIcon(qtIcon);
-    menu->addAction(genIcon(iconSize(), "A", Qt::blue), "Build");
-    menu->addAction(genIcon(iconSize(), "B", Qt::blue), "Deploy / Upload");
-    menu->addAction(genIcon(iconSize(), "C", Qt::blue), "Run Unit Tests");
-    menu->addAction(genIcon(iconSize(), "D", Qt::blue), "Clean");
-
+    menu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Run Project Wizard"));
     addAction(menu->menuAction());
 
     const QIcon saveIcon(QPixmap(":/res/res/save-32.png"));
-    QAction *saveAction = addAction(saveIcon, "Save");
+    QAction *saveAction = addAction(saveIcon, tr("Save"));
 
-    const QIcon devicesIcon(QPixmap(":/res/res/device-32.png"));
-    addAction(devicesIcon, "Devices");
+    const QIcon connectivityIcon(QPixmap(":/res/res/connectivity-32.png"));
+    addAction(connectivityIcon, tr("Devices"));
 
     const QIcon logicIcon(QPixmap(":/res/res/logic-32.png"));
-    addAction(logicIcon, "Logic");
+    addAction(logicIcon, tr("Logic"));
 
+    const QIcon devicesIcon(QPixmap(":/res/res/device-32.png"));
+    addAction(devicesIcon, tr("Connectivity"));
+
+    QMenu *build = new QMenu(tr("Build"), this);
     const QIcon buildIcon(QPixmap(":/res/res/build-32.png"));
-    addAction(buildIcon, "Build");
+    build->setIcon(buildIcon);
+    build->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Build"));
+    build->addAction(genIcon(iconSize(), "B", Qt::blue), tr("Deploy / Upload"));
+    build->addAction(genIcon(iconSize(), "C", Qt::blue), tr("Run Unit Tests"));
+    build->addAction(genIcon(iconSize(), "D", Qt::blue), tr("Clean"));
+    addAction(build->menuAction());
 
     const QIcon runIcon(QPixmap(":/res/res/run-32.png"));
-    QAction *runAction = addAction(runIcon, "Run");
-
-
+    QAction *runAction = addAction(runIcon, tr("Run"));
 
     orderAction = new QAction(this);
     orderAction->setText(tr("Order Items in Tool Bar"));

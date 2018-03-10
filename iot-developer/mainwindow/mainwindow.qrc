@@ -11,5 +11,6 @@
         <file>res/welcome-32.png</file>
         <file>res/device-32.png</file>
         <file>res/logic-32.png</file>
+        <file>res/connectivity-32.png</file>
     </qresource>
 </RCC>
