@@ -89,22 +89,35 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
 
     setIconSize(QSize(32, 32));
 
-    menu = new QMenu("One", this);
-    menu->setIcon(genIcon(iconSize(), 1, Qt::black));
-    menu->addAction(genIcon(iconSize(), "A", Qt::blue), "A");
-    menu->addAction(genIcon(iconSize(), "B", Qt::blue), "B");
-    menu->addAction(genIcon(iconSize(), "C", Qt::blue), "C");
+    menu = new QMenu("Welcome", this);
+    const QIcon welcomeIcon(QPixmap(":/res/res/welcome-32.png"));
+    menu->setIcon(welcomeIcon);
+    //const QIcon qtIcon(QPixmap(":/res/res/coderwall-logo-32.png"));
+    //menu->setIcon(qtIcon);
+    menu->addAction(genIcon(iconSize(), "A", Qt::blue), "Build");
+    menu->addAction(genIcon(iconSize(), "B", Qt::blue), "Deploy / Upload");
+    menu->addAction(genIcon(iconSize(), "C", Qt::blue), "Run Unit Tests");
+    menu->addAction(genIcon(iconSize(), "D", Qt::blue), "Clean");
+
     addAction(menu->menuAction());
 
-    QAction *two = addAction(genIcon(iconSize(), 2, Qt::white), "Two");
-    QFont boldFont;
-    boldFont.setBold(true);
-    two->setFont(boldFont);
+    const QIcon saveIcon(QPixmap(":/res/res/save-32.png"));
+    QAction *saveAction = addAction(saveIcon, "Save");
 
-    addAction(genIcon(iconSize(), 3, Qt::red), "Three");
-    addAction(genIcon(iconSize(), 4, Qt::green), "Four");
-    addAction(genIcon(iconSize(), 5, Qt::blue), "Five");
-    addAction(genIcon(iconSize(), 6, Qt::yellow), "Six");
+    const QIcon devicesIcon(QPixmap(":/res/res/device-32.png"));
+    addAction(devicesIcon, "Devices");
+
+    const QIcon logicIcon(QPixmap(":/res/res/logic-32.png"));
+    addAction(logicIcon, "Logic");
+
+    const QIcon buildIcon(QPixmap(":/res/res/build-32.png"));
+    addAction(buildIcon, "Build");
+
+    const QIcon runIcon(QPixmap(":/res/res/run-32.png"));
+    QAction *runAction = addAction(runIcon, "Run");
+
+
+
     orderAction = new QAction(this);
     orderAction->setText(tr("Order Items in Tool Bar"));
     connect(orderAction, &QAction::triggered, this, &ToolBar::order);
@@ -197,7 +210,6 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
 
     connect(menu, &QMenu::aboutToShow, this, &ToolBar::updateMenu);
 
-    randomize();
 }
 
 void ToolBar::updateMenu()

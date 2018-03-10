@@ -1,8 +1,15 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource prefix="/res">
-   <file>qt.png</file>
-   <file>titlebarLeft.png</file>
-   <file>titlebarCenter.png</file>
-   <file>titlebarRight.png</file>
-</qresource>
+<RCC>
+    <qresource prefix="/res">
+        <file>qt.png</file>
+        <file>titlebarLeft.png</file>
+        <file>titlebarCenter.png</file>
+        <file>titlebarRight.png</file>
+        <file>res/cplus.png</file>
+        <file>res/build-32.png</file>
+        <file>res/run-32.png</file>
+        <file>res/save-32.png</file>
+        <file>res/welcome-32.png</file>
+        <file>res/device-32.png</file>
+        <file>res/logic-32.png</file>
+    </qresource>
 </RCC>
