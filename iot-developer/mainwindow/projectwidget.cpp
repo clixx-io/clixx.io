@@ -123,10 +123,16 @@ void ProjectWidget::loadProject(const QString dir)
 
 void ProjectWidget::buildProject(const QString buildspecifier)
 {
-    QString make("C:\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe");
-    QStringList makeparams;
 
-    makeparams << "-f" << "Makefile";
+#ifdef Q_OS_WIN32
+    // TODO : fix this
+    QString make("C:\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe");
+#else
+    QString make("make");
+#endif
+
+    QStringList makeparams;
+    makeparams << "-f" << "Makefile" << buildspecifier;
 
     if (!builder)
         builder = new QProcess(this);
