@@ -19,10 +19,16 @@ public:
     explicit ProjectWidget(QWidget *parent = 0);
     ~ProjectWidget();
 
-    void LoadProject(const QString dir);
-    void BuildProject(const QString buildspecifier);
+    void loadProject(const QString dir);
+    void buildProject(const QString buildspecifier);
 
     inline void setMainWindow(MainWindow *main) { mainwindow = main; }
+
+public slots:
+    void deployProject();
+    void cleanProject();
+    void checkProject();
+    void runProject();
 
 private slots:
     void on_projectFileList_itemDoubleClicked(QTreeWidgetItem *item, int column);

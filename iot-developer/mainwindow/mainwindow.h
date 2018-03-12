@@ -61,6 +61,7 @@ QT_FORWARD_DECLARE_CLASS(CommunicatorSerialWidget)
 QT_FORWARD_DECLARE_CLASS(ToolBar)
 QT_FORWARD_DECLARE_CLASS(QMenu)
 QT_FORWARD_DECLARE_CLASS(QTreeWidget)
+QT_FORWARD_DECLARE_CLASS(QListWidget)
 
 class MainWindow : public QMainWindow
 {
@@ -75,6 +76,11 @@ public:
 
     void LoadCodeSource(const QString filename);
     void showStatusMessage(const QString &message);
+    void clearStatusMessages();
+
+    void setBuildButtonToggles(const bool alloption = false, const bool cleanoption = false,
+                               const bool transferoption = false, const bool checkoption = false,
+                               const bool runoption = false);
 
     ClixxIoTProjects *Projects;
     ClixxIoTProject  *currentProject;
@@ -82,16 +88,44 @@ public:
     ProjectWidget *projectWindow;
     CodeEditor *center;
     CommunicatorSerialWidget *commWindow;
+    ToolBar *toolBar;
 
 public slots:
+
+    void showWelcome();
+    void newProject();
+    void loadProject();
+    void saveFile();
+
     void actionTriggered(QAction *action);
     void saveLayout();
-    void loadProject();
     void switchLayoutDirection();
     void setDockOptions();
 
     void createDockWidget();
     void destroyDockWidget(QAction *action);
+
+    void cutText();
+    void copyText();
+    void pasteText();
+    void selectAllText();
+    void FindReplaceText();
+    void GotoLineText();
+    void UserSettings();
+    void buildProject();
+    void deployProject();
+    void cleanProject();
+    void checkProject();
+    void runProject();
+    void architectureGpio();
+    void architectureBuses();
+    void architectureLogic();
+    void architectureInterrupts();
+    void architectureSensorsActuators();
+    void architectureDeployment();
+    void architectureOS();
+    void Visualise();
+    void EventPlayback();
 
 private:
     void setupToolBar();
@@ -106,9 +140,17 @@ private:
     QMenu *HelpMenu;
     QMenu *buildWindowMenu;
 
+    QAction *buildAction;
+    QAction *deployAction;
+    QAction *cleanAction;
+    QAction *checkAction;
+    QAction *runAction;
+
     QMenu *mainWindowMenu;
     QList<QDockWidget *> extraDockWidgets;
     QMenu *destroyDockWidgetMenu;
+
+    QListWidget *userMessages;
 
 };
 

@@ -3,6 +3,10 @@
 #include <QProcess>
 #include <QDebug>
 #include <QStringList>
+#include <QFile>
+#include <QTextStream>
+#include <QDir>
+#include <QMessageBox>
 
 #include "mainwindow.h"
 
@@ -27,14 +31,14 @@ ProjectWidget::~ProjectWidget()
 
 }
 
-void ProjectWidget::LoadProject(const QString dir)
+void ProjectWidget::loadProject(const QString dir)
 {
+    bool cleanOption(false), allOption(false), transferOption(false), checkOption(false);
+
     if (!dir.isEmpty()) {
 
         mainwindow->currentProject->setProjectDir(dir);
 
-        // currentProject->setProjectDir(dir);
-        // QStringList projectfiles = currentProject->listfiles();
         QStringList files = mainwindow->currentProject->listfiles();
 
         ui->projectFileList->clear();
@@ -44,10 +48,80 @@ void ProjectWidget::LoadProject(const QString dir)
             item->setText(0,files[i]);
             ui->projectFileList->addTopLevelItem(item);
         }
+
+        // - From the list of files, see if we have something that we
+        //   can recognise like a Makefile
+        if (files.contains("Makefile"))
+        {
+            // - (open the makefile, and read it into memory.)
+            QStringList makefile;
+            QString filename(mainwindow->currentProject->getProjectDir() + "/Makefile");
+            QFile file(filename);
+
+            if (file.open(QIODevice::ReadOnly))
+            {
+                while(!file.atEnd())
+                    makefile.append(file.readLine());
+
+                file.close();
+            }
+            else
+            {
+                qDebug() << tr("Error opening %1").arg(filename);
+            }
+
+            mainwindow->clearStatusMessages();
+
+            // - Check the Makefile for all, clean, check
+            foreach (QString line, makefile)
+            {
+                if (line.startsWith("all:"))
+                {
+                    allOption = true;
+                }
+                else if (line.startsWith("clean:"))
+                {
+                    cleanOption = true;
+                }
+                else if (line.startsWith("deploy") || (line.startsWith("transfer")))
+                {
+                    transferOption = true;
+                }
+                else if (line.startsWith("check:"))
+                {
+                    checkOption = true;
+                }
+            }
+
+            QString makeoptions;
+            if (allOption)
+                makeoptions += "all,";
+            if (cleanOption)
+                makeoptions += "clean,";
+            if (checkOption)
+                makeoptions += "check";
+            if (makeoptions.endsWith(','))
+                makeoptions = makeoptions.left(makeoptions.length()-1);
+
+            mainwindow->showStatusMessage(tr("GNU style makefile found with %1 options.").arg(makeoptions));
+
+        }
+
+        if (QDir::setCurrent(mainwindow->currentProject->getProjectDir()))
+        {
+            mainwindow->showStatusMessage(tr("Using Project directory %1.").arg(QDir::currentPath()));
+        } else
+        {
+            mainwindow->showStatusMessage(tr("Failed to change to %1 directory.").arg(mainwindow->currentProject->getProjectDir()));
+            return;
+        }
+
+        mainwindow->setBuildButtonToggles(allOption,cleanOption,transferOption, checkOption);
+
     }
 }
 
-void ProjectWidget::BuildProject(const QString buildspecifier)
+void ProjectWidget::buildProject(const QString buildspecifier)
 {
     QString make("C:\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe");
     QStringList makeparams;
@@ -63,13 +137,38 @@ void ProjectWidget::BuildProject(const QString buildspecifier)
 
     if (!builder->waitForFinished())
     {
-        qDebug() << "Build failed" << builder->errorString();
+        mainwindow->showStatusMessage(tr("Build failed - %1").arg(builder->errorString()));
 
     } else
     {
-        qDebug() << "Build Succeeded" << builder->readAll();
+        QString processOutput(builder->readAll());
+
+        mainwindow->showStatusMessage(tr("Build succeeded - %1").arg(processOutput));
     }
 
+}
+
+void ProjectWidget::deployProject()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void ProjectWidget::cleanProject()
+{
+    return;
+}
+
+void ProjectWidget::checkProject()
+{
+    return;
+}
+
+void ProjectWidget::runProject()
+{
+    return;
 }
 
 void ProjectWidget::on_projectFileList_itemDoubleClicked(QTreeWidgetItem *item, int column)

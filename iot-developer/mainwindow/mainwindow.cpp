@@ -1,18 +1,18 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
-** Contact: https://www.qt.io/licensing/
+** Copyright (C) 2018 Clixx.io Pty Limited
+** Contact: https://www.clixx.io/licensing/
 **
-** This file is part of the demonstration applications of the Qt Toolkit.
+** This file is part of the demonstration applications of the Clixx.io
+** Commander Program.
 **
-** $QT_BEGIN_LICENSE:BSD$
 ** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
+** Licensees holding valid commercial Clixx.io licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see https://www.qt.io/terms-conditions. For further
-** information use the contact form at https://www.qt.io/contact-us.
+** a written agreement between you and Clixx.io Pty Limited. For licensing terms
+** and conditions see https://www.clixx.io/terms-conditions. For further
+** information use the contact form at https://www.clixx.io/contact-us.
 **
 ** BSD License Usage
 ** Alternatively, you may use this file under the terms of the BSD license
@@ -27,7 +27,7 @@
 **     notice, this list of conditions and the following disclaimer in
 **     the documentation and/or other materials provided with the
 **     distribution.
-**   * Neither the name of The Qt Company Ltd nor the names of its
+**   * Neither the name of The Clixx.io Company nor the names of its
 **     contributors may be used to endorse or promote products derived
 **     from this software without specific prior written permission.
 **
@@ -43,8 +43,6 @@
 ** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
-**
-** $QT_END_LICENSE$
 **
 ****************************************************************************/
 
@@ -129,56 +127,59 @@ void MainWindow::setupToolBar()
     setUnifiedTitleAndToolBarOnMac(true);
 #endif
 
-    ToolBar *tb = new ToolBar(QString::fromLatin1("Tool Bar 1"), this);
-    toolBars.append(tb);
-    addToolBar(tb);
+    toolBar = new ToolBar(QString::fromLatin1("Tool Bar 1"), this);
+    toolBars.append(toolBar);
+    addToolBar(toolBar);
 
 }
 
 void MainWindow::setupMenuBar()
 {
     QMenu *menu = menuBar()->addMenu(tr("&File"));
-
     menu->addAction(tr("New Project.."),this, &MainWindow::switchLayoutDirection);
     menu->addAction(tr("Load Project.."), this, &MainWindow::loadProject);
     menu->addAction(tr("Recent Projects"), this, &MainWindow::saveLayout);
     menu->addSeparator();
+    menu->addAction(tr("&Save"), this, &MainWindow::saveFile);
+    menu->addSeparator();
     menu->addAction(tr("&Quit"), this, &QWidget::close);
 
     EditMenu = menuBar()->addMenu(tr("&Edit"));
-    EditMenu->addAction(tr("Cut"),this, &MainWindow::switchLayoutDirection);
-    EditMenu->addAction(tr("Copy"), this, &MainWindow::loadProject);
-    EditMenu->addAction(tr("Paste"), this, &MainWindow::saveLayout);
+    EditMenu->addAction(tr("Cut"),this, &MainWindow::cutText);
+    EditMenu->addAction(tr("Copy"), this, &MainWindow::copyText);
+    EditMenu->addAction(tr("Paste"), this, &MainWindow::pasteText);
     menu->addSeparator();
-    EditMenu->addAction(tr("Select All"), this, &MainWindow::saveLayout);
+    EditMenu->addAction(tr("Select All"), this, &MainWindow::selectAllText);
     menu->addSeparator();
-    EditMenu->addAction(tr("Find/Replace"), this, &MainWindow::saveLayout);
+    EditMenu->addAction(tr("Find/Replace"), this, &MainWindow::FindReplaceText);
     menu->addSeparator();
-    EditMenu->addAction(tr("Goto Line"), this, &MainWindow::saveLayout);
+    EditMenu->addAction(tr("Goto Line"), this, &MainWindow::GotoLineText);
     menu->addSeparator();
-    EditMenu->addAction(tr("Settings"), this, &MainWindow::saveLayout);
+    EditMenu->addAction(tr("Settings"), this, &MainWindow::UserSettings);
 
     buildWindowMenu = menuBar()->addMenu(tr("&Build"));
-    buildWindowMenu->addAction(tr("Build.."),this, &MainWindow::switchLayoutDirection);
-    buildWindowMenu->addAction(tr("Deploy.."), this, &MainWindow::loadProject);
-    buildWindowMenu->addAction(tr("Clean"), this, &MainWindow::saveLayout);
-    buildWindowMenu->addAction(tr("Unit Test"), this, &MainWindow::saveLayout);
-    buildWindowMenu->addAction(tr("Run"), this, &MainWindow::saveLayout);
+    buildAction = buildWindowMenu->addAction(tr("Build.."),this, &MainWindow::buildProject);
+    deployAction = buildWindowMenu->addAction(tr("Deploy.."), this, &MainWindow::deployProject);
+    cleanAction = buildWindowMenu->addAction(tr("Clean"), this, &MainWindow::cleanProject);
+    checkAction = buildWindowMenu->addAction(tr("Unit Test"), this, &MainWindow::checkProject);
+    runAction = buildWindowMenu->addAction(tr("Run"), this, &MainWindow::runProject);
+
+    setBuildButtonToggles();
 
     QMenu *toolBarMenu = menuBar()->addMenu(tr("&Design"));
-    toolBarMenu->addAction(tr("GPIO Connections"),this, &MainWindow::switchLayoutDirection);
-    toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::loadProject);
-    toolBarMenu->addAction(tr("Ladder Logic"), this, &MainWindow::saveLayout);
-    toolBarMenu->addAction(tr("Software Interrupts"), this, &MainWindow::saveLayout);
-    toolBarMenu->addAction(tr("Sensors/Actuators"), this, &MainWindow::saveLayout);
-    toolBarMenu->addAction(tr("Deployment Architecture"), this, &MainWindow::saveLayout);
-    toolBarMenu->addAction(tr("Operating System"), this, &MainWindow::saveLayout);
+    toolBarMenu->addAction(tr("GPIO Connections"),this, &MainWindow::architectureGpio);
+    toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::architectureBuses);
+    toolBarMenu->addAction(tr("Ladder Logic"), this, &MainWindow::architectureLogic);
+    toolBarMenu->addAction(tr("Software Interrupts"), this, &MainWindow::architectureInterrupts);
+    toolBarMenu->addAction(tr("Sensors/Actuators"), this, &MainWindow::architectureSensorsActuators);
+    toolBarMenu->addAction(tr("Deployment Architecture"), this, &MainWindow::architectureDeployment);
+    toolBarMenu->addAction(tr("Operating System"), this, &MainWindow::architectureOS);
 //    for (int i = 0; i < toolBars.count(); ++i)
 //        toolBarMenu->addMenu(toolBars.at(i)->toolbarMenu());
 
     NetworkMenu = menuBar()->addMenu(tr("&Analyse"));
-    NetworkMenu->addAction(tr("Generate Visualisation"), this, &MainWindow::saveLayout);
-    NetworkMenu->addAction(tr("Event Playback"), this, &MainWindow::saveLayout);
+    NetworkMenu->addAction(tr("Generate Visualisation"), this, &MainWindow::Visualise);
+    NetworkMenu->addAction(tr("Event Playback"), this, &MainWindow::EventPlayback);
 
 #ifdef Q_OS_OSX
     toolBarMenu->addSeparator();
@@ -277,21 +278,6 @@ void MainWindow::saveLayout()
     }
 }
 
-void MainWindow::loadProject()
-{
-
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                 Projects->getProjectsDir(),
-                                                 QFileDialog::ShowDirsOnly
-                                                 | QFileDialog::DontResolveSymlinks);
-
-    if (dir.length())
-        projectWindow->LoadProject(dir);
-
-    return;
-
-}
-
 static QAction *addCornerAction(const QString &text, QMainWindow *mw, QMenu *menu, QActionGroup *group,
                                 Qt::Corner c, Qt::DockWidgetArea a)
 {
@@ -307,12 +293,12 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     // Compiler Output Area
     QDockWidget *dock = new QDockWidget(tr("Output"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    QListWidget *outputList = new QListWidget(dock);
-    outputList->addItems(QStringList()
+    userMessages = new QListWidget(dock);
+    userMessages->addItems(QStringList()
             << "Ready."
 //          << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
             );
-    dock->setWidget(outputList);
+    dock->setWidget(userMessages);
     addDockWidget(Qt::BottomDockWidgetArea, dock);
     //dock->setMinimumHeight(300);
     dock->setMinimumWidth(400);
@@ -423,7 +409,7 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
 
 void MainWindow::switchLayoutDirection()
 {
-    projectWindow->BuildProject("");
+    projectWindow->buildProject("");
 
     if (layoutDirection() == Qt::LeftToRight)
         QApplication::setLayoutDirection(Qt::RightToLeft);
@@ -538,7 +524,215 @@ void MainWindow::LoadCodeSource(const QString filename)
 
 }
 
+void MainWindow::setBuildButtonToggles(const bool alloption, const bool cleanoption, const bool transferoption, const bool checkoption,const bool runoption)
+{
+    buildAction->setEnabled(alloption);
+    deployAction->setEnabled(transferoption);
+    cleanAction->setEnabled(cleanoption);
+    checkAction->setEnabled(checkoption);
+    runAction->setEnabled(runoption);
+
+    if (toolBar)
+        toolBar->setBuildButtonToggles(alloption, cleanoption, transferoption, checkoption, runoption);
+}
+
+void MainWindow::newProject()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Error"), tr("Not implemented"),QMessageBox::Ok);
+    msgBox.exec();
+}
+
+void MainWindow::loadProject()
+{
+
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                 Projects->getProjectsDir(),
+                                                 QFileDialog::ShowDirsOnly
+                                                 | QFileDialog::DontResolveSymlinks);
+
+    if (dir.length())
+        projectWindow->loadProject(dir);
+
+    return;
+
+}
+
+void MainWindow::cutText()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::copyText()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::pasteText()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::selectAllText()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::FindReplaceText()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::GotoLineText()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::UserSettings()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::buildProject()
+{
+    projectWindow->buildProject("all");
+}
+
+void MainWindow::deployProject()
+{
+    projectWindow->buildProject("deploy");
+}
+
+void MainWindow::cleanProject()
+{
+    projectWindow->buildProject("clean");
+}
+
+void MainWindow::checkProject()
+{
+    projectWindow->buildProject("check");
+}
+
+void MainWindow::runProject()
+{
+    projectWindow->buildProject("run");
+}
+
+void MainWindow::architectureGpio()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::architectureBuses()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::architectureLogic()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::architectureInterrupts()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::architectureSensorsActuators()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::architectureDeployment()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::architectureOS()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::Visualise()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::EventPlayback()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::showWelcome()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::saveFile()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
 void MainWindow::showStatusMessage(const QString &message)
 {
-//    m_status->setText(message);
+    userMessages->addItem(message);
 }
+
+void MainWindow::clearStatusMessages()
+{
+    userMessages->clear();
+}
+

@@ -107,14 +107,15 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
     const QIcon devicesIcon(QPixmap(":/res/res/device-32.png"));
     addAction(devicesIcon, tr("Connectivity"));
 
-    QMenu *build = new QMenu(tr("Build"), this);
+    buildmenu = new QMenu(tr("Build"), this);
     const QIcon buildIcon(QPixmap(":/res/res/build-32.png"));
-    build->setIcon(buildIcon);
-    build->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Build"));
-    build->addAction(genIcon(iconSize(), "B", Qt::blue), tr("Deploy / Upload"));
-    build->addAction(genIcon(iconSize(), "C", Qt::blue), tr("Run Unit Tests"));
-    build->addAction(genIcon(iconSize(), "D", Qt::blue), tr("Clean"));
-    addAction(build->menuAction());
+    buildmenu->setIcon(buildIcon);
+    buildAction = buildmenu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Build"));
+    deployAction = buildmenu->addAction(genIcon(iconSize(), "B", Qt::blue), tr("Deploy / Upload"));
+    checkAction = buildmenu->addAction(genIcon(iconSize(), "C", Qt::blue), tr("Run Unit Tests"));
+    cleanAction = buildmenu->addAction(genIcon(iconSize(), "D", Qt::blue), tr("Clean"));
+    addAction(buildmenu->menuAction());
+    buildmenu->setDefaultAction(buildAction);
 
     const QIcon runIcon(QPixmap(":/res/res/run-32.png"));
     QAction *runAction = addAction(runIcon, tr("Run"));
@@ -366,4 +367,16 @@ void ToolBar::insertToolBarBreak()
     Q_ASSERT(mainWindow != 0);
 
     mainWindow->insertToolBarBreak(this);
+}
+
+void ToolBar::setBuildButtonToggles(const bool alloption, const bool cleanoption, const bool transferoption, const bool checkoption,const bool runoption)
+{
+    /*
+    //buildAction->setEnabled(alloption);
+    buildmenu->setEnabled(alloption);
+    deployAction->setEnabled(transferoption);
+    cleanAction->setEnabled(cleanoption);
+    checkAction->setEnabled(checkoption);
+    runAction->setEnabled(runoption);
+    */
 }

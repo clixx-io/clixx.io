@@ -32,6 +32,9 @@ public:
 
     QStringList listfiles();
 
+    QStringList iodevices;
+    QStringList connections;
+
     int Open(QString projectname = "");
     int Close();
 

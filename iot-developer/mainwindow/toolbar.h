@@ -67,6 +67,11 @@ public:
 
     QMenu *toolbarMenu() const { return menu; }
 
+    QMenu *buildmenu;
+
+    void setBuildButtonToggles(const bool alloption, const bool cleanoption, const bool transferoption,
+                               const bool checkoption,const bool runoption);
+
 private slots:
     void order();
     void randomize();
@@ -94,6 +99,12 @@ private:
 
     QSpinBox *spinbox;
     QAction *spinboxAction;
+
+    QAction *buildAction;
+    QAction *deployAction;
+    QAction *checkAction;
+    QAction *cleanAction;
+    QAction *runAction;
 
     QMenu *menu;
     QAction *orderAction;
