@@ -8,6 +8,7 @@ QT_FORWARD_DECLARE_CLASS(QSerialPort)
 QT_FORWARD_DECLARE_CLASS(QTreeWidgetItem)
 QT_FORWARD_DECLARE_CLASS(QTimer)
 QT_FORWARD_DECLARE_CLASS(QByteArray)
+QT_FORWARD_DECLARE_CLASS(MainWindow)
 
 namespace Ui {
 class CommunicatorSerialWidget;
@@ -22,10 +23,12 @@ public:
     ~CommunicatorSerialWidget();
 
     QStringList ListSerialPorts();
+    void refreshSerialPorts();
     bool openSerialPort(const QString serialportname);
     void closeSerialPort();
 
     void showStatusMessage(const QString &message);
+    inline void setMainWindow(MainWindow *main) { mainwindow = main; }
 
 private slots:
     void on_commandLinkButton_pressed();
@@ -49,6 +52,8 @@ private:
     QString portName, portType;
     QTimer *serialTimer;
     QByteArray serialBuffer;
+
+    MainWindow *mainwindow = nullptr;
 
 };
 

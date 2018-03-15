@@ -316,6 +316,7 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     // A Multipurpose communicator
     QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
     commWindow = new CommunicatorSerialWidget(myframe);
+    commWindow->setMainWindow(this);
     addDockWidget(Qt::RightDockWidgetArea, myframe);
     myframe->setMinimumWidth(400);
     myframe->setMinimumHeight(300);

@@ -83,62 +83,6 @@
        <string>UDP</string>
       </property>
      </item>
-     <item>
-      <property name="text">
-       <string>HTTP</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>WebSocket</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Bluetooth</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>MQTT</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>IFTTT</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>I2C</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>CAN</string>
-      </property>
-      <property name="flags">
-       <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-      </property>
-     </item>
     </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">
@@ -176,7 +120,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="serial_settings">
       <widget class="QGroupBox" name="StopBitsgroupBox">

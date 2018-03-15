@@ -7,6 +7,7 @@
 
 #include "communicatorserialwidget.h"
 #include "ui_communicatorserialwidget.h"
+#include "mainwindow.h"
 
 CommunicatorSerialWidget::CommunicatorSerialWidget(QWidget *parent) :
     QWidget(parent),
@@ -14,13 +15,13 @@ CommunicatorSerialWidget::CommunicatorSerialWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ListSerialPorts();
+    refreshSerialPorts();
 
     // - A Timer is used to monitor for new serial ports (plugged in)
     //   and when a Port is open, that timer is used to read characters
     //   received.
     serialTimer = new QTimer(this);
-    serialTimer->setInterval(200);
+    serialTimer->setInterval(3000);
     serialTimer->setSingleShot(false);
     connect(serialTimer, SIGNAL(timeout()),this,SLOT(on_TimerEvent()));
 
@@ -33,13 +34,13 @@ CommunicatorSerialWidget::~CommunicatorSerialWidget()
 
 void CommunicatorSerialWidget::on_commandLinkButton_pressed()
 {
-
     if (openSerialPort(portName))
     {
         ui->stackedWidget->setCurrentIndex(1);
         ui->SendInput->setFocus();
-    }
+        serialTimer->setInterval(200);
 
+    }
 }
 
 void CommunicatorSerialWidget::on_sendButton_pressed()
@@ -60,6 +61,7 @@ void CommunicatorSerialWidget::on_sendButton_pressed()
 
 void CommunicatorSerialWidget::on_CloseCommandLinkButton_pressed()
 {
+    closeSerialPort();
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -67,22 +69,16 @@ QStringList CommunicatorSerialWidget::ListSerialPorts()
 {
     QStringList results;
 
-    QList<QTreeWidgetItem*> clist = ui->portSelectiontreeWidget->findItems(tr("Serial"), Qt::MatchContains|Qt::MatchRecursive, 0);
-    foreach(QTreeWidgetItem* item, clist)
+    foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
     {
 
-        foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
-        {
-            QTreeWidgetItem * portitem = new QTreeWidgetItem();
-            portitem->setText(0,serialPortInfo.portName());
-            item->addChild(portitem);
+        // Set the Dial range to the number of Baudrates that are available
+        ui->BaudrateSpeedDial->setMaximum(serialPortInfo.standardBaudRates().length() - 1);
 
-            // Set the Dial range to the number of Baudrates that are available
-            ui->BaudrateSpeedDial->setMaximum(serialPortInfo.standardBaudRates().length() - 1);
+        availableBaudRates = serialPortInfo.standardBaudRates();
 
-            availableBaudRates = serialPortInfo.standardBaudRates();
+        results.append(serialPortInfo.portName());
 
-        }
     }
 
     return(results);
@@ -118,15 +114,14 @@ bool CommunicatorSerialWidget::openSerialPort(const QString serialportname)
     if (serialPort->open(QIODevice::ReadWrite)) {
 
        // - Create a Timer for reading data
-       serialTimer -> start();
+       serialTimer->start();
 
-        //showStatusMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
-        //                  .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
-        //                  .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
+        showStatusMessage(tr("Connected to %1 at %2 Baud.")
+                          .arg(serialportname).arg(availableBaudRates[ui->BaudrateSpeedDial->value()]));
     } else {
         QMessageBox::critical(this, tr("Error"), serialPort->errorString());
 
-        //showStatusMessage(tr("Open error"));
+        showStatusMessage(tr("Open error %1").arg(serialPort->errorString()));
         retval = false;
     }
 
@@ -139,7 +134,8 @@ void CommunicatorSerialWidget::closeSerialPort()
 {
     if (serialPort->isOpen())
         serialPort->close();
-    //showStatusMessage(tr("Disconnected"));
+
+    showStatusMessage(tr("Disconnected"));
 }
 
 void CommunicatorSerialWidget::on_BaudrateSpeedDial_sliderMoved(int position)
@@ -152,47 +148,104 @@ void CommunicatorSerialWidget::on_BaudrateSpeedDial_sliderMoved(int position)
 
 void CommunicatorSerialWidget::on_portSelectiontreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    if (item->isSelected())
-        qDebug("Item is selected item");
 
-    QString msg = item->text(0);
+    if (item->isSelected())
+        qDebug() << "Item selected is " << item->text(0).toLatin1();
+
+    refreshSerialPorts();
 
 }
 
 void CommunicatorSerialWidget::on_portSelectiontreeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    portName = current->text(0);
+    if (current)
+      portName = current->text(0);
 }
 
 void CommunicatorSerialWidget::on_TimerEvent()
 {
-    const QByteArray data = serialPort->readAll();
-    const char nl = '\n';
-
-    if (data.indexOf(nl) != -1)
+    if (serialPort->isOpen())
     {
-        serialBuffer += data.left(data.indexOf(nl)-1);
+        const QByteArray data = serialPort->readAll();
+        const char nl = '\n';
 
-        ui->SerialDisplaylistWidget->addItem(serialBuffer);
+        if (data.indexOf(nl) != -1)
+        {
+            serialBuffer += data.left(data.indexOf(nl)-1);
 
-        serialBuffer = data.right(data.length()-serialBuffer.length());
+            ui->SerialDisplaylistWidget->addItem(serialBuffer);
 
-    } else
+            serialBuffer = data.right(data.length()-serialBuffer.length());
 
-        serialBuffer += data;
+        } else
 
+            serialBuffer += data;
+
+    } else {
+        refreshSerialPorts();
+    }
+
+}
+
+void CommunicatorSerialWidget::refreshSerialPorts()
+{
+    // - Look for new or removed serial ports
+    QStringList ports;
+    QString portname;
+
+    ports = ListSerialPorts();
+
+    QList<QTreeWidgetItem*> displaylist = ui->portSelectiontreeWidget->findItems(tr("Serial"), Qt::MatchContains|Qt::MatchRecursive, 0);
+    foreach(QTreeWidgetItem* item, displaylist)
+    {
+
+        // - scan the list of displayed ports
+        for (int i=0;i<item->childCount();i++)
+        {
+            // -- check for deleted port
+            if (!ports.contains(item->child(i)->text(0)))
+            {
+                qDebug() << "deleted port" << item->child(i)->text(0);
+                QList<QTreeWidgetItem*> foundlist = ui->portSelectiontreeWidget->findItems(item->child(i)->text(0), Qt::MatchContains|Qt::MatchRecursive, 0);
+                foreach (QTreeWidgetItem *widget, foundlist)
+                {
+                    delete widget;
+                }
+            }
+
+        }
+
+        foreach (portname, ports)
+        {
+
+            QList<QTreeWidgetItem*> foundlist = ui->portSelectiontreeWidget->findItems(portname, Qt::MatchContains|Qt::MatchRecursive, 0);
+            if (!foundlist.length())
+            {
+                // - Add the new item
+                QTreeWidgetItem * portitem = new QTreeWidgetItem();
+                portitem->setText(0,portname);
+                item->addChild(portitem);
+                qDebug() << "add port" << portname;
+            }
+
+        }
+
+    }
 }
 
 void CommunicatorSerialWidget::showStatusMessage(const QString &message)
 {
-
+    mainwindow->showStatusMessage(message);
 }
 
 void CommunicatorSerialWidget::on_portSelectiontreeWidget_itemPressed(QTreeWidgetItem *item, int column)
 {
     if (item->text(0) == tr("Serial"))
     {
+        refreshSerialPorts();
+
         ui->TargetstackedWidget->setCurrentIndex(0);
+
     }
     else if (item->text(0) == tr("TCP"))
     {
