@@ -9,7 +9,8 @@ HEADERS += colorswatch.h mainwindow.h toolbar.h \
     communicatorserialwidget.h \
     eventplaybackwidget.h \
     hardwarelayoutwidget.h \
-    clixxiotprojects.h
+    clixxiotprojects.h \
+    hardwaregpio.h
 SOURCES += colorswatch.cpp mainwindow.cpp toolbar.cpp main.cpp \
     codeeditor.cpp \
     outputwidget.cpp \
@@ -18,7 +19,8 @@ SOURCES += colorswatch.cpp mainwindow.cpp toolbar.cpp main.cpp \
     communicatorserialwidget.cpp \
     eventplaybackwidget.cpp \
     hardwarelayoutwidget.cpp \
-    clixxiotprojects.cpp
+    clixxiotprojects.cpp \
+    hardwaregpio.cpp
 build_all:!build_pass {
     CONFIG -= build_all
     CONFIG += release
@@ -36,4 +38,5 @@ FORMS += \
     visionwidget.ui \
     communicatorserialwidget.ui \
     eventplaybackwidget.ui \
-    hardwarelayoutwidget.ui
+    hardwarelayoutwidget.ui \
+    hardwaregpio.ui
