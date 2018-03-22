@@ -178,8 +178,14 @@ void CommunicatorSerialWidget::on_TimerEvent()
             serialBuffer = data.right(data.length()-serialBuffer.length());
 
         } else
+        {
+
+            QListWidgetItem *lastline = ui->SerialDisplaylistWidget->item(ui->SerialDisplaylistWidget->count()-1);
+
+            qDebug() << lastline->text().toLatin1();
 
             serialBuffer += data;
+        }
 
     } else {
         refreshSerialPorts();

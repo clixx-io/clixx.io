@@ -31,7 +31,7 @@ ProjectWidget::~ProjectWidget()
 
 }
 
-void ProjectWidget::loadProject(const QString dir)
+bool ProjectWidget::loadProject(const QString dir)
 {
     bool cleanOption(false), allOption(false), transferOption(false), checkOption(false);
 
@@ -49,11 +49,10 @@ void ProjectWidget::loadProject(const QString dir)
             ui->projectFileList->addTopLevelItem(item);
         }
 
-        // - From the list of files, see if we have something that we
-        //   can recognise like a Makefile
+        // -- From the list of files, see if we have something that we
+        //    can recognise like a Makefile
         if (files.contains("Makefile"))
         {
-            // - (open the makefile, and read it into memory.)
             QStringList makefile;
             QString filename(mainwindow->currentProject->getProjectDir() + "/Makefile");
             QFile file(filename);
@@ -67,7 +66,8 @@ void ProjectWidget::loadProject(const QString dir)
             }
             else
             {
-                qDebug() << tr("Error opening %1").arg(filename);
+                mainwindow->showStatusMessage(tr("Error opening %1").arg(filename));
+                return(false);
             }
 
             mainwindow->clearStatusMessages();
@@ -113,20 +113,22 @@ void ProjectWidget::loadProject(const QString dir)
         } else
         {
             mainwindow->showStatusMessage(tr("Failed to change to %1 directory.").arg(mainwindow->currentProject->getProjectDir()));
-            return;
+            return(false);
         }
 
         mainwindow->setBuildButtonToggles(allOption,cleanOption,transferOption, checkOption);
 
     }
+
+    return(true);
 }
 
-void ProjectWidget::buildProject(const QString buildspecifier)
+bool ProjectWidget::buildProject(const QString buildspecifier)
 {
 
 #ifdef Q_OS_WIN32
     // TODO : fix this
-    QString make("C:\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe");
+    QString make("mingw32-make.exe");
 #else
     QString make("make");
 #endif

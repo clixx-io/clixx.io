@@ -19,8 +19,8 @@ public:
     explicit ProjectWidget(QWidget *parent = 0);
     ~ProjectWidget();
 
-    void loadProject(const QString dir);
-    void buildProject(const QString buildspecifier);
+    bool loadProject(const QString dir);
+    bool buildProject(const QString buildspecifier);
 
     inline void setMainWindow(MainWindow *main) { mainwindow = main; }
 

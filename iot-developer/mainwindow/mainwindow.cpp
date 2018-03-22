@@ -71,6 +71,7 @@
 #include <QListWidget>
 #include <QTreeWidget>
 #include <QInputDialog>
+#include <QSettings>
 
 #include "codeeditor.h"
 #include "communicatorserialwidget.h"
@@ -79,6 +80,8 @@
 #include "mainwindow.h"
 #include "colorswatch.h"
 #include "toolbar.h"
+#include "hardwarelayoutwidget.h"
+#include "hardwaregpio.h"
 
 static const char message[] =
     "<p><b>Clixx.io Development IDE</b></p>"
@@ -108,6 +111,7 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     setWindowTitle("Clixx.IO IoT Developer");
     Projects = new ClixxIoTProjects();
     currentProject = new ClixxIoTProject();
+    settings = new QSettings("Clixx.io","IoT Developer");
 
     setupToolBar();
     setupMenuBar();
@@ -167,11 +171,11 @@ void MainWindow::setupMenuBar()
     setBuildButtonToggles();
 
     QMenu *toolBarMenu = menuBar()->addMenu(tr("&Design"));
+    toolBarMenu->addAction(tr("Add Sensors/Actuators"), this, &MainWindow::architectureSensorsActuators);
     toolBarMenu->addAction(tr("GPIO Connections"),this, &MainWindow::architectureGpio);
-    toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::architectureBuses);
     toolBarMenu->addAction(tr("Ladder Logic"), this, &MainWindow::architectureLogic);
+    toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::architectureBuses);
     toolBarMenu->addAction(tr("Software Interrupts"), this, &MainWindow::architectureInterrupts);
-    toolBarMenu->addAction(tr("Sensors/Actuators"), this, &MainWindow::architectureSensorsActuators);
     toolBarMenu->addAction(tr("Deployment Architecture"), this, &MainWindow::architectureDeployment);
     toolBarMenu->addAction(tr("Operating System"), this, &MainWindow::architectureOS);
 //    for (int i = 0; i < toolBars.count(); ++i)
@@ -639,10 +643,46 @@ void MainWindow::runProject()
     projectWindow->buildProject("run");
 }
 
+void MainWindow::architectureSystem()
+{
+    // Hardware Designer
+    QDockWidget *hardwareDock = new QDockWidget(tr("Hardware"),this);
+    HardwareLayoutWidget *hardware = new HardwareLayoutWidget(hardwareDock);
+    hardwareDock->setMinimumSize(400, 205);
+    addDockWidget(Qt::RightDockWidgetArea, hardwareDock);
+    hardware->show();
+}
+
 void MainWindow::architectureGpio()
 {
-    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
-    msgBox.exec();
+
+    // GPIO Designer
+    if (!gpioDock)
+    {
+        gpioDock = new QDockWidget(tr("GPIO"),this);
+        gpio = new HardwareGPIO(gpioDock);
+        addDockWidget(Qt::BottomDockWidgetArea, gpioDock);
+
+    }
+
+    if (!gpio->itemCount())
+    {
+        bool ok;
+        int pinsTotal = QInputDialog::getInt(this, tr("GPIO Connector"),
+                                     tr("Number of pins in total:"), 30, 1, 100, 1, &ok);
+        if (ok)
+        {
+            int rows = QInputDialog::getInt(this, tr("GPIO Connector"),
+                                         tr("Number of rows:"), 2, 1, 4, 1, &ok);
+
+            if (ok)
+            {
+                gpio->createDefaultPins(pinsTotal,rows);
+            }
+
+        }
+    }
+    gpioDock->show();
 
     return;
 }
@@ -689,6 +729,9 @@ void MainWindow::architectureDeployment()
 
 void MainWindow::architectureOS()
 {
+
+    // createDefaultPins(
+
     QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
     msgBox.exec();
 

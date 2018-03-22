@@ -62,6 +62,9 @@ QT_FORWARD_DECLARE_CLASS(ToolBar)
 QT_FORWARD_DECLARE_CLASS(QMenu)
 QT_FORWARD_DECLARE_CLASS(QTreeWidget)
 QT_FORWARD_DECLARE_CLASS(QListWidget)
+QT_FORWARD_DECLARE_CLASS(QSettings)
+QT_FORWARD_DECLARE_CLASS(QDockWidget)
+QT_FORWARD_DECLARE_CLASS(HardwareGPIO)
 
 class MainWindow : public QMainWindow
 {
@@ -85,10 +88,13 @@ public:
     ClixxIoTProjects *Projects;
     ClixxIoTProject  *currentProject;
 
-    ProjectWidget *projectWindow;
-    CodeEditor *center;
-    CommunicatorSerialWidget *commWindow;
-    ToolBar *toolBar;
+    ProjectWidget *projectWindow = nullptr;
+    CodeEditor *center = nullptr;
+    CommunicatorSerialWidget *commWindow = nullptr;
+    ToolBar *toolBar = nullptr;
+    QSettings *settings = nullptr;
+    HardwareGPIO *gpio = nullptr;
+    QDockWidget *gpioDock = nullptr;
 
 public slots:
 
@@ -117,6 +123,8 @@ public slots:
     void cleanProject();
     void checkProject();
     void runProject();
+
+    void architectureSystem();
     void architectureGpio();
     void architectureBuses();
     void architectureLogic();
