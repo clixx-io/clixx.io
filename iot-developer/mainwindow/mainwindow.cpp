@@ -171,9 +171,11 @@ void MainWindow::setupMenuBar()
     setBuildButtonToggles();
 
     QMenu *toolBarMenu = menuBar()->addMenu(tr("&Design"));
-    toolBarMenu->addAction(tr("Add Sensors/Actuators"), this, &MainWindow::architectureSensorsActuators);
+    toolBarMenu->addAction(tr("System"),this, &MainWindow::architectureSystem);
     toolBarMenu->addAction(tr("GPIO Connections"),this, &MainWindow::architectureGpio);
-    toolBarMenu->addAction(tr("Ladder Logic"), this, &MainWindow::architectureLogic);
+    toolBarMenu->addAction(tr("Sensors/Actuators"), this, &MainWindow::architectureSensorsActuators);
+    toolBarMenu->addAction(tr("Logic"), this, &MainWindow::architectureLogic);
+    toolBarMenu->addAction(tr("Connectivity"), this, &MainWindow::architectureSensorsActuators);
     toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::architectureBuses);
     toolBarMenu->addAction(tr("Software Interrupts"), this, &MainWindow::architectureInterrupts);
     toolBarMenu->addAction(tr("Deployment Architecture"), this, &MainWindow::architectureDeployment);
@@ -646,11 +648,21 @@ void MainWindow::runProject()
 void MainWindow::architectureSystem()
 {
     // Hardware Designer
-    QDockWidget *hardwareDock = new QDockWidget(tr("Hardware"),this);
+    QDockWidget *hardwareDock = new QDockWidget(tr("System"),this);
     HardwareLayoutWidget *hardware = new HardwareLayoutWidget(hardwareDock);
     hardwareDock->setMinimumSize(400, 205);
     addDockWidget(Qt::RightDockWidgetArea, hardwareDock);
     hardware->show();
+}
+
+void MainWindow::architectureConnectivity()
+{
+    // Hardware Designer
+    QDockWidget *connectivityDock = new QDockWidget(tr("Connectivity"),this);
+    HardwareLayoutWidget *connectivity = new HardwareLayoutWidget(connectivityDock);
+    connectivityDock->setMinimumSize(400, 205);
+    addDockWidget(Qt::RightDockWidgetArea, connectivityDock);
+    connectivity->show();
 }
 
 void MainWindow::architectureGpio()

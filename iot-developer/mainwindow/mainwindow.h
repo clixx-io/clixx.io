@@ -126,6 +126,7 @@ public slots:
 
     void architectureSystem();
     void architectureGpio();
+    void architectureConnectivity();
     void architectureBuses();
     void architectureLogic();
     void architectureInterrupts();

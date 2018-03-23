@@ -11,24 +11,17 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
 
     ui->graphicsView->setScene(scene);
 
-    QGraphicsEllipseItem *elipse;
-    QGraphicsRectItem *mainboard;
-
-    QBrush redbrush(Qt::red);
     QBrush greenbrush(Qt::green);
     QPen blackpen(Qt::black);
     blackpen.setWidth(3);
 
-    // QPixmap::fromImage(image)
-    QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap(":/res/res/device-32.png"));
+    QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap(":/res/res/mainboard-rpi3.PNG"));
     item->setFlag(QGraphicsItem::ItemIsMovable);
     scene->addItem(item);
 
-//    elipse = scene->addEllipse(50,10,100,100,blackpen,redbrush);
-//    elipse->setFlag(QGraphicsItem::ItemIsMovable);
-
-    mainboard = scene->addRect(-100,-100,50,50,blackpen,greenbrush);
-    mainboard->setFlag(QGraphicsItem::ItemIsMovable);
+    QGraphicsRectItem *ioboard;
+    ioboard = scene->addRect(-100,-100,50,50,blackpen,greenbrush);
+    ioboard->setFlag(QGraphicsItem::ItemIsMovable);
 
 }
 

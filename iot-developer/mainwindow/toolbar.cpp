@@ -98,8 +98,13 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
     const QIcon saveIcon(QPixmap(":/res/res/save-32.png"));
     QAction *saveAction = addAction(saveIcon, tr("Save"));
 
-    const QIcon connectivityIcon(QPixmap(":/res/res/connectivity-32.png"));
-    addAction(connectivityIcon, tr("Devices"));
+    systemmenu = new QMenu(tr("System"), this);
+    const QIcon systemIcon(QPixmap(":/res/res/connectivity-32.png"));
+    systemmenu->setIcon(systemIcon);
+    systemAction = systemmenu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Add Component"));
+    addAction(systemmenu->menuAction());
+    systemmenu->setDefaultAction(systemAction);
+
 
     const QIcon logicIcon(QPixmap(":/res/res/logic-32.png"));
     addAction(logicIcon, tr("Logic"));

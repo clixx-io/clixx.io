@@ -67,7 +67,8 @@ public:
 
     QMenu *toolbarMenu() const { return menu; }
 
-    QMenu *buildmenu;
+    QMenu *buildmenu = nullptr;
+    QMenu *systemmenu = nullptr;
 
     void setBuildButtonToggles(const bool alloption, const bool cleanoption, const bool transferoption,
                                const bool checkoption,const bool runoption);
@@ -105,6 +106,7 @@ private:
     QAction *checkAction;
     QAction *cleanAction;
     QAction *runAction;
+    QAction *systemAction = nullptr;
 
     QMenu *menu;
     QAction *orderAction;
