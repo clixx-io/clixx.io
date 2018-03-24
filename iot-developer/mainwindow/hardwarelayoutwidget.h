@@ -12,6 +12,28 @@ namespace Ui {
 class HardwareLayoutWidget;
 }
 
+class connectableHardware : public QGraphicsPixmapItem
+{
+public:
+
+//    connectableHardware(QGraphicsItem *parent, qreal x, qreal y, QString name, QGraphicsTextItem *label);
+    connectableHardware(const QPixmap &pixmap, QGraphicsItem *parent = Q_NULLPTR);
+
+    QString pinname;
+    QGraphicsTextItem *pinlabel;
+
+    QGraphicsLineItem *joiner = nullptr;
+
+protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
+private:
+
+};
+
 class HardwareLayoutWidget : public QWidget
 {
     Q_OBJECT
@@ -22,6 +44,9 @@ public:
 
     bool LoadComponents(const QString filename);
     bool SaveComponents(const QString filename);
+
+private slots:
+    void on_AddcommandLinkButton_clicked();
 
 private:
     Ui::HardwareLayoutWidget *ui;

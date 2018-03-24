@@ -653,6 +653,8 @@ void MainWindow::architectureSystem()
     hardwareDock->setMinimumSize(400, 205);
     addDockWidget(Qt::RightDockWidgetArea, hardwareDock);
     hardware->show();
+
+    // hardware->resize(hardwareDock->width(),hardwareDock->height());
 }
 
 void MainWindow::architectureConnectivity()
