@@ -78,6 +78,7 @@ private slots:
     void randomize();
     void addSpinBox();
     void removeSpinBox();
+    void addComponent();
 
     void changeMovable(bool movable);
 
@@ -107,6 +108,7 @@ private:
     QAction *cleanAction;
     QAction *runAction;
     QAction *systemAction = nullptr;
+    QAction *addComponentAction = nullptr;
 
     QMenu *menu;
     QAction *orderAction;

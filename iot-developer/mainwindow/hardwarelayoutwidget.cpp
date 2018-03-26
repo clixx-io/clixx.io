@@ -1,4 +1,6 @@
 #include <QDebug>
+#include <QInputDialog>
+#include <QTreeWidgetItem>
 
 #include "hardwarelayoutwidget.h"
 #include "ui_hardwarelayoutwidget.h"
@@ -10,25 +12,35 @@
 */
 
 connectableHardware::connectableHardware(const QPixmap &pixmap, QGraphicsItem *parent)
- : QGraphicsPixmapItem(pixmap,parent)
+ : QGraphicsPixmapItem(pixmap,parent), hardwareType(0)
 {
+
 }
 
 
 void connectableHardware::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QGraphicsPixmapItem::paint(painter,option,widget);
 
+    if (hardwareType == 0)
+        QGraphicsPixmapItem::paint(painter,option,widget);
+    else
+    {
+        painter->setPen(Qt::yellow);
+        painter->setBrush(Qt::gray);
+        painter->drawRect(boundingRect());
+    }
     /*
-    painter->setPen(Qt::yellow);
-    painter->setBrush(Qt::red);
-    painter->drawRect(0,0,50,50);
     */
 }
 
 void connectableHardware::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (hardwareType == 0)
+        hardwareType = 1;
+    else
+        hardwareType = 0;
 
+    update();
 }
 
 QVariant connectableHardware::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -72,6 +84,18 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
     QGraphicsRectItem *ioboard = scene->addRect(-100,-100,50,50,blackpen,greenbrush);
     ioboard->setFlag(QGraphicsItem::ItemIsMovable);
 
+    /*
+    PropertiestreeWidget
+    ui->PropertiestreeView->clear();
+            ui->projectFileList->clear();
+            for(int i=0; i< files.size(); i++)
+            {
+                QTreeWidgetItem * item = new QTreeWidgetItem();
+                item->setText(0,files[i]);
+                ui->projectFileList->addTopLevelItem(item);
+            }
+    */
+
 }
 
 HardwareLayoutWidget::~HardwareLayoutWidget()
@@ -89,10 +113,16 @@ bool HardwareLayoutWidget::SaveComponents(const QString filename)
 
 }
 
-void HardwareLayoutWidget::on_AddcommandLinkButton_clicked()
+void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    connectableHardware *item = new connectableHardware(QPixmap(":/res/res/mainboard-rpi0.PNG"));
-    item->setFlag(QGraphicsItem::ItemIsMovable);
-    item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-    scene->addItem(item);
+    bool ok;
+
+    QString text = QInputDialog::getText((QWidget *) this->parentWidget(), QString("Property"),
+                                         QString(tr("%1 Value:").arg(item->text(1))), QLineEdit::Normal,
+                                         QString("value"), &ok);
+    if (ok && !text.isEmpty())
+    {
+        item->setText(1,text);
+    }
+
 }

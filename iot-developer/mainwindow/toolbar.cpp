@@ -57,8 +57,10 @@
 #include <QSpinBox>
 #include <QLabel>
 #include <QToolTip>
+#include <QMessageBox>
 
 #include <stdlib.h>
+#include "mainwindow.h"
 
 static QPixmap genIcon(const QSize &iconSize, const QString &, const QColor &color)
 {
@@ -89,28 +91,37 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
 
     setIconSize(QSize(32, 32));
 
-    menu = new QMenu("Welcome", this);
+    MainWindow *mainwindow = (MainWindow *) parent;
+
+    menu = new QMenu(tr("Welcome"), this);
     const QIcon welcomeIcon(QPixmap(":/res/res/welcome-32.png"));
     menu->setIcon(welcomeIcon);
-    menu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Run Project Wizard"));
+    connect(menu->menuAction(), &QAction::triggered, mainwindow, &MainWindow::showWelcome);
+
+    QAction *projectWizard = menu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Run Project Wizard"));
+    connect(projectWizard, &QAction::triggered, mainwindow, &MainWindow::newProjectWizard);
     addAction(menu->menuAction());
 
     const QIcon saveIcon(QPixmap(":/res/res/save-32.png"));
     QAction *saveAction = addAction(saveIcon, tr("Save"));
+    connect(saveAction, &QAction::triggered, mainwindow, &MainWindow::saveFile);
 
     systemmenu = new QMenu(tr("System"), this);
     const QIcon systemIcon(QPixmap(":/res/res/connectivity-32.png"));
     systemmenu->setIcon(systemIcon);
-    systemAction = systemmenu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Add Component"));
-    addAction(systemmenu->menuAction());
-    systemmenu->setDefaultAction(systemAction);
+    connect(systemmenu->menuAction(), &QAction::triggered, mainwindow, &MainWindow::architectureSystem);
 
+    addComponentAction = systemmenu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Add Component"));
+    connect(addComponentAction, &QAction::triggered, mainwindow, &MainWindow::AddHardware);
+    addAction(systemmenu->menuAction());
 
     const QIcon logicIcon(QPixmap(":/res/res/logic-32.png"));
-    addAction(logicIcon, tr("Logic"));
+    QAction *logicAction = addAction(logicIcon, tr("Logic"));
+    connect(logicAction, &QAction::triggered, mainwindow, &MainWindow::architectureLogic);
 
     const QIcon devicesIcon(QPixmap(":/res/res/device-32.png"));
-    addAction(devicesIcon, tr("Connectivity"));
+    QAction *connectAction = addAction(devicesIcon, tr("Connectivity"));
+    connect(connectAction, &QAction::triggered, mainwindow, &MainWindow::architectureConnectivity);
 
     buildmenu = new QMenu(tr("Build"), this);
     const QIcon buildIcon(QPixmap(":/res/res/build-32.png"));
@@ -121,9 +132,14 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
     cleanAction = buildmenu->addAction(genIcon(iconSize(), "D", Qt::blue), tr("Clean"));
     addAction(buildmenu->menuAction());
     buildmenu->setDefaultAction(buildAction);
+    connect(buildAction, &QAction::triggered, mainwindow, &MainWindow::buildProject);
+    connect(deployAction, &QAction::triggered, mainwindow, &MainWindow::deployProject);
+    connect(checkAction, &QAction::triggered, mainwindow, &MainWindow::checkProject);
+    connect(cleanAction, &QAction::triggered, mainwindow, &MainWindow::cleanProject);
 
     const QIcon runIcon(QPixmap(":/res/res/run-32.png"));
     QAction *runAction = addAction(runIcon, tr("Run"));
+    connect(runAction, &QAction::triggered, mainwindow, &MainWindow::runProject);
 
     orderAction = new QAction(this);
     orderAction->setText(tr("Order Items in Tool Bar"));
@@ -384,4 +400,10 @@ void ToolBar::setBuildButtonToggles(const bool alloption, const bool cleanoption
     checkAction->setEnabled(checkoption);
     runAction->setEnabled(runoption);
     */
+}
+
+void ToolBar::addComponent()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
 }

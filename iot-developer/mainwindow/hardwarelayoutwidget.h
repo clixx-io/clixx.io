@@ -7,6 +7,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QList>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class HardwareLayoutWidget;
@@ -23,6 +25,10 @@ public:
     QGraphicsTextItem *pinlabel;
 
     QGraphicsLineItem *joiner = nullptr;
+
+    int hardwareType;
+    bool mainboard;
+
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -46,7 +52,7 @@ public:
     bool SaveComponents(const QString filename);
 
 private slots:
-    void on_AddcommandLinkButton_clicked();
+    void on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::HardwareLayoutWidget *ui;

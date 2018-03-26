@@ -82,6 +82,7 @@
 #include "toolbar.h"
 #include "hardwarelayoutwidget.h"
 #include "hardwaregpio.h"
+#include "newhardwareitemdialog.h"
 
 static const char message[] =
     "<p><b>Clixx.io Development IDE</b></p>"
@@ -175,7 +176,7 @@ void MainWindow::setupMenuBar()
     toolBarMenu->addAction(tr("GPIO Connections"),this, &MainWindow::architectureGpio);
     toolBarMenu->addAction(tr("Sensors/Actuators"), this, &MainWindow::architectureSensorsActuators);
     toolBarMenu->addAction(tr("Logic"), this, &MainWindow::architectureLogic);
-    toolBarMenu->addAction(tr("Connectivity"), this, &MainWindow::architectureSensorsActuators);
+    toolBarMenu->addAction(tr("Connectivity"), this, &MainWindow::architectureConnectivity);
     toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::architectureBuses);
     toolBarMenu->addAction(tr("Software Interrupts"), this, &MainWindow::architectureInterrupts);
     toolBarMenu->addAction(tr("Deployment Architecture"), this, &MainWindow::architectureDeployment);
@@ -318,15 +319,7 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     addDockWidget(Qt::LeftDockWidgetArea, myproject);
     projectWindow->setMainWindow(this);
     myproject->show();
-
-    // A Multipurpose communicator
-    QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
-    commWindow = new CommunicatorSerialWidget(myframe);
-    commWindow->setMainWindow(this);
-    addDockWidget(Qt::RightDockWidgetArea, myframe);
-    myframe->setMinimumWidth(400);
-    myframe->setMinimumHeight(300);
-    myframe->show();
+    projectWindow->resize(myproject->width(),myproject->height());
 
     // Central Code Editor area
     center = new CodeEditor(this);
@@ -647,29 +640,33 @@ void MainWindow::runProject()
 
 void MainWindow::architectureSystem()
 {
-    // Hardware Designer
-    QDockWidget *hardwareDock = new QDockWidget(tr("System"),this);
-    HardwareLayoutWidget *hardware = new HardwareLayoutWidget(hardwareDock);
-    hardwareDock->setMinimumSize(400, 205);
-    addDockWidget(Qt::RightDockWidgetArea, hardwareDock);
-    hardware->show();
+    if (center)
+    {
+        delete center;
+        center = nullptr;
+    }
 
-    // hardware->resize(hardwareDock->width(),hardwareDock->height());
+    // Hardware Designer
+    HardwareLayoutWidget *hardware = new HardwareLayoutWidget(this);
+    setCentralWidget(hardware);
+
 }
 
 void MainWindow::architectureConnectivity()
 {
-    // Hardware Designer
-    QDockWidget *connectivityDock = new QDockWidget(tr("Connectivity"),this);
-    HardwareLayoutWidget *connectivity = new HardwareLayoutWidget(connectivityDock);
-    connectivityDock->setMinimumSize(400, 205);
-    addDockWidget(Qt::RightDockWidgetArea, connectivityDock);
-    connectivity->show();
+    // A Multipurpose communicator
+    QDockWidget *myframe = new QDockWidget(tr("Communicator"),this);
+    commWindow = new CommunicatorSerialWidget(myframe);
+    commWindow->setMainWindow(this);
+    addDockWidget(Qt::RightDockWidgetArea, myframe);
+    myframe->setMinimumWidth(400);
+    myframe->setMinimumHeight(300);
+    myframe->show();
+
 }
 
 void MainWindow::architectureGpio()
 {
-
     // GPIO Designer
     if (!gpioDock)
     {
@@ -727,6 +724,7 @@ void MainWindow::architectureInterrupts()
 
 void MainWindow::architectureSensorsActuators()
 {
+
     QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
     msgBox.exec();
 
@@ -743,8 +741,6 @@ void MainWindow::architectureDeployment()
 
 void MainWindow::architectureOS()
 {
-
-    // createDefaultPins(
 
     QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
     msgBox.exec();
@@ -770,7 +766,7 @@ void MainWindow::EventPlayback()
 
 void MainWindow::showWelcome()
 {
-    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("The Welcome Window is not yet implemented"),QMessageBox::Ok);
     msgBox.exec();
 
     return;
@@ -780,8 +776,29 @@ void MainWindow::saveFile()
 {
     QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
     msgBox.exec();
+}
+
+void MainWindow::AddHardware()
+{
+    NewHardwareItemDialog *dlg = new NewHardwareItemDialog(this);
+
+    if (dlg->exec())
+    {
+        showStatusMessage(dlg->getName());
+        dlg->getFile();;
+        dlg->getImage();
+        dlg->getWidth();
+        dlg->getHeight();
+    }
 
     return;
+
+}
+
+void MainWindow::newProjectWizard()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("New Project Wizard is not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
 }
 
 void MainWindow::showStatusMessage(const QString &message)

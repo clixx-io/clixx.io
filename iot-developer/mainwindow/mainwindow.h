@@ -118,6 +118,8 @@ public slots:
     void FindReplaceText();
     void GotoLineText();
     void UserSettings();
+
+    void newProjectWizard();
     void buildProject();
     void deployProject();
     void cleanProject();
@@ -135,6 +137,8 @@ public slots:
     void architectureOS();
     void Visualise();
     void EventPlayback();
+
+    void AddHardware();
 
 private:
     void setupToolBar();
