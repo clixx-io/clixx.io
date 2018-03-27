@@ -1,0 +1,25 @@
+[Overview]
+name = Digital Temperature Humidity Sensor
+units = mm
+width = 20
+height = 30
+type = sensor/pyro
+
+[gpio]
+pins = 3
+rows = 1
+pin_width = 2.54mm
+header_x = 16.4
+header_y = 3
+orientation = horizontal
+
+[gpio assignments]
+pin1_name = vcc
+pin2_name = out
+pin3_name = gnd
+
+[bitmap]
+file = 1859157389.png
+
+[source]
+url=https://www.aliexpress.com/item/DHT22-AM2302-Digital-Temperature-And-Humidity-Sensor-Module-Replace-SHT11-SHT15/1859157389.html

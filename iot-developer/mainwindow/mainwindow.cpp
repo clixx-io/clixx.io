@@ -647,8 +647,11 @@ void MainWindow::architectureSystem()
     }
 
     // Hardware Designer
-    HardwareLayoutWidget *hardware = new HardwareLayoutWidget(this);
-    setCentralWidget(hardware);
+    if (!systemDesign)
+    {
+        systemDesign = new HardwareLayoutWidget(this);
+    }
+    setCentralWidget(systemDesign);
 
 }
 
@@ -774,24 +777,31 @@ void MainWindow::showWelcome()
 
 void MainWindow::saveFile()
 {
-    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
-    msgBox.exec();
+    showStatusMessage(tr("Saved"));
 }
 
 void MainWindow::AddHardware()
 {
+
+    architectureSystem();
+
     NewHardwareItemDialog *dlg = new NewHardwareItemDialog(this);
 
     if (dlg->exec())
     {
-        showStatusMessage(dlg->getName());
-        dlg->getFile();;
-        dlg->getImage();
-        dlg->getWidth();
-        dlg->getHeight();
+        /*
+        systemDesign->addToScene(dlg->getFile(),dlg->getName(),dlg->getImage(),
+                                 dlg->getWidth(),dlg->getHeight(),
+                                 dlg->getPinCount(), dlg->getRowCount());
+                                 */
+
+        systemDesign->addToScene(QString("hello"),QString("hello"),QString("Hello"),
+                                 300,200,
+                                 30, 2);
+
     }
 
-    return;
+    delete dlg;
 
 }
 

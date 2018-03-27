@@ -65,6 +65,7 @@ QT_FORWARD_DECLARE_CLASS(QListWidget)
 QT_FORWARD_DECLARE_CLASS(QSettings)
 QT_FORWARD_DECLARE_CLASS(QDockWidget)
 QT_FORWARD_DECLARE_CLASS(HardwareGPIO)
+QT_FORWARD_DECLARE_CLASS(HardwareLayoutWidget)
 
 class MainWindow : public QMainWindow
 {
@@ -90,6 +91,7 @@ public:
 
     ProjectWidget *projectWindow = nullptr;
     CodeEditor *center = nullptr;
+    HardwareLayoutWidget *systemDesign = nullptr;
     CommunicatorSerialWidget *commWindow = nullptr;
     ToolBar *toolBar = nullptr;
     QSettings *settings = nullptr;

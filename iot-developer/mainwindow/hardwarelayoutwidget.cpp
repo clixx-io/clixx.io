@@ -4,19 +4,12 @@
 
 #include "hardwarelayoutwidget.h"
 #include "ui_hardwarelayoutwidget.h"
-
-/*
- * connectableHardware::connectableHardware(QGraphicsItem *parent, qreal x, qreal y, QString name, QGraphicsTextItem *label)
-{
-}
-*/
+#include "hardwaregpio.h"
 
 connectableHardware::connectableHardware(const QPixmap &pixmap, QGraphicsItem *parent)
  : QGraphicsPixmapItem(pixmap,parent), hardwareType(0)
 {
-
 }
-
 
 void connectableHardware::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -29,8 +22,6 @@ void connectableHardware::paint(QPainter *painter, const QStyleOptionGraphicsIte
         painter->setBrush(Qt::gray);
         painter->drawRect(boundingRect());
     }
-    /*
-    */
 }
 
 void connectableHardware::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -81,19 +72,18 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
     item->joiner = joiner;
     scene->addItem(item);
 
-    QGraphicsRectItem *ioboard = scene->addRect(-100,-100,50,50,blackpen,greenbrush);
-    ioboard->setFlag(QGraphicsItem::ItemIsMovable);
+    QGraphicsRectItem *ioboard1 = scene->addRect(-150,-100,50,50,blackpen,greenbrush);
+    ioboard1->setFlag(QGraphicsItem::ItemIsMovable);
 
     /*
-    PropertiestreeWidget
-    ui->PropertiestreeView->clear();
-            ui->projectFileList->clear();
-            for(int i=0; i< files.size(); i++)
-            {
-                QTreeWidgetItem * item = new QTreeWidgetItem();
-                item->setText(0,files[i]);
-                ui->projectFileList->addTopLevelItem(item);
-            }
+    QGraphicsRectItem *ioboard2 = scene->addRect(50,-100,50,50,blackpen,greenbrush);
+    ioboard2->setFlag(QGraphicsItem::ItemIsMovable);
+
+    QGraphicsRectItem *ioboard3 = scene->addRect(100,-100,50,50,blackpen,greenbrush);
+    ioboard3->setFlag(QGraphicsItem::ItemIsMovable);
+
+    QGraphicsRectItem *ioboard4 = scene->addRect(200,-100,50,50,blackpen,greenbrush);
+    ioboard4->setFlag(QGraphicsItem::ItemIsMovable);
     */
 
 }
@@ -105,12 +95,12 @@ HardwareLayoutWidget::~HardwareLayoutWidget()
 
 bool HardwareLayoutWidget::LoadComponents(const QString filename)
 {
-
+    return(false);
 }
 
 bool HardwareLayoutWidget::SaveComponents(const QString filename)
 {
-
+    return(false);
 }
 
 void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -125,4 +115,14 @@ void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidget
         item->setText(1,text);
     }
 
+}
+
+bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows)
+{
+    connectableHardware *item = new connectableHardware(QPixmap(":/res/res/mainboard-rpi3.PNG"));
+    item->setFlag(QGraphicsItem::ItemIsMovable);
+    item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    scene->addItem(item);
+
+    return(false);
 }

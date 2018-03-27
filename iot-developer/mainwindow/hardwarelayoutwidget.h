@@ -51,6 +51,8 @@ public:
     bool LoadComponents(const QString filename);
     bool SaveComponents(const QString filename);
 
+    bool addToScene(QString componentID, QString componentName, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows);
+
 private slots:
     void on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
@@ -59,8 +61,9 @@ private:
 
     QGraphicsScene *scene = nullptr;
 
-    // QList<QGraphicsItem> componentList;
+    int unitSystem;     // 0=mm, 1=100mil/0.1"
 
+    // QList<QGraphicsItem*> components;
 
 };
 

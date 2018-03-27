@@ -16,17 +16,31 @@ public:
     explicit NewHardwareItemDialog(QWidget *parent = 0);
     ~NewHardwareItemDialog();
 
-    QString getName() { return(ui->NamelineEdit->text()); };
-    QString getFile() { return(QString("")); };
-    QString getImage() { return(QString("")); };
-    qreal getWidth() { return(ui->WidthSpinBox->value()); };
-    qreal getHeight() { return(ui->HeightSpinBox->value()); };
+    QString getName() { return(name); };
+    QString getFile() { return(boardfile); };
+    QString getImage() { return(imagefilename); };
+    double getWidth() { return(width); };
+    double getHeight() { return(height); };
+    int getPinCount() { return(pinCount); };
+    int getRowCount() { return(rowCount); };
+
+    QStringList loadBoardFiles();
+    bool loadBoardList();
 
 private slots:
     void on_toolButton_triggered(QAction *arg1);
 
 private:
     Ui::NewHardwareItemDialog *ui;
+
+    QString name;
+    QString boardfile;
+    QString imagefilename;
+    double width;
+    double height;
+    int pinCount;
+    int rowCount;
+
 };
 
 #endif // NEWHARDWAREITEMDIALOG_H

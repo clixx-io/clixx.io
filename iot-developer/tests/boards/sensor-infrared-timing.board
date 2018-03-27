@@ -1,0 +1,26 @@
+[Overview]
+name =  Infrared Speed Sensor Module
+units = mm
+width = 14
+height = 32
+type = processor
+
+[gpio]
+pins = 4
+rows = 1
+pin_width = 2.54mm
+header_x = 
+header_y = 
+orientation = horizontal
+
+[gpio assignments]
+pin1_name = a0
+pin1_name = d0
+pin1_name = gnd
+pin4_name = vcc
+
+[bitmap]
+file = sensor-infrared-speed-32735448886.png
+
+[source]
+https://www.aliexpress.com/item/1pcs-F249-free-shipping-High-Quality-4-PIN-Infrared-Speed-Sensor-Module-For-Arduino-51-AVR/32735448886.html
