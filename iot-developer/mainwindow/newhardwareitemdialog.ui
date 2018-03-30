@@ -106,7 +106,7 @@
    <widget class="QToolButton" name="toolButton">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>10</x>
       <y>190</y>
       <width>31</width>
       <height>19</height>
@@ -116,13 +116,13 @@
      <string>...</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="ComponentPicturelabel">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>192</y>
-      <width>47</width>
-      <height>13</height>
+      <y>190</y>
+      <width>401</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="text">
@@ -137,6 +137,9 @@
       <width>81</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="value">
+     <double>60.000000000000000</double>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_2">
@@ -206,6 +209,9 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="value">
+     <double>30.000000000000000</double>
+    </property>
    </widget>
    <widget class="QLabel" name="rowslabel">
     <property name="geometry">
@@ -244,6 +250,9 @@
     </property>
     <property name="editable">
      <bool>true</bool>
+    </property>
+    <property name="currentIndex">
+     <number>2</number>
     </property>
     <item>
      <property name="text">
@@ -309,7 +318,7 @@
      <bool>true</bool>
     </property>
     <property name="currentIndex">
-     <number>-1</number>
+     <number>0</number>
     </property>
     <item>
      <property name="text">
@@ -337,6 +346,20 @@
      </rect>
     </property>
    </widget>
+   <zorder>treeWidget</zorder>
+   <zorder>ComponentPicturelabel</zorder>
+   <zorder>HeightSpinBox</zorder>
+   <zorder>radioButton_2</zorder>
+   <zorder>Widthlabel</zorder>
+   <zorder>Heightlabel</zorder>
+   <zorder>radioButton</zorder>
+   <zorder>WidthSpinBox</zorder>
+   <zorder>rowslabel</zorder>
+   <zorder>pinslabel</zorder>
+   <zorder>pinscomboBox</zorder>
+   <zorder>rowscomboBox</zorder>
+   <zorder>BoardNameslistWidget</zorder>
+   <zorder>toolButton</zorder>
   </widget>
   <widget class="QLineEdit" name="NamelineEdit">
    <property name="geometry">

@@ -1,27 +1,34 @@
-#include "newhardwareitemdialog.h"
-#include "ui_newhardwareitemdialog.h"
-
 #include <QDir>
 #include <QMessageBox>
 #include <QDebug>
 #include <QSettings>
+#include <QJsonObject>
+#include <QFileDialog>
+
+#include "newhardwareitemdialog.h"
+#include "ui_newhardwareitemdialog.h"
 
 NewHardwareItemDialog::NewHardwareItemDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewHardwareItemDialog)
 {
     ui->setupUi(this);
+}
+
+NewHardwareItemDialog::NewHardwareItemDialog(QWidget *parent, QJsonObject *results) :
+    QDialog(parent),
+    ui(new Ui::NewHardwareItemDialog)
+{
+    ui->setupUi(this);
+
+    completed = results;
+
     loadBoardList();
 }
 
 NewHardwareItemDialog::~NewHardwareItemDialog()
 {
     delete ui;
-}
-
-void NewHardwareItemDialog::on_toolButton_triggered(QAction *arg1)
-{
-
 }
 
 QStringList NewHardwareItemDialog::loadBoardFiles()
@@ -65,3 +72,53 @@ bool NewHardwareItemDialog::loadBoardList()
     }
 }
 
+
+void NewHardwareItemDialog::on_buttonBox_accepted()
+{
+    QJsonObject object
+    {
+        {"name", ui->NamelineEdit->text()},
+        {"width", ui->WidthSpinBox->value()},
+        {"height", ui->HeightSpinBox->value()},
+        {"pins", ui->pinscomboBox->currentText().toInt()},
+        {"rows", ui->rowscomboBox->currentText().toInt()},
+        {"picturefilename", imagefilename}
+
+    };
+
+    if (ui->BoardNameslistWidget->selectedItems().count() > 0)
+        object["type"] = QString(ui->BoardNameslistWidget->selectedItems()[0]->text());
+    else
+        object["type"] = "";
+
+    *completed = object;
+}
+
+void NewHardwareItemDialog::on_toolButton_triggered(QAction *arg1)
+{
+}
+
+void NewHardwareItemDialog::on_toolButton_clicked()
+{
+    QStringList files = QFileDialog::getOpenFileNames(
+                            this,
+                            "Select an Image to load",
+                            "..",
+                            "Images (*.png *.xpm *.jpg)");
+
+    if (files.count()>0)
+    {
+        QPixmap pixmap(files[0]);
+
+        ui->ComponentPicturelabel->setPixmap(pixmap);
+        ui->ComponentPicturelabel->setScaledContents(true);
+        ui->ComponentPicturelabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored );
+
+        ui->ComponentPicturelabel->update();
+
+        imagefilename = files[0];
+    }
+
+    qDebug() << files[0] << "loaded";
+
+}

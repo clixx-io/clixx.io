@@ -6,16 +6,20 @@
 #include "ui_hardwarelayoutwidget.h"
 #include "hardwaregpio.h"
 
-connectableHardware::connectableHardware(const QPixmap &pixmap, QGraphicsItem *parent)
- : QGraphicsPixmapItem(pixmap,parent), hardwareType(0)
+connectableHardware::connectableHardware(QString name, qreal width, qreal height, QString guid, QString graphicfile, QGraphicsItem *parent)
+    : QGraphicsItem(parent), hardwareType(0), m_width(width), m_height(height)
 {
+    if (graphicfile.length())
+        m_image = new QPixmap(graphicfile);
 }
 
 void connectableHardware::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    if (hardwareType == 0)
-        QGraphicsPixmapItem::paint(painter,option,widget);
+    if ((hardwareType == 0) && (m_image))
+    {
+        painter->drawImage(boundingRect(),m_image->toImage());
+    }
     else
     {
         painter->setPen(Qt::yellow);
@@ -66,7 +70,8 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
     QGraphicsLineItem *joiner = scene->addLine(-100,-100,100,100,blackpen);
     joiner->setFlag(QGraphicsItem::ItemIsMovable);
 
-    connectableHardware *item = new connectableHardware(QPixmap(":/res/res/mainboard-rpi3.PNG"));
+    connectableHardware *item = new connectableHardware("board",90,40,"guid",":/res/res/mainboard-rpi3.PNG");
+
     item->setFlag(QGraphicsItem::ItemIsMovable);
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     item->joiner = joiner;
@@ -119,10 +124,17 @@ void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidget
 
 bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows)
 {
-    connectableHardware *item = new connectableHardware(QPixmap(":/res/res/mainboard-rpi3.PNG"));
+    connectableHardware *item = new connectableHardware(componentName,componentWidth,componentHeight,componentID,componentImageName);
+
     item->setFlag(QGraphicsItem::ItemIsMovable);
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     scene->addItem(item);
 
     return(false);
 }
+
+QRectF connectableHardware::boundingRect() const
+{
+    return(QRectF(0,0,m_width, m_height));
+}
+

@@ -14,21 +14,24 @@ class NewHardwareItemDialog : public QDialog
 
 public:
     explicit NewHardwareItemDialog(QWidget *parent = 0);
-    ~NewHardwareItemDialog();
+    NewHardwareItemDialog(QWidget *parent, QJsonObject *results);
 
-    QString getName() { return(name); };
-    QString getFile() { return(boardfile); };
-    QString getImage() { return(imagefilename); };
-    double getWidth() { return(width); };
-    double getHeight() { return(height); };
-    int getPinCount() { return(pinCount); };
-    int getRowCount() { return(rowCount); };
+    /*
+    explicit NewHardwareItemDialog(QWidget *parent = 0, QString *boardname = nullptr, QString *boardfilename, QString *boardimagefilename,
+                                   double *boardwidth, double *boardheight, int *pincount, int *rowcount);
+    */
+
+    ~NewHardwareItemDialog();
 
     QStringList loadBoardFiles();
     bool loadBoardList();
 
 private slots:
     void on_toolButton_triggered(QAction *arg1);
+
+    void on_buttonBox_accepted();
+
+    void on_toolButton_clicked();
 
 private:
     Ui::NewHardwareItemDialog *ui;
@@ -40,6 +43,8 @@ private:
     double height;
     int pinCount;
     int rowCount;
+
+    QJsonObject *completed;
 
 };
 

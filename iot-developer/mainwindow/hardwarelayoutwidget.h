@@ -14,29 +14,32 @@ namespace Ui {
 class HardwareLayoutWidget;
 }
 
-class connectableHardware : public QGraphicsPixmapItem
+class connectableHardware : public QGraphicsItem
 {
 public:
 
-//    connectableHardware(QGraphicsItem *parent, qreal x, qreal y, QString name, QGraphicsTextItem *label);
-    connectableHardware(const QPixmap &pixmap, QGraphicsItem *parent = Q_NULLPTR);
+    connectableHardware(QString name, qreal width, qreal height, QString guid, QString graphicfile, QGraphicsItem *parent = Q_NULLPTR);
 
     QString pinname;
     QGraphicsTextItem *pinlabel;
 
     QGraphicsLineItem *joiner = nullptr;
 
-    int hardwareType;
-    bool mainboard;
-
-
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    virtual QRectF boundingRect() const;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
+    double m_width, m_height;
+    QString m_id, m_name;
+    QPixmap *m_image = nullptr;
+
+    int hardwareType;
+    bool mainboard;
 
 };
 

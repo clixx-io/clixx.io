@@ -783,21 +783,17 @@ void MainWindow::saveFile()
 void MainWindow::AddHardware()
 {
 
+    QJsonObject userchoices;
     architectureSystem();
 
-    NewHardwareItemDialog *dlg = new NewHardwareItemDialog(this);
-
+    NewHardwareItemDialog *dlg = new NewHardwareItemDialog(this, &userchoices);
     if (dlg->exec())
     {
-        /*
-        systemDesign->addToScene(dlg->getFile(),dlg->getName(),dlg->getImage(),
-                                 dlg->getWidth(),dlg->getHeight(),
-                                 dlg->getPinCount(), dlg->getRowCount());
-                                 */
 
-        systemDesign->addToScene(QString("hello"),QString("hello"),QString("Hello"),
-                                 300,200,
-                                 30, 2);
+        systemDesign->addToScene(userchoices["type"].toString(),userchoices["name"].toString(),
+                                 userchoices["picturefilename"].toString(),
+                                 userchoices["width"].toDouble(),userchoices["height"].toDouble(),
+                                 userchoices["pins"].toInt(), userchoices["rows"].toInt());
 
     }
 
