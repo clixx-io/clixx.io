@@ -1,8 +1,8 @@
 [Overview]
 name = Arduino Uno Clone
-units = inch
-width = 2.4
-height = 1.8
+units = mm
+width = 68.6
+height = 53.3
 type = Processor
 
 [gpio]
@@ -14,9 +14,6 @@ header_y = 3
 orientation = horizontal
 
 [gpio assignments]
-pin1_name = vcc
-pin2_name = out
-pin3_name = gnd
 
 [bitmap]
 file = 32836425521.png

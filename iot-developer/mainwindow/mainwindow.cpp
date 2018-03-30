@@ -83,6 +83,7 @@
 #include "hardwarelayoutwidget.h"
 #include "hardwaregpio.h"
 #include "newhardwareitemdialog.h"
+#include "newconnectionitemdialog.h"
 
 static const char message[] =
     "<p><b>Clixx.io Development IDE</b></p>"
@@ -108,8 +109,8 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     : QMainWindow(parent, flags)
 {
     setObjectName("MainWindow");
+    setWindowTitle("IoT Developer for RaspberryPi");
 
-    setWindowTitle("Clixx.IO IoT Developer");
     Projects = new ClixxIoTProjects();
     currentProject = new ClixxIoTProject();
     settings = new QSettings("Clixx.io","IoT Developer");
@@ -782,11 +783,32 @@ void MainWindow::saveFile()
 
 void MainWindow::AddHardware()
 {
-
     QJsonObject userchoices;
+
     architectureSystem();
 
     NewHardwareItemDialog *dlg = new NewHardwareItemDialog(this, &userchoices);
+    if (dlg->exec())
+    {
+
+        systemDesign->addToScene(userchoices["type"].toString(),userchoices["name"].toString(),
+                                 userchoices["picturefilename"].toString(),
+                                 userchoices["width"].toDouble(),userchoices["height"].toDouble(),
+                                 userchoices["pins"].toInt(), userchoices["rows"].toInt());
+
+    }
+
+    delete dlg;
+
+}
+
+void MainWindow::AddConnection()
+{
+    QJsonObject userchoices;
+
+    architectureSystem();
+
+    NewConnectionItemDialog *dlg = new NewConnectionItemDialog(this, &userchoices);
     if (dlg->exec())
     {
 

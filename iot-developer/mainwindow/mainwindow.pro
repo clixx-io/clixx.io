@@ -11,7 +11,8 @@ HEADERS += colorswatch.h mainwindow.h toolbar.h \
     hardwarelayoutwidget.h \
     clixxiotprojects.h \
     hardwaregpio.h \
-    newhardwareitemdialog.h
+    newhardwareitemdialog.h \
+    newconnectionitemdialog.h
 SOURCES += colorswatch.cpp mainwindow.cpp toolbar.cpp main.cpp \
     codeeditor.cpp \
     outputwidget.cpp \
@@ -22,7 +23,8 @@ SOURCES += colorswatch.cpp mainwindow.cpp toolbar.cpp main.cpp \
     hardwarelayoutwidget.cpp \
     clixxiotprojects.cpp \
     hardwaregpio.cpp \
-    newhardwareitemdialog.cpp
+    newhardwareitemdialog.cpp \
+    newconnectionitemdialog.cpp
 build_all:!build_pass {
     CONFIG -= build_all
     CONFIG += release
@@ -42,4 +44,5 @@ FORMS += \
     eventplaybackwidget.ui \
     hardwarelayoutwidget.ui \
     hardwaregpio.ui \
-    newhardwareitemdialog.ui
+    newhardwareitemdialog.ui \
+    newconnectionitemdialog.ui

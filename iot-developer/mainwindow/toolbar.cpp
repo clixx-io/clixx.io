@@ -113,6 +113,10 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
 
     addComponentAction = systemmenu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Add Component"));
     connect(addComponentAction, &QAction::triggered, mainwindow, &MainWindow::AddHardware);
+
+    addConnectionAction = systemmenu->addAction(genIcon(iconSize(), "B", Qt::blue), tr("Add Connection/Cable"));
+    connect(addConnectionAction, &QAction::triggered, mainwindow, &MainWindow::AddConnection);
+
     addAction(systemmenu->menuAction());
 
     const QIcon logicIcon(QPixmap(":/res/res/logic-32.png"));

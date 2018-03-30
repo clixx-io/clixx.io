@@ -20,9 +20,6 @@ public:
 
     connectableHardware(QString name, qreal width, qreal height, QString guid, QString graphicfile, QGraphicsItem *parent = Q_NULLPTR);
 
-    QString pinname;
-    QGraphicsTextItem *pinlabel;
-
     QGraphicsLineItem *joiner = nullptr;
 
 protected:
@@ -31,6 +28,7 @@ protected:
     virtual QRectF boundingRect() const;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
@@ -40,6 +38,18 @@ private:
 
     int hardwareType;
     bool mainboard;
+
+};
+
+class connectableCable : public QGraphicsItem
+{
+public:
+
+    connectableCable(QString cableName, QColor cableColor, int pins, int rows, QGraphicsItem *parent = Q_NULLPTR);
+
+protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual QRectF boundingRect() const;
 
 };
 
@@ -55,9 +65,11 @@ public:
     bool SaveComponents(const QString filename);
 
     bool addToScene(QString componentID, QString componentName, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows);
+    bool addCableToScene(QString cableName, QColor cableColor, int pins, int rows);
 
 private slots:
     void on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
+    void SelectionChanged();
 
 private:
     Ui::HardwareLayoutWidget *ui;

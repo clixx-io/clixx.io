@@ -15,23 +15,23 @@ class NewHardwareItemDialog : public QDialog
 public:
     explicit NewHardwareItemDialog(QWidget *parent = 0);
     NewHardwareItemDialog(QWidget *parent, QJsonObject *results);
-
-    /*
-    explicit NewHardwareItemDialog(QWidget *parent = 0, QString *boardname = nullptr, QString *boardfilename, QString *boardimagefilename,
-                                   double *boardwidth, double *boardheight, int *pincount, int *rowcount);
-    */
-
     ~NewHardwareItemDialog();
 
     QStringList loadBoardFiles();
     bool loadBoardList();
 
-private slots:
-    void on_toolButton_triggered(QAction *arg1);
+    void searchLibrary(QString searchString);
 
+private slots:
     void on_buttonBox_accepted();
 
     void on_toolButton_clicked();
+
+    void on_PastetoolButton_pressed();
+
+    void on_NamelineEdit_textChanged(const QString &arg1);
+
+    void on_BoardNameslistWidget_itemPressed(QListWidgetItem *item);
 
 private:
     Ui::NewHardwareItemDialog *ui;
@@ -45,6 +45,11 @@ private:
     int rowCount;
 
     QJsonObject *completed;
+
+    bool havepastedimage,
+         havesavedimage;
+
+    QStringList componentfiles;
 
 };
 

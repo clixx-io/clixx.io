@@ -48,9 +48,46 @@ QVariant connectableHardware::itemChange(GraphicsItemChange change, const QVaria
         {
             joiner->setLine(-75,-50,pos().x(),pos().y());
         }
+    } else if (change == GraphicsItemChange::ItemSelectedChange)
+    {
+        if (value.toBool())
+            qDebug() << "Selected:" << this->m_name;
+        else
+            qDebug() << "unSelected:" << this->m_name;
+
     }
 
+
     return QGraphicsItem::itemChange(change, value);
+}
+
+void connectableHardware::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug() << "Clicked:" << this->m_name;
+
+    this->setSelected(!this->isSelected());
+
+}
+
+QRectF connectableHardware::boundingRect() const
+{
+    return(QRectF(0,0,m_width, m_height));
+}
+
+connectableCable::connectableCable(QString cableName, QColor cableColor, int pins, int rows, QGraphicsItem *parent)
+    : QGraphicsItem(parent)
+{
+}
+
+void connectableCable::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->setPen(Qt::yellow);
+    painter->setBrush(Qt::gray);
+    painter->drawRect(boundingRect());
+}
+
+QRectF connectableCable::boundingRect() const
+{
 }
 
 HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
@@ -60,6 +97,8 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
     ui->setupUi(this);
 
     scene = new QGraphicsScene(this);
+
+    connect(scene, SIGNAL(selectionChanged()), this, SLOT(SelectionChanged()));
 
     ui->graphicsView->setScene(scene);
 
@@ -71,7 +110,6 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
     joiner->setFlag(QGraphicsItem::ItemIsMovable);
 
     connectableHardware *item = new connectableHardware("board",90,40,"guid",":/res/res/mainboard-rpi3.PNG");
-
     item->setFlag(QGraphicsItem::ItemIsMovable);
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     item->joiner = joiner;
@@ -80,17 +118,11 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
     QGraphicsRectItem *ioboard1 = scene->addRect(-150,-100,50,50,blackpen,greenbrush);
     ioboard1->setFlag(QGraphicsItem::ItemIsMovable);
 
-    /*
-    QGraphicsRectItem *ioboard2 = scene->addRect(50,-100,50,50,blackpen,greenbrush);
-    ioboard2->setFlag(QGraphicsItem::ItemIsMovable);
+}
 
-    QGraphicsRectItem *ioboard3 = scene->addRect(100,-100,50,50,blackpen,greenbrush);
-    ioboard3->setFlag(QGraphicsItem::ItemIsMovable);
-
-    QGraphicsRectItem *ioboard4 = scene->addRect(200,-100,50,50,blackpen,greenbrush);
-    ioboard4->setFlag(QGraphicsItem::ItemIsMovable);
-    */
-
+void HardwareLayoutWidget::SelectionChanged()
+{
+    qDebug() << "slot Selection Change";
 }
 
 HardwareLayoutWidget::~HardwareLayoutWidget()
@@ -126,6 +158,7 @@ bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName
 {
     connectableHardware *item = new connectableHardware(componentName,componentWidth,componentHeight,componentID,componentImageName);
 
+    item->setFlag(QGraphicsItem::ItemIsSelectable);
     item->setFlag(QGraphicsItem::ItemIsMovable);
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     scene->addItem(item);
@@ -133,8 +166,15 @@ bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName
     return(false);
 }
 
-QRectF connectableHardware::boundingRect() const
+bool HardwareLayoutWidget::addCableToScene(QString cableName, QColor cableColor, int pins, int rows)
 {
-    return(QRectF(0,0,m_width, m_height));
+    connectableCable *item = new connectableCable(cableName,cableColor,pins,rows);
+    item->setFlag(QGraphicsItem::ItemIsMovable);
+    item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    scene->addItem(item);
+
+    return(true);
 }
+
+
 

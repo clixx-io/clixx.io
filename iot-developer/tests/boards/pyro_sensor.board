@@ -19,7 +19,7 @@ pin1_name = gnd
 pin1_name = vcc
 
 [bitmap]
-file = sensor-infrared-speed-32735448886.png
+file = aliexpress-32705124196.png
 
 [source]
 https://www.aliexpress.com/item/Pyroelectric-Infrared-sensor-Human-Body-Detecting-PIR-Motion-Sensor-Module-for-Arduino-MCU-01150-black-optical/32705124196.html

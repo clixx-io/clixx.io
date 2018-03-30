@@ -109,6 +109,7 @@ private:
     QAction *runAction;
     QAction *systemAction = nullptr;
     QAction *addComponentAction = nullptr;
+    QAction *addConnectionAction = nullptr;
 
     QMenu *menu;
     QAction *orderAction;

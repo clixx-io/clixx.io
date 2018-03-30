@@ -141,6 +141,7 @@ public slots:
     void EventPlayback();
 
     void AddHardware();
+    void AddConnection();
 
 private:
     void setupToolBar();
