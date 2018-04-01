@@ -36,9 +36,10 @@ private slots:
 private:
     Ui::NewHardwareItemDialog *ui;
 
-    QString name;
-    QString boardfile;
-    QString imagefilename;
+    QString m_name;
+    QString m_boardfile;
+    QString m_imagefilename;
+
     double width;
     double height;
     int pinCount;

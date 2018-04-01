@@ -91,6 +91,9 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="maximum">
+     <double>999.990000000000009</double>
+    </property>
     <property name="value">
      <double>60.000000000000000</double>
     </property>
@@ -161,6 +164,9 @@
       <width>71</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <double>999.990000000000009</double>
     </property>
     <property name="value">
      <double>30.000000000000000</double>
@@ -344,7 +350,7 @@
    <zorder>PastetoolButton</zorder>
    <zorder>ConnectCPUcheckBox</zorder>
   </widget>
-  <widget class="QLineEdit" name="NamelineEdit">
+  <widget class="QLineEdit" name="searchlineEdit">
    <property name="geometry">
     <rect>
      <x>10</x>

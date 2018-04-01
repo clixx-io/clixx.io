@@ -1,0 +1,22 @@
+[Overview]
+name = Arduino Mega 2560
+units = mm
+width = 101.8
+height = 53.3
+type = Processor
+
+[gpio]
+pins = 32
+rows = 3
+pin_width = 2.54mm
+header_x = 16.4
+header_y = 3
+orientation = horizontal
+
+[gpio_assignments]
+
+[bitmap]
+file = 0330181123.PNG
+
+[source]
+url=https://www.aliexpress.com/item/Arduino-Uno-R3-Compatible-Electronic-ATmega328P-Microcontroller-Card-for-Robotics-and-DIY-Projects/32836425521.html

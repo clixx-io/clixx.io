@@ -83,26 +83,23 @@ bool NewHardwareItemDialog::loadBoardList()
 void NewHardwareItemDialog::on_buttonBox_accepted()
 {
 
-    if (havepastedimage)
-    {
-    }
-    if (havesavedimage)
-    {
-    }
-
     QJsonObject object
     {
-        {"name", ui->NamelineEdit->text()},
+        {"name", m_name },
+        {"boardfile", m_boardfile},
         {"width", ui->WidthSpinBox->value()},
         {"height", ui->HeightSpinBox->value()},
         {"pins", ui->pinscomboBox->currentText().toInt()},
         {"rows", ui->rowscomboBox->currentText().toInt()},
-        {"picturefilename", imagefilename}
+        {"picturefilename", m_imagefilename}
 
     };
 
     if (ui->BoardNameslistWidget->selectedItems().count() > 0)
+    {
+        object["name"] = QString(ui->BoardNameslistWidget->selectedItems()[0]->text());
         object["type"] = QString(ui->BoardNameslistWidget->selectedItems()[0]->text());
+    }
     else
         object["type"] = "";
 
@@ -127,7 +124,7 @@ void NewHardwareItemDialog::on_toolButton_clicked()
 
         ui->ComponentPicturelabel->update();
 
-        imagefilename = files[0];
+        m_imagefilename = files[0];
     }
 
     qDebug() << files[0] << "loaded";
@@ -189,6 +186,9 @@ void NewHardwareItemDialog::on_BoardNameslistWidget_itemPressed(QListWidgetItem 
 
     qDebug() << "Activated:" << item->text() << ", " << fullFilePath;
 
+    m_name = item->text();
+    m_boardfile = fullFilePath;
+
     QSettings boardfile(fullFilePath, QSettings::IniFormat);
 
     QString imageFileName = imagesDir.absolutePath() + "/" + boardfile.value("bitmap/file","").toString();
@@ -197,10 +197,11 @@ void NewHardwareItemDialog::on_BoardNameslistWidget_itemPressed(QListWidgetItem 
     ui->ComponentPicturelabel->setScaledContents(true);
     ui->ComponentPicturelabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored );
     ui->ComponentPicturelabel->update();
+    m_imagefilename = imageFileName;
 
     ui->WidthSpinBox->setValue(boardfile.value("overview/width",ui->WidthSpinBox->value()).toDouble());
-    ui->HeightSpinBox->setValue(boardfile.value("overview/width",ui->HeightSpinBox->value()).toDouble());
+    ui->HeightSpinBox->setValue(boardfile.value("overview/height",ui->HeightSpinBox->value()).toDouble());
 
-    imagefilename = imageFileName;
+    qDebug() << "Activated:" << item->text() << ", " << fullFilePath;
 
 }

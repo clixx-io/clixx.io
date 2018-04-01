@@ -13,10 +13,10 @@ header_x = 16.4
 header_y = 3
 orientation = horizontal
 
-[gpio assignments]
+[gpio_assignments]
 pin1_name = out
-pin1_name = gnd
-pin1_name = vcc
+pin2_name = gnd
+pin3_name = vcc
 
 [bitmap]
 file = aliexpress-32705124196.png
