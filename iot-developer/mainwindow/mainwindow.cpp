@@ -790,8 +790,9 @@ void MainWindow::AddHardware()
     NewHardwareItemDialog *dlg = new NewHardwareItemDialog(this, &userchoices);
     if (dlg->exec())
     {
-
-        systemDesign->addToScene(userchoices["type"].toString(),userchoices["name"].toString(),
+        systemDesign->addToScene(userchoices["id"].toString(),
+                                 userchoices["name"].toString(),
+                                 userchoices["boardfile"].toString(),
                                  userchoices["picturefilename"].toString(),
                                  userchoices["width"].toDouble(),userchoices["height"].toDouble(),
                                  userchoices["pins"].toInt(), userchoices["rows"].toInt());
@@ -811,11 +812,13 @@ void MainWindow::AddConnection()
     NewConnectionItemDialog *dlg = new NewConnectionItemDialog(this, &userchoices);
     if (dlg->exec())
     {
-
-        systemDesign->addToScene(userchoices["type"].toString(),userchoices["name"].toString(),
+        /*
+        systemDesign->addToScene(userchoices["type"].toString(),
+                                 userchoices["name"].toString(),
                                  userchoices["picturefilename"].toString(),
                                  userchoices["width"].toDouble(),userchoices["height"].toDouble(),
                                  userchoices["pins"].toInt(), userchoices["rows"].toInt());
+                                 */
 
     }
 
