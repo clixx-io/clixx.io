@@ -170,4 +170,6 @@ private:
 
 };
 
+QMainWindow* getMainWindow();
+
 #endif // MAINWINDOW_H

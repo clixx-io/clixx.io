@@ -6,7 +6,9 @@
 #include <QFileDialog>
 #include <QClipboard>
 #include <QMimeData>
+#include <QStandardPaths>
 
+#include "mainwindow.h"
 #include "newhardwareitemdialog.h"
 #include "ui_newhardwareitemdialog.h"
 
@@ -40,12 +42,18 @@ NewHardwareItemDialog::~NewHardwareItemDialog()
 QStringList NewHardwareItemDialog::loadBoardFiles()
 {
     QStringList results;
-
-    QDir dir("../tests/boards");
-
-    qDebug() << "Reading directory" << dir.absolutePath();
+    QSettings settings;
+    QString dirname = settings.value("directories/board_library",QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[0] + "/boardlibrary").toString();
+    QDir dir(dirname);
 
     QFileInfoList list = dir.entryInfoList();
+    if (list.count()==0)
+    {
+        MainWindow *mw = (MainWindow*) getMainWindow();
+        if (mw)
+            mw->showStatusMessage(tr("Warning: No boards found in directory \"%1\"").arg(dir.absolutePath()));
+    }
+
     for (int i = 0; i < list.size(); ++i) {
         QFileInfo fileInfo = list.at(i);
 
@@ -179,7 +187,9 @@ void NewHardwareItemDialog::searchLibrary(QString searchString)
 void NewHardwareItemDialog::on_BoardNameslistWidget_itemPressed(QListWidgetItem *item)
 {
 
-    QDir imagesDir("../tests/boards");
+    QSettings settings;
+    QString dirname = settings.value("directories/board_library",QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[0] + "/boardlibrary").toString();
+    QDir imagesDir(dirname);
 
     QVariant data = item->data(Qt::UserRole);
     QString fullFilePath = data.toString();

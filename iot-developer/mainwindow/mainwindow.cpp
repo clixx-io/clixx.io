@@ -108,8 +108,13 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
                        QWidget *parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags)
 {
+
+    QCoreApplication::setOrganizationName("clixx.io");
+    QCoreApplication::setOrganizationDomain("clixx.io");
+    QCoreApplication::setApplicationName("IoT-Designer");
+
     setObjectName("MainWindow");
-    setWindowTitle("IoT Developer for RaspberryPi");
+    setWindowTitle("IoT-Designer for RaspberryPi");
 
     Projects = new ClixxIoTProjects();
     currentProject = new ClixxIoTProject();
@@ -842,3 +847,14 @@ void MainWindow::clearStatusMessages()
     userMessages->clear();
 }
 
+#include <QApplication>
+#include <QDateTime>
+
+QMainWindow* getMainWindow()
+{
+    QWidgetList widgets = qApp->topLevelWidgets();
+    for (QWidgetList::iterator i = widgets.begin(); i != widgets.end(); ++i)
+        if ((*i)->objectName() == "MainWindow")
+            return (QMainWindow*) (*i);
+    return NULL;
+}
