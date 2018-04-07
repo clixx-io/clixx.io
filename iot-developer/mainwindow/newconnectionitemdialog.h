@@ -16,8 +16,16 @@ public:
     NewConnectionItemDialog(QWidget *parent, QJsonObject *results);
     ~NewConnectionItemDialog();
 
+private slots:
+    void on_buttonBox_accepted();
+
 private:
     Ui::NewConnectionItemDialog *ui;
+
+    void loadParameters(QJsonObject &parameters);
+
+    QJsonObject *completed;
+
 };
 
 #endif // NEWCONNECTIONITEMDIALOG_H

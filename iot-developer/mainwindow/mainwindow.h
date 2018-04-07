@@ -103,6 +103,7 @@ public slots:
     void showWelcome();
     void newProject();
     void loadProject();
+    void loadDesignDiagram();
     void saveFile();
 
     void actionTriggered(QAction *action);

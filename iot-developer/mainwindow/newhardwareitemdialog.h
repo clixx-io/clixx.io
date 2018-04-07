@@ -29,9 +29,9 @@ private slots:
 
     void on_PastetoolButton_pressed();
 
-    void on_NamelineEdit_textChanged(const QString &arg1);
-
     void on_BoardNameslistWidget_itemPressed(QListWidgetItem *item);
+
+    void on_searchlineEdit_textChanged(const QString &arg1);
 
 private:
     Ui::NewHardwareItemDialog *ui;

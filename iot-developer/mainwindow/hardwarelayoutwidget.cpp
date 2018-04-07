@@ -35,6 +35,12 @@ void connectableHardware::paint(QPainter *painter, const QStyleOptionGraphicsIte
         painter->setBrush(Qt::gray);
         painter->drawRect(boundingRect());
     }
+
+    if (option->state & QStyle::State_Selected)
+    {
+        painter->setPen(Qt::red);
+        painter->drawRect(boundingRect());
+    }
 }
 
 void connectableHardware::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -54,9 +60,23 @@ QVariant connectableHardware::itemChange(GraphicsItemChange change, const QVaria
     if (change == GraphicsItemChange::ItemPositionChange)
     {
         if (joiner)
-        {
             joiner->setLine(-75,-50,pos().x(),pos().y());
+
+        foreach (connectableCable *cable, cables)
+        {
+            connectableHardware * hw1 = cable->getStartItem();
+            connectableHardware * hw2 = cable->getEndItem();
+
+            if (hw1 == this)
+            {
+                cable->setLine(pos().x(),pos().y(),hw2->x(),hw2->y());
+            } else
+            {
+                cable->setLine(hw1->x(),hw1->y(),pos().x(),pos().y());
+            }
+
         }
+
     } else if (change == GraphicsItemChange::ItemSelectedChange)
     {
         if (value.toBool())
@@ -98,22 +118,80 @@ void connectableHardware::copyBoardFileProperties(QString boardfilename)
 
 }
 
-connectableCable::connectableCable(QString startItem, QString endItem, QGraphicsItem *parent)
-    : QGraphicsItem(parent),
-      m_startItem(startItem),
-      m_endItem(endItem)
+void connectableHardware::addCableConnection(connectableCable *cable)
 {
+    cables.append(cable);
+}
+
+connectableCable::connectableCable(QString componentID, connectableHardware *startItem, connectableHardware *endItem, int wires, int rows, QColor cablecolor, QGraphicsItem *parent)
+    : QGraphicsLineItem(0,0,100,100,parent),
+      m_startItem(startItem),
+      m_endItem(endItem),
+      m_wires(wires),
+      m_rows(rows),
+      m_cablecolor(cablecolor),
+      m_id(componentID)
+{
+    m_name = QObject::tr("Cable%1").arg(componentID);
 }
 
 void connectableCable::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setPen(Qt::yellow);
-    painter->setBrush(Qt::gray);
-    painter->drawRect(boundingRect());
+    if (option->state & QStyle::State_Selected)
+    {
+        painter->setPen(Qt::red);
+        painter->drawRect(boundingRect());
+    }
+
+    /*
+    painter->setPen(Qt::blue);
+
+    QPainterPath path;
+    path.moveTo(0, 0);
+    path.lineTo(20, 30);
+    path.cubicTo(80, 0, 50, 50, 80, 80);
+    painter->drawPath(path);
+
+    painter->setBrush(Qt::red);
+    painter->drawRect(45, 45, 10, 10);
+    */
+
+    QGraphicsLineItem::paint(painter,option,widget);
+
 }
 
+/*
 QRectF connectableCable::boundingRect() const
 {
+    return(QRectF(0,0,100,100));
+}
+*/
+
+void connectableCable::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug() << "Clicked:" << this->m_name;
+
+    this->setSelected(!this->isSelected());
+
+    return QGraphicsItem::mousePressEvent(event);
+
+}
+
+QVariant connectableCable::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    qDebug() << "Cable Change:" << change;
+
+    if (change == GraphicsItemChange::ItemPositionChange)
+    {
+    } else if (change == GraphicsItemChange::ItemSelectedChange)
+    {
+        if (value.toBool())
+            qDebug() << "Selected:" << this->m_name;
+        else
+            qDebug() << "unSelected:" << this->m_name;
+    }
+
+    return QGraphicsItem::itemChange(change, value);
 }
 
 HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
@@ -128,18 +206,32 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(SelectionChanged()));
 
+    /*
     QBrush greenbrush(Qt::green);
     QPen blackpen(Qt::black);
     blackpen.setWidth(3);
 
-    QGraphicsLineItem *joiner = scene->addLine(-50,-50,100,100,blackpen);
-    joiner->setFlag(QGraphicsItem::ItemIsMovable);
+    QGraphicsLineItem *j1 = scene->addLine(-60,-40,-60,-20,blackpen);
+    j1->setFlag(QGraphicsItem::ItemIsMovable);
+    j1->setFlag(QGraphicsItem::ItemIsSelectable);
+    QGraphicsLineItem *j2 = scene->addLine(-60,-20,-30,0,blackpen);
+    j2->setFlag(QGraphicsItem::ItemIsMovable);
+    j2->setFlag(QGraphicsItem::ItemIsSelectable);
+
+//    QGraphicsLineItem *joiner = scene->addLine(-50,-50,100,100,blackpen);
+//    joiner->setFlag(QGraphicsItem::ItemIsMovable);
+
+    connectableCable *cableA = new connectableCable("",nullptr,nullptr);
+    scene->addItem(cableA);
 
     connectableHardware *item = new connectableHardware("5x","board","",30,2,90,40,":/res/res/mainboard-rpi3.PNG");
     item->setFlag(QGraphicsItem::ItemIsMovable);
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-    item->joiner = joiner;
+//    item->joiner = joiner;
+    item->joiner = (QGraphicsLineItem *) cableA;
     scene->addItem(item);
+
+    */
 
 }
 
@@ -152,6 +244,7 @@ void HardwareLayoutWidget::SelectionChanged()
 
     if (scene->selectedItems().count()==1)
     {
+
         connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(scene->selectedItems()[0]);
         if (h)
         {
@@ -222,8 +315,6 @@ void HardwareLayoutWidget::SelectionChanged()
 
     }
 
-    SaveComponents("abc.txt");
-
 }
 
 HardwareLayoutWidget::~HardwareLayoutWidget()
@@ -238,10 +329,51 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
 
     QSettings boardfile(filename, QSettings::IniFormat);
 
+    // scene->items->clear();
+
     int count = boardfile.value("overview/items",0).toInt();
     for (int i=0; i < count; i++)
     {
         qDebug() << tr(" - item:%1").arg(i+1);
+
+        boardfile.beginGroup(tr("Item_%1").arg(i+1));
+
+        QString compID = boardfile.value("id").toString().toLower();
+        QString compName = boardfile.value("name").toString();
+        QString compclass = boardfile.value("class").toString().toLower();
+
+        int x = boardfile.value("x",0).toInt();
+        int y = boardfile.value("y",0).toInt();
+        int w = boardfile.value("width",0).toInt();
+        int h = boardfile.value("height",0).toInt();
+
+        if (compclass == "component")
+        {
+            int p = boardfile.value("pins",0).toInt();
+            int r = boardfile.value("rows",0).toInt();
+            QString b = boardfile.value("board_file","").toString();
+            QString i = boardfile.value("image_file","").toString();
+
+            addToScene(compID,compName,x,y,b,i,w,h,p,r);
+
+        }
+        else if (compclass == "cable")
+        {
+            QString si = boardfile.value("startitem","").toString();
+            QString ei = boardfile.value("enditem","").toString();
+            int wc = boardfile.value("wires",0).toInt();
+            int rc = boardfile.value("rows",0).toInt();
+            QString c = boardfile.value("color",0).toString();
+            QColor cv(Qt::gray);
+
+            connectableHardware *startitem = findByID(si);
+            connectableHardware *enditem = findByID(ei);
+
+            connectableCable *cb = new connectableCable(compID,startitem,enditem,wc,rc,cv);
+
+        }
+
+        boardfile.endGroup();
     }
 
     return(false);
@@ -270,26 +402,102 @@ bool HardwareLayoutWidget::SaveComponents(const QString filename)
             boardfile.setValue("type",hw->getType());
             boardfile.setValue("width",hw->getWidth());
             boardfile.setValue("height",hw->getHeight());
+            boardfile.setValue("pins",hw->getPinCount());
+            boardfile.setValue("rows",hw->getRowCount());
+
+            boardfile.setValue("board_file",hw->getBoardFile());
+            boardfile.setValue("image_file",hw->getImageFilename());
+
+            boardfile.setValue("x",item->x());
+            boardfile.setValue("y",item->y());
+
         }
+
         connectableCable *cbl = qgraphicsitem_cast<connectableCable *>(item);
         if (cbl)
         {
-            boardfile.setValue("id",hw->getID());
-            boardfile.setValue("name",hw->getName());
+            boardfile.setValue("id",cbl->getID());
+            boardfile.setValue("name",cbl->getName());
             boardfile.setValue("class","Cable");
-            boardfile.setValue("startitem",hw->getHeight());
-            boardfile.setValue("enditem",hw->getHeight());
-            boardfile.setValue("type",hw->getType());
-            boardfile.setValue("color",hw->getHeight());
-            boardfile.setValue("wirecount",hw->getHeight());
+
+            if (cbl->getStartItem())
+                boardfile.setValue("startitem",cbl->getStartItem()->getID());
+            else
+                boardfile.setValue("startitem","");
+
+            if (cbl->getEndItem())
+                boardfile.setValue("enditem",cbl->getEndItem()->getID());
+            else
+                boardfile.setValue("enditem","");
+
+            boardfile.setValue("type",cbl->getType());
+            boardfile.setValue("color",cbl->getColor().name(QColor::HexRgb));
+            boardfile.setValue("wirecount",cbl->getWireCount());
+            boardfile.setValue("rows",cbl->getRows());
         }
 
-        boardfile.setValue("x",item->x());
-        boardfile.setValue("y",item->y());
         boardfile.endGroup();
     }
 
     return(false);
+}
+
+QList <connectableHardware *> HardwareLayoutWidget::getHardwareComponents()
+{
+    QList <connectableHardware *> results;
+
+    for (int i=0; i < scene->items().count(); i++)
+    {
+        QGraphicsItem *item = scene->items()[i];
+
+        connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(item);
+        if (hw)
+        {
+            results.append(hw);
+        }
+    }
+
+    return(results);
+}
+
+connectableHardware* HardwareLayoutWidget::findByID(QString componentID)
+{
+    connectableHardware* result = nullptr;
+
+    foreach (QGraphicsItem *item, scene->items())
+    {
+        connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(item);
+        if (hw)
+        {
+            if (hw->getID() == componentID)
+            {
+                result = hw;
+                break;
+            }
+        }
+    }
+
+    return(result);
+}
+
+connectableHardware* HardwareLayoutWidget::findByName(QString componentName)
+{
+    connectableHardware* result = nullptr;
+
+    foreach (QGraphicsItem *item, scene->items())
+    {
+        connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(item);
+        if (hw)
+        {
+            if (hw->getName() == componentName)
+            {
+                result = hw;
+                break;
+            }
+        }
+    }
+
+    return(result);
 }
 
 void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -306,9 +514,15 @@ void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidget
 
 }
 
-bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows)
+bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows)
 {
+    if (componentID.length() == 0)
+        componentID = getNextID();
+
     connectableHardware *item = new connectableHardware(componentID,componentName,componentBoardFile,pins, rows, componentWidth,componentHeight,componentImageName);
+
+    item->setX(x);
+    item->setY(y);
 
     item->setFlag(QGraphicsItem::ItemIsSelectable);
     item->setFlag(QGraphicsItem::ItemIsMovable);
@@ -318,12 +532,24 @@ bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName
     return(false);
 }
 
-bool HardwareLayoutWidget::addCableToScene(QString cableName, QColor cableColor, int pins, int rows)
+bool HardwareLayoutWidget::addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor)
 {
-    connectableCable *item = new connectableCable("1","2");
-    item->setFlag(QGraphicsItem::ItemIsMovable);
-    item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-    scene->addItem(item);
+
+    if (componentID.length() == 0)
+        componentID = getNextID();
+
+    connectableHardware *c1 = findByID(startItem);
+    connectableHardware *c2 = findByID(endItem);
+
+    connectableCable *cable = new connectableCable(componentID, c1, c2, wires, rows, cablecolor);
+
+    c1->addCableConnection(cable);
+    c2->addCableConnection(cable);
+
+    cable->setFlag(QGraphicsItem::ItemIsSelectable);
+    cable->setFlag(QGraphicsItem::ItemIsMovable);
+    cable->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    scene->addItem(cable);
 
     return(true);
 }

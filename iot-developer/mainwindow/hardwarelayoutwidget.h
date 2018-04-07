@@ -10,6 +10,8 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 
+QT_FORWARD_DECLARE_CLASS(connectableCable)
+
 namespace Ui {
 class HardwareLayoutWidget;
 }
@@ -21,6 +23,7 @@ public:
     connectableHardware(QString ID, QString name, QString boardfile, int pins, int rows, qreal width, qreal height, QString graphicfile, QGraphicsItem *parent = Q_NULLPTR);
 
     QGraphicsLineItem *joiner = nullptr;
+    QList <connectableCable *> cables;
 
     enum { Type = UserType + 1 };
     int type() const
@@ -40,8 +43,10 @@ public:
     double getHeight(){ return(m_height); }
     QStringList getPinAssignments(){ return(m_gpiopin_names); }
 
+    void addCableConnection(connectableCable *cable);
+
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     virtual QRectF boundingRect() const;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
@@ -51,7 +56,7 @@ protected:
     void copyBoardFileProperties(QString boardfilename);
 
 private:
-    QString m_id, m_name, m_boardfile,m_type,m_imagefilename;
+    QString m_id, m_name, m_boardfile, m_type, m_imagefilename;
     double m_width, m_height;
     QPixmap *m_image = nullptr;
     int m_pins, m_rows;
@@ -63,11 +68,12 @@ private:
 
 };
 
-class connectableCable : public QGraphicsItem
+// class connectableCable : public QGraphicsPathItem
+class connectableCable : public QGraphicsLineItem
 {
 public:
 
-    connectableCable(QString startItem, QString endItem, QGraphicsItem *parent = Q_NULLPTR);
+    connectableCable(QString componentID, connectableHardware *startItem, connectableHardware *endItem, int wires=-1, int rows=-1, QColor cablecolor=QColor(12,56,99), QGraphicsItem *parent = Q_NULLPTR);
 
     enum { Type = UserType + 2 };
     int type() const
@@ -78,21 +84,27 @@ public:
 
     QString getID(){ return(m_id); }
     QString getName(){ return(m_name); }
-    QString getStartItem(){ return(m_startItem); }
-    QString getEndItem(){ return(m_endItem); }
+    connectableHardware *getStartItem(){ return(m_startItem); }
+    connectableHardware *getEndItem(){ return(m_endItem); }
     QString getType(){ return(m_type); }
     QColor getColor(){ return m_cablecolor; }
-    int getWireCount();
+    int getWireCount(){ return m_wires; }
+    int getRows(){ return(m_rows); }
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    /*
     virtual QRectF boundingRect() const;
+    */
+
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    QString m_startItem, m_endItem;
+    connectableHardware *m_startItem = nullptr, *m_endItem = nullptr;
     QString m_id, m_name, m_type;
     QColor m_cablecolor;
-    int m_pins, m_rows;
+    int m_wires, m_rows;
 
 };
 
@@ -104,11 +116,16 @@ public:
     explicit HardwareLayoutWidget(QWidget *parent = 0);
     ~HardwareLayoutWidget();
 
-    bool LoadComponents(const QString filename);
-    bool SaveComponents(const QString filename);
+    bool LoadComponents(const QString filename = "hardware.layout");
+    bool SaveComponents(const QString filename = "hardware.layout");
 
-    bool addToScene(QString componentID, QString componentName, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows);
-    bool addCableToScene(QString cableName, QColor cableColor, int pins, int rows);
+    bool addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows);
+    bool addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor = QColor(255, 0, 0, 127));
+
+    connectableHardware *findByID(QString componentID);
+    connectableHardware *findByName(QString componentName);
+    QString getNextID(){ return(QString::number(scene->items().count()+1));}
+    QList <connectableHardware *> getHardwareComponents();
 
 private slots:
     void on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);

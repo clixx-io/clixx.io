@@ -107,6 +107,12 @@ bool ProjectWidget::loadProject(const QString dir)
 
         }
 
+        if (files.contains(hardwareLayoutFilename))
+        {
+            mainwindow->showStatusMessage(tr("Hardware Layout file found."));
+            mainwindow->loadDesignDiagram();
+        }
+
         if (QDir::setCurrent(mainwindow->currentProject->getProjectDir()))
         {
             mainwindow->showStatusMessage(tr("Using Project directory %1.").arg(QDir::currentPath()));

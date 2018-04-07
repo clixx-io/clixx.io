@@ -24,6 +24,8 @@ public:
 
     inline void setMainWindow(MainWindow *main) { mainwindow = main; }
 
+    const QString hardwareLayoutFilename = "hardware.layout";
+
 public slots:
     void deployProject();
     void cleanProject();

@@ -25,11 +25,10 @@ NewHardwareItemDialog::NewHardwareItemDialog(QWidget *parent, QJsonObject *resul
     QDialog(parent),
     ui(new Ui::NewHardwareItemDialog),
     havepastedimage(false),
-    havesavedimage(false)
+    havesavedimage(false),
+    completed(results)
 {
     ui->setupUi(this);
-
-    completed = results;
 
     loadBoardList();
 }
@@ -153,11 +152,6 @@ void NewHardwareItemDialog::on_PastetoolButton_pressed()
     }
 }
 
-void NewHardwareItemDialog::on_NamelineEdit_textChanged(const QString &arg1)
-{
-    searchLibrary(arg1);
-}
-
 void NewHardwareItemDialog::searchLibrary(QString searchString)
 {
     ui->BoardNameslistWidget->clear();
@@ -214,4 +208,9 @@ void NewHardwareItemDialog::on_BoardNameslistWidget_itemPressed(QListWidgetItem 
 
     qDebug() << "Activated:" << item->text() << ", " << fullFilePath;
 
+}
+
+void NewHardwareItemDialog::on_searchlineEdit_textChanged(const QString &arg1)
+{
+    searchLibrary(arg1);
 }

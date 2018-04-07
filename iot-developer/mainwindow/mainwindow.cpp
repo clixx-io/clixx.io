@@ -45,7 +45,8 @@
 ** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
 **
 ****************************************************************************/
-
+#include <QApplication>
+#include <QDateTime>
 #include <QAction>
 #include <QLayout>
 #include <QMenu>
@@ -783,7 +784,18 @@ void MainWindow::showWelcome()
 
 void MainWindow::saveFile()
 {
+    if (systemDesign)
+        systemDesign->SaveComponents();
+
     showStatusMessage(tr("Saved"));
+}
+
+void MainWindow::loadDesignDiagram()
+{
+    architectureSystem();
+
+    if (systemDesign)
+        systemDesign->LoadComponents();
 }
 
 void MainWindow::AddHardware()
@@ -797,6 +809,8 @@ void MainWindow::AddHardware()
     {
         systemDesign->addToScene(userchoices["id"].toString(),
                                  userchoices["name"].toString(),
+                                 userchoices["x"].toDouble(),
+                                 userchoices["y"].toDouble(),
                                  userchoices["boardfile"].toString(),
                                  userchoices["picturefilename"].toString(),
                                  userchoices["width"].toDouble(),userchoices["height"].toDouble(),
@@ -814,16 +828,26 @@ void MainWindow::AddConnection()
 
     architectureSystem();
 
+    // Find all the components of the Scene that can be joined
+    int c(1);
+    foreach (connectableHardware *item, systemDesign->getHardwareComponents())
+    {
+        userchoices[tr("component_%1_id").arg(c)] = item->getID();
+        userchoices[tr("component_%1_name").arg(c)] = item->getName();
+        c++;
+    }
+    userchoices["component_count"] = c;
+
     NewConnectionItemDialog *dlg = new NewConnectionItemDialog(this, &userchoices);
     if (dlg->exec())
     {
-        /*
-        systemDesign->addToScene(userchoices["type"].toString(),
-                                 userchoices["name"].toString(),
-                                 userchoices["picturefilename"].toString(),
-                                 userchoices["width"].toDouble(),userchoices["height"].toDouble(),
-                                 userchoices["pins"].toInt(), userchoices["rows"].toInt());
-                                 */
+
+        systemDesign->addCableToScene("",
+                                      userchoices["startitem"].toString(),
+                                      userchoices["enditem"].toString(),
+                                      userchoices["wires"].toInt(),
+                                      userchoices["rows"].toInt());
+
 
     }
 
@@ -846,9 +870,6 @@ void MainWindow::clearStatusMessages()
 {
     userMessages->clear();
 }
-
-#include <QApplication>
-#include <QDateTime>
 
 QMainWindow* getMainWindow()
 {
