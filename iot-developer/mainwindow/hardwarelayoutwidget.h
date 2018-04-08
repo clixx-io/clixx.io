@@ -114,8 +114,8 @@ public:
     bool LoadComponents(const QString filename = "hardware.layout");
     bool SaveComponents(const QString filename = "hardware.layout");
 
-    bool addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows);
-    bool addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor = QColor(255, 0, 0, 127));
+    connectableHardware *addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows);
+    connectableCable *addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor = QColor(255, 0, 0, 127));
 
     connectableHardware *findByID(QString componentID);
     connectableHardware *findByName(QString componentName);

@@ -130,6 +130,12 @@ connectableCable::connectableCable(QString componentID, connectableHardware *sta
       m_id(componentID)
 {
     m_name = QObject::tr("Cable%1").arg(componentID);
+
+    // Copy over the cable color
+    QPen pen;
+    pen.setColor(cablecolor);
+    setPen(pen);
+
 }
 
 void connectableCable::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -218,6 +224,22 @@ void HardwareLayoutWidget::SelectionChanged()
             itemPinCount = tr("%1").arg(h->getPinCount());
             ItemColumns =  tr("%1").arg(h->getRowCount());
             itemPinAssignments = h->getPinAssignments();
+        }
+
+        connectableCable *cbl = qgraphicsitem_cast<connectableCable *>(scene->selectedItems()[0]);
+        if (cbl)
+        {
+            itemName = cbl->getName();
+            itemPinCount = tr("%1").arg(cbl->getWireCount());
+            ItemColumns =  tr("%1").arg(cbl->getRows());
+            // itemPinAssignments = cbl->getPinAssignments();
+        }
+
+        ui->componentslistWidget->clearSelection();
+        QList<QListWidgetItem *> founditems = ui->componentslistWidget->findItems(itemName, Qt::MatchExactly);
+        if (founditems.size() > 0) {
+            // An item found
+            founditems[0]->setSelected(true);
         }
 
     }
@@ -552,7 +574,7 @@ QString HardwareLayoutWidget::getNextName(QString prefix)
 
 }
 
-bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows)
+connectableHardware * HardwareLayoutWidget::addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows)
 {
     if (componentID.length() == 0)
         componentID = getNextID();
@@ -573,10 +595,10 @@ bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName
     newItem->setData(Qt::UserRole, id);
     ui->componentslistWidget->insertItem(ui->componentslistWidget->count(), newItem);
 
-    return(false);
+    return(item);
 }
 
-bool HardwareLayoutWidget::addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor)
+connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor)
 {
 
     if (componentID.length() == 0)
@@ -600,7 +622,7 @@ bool HardwareLayoutWidget::addCableToScene(QString componentID, QString startIte
     newItem->setData(Qt::UserRole, id);
     ui->componentslistWidget->insertItem(ui->componentslistWidget->count(), newItem);
 
-    return(true);
+    return(cable);
 }
 
 // Zoom in works
@@ -610,8 +632,6 @@ bool HardwareLayoutWidget::addCableToScene(QString componentID, QString startIte
 // QRectF scenepos = ui->graphicsView->sceneRect();
 // scenepos.setLeft(scenepos.x()-30);
 // ui->graphicsView->setSceneRect(scenepos);
-
-// Rotate the last item 90 degrees
 /*
  * int i = scene->items().count()-1;
 QGraphicsItem *item = scene->items()[i];

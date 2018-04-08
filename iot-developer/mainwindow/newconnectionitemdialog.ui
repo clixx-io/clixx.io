@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Connect Items together by Cable</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -33,9 +33,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
+     <y>130</y>
      <width>301</width>
-     <height>251</height>
+     <height>241</height>
     </rect>
    </property>
    <property name="title">
@@ -85,7 +85,7 @@
      <string>Wires</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="pinscomboBox">
+   <widget class="QComboBox" name="wirescomboBox">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -164,33 +164,18 @@
      <string>Rows</string>
     </property>
    </widget>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QListWidget" name="colorslistWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>80</y>
       <width>261</width>
-      <height>151</height>
+      <height>141</height>
      </rect>
     </property>
     <item>
      <property name="text">
       <string>Default</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Black</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Biege</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Grey</string>
      </property>
     </item>
    </widget>
@@ -214,7 +199,7 @@
      <x>10</x>
      <y>20</y>
      <width>301</width>
-     <height>91</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="title">
