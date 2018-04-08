@@ -59,9 +59,6 @@ QVariant connectableHardware::itemChange(GraphicsItemChange change, const QVaria
 
     if (change == GraphicsItemChange::ItemPositionChange)
     {
-        if (joiner)
-            joiner->setLine(-75,-50,pos().x(),pos().y());
-
         foreach (connectableCable *cable, cables)
         {
             connectableHardware * hw1 = cable->getStartItem();
@@ -206,33 +203,6 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(SelectionChanged()));
 
-    /*
-    QBrush greenbrush(Qt::green);
-    QPen blackpen(Qt::black);
-    blackpen.setWidth(3);
-
-    QGraphicsLineItem *j1 = scene->addLine(-60,-40,-60,-20,blackpen);
-    j1->setFlag(QGraphicsItem::ItemIsMovable);
-    j1->setFlag(QGraphicsItem::ItemIsSelectable);
-    QGraphicsLineItem *j2 = scene->addLine(-60,-20,-30,0,blackpen);
-    j2->setFlag(QGraphicsItem::ItemIsMovable);
-    j2->setFlag(QGraphicsItem::ItemIsSelectable);
-
-//    QGraphicsLineItem *joiner = scene->addLine(-50,-50,100,100,blackpen);
-//    joiner->setFlag(QGraphicsItem::ItemIsMovable);
-
-    connectableCable *cableA = new connectableCable("",nullptr,nullptr);
-    scene->addItem(cableA);
-
-    connectableHardware *item = new connectableHardware("5x","board","",30,2,90,40,":/res/res/mainboard-rpi3.PNG");
-    item->setFlag(QGraphicsItem::ItemIsMovable);
-    item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-//    item->joiner = joiner;
-    item->joiner = (QGraphicsLineItem *) cableA;
-    scene->addItem(item);
-
-    */
-
 }
 
 void HardwareLayoutWidget::SelectionChanged()
@@ -329,13 +299,11 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
 
     QSettings boardfile(filename, QSettings::IniFormat);
 
-    // scene->items->clear();
+    scene->items().clear();
 
     int count = boardfile.value("overview/items",0).toInt();
     for (int i=0; i < count; i++)
     {
-        qDebug() << tr(" - item:%1").arg(i+1);
-
         boardfile.beginGroup(tr("Item_%1").arg(i+1));
 
         QString compID = boardfile.value("id").toString().toLower();
@@ -349,6 +317,8 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
 
         if (compclass == "component")
         {
+            qDebug() << tr(" - item:%1").arg(i+1);
+
             int p = boardfile.value("pins",0).toInt();
             int r = boardfile.value("rows",0).toInt();
             QString b = boardfile.value("board_file","").toString();
@@ -356,9 +326,30 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
 
             addToScene(compID,compName,x,y,b,i,w,h,p,r);
 
+            ui->componentslistWidget->addItem(compName);
+
         }
-        else if (compclass == "cable")
+
+        boardfile.endGroup();
+    }
+
+    for (int i=0; i < count; i++)
+    {
+        boardfile.beginGroup(tr("Item_%1").arg(i+1));
+
+        QString compID = boardfile.value("id").toString().toLower();
+        QString compName = boardfile.value("name").toString();
+        QString compclass = boardfile.value("class").toString().toLower();
+
+        int x = boardfile.value("x",0).toInt();
+        int y = boardfile.value("y",0).toInt();
+        int w = boardfile.value("width",0).toInt();
+        int h = boardfile.value("height",0).toInt();
+
+        if (compclass == "cable")
         {
+            qDebug() << tr(" - item:%1").arg(i+1);
+
             QString si = boardfile.value("startitem","").toString();
             QString ei = boardfile.value("enditem","").toString();
             int wc = boardfile.value("wires",0).toInt();
@@ -371,6 +362,7 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
 
             connectableCable *cb = new connectableCable(compID,startitem,enditem,wc,rc,cv);
 
+            ui->componentslistWidget->addItem(compName);
         }
 
         boardfile.endGroup();
@@ -529,6 +521,8 @@ bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     scene->addItem(item);
 
+    ui->componentslistWidget->addItem(componentName);
+
     return(false);
 }
 
@@ -547,9 +541,10 @@ bool HardwareLayoutWidget::addCableToScene(QString componentID, QString startIte
     c2->addCableConnection(cable);
 
     cable->setFlag(QGraphicsItem::ItemIsSelectable);
-    cable->setFlag(QGraphicsItem::ItemIsMovable);
     cable->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     scene->addItem(cable);
+
+    ui->componentslistWidget->addItem(cable->getName());
 
     return(true);
 }

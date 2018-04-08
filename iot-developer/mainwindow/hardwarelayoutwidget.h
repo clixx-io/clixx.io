@@ -22,9 +22,6 @@ public:
 
     connectableHardware(QString ID, QString name, QString boardfile, int pins, int rows, qreal width, qreal height, QString graphicfile, QGraphicsItem *parent = Q_NULLPTR);
 
-    QGraphicsLineItem *joiner = nullptr;
-    QList <connectableCable *> cables;
-
     enum { Type = UserType + 1 };
     int type() const
     {
@@ -62,6 +59,7 @@ private:
     int m_pins, m_rows;
 
     QStringList m_gpiopin_names;
+    QList <connectableCable *> cables;
 
     int hardwareType;
     bool mainboard;
