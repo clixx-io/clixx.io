@@ -9,6 +9,7 @@
 #include <QList>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
+#include <QListWidgetItem>
 
 QT_FORWARD_DECLARE_CLASS(connectableCable)
 
@@ -66,7 +67,6 @@ private:
 
 };
 
-// class connectableCable : public QGraphicsPathItem
 class connectableCable : public QGraphicsLineItem
 {
 public:
@@ -91,9 +91,6 @@ public:
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    /*
-    virtual QRectF boundingRect() const;
-    */
 
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -122,12 +119,16 @@ public:
 
     connectableHardware *findByID(QString componentID);
     connectableHardware *findByName(QString componentName);
+    QGraphicsItem* findGraphicsItemByID(QString componentID);
     QString getNextID(){ return(QString::number(scene->items().count()+1));}
+    QString getNextName(QString prefix);
     QList <connectableHardware *> getHardwareComponents();
 
 private slots:
     void on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void SelectionChanged();
+
+    void on_componentslistWidget_itemClicked(QListWidgetItem *item);
 
 private:
     Ui::HardwareLayoutWidget *ui;

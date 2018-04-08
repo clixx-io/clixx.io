@@ -121,7 +121,7 @@ void connectableHardware::addCableConnection(connectableCable *cable)
 }
 
 connectableCable::connectableCable(QString componentID, connectableHardware *startItem, connectableHardware *endItem, int wires, int rows, QColor cablecolor, QGraphicsItem *parent)
-    : QGraphicsLineItem(0,0,100,100,parent),
+    : QGraphicsLineItem(startItem->x(),startItem->y(),endItem->x(),endItem->y(),parent),
       m_startItem(startItem),
       m_endItem(endItem),
       m_wires(wires),
@@ -156,13 +156,6 @@ void connectableCable::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QGraphicsLineItem::paint(painter,option,widget);
 
 }
-
-/*
-QRectF connectableCable::boundingRect() const
-{
-    return(QRectF(0,0,100,100));
-}
-*/
 
 void connectableCable::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -452,6 +445,35 @@ QList <connectableHardware *> HardwareLayoutWidget::getHardwareComponents()
     return(results);
 }
 
+QGraphicsItem* HardwareLayoutWidget::findGraphicsItemByID(QString componentID)
+{
+    QGraphicsItem* result = nullptr;
+
+    foreach (QGraphicsItem *item, scene->items())
+    {
+        connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(item);
+        if (hw)
+        {
+            if (hw->getID() == componentID)
+            {
+                result = (QGraphicsItem *) hw;
+                break;
+            }
+        }
+        connectableCable *cbl = qgraphicsitem_cast<connectableCable *>(item);
+        if (cbl)
+        {
+            if (cbl->getID() == componentID)
+            {
+                result = (QGraphicsItem *) cbl;
+                break;
+            }
+        }
+    }
+
+    return(result);
+}
+
 connectableHardware* HardwareLayoutWidget::findByID(QString componentID)
 {
     connectableHardware* result = nullptr;
@@ -506,6 +528,30 @@ void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidget
 
 }
 
+QString HardwareLayoutWidget::getNextName(QString prefix)
+{
+    int itemcount(0);
+
+    foreach (QGraphicsItem *item, scene->items())
+    {
+        connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(item);
+        if (hw)
+        {
+            if (hw->getName().startsWith(prefix))
+                itemcount++;
+        }
+        connectableCable *cbl = qgraphicsitem_cast<connectableCable *>(item);
+        if (cbl)
+        {
+            if (cbl->getName().startsWith(prefix))
+                itemcount++;
+        }
+    }
+
+    return(prefix + QString::number(itemcount + 1));
+
+}
+
 bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows)
 {
     if (componentID.length() == 0)
@@ -521,7 +567,11 @@ bool HardwareLayoutWidget::addToScene(QString componentID, QString componentName
     item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     scene->addItem(item);
 
-    ui->componentslistWidget->addItem(componentName);
+    QListWidgetItem *newItem = new QListWidgetItem;
+    newItem->setText(item->getName());
+    QVariant id(item->getID());
+    newItem->setData(Qt::UserRole, id);
+    ui->componentslistWidget->insertItem(ui->componentslistWidget->count(), newItem);
 
     return(false);
 }
@@ -544,7 +594,11 @@ bool HardwareLayoutWidget::addCableToScene(QString componentID, QString startIte
     cable->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     scene->addItem(cable);
 
-    ui->componentslistWidget->addItem(cable->getName());
+    QListWidgetItem *newItem = new QListWidgetItem;
+    newItem->setText(cable->getName());
+    QVariant id(cable->getID());
+    newItem->setData(Qt::UserRole, id);
+    ui->componentslistWidget->insertItem(ui->componentslistWidget->count(), newItem);
 
     return(true);
 }
@@ -563,8 +617,18 @@ bool HardwareLayoutWidget::addCableToScene(QString componentID, QString startIte
 QGraphicsItem *item = scene->items()[i];
 item->setRotation(item->rotation()+45);
 
-qDebug() << "There are " << scene->items().count() << " items in the scene.";
-
-SaveComponents("myfile.txt");
-LoadComponents("myfile.txt");
 */
+
+
+void HardwareLayoutWidget::on_componentslistWidget_itemClicked(QListWidgetItem *item)
+{
+    scene->clearSelection();
+
+    QVariant data = item->data(Qt::UserRole);
+    QString id = data.toString();
+
+    QGraphicsItem *sceneitem = findGraphicsItemByID(id);
+    if (sceneitem)
+        sceneitem->setSelected(true);
+
+}
