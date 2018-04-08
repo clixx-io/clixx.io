@@ -321,12 +321,12 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     // Project Window
     QDockWidget *myproject = new QDockWidget(tr("Project"),this);
     projectWindow = new ProjectWidget(myproject);
-    myproject->setMinimumWidth(200);
-    myproject->setMinimumHeight(100);
     addDockWidget(Qt::LeftDockWidgetArea, myproject);
     projectWindow->setMainWindow(this);
+    myproject->setWidget(projectWindow);
     myproject->show();
-    projectWindow->resize(myproject->width(),myproject->height());
+//    projectWindow->resize(myproject->width(),myproject->height());
+//    projectWindow->resize(150,200);
 
     // Central Code Editor area
     center = new CodeEditor(this);
@@ -842,12 +842,15 @@ void MainWindow::AddConnection()
     if (dlg->exec())
     {
 
+        QColor color;
+        color.setNamedColor(userchoices["cablecolor"].toString());
+
         systemDesign->addCableToScene("",
                                       userchoices["startitem"].toString(),
                                       userchoices["enditem"].toString(),
                                       userchoices["wires"].toInt(),
-                                      userchoices["rows"].toInt());
-
+                                      userchoices["rows"].toInt(),
+                                      color);
 
     }
 
