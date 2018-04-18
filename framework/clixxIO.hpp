@@ -151,7 +151,7 @@ extern int serial_feed_close(int tty_fd);
  *
  * ------------------------------------------------------------------------*/
 #if defined(USE_MOSQUITTO)
-class ClixxIO_IoTSub : public mosquittopp::mosquittopp 
+class ClixxIO_IoTSub : public mosqpp::mosquittopp 
 #else
 class ClixxIO_IoTSub : public clixxIOSerial
 #endif
@@ -159,7 +159,7 @@ class ClixxIO_IoTSub : public clixxIOSerial
   public:
 
     #if defined(USE_MOSQUITTO)
-    ClixxIO_IoTSub(const char* id);
+    ClixxIO_IoTSub(const char* id=NULL);
     ~ClixxIO_IoTSub();
     int connect(const char *host, int port=1883, int keepalive=60, bool clean_session=true);
     int subscribeto(const char* topic);
@@ -171,6 +171,7 @@ class ClixxIO_IoTSub : public clixxIOSerial
     #endif
 
     int disconnect();
+    int available(){ return(true); }
 
   private:
     char _topic[BUFFSIZE_IOTTOPICLEN];

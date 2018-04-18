@@ -20,7 +20,7 @@
 
 LIBRARY = libclixxIO_Linux
 CC = g++
-CFLAGS += -fpic -Wall -g -Os -DTARGET_LINUX
+CFLAGS += -fpic -Wall -g -Os -DTARGET_LINUX -DUSE_MOSQUITTO
 LDFLAGS += -lstdc++ -lmosquittopp
 OBJS = $(PROGRAM).o
 SRC = core_Linux
@@ -34,9 +34,9 @@ endif
 all: $(LIBRARY).a
 
 # The library gets built and the filename shows the target platform
-$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_mosquitto_Linux.o clixxIO_Serial_Linux.o LinuxSerial.o \
+$(LIBRARY).a: clixxIO_EventQ_Linux.o clixxIO_I2C_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_Serial_Linux.o LinuxSerial.o \
  clixxIO_GPIO_Linux.o minIni.o
-	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_I2C_Linux.o clixxIO_mosquitto_Linux.o LinuxSerial.o clixxIO_GPIO_Linux.o minIni.o
+	ar crf $(LIBRARY).a clixxIO_EventQ_Linux.o clixxIO_CharLCD.o clixxIO_Serial.o clixxIO_Serial_Linux.o clixxIO_I2C_Linux.o LinuxSerial.o clixxIO_GPIO_Linux.o minIni.o
 
 %.o: %.c
 	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"

@@ -162,10 +162,11 @@ int clixxIOApp::run()
         C_loopevent(pMainClass);
 
         #ifdef USE_MOSQUITTO
-          if (IoT.available() 
+          if (IoT.available())
           {
+            int rc(MOSQ_ERR_SUCCESS);
             do {
-              rc = mqttc->loop(-1);
+              rc = IoT.loop(-1);
             } while(rc == MOSQ_ERR_SUCCESS);
           }
         #endif
