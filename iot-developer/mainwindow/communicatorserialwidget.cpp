@@ -239,6 +239,42 @@ void CommunicatorSerialWidget::refreshSerialPorts()
     }
 }
 
+bool CommunicatorSerialWidget::writewithEcho(const QString linetosend)
+{
+
+    serialTimer->stop();
+
+    foreach (QChar c, linetosend)
+    {
+        serialPort->write((const char *) &c,sizeof(c));
+        serialPort->waitForBytesWritten();
+
+        bool havechar(false);
+        do
+        {
+            const QByteArray rcvdata = serialPort->readAll();
+            foreach (QChar r, rcvdata)
+            {
+                if (r==c)
+                {
+                    havechar = true;
+                    displayRxChar(r);
+                }
+                else
+                    displayRxChar(r);
+            }
+
+        } while (!havechar);
+
+    }
+
+}
+
+void CommunicatorSerialWidget::displayRxChar(QChar c)
+{
+
+}
+
 void CommunicatorSerialWidget::showStatusMessage(const QString &message)
 {
     mainwindow->showStatusMessage(message);

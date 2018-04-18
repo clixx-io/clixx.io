@@ -72,9 +72,9 @@ bool NewHardwareItemDialog::loadBoardList()
     {
         QSettings boardfile(filename, QSettings::IniFormat);
 
-        qDebug() << boardfile.value("overview/name","").toString();
-
         QString name = boardfile.value("overview/name","").toString();
+
+        qDebug() << "Name" << boardfile.value("overview/name","").toString() << filename;
 
         QListWidgetItem *newItem = new QListWidgetItem;
         QString fullFilePath(filename);
@@ -178,17 +178,33 @@ void NewHardwareItemDialog::searchLibrary(QString searchString)
 
 }
 
-void NewHardwareItemDialog::on_BoardNameslistWidget_itemPressed(QListWidgetItem *item)
+void NewHardwareItemDialog::on_searchlineEdit_textChanged(const QString &arg1)
 {
+    searchLibrary(arg1);
+}
+
+void NewHardwareItemDialog::on_BoardNameslistWidget_itemSelectionChanged()
+{
+    if (ui->BoardNameslistWidget->selectedItems().size()==0)
+    {
+        ui->ComponentPicturelabel->clear();
+        ui->WidthSpinBox->clear();
+        ui->HeightSpinBox->clear();
+
+        m_imagefilename = "";
+        m_name = "";
+        m_boardfile = "";
+
+        return;
+    }
 
     QSettings settings;
     QString dirname = settings.value("directories/board_library",QStandardPaths::standardLocations(QStandardPaths::AppDataLocation)[0] + "/boardlibrary").toString();
     QDir imagesDir(dirname);
 
+    QListWidgetItem *item = ui->BoardNameslistWidget->selectedItems()[0];
     QVariant data = item->data(Qt::UserRole);
     QString fullFilePath = data.toString();
-
-    qDebug() << "Activated:" << item->text() << ", " << fullFilePath;
 
     m_name = item->text();
     m_boardfile = fullFilePath;
@@ -197,20 +213,20 @@ void NewHardwareItemDialog::on_BoardNameslistWidget_itemPressed(QListWidgetItem 
 
     QString imageFileName = imagesDir.absolutePath() + "/" + boardfile.value("bitmap/file","").toString();
     QPixmap pixmap(imageFileName);
+    qreal ar = (100 * pixmap.width()) / pixmap.height();
+
+    qDebug() << "Activated:" << item->text() << ", " << fullFilePath << " (" << pixmap.width() << ", " << pixmap.height() << ")";
+
     ui->ComponentPicturelabel->setPixmap(pixmap);
     ui->ComponentPicturelabel->setScaledContents(true);
     ui->ComponentPicturelabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored );
+    ui->ComponentPicturelabel->setFixedWidth(ui->ComponentPicturelabel->height() * (ar / 100));
     ui->ComponentPicturelabel->update();
     m_imagefilename = imageFileName;
 
     ui->WidthSpinBox->setValue(boardfile.value("overview/width",ui->WidthSpinBox->value()).toDouble());
     ui->HeightSpinBox->setValue(boardfile.value("overview/height",ui->HeightSpinBox->value()).toDouble());
+    ui->pinscomboBox->setCurrentText(boardfile.value("gpio/pins",ui->pinscomboBox->currentText()).toString());
+    ui->rowscomboBox->setCurrentText(boardfile.value("gpio/rows",ui->rowscomboBox->currentText()).toString());
 
-    qDebug() << "Activated:" << item->text() << ", " << fullFilePath;
-
-}
-
-void NewHardwareItemDialog::on_searchlineEdit_textChanged(const QString &arg1)
-{
-    searchLibrary(arg1);
 }

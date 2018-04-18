@@ -29,7 +29,7 @@ private slots:
 
     void on_PastetoolButton_pressed();
 
-    void on_BoardNameslistWidget_itemPressed(QListWidgetItem *item);
+    void on_BoardNameslistWidget_itemSelectionChanged();
 
     void on_searchlineEdit_textChanged(const QString &arg1);
 

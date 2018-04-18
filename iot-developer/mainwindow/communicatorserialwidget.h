@@ -30,6 +30,9 @@ public:
     void showStatusMessage(const QString &message);
     inline void setMainWindow(MainWindow *main) { mainwindow = main; }
 
+    bool writewithEcho(const QString linetosend);
+    void displayRxChar(QChar c);
+
 private slots:
     void on_commandLinkButton_pressed();
     void on_sendButton_pressed();

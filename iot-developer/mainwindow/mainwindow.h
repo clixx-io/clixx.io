@@ -90,6 +90,7 @@ public:
     ClixxIoTProject  *currentProject;
 
     ProjectWidget *projectWindow = nullptr;
+    QDockWidget *projectDock = nullptr;
     CodeEditor *center = nullptr;
     HardwareLayoutWidget *systemDesign = nullptr;
     CommunicatorSerialWidget *commWindow = nullptr;
@@ -167,7 +168,8 @@ private:
     QList<QDockWidget *> extraDockWidgets;
     QMenu *destroyDockWidgetMenu;
 
-    QListWidget *userMessages;
+    QDockWidget *UserMsgDock = nullptr;
+    QListWidget *userMessages = nullptr;
 
 };
 

@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>30</y>
+     <y>38</y>
      <width>81</width>
      <height>241</height>
     </rect>
@@ -44,7 +44,7 @@
    <widget class="QComboBox" name="rowscomboBox">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>186</x>
       <y>30</y>
       <width>81</width>
       <height>22</height>
@@ -75,9 +75,9 @@
    <widget class="QLabel" name="pinslabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>33</y>
-      <width>31</width>
+      <width>41</width>
       <height>16</height>
      </rect>
     </property>
@@ -154,7 +154,7 @@
    <widget class="QLabel" name="rowslabel">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>143</x>
       <y>32</y>
       <width>41</width>
       <height>16</height>
@@ -167,10 +167,10 @@
    <widget class="QListWidget" name="colorslistWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>80</y>
-      <width>261</width>
-      <height>141</height>
+      <width>281</width>
+      <height>151</height>
      </rect>
     </property>
     <item>
@@ -182,7 +182,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>60</y>
       <width>47</width>
       <height>13</height>
@@ -209,7 +209,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>20</y>
+      <y>32</y>
       <width>221</width>
       <height>22</height>
      </rect>
@@ -219,7 +219,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>60</y>
+      <y>64</y>
       <width>221</width>
       <height>22</height>
      </rect>
@@ -229,7 +229,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>35</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -242,7 +242,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
+      <y>68</y>
       <width>47</width>
       <height>13</height>
      </rect>

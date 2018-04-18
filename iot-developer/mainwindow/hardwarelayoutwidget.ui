@@ -48,7 +48,14 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QListWidget" name="componentslistWidget"/>
+      <widget class="QListWidget" name="componentslistWidget">
+       <property name="maximumSize">
+        <size>
+         <width>250</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QTreeWidget" name="PropertiestreeWidget">
@@ -57,6 +64,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>250</width>
+         <height>16777215</height>
+        </size>
        </property>
        <column>
         <property name="text">

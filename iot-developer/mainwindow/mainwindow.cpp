@@ -304,34 +304,7 @@ static QAction *addCornerAction(const QString &text, QMainWindow *mw, QMenu *men
 void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
 {
 
-    // Compiler Output Area
-    QDockWidget *dock = new QDockWidget(tr("Output"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    userMessages = new QListWidget(dock);
-    userMessages->addItems(QStringList()
-            << "Ready."
-//          << "Jane Doe, Memorabilia, 23 Watersedge, Beaton"
-            );
-    dock->setWidget(userMessages);
-    addDockWidget(Qt::BottomDockWidgetArea, dock);
-    //dock->setMinimumHeight(300);
-    dock->setMinimumWidth(400);
-    dock->show();
-
-    // Project Window
-    QDockWidget *myproject = new QDockWidget(tr("Project"),this);
-    projectWindow = new ProjectWidget(myproject);
-    addDockWidget(Qt::LeftDockWidgetArea, myproject);
-    projectWindow->setMainWindow(this);
-    myproject->setWidget(projectWindow);
-    myproject->show();
-//    projectWindow->resize(myproject->width(),myproject->height());
-//    projectWindow->resize(150,200);
-
-    // Central Code Editor area
-    center = new CodeEditor(this);
-    center->setMinimumSize(400, 205);
-    setCentralWidget(center);
+    architectureLogic();
 
     return;
 
@@ -653,6 +626,18 @@ void MainWindow::architectureSystem()
         center = nullptr;
     }
 
+    if (projectDock)
+    {
+        delete projectDock;
+        projectDock = nullptr;
+    }
+
+    if (UserMsgDock)
+    {
+        delete UserMsgDock;
+        UserMsgDock = nullptr;
+    }
+
     // Hardware Designer
     if (!systemDesign)
     {
@@ -718,10 +703,44 @@ void MainWindow::architectureBuses()
 
 void MainWindow::architectureLogic()
 {
-    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
-    msgBox.exec();
+    if (systemDesign)
+    {
+        delete systemDesign;
+        systemDesign = nullptr;
+    }
 
-    return;
+    // Compiler Output Area
+    if (!UserMsgDock)
+    {
+        UserMsgDock = new QDockWidget(tr("Output"), this);
+        UserMsgDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+        userMessages = new QListWidget(UserMsgDock);
+        userMessages->addItems(QStringList() << "Ready.");
+        UserMsgDock->setWidget(userMessages);
+        addDockWidget(Qt::BottomDockWidgetArea, UserMsgDock);
+        //dock->setMinimumHeight(300);
+        UserMsgDock->setMinimumWidth(400);
+        UserMsgDock->show();
+    }
+
+    // Project Window
+    if (!projectDock)
+    {
+        projectDock = new QDockWidget(tr("Project"),this);
+        projectWindow = new ProjectWidget(projectDock);
+        addDockWidget(Qt::LeftDockWidgetArea, projectDock);
+        projectWindow->setMainWindow(this);
+        projectDock->setWidget(projectWindow);
+        projectDock->show();
+    //    projectWindow->resize(myproject->width(),myproject->height());
+    //    projectWindow->resize(150,200);
+    }
+
+    // Central Code Editor area
+    center = new CodeEditor(this);
+    center->setMinimumSize(400, 205);
+    setCentralWidget(center);
+
 }
 
 void MainWindow::architectureInterrupts()
@@ -866,12 +885,14 @@ void MainWindow::newProjectWizard()
 
 void MainWindow::showStatusMessage(const QString &message)
 {
-    userMessages->addItem(message);
+    if (userMessages)
+        userMessages->addItem(message);
 }
 
 void MainWindow::clearStatusMessages()
 {
-    userMessages->clear();
+    if (userMessages)
+        userMessages->clear();
 }
 
 QMainWindow* getMainWindow()
