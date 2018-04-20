@@ -39,7 +39,6 @@ void CommunicatorSerialWidget::on_commandLinkButton_pressed()
         ui->stackedWidget->setCurrentIndex(1);
         ui->SendInput->setFocus();
         serialTimer->setInterval(200);
-
     }
 }
 
@@ -51,6 +50,8 @@ void CommunicatorSerialWidget::on_sendButton_pressed()
 
     // - Write the users input to the Serial Port
     serialPort->write(terminatedOutput.toLatin1());
+    foreach (QChar c, terminatedOutput)
+        serialBuffer.append(c);
 
     ui->SerialDisplaylistWidget->addItem(ui->SendInput->currentText());
     ui->SendInput->addItem(ui->SendInput->currentText());
@@ -113,13 +114,27 @@ bool CommunicatorSerialWidget::openSerialPort(const QString serialportname)
 
     if (serialPort->open(QIODevice::ReadWrite)) {
 
+       showStatusMessage(tr("Connected to %1 at %2 Baud.")
+                          .arg(serialportname).arg(availableBaudRates[ui->BaudrateSpeedDial->value()]));
+
+       QSettings settings("Clixx.io","IoT Developer");
+
+       settings.beginGroup(serialportname);
+       settings.setValue("baudrate",availableBaudRates[ui->BaudrateSpeedDial->value()]);
+       settings.endGroup();
+
        // - Create a Timer for reading data
        serialTimer->start();
 
-        showStatusMessage(tr("Connected to %1 at %2 Baud.")
-                          .arg(serialportname).arg(availableBaudRates[ui->BaudrateSpeedDial->value()]));
     } else {
-        QMessageBox::critical(this, tr("Error"), serialPort->errorString());
+
+        if (serialPort->errorString().contains(tr("Permission denied")))
+        {
+            QMessageBox::critical(this, tr("Permissions Error"), tr("<p>Insufficient Permissions to access your Serial Port.</p><p>Have you checked the UDEV permissions?</p>"
+                                                                    "<p>See https://unix.stackexchange.com/questions/25258/ttyusb0-permission-changes-after-restart for example</p>"));
+
+        } else
+            QMessageBox::critical(this, tr("Error"), serialPort->errorString());
 
         showStatusMessage(tr("Open error %1").arg(serialPort->errorString()));
         retval = false;
@@ -159,7 +174,20 @@ void CommunicatorSerialWidget::on_portSelectiontreeWidget_itemDoubleClicked(QTre
 void CommunicatorSerialWidget::on_portSelectiontreeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     if (current)
+    {
       portName = current->text(0);
+
+      // - Check if the selected item has any settings
+      QSettings settings("Clixx.io","IoT Developer");
+
+      settings.beginGroup(portName);
+      if (settings.allKeys().indexOf("baudrate") != -1)
+      {
+          ui->BaudrateSpeedDial->setValue(availableBaudRates.indexOf(settings.value("baudrate",9600).toInt()));
+          ui->dialLabel->setText(tr("%1 Baud").arg(availableBaudRates[availableBaudRates.indexOf(settings.value("baudrate",9600).toInt())]));
+      }
+      settings.endGroup();
+    }
 }
 
 void CommunicatorSerialWidget::on_TimerEvent()
@@ -167,29 +195,12 @@ void CommunicatorSerialWidget::on_TimerEvent()
     if (serialPort->isOpen())
     {
         const QByteArray data = serialPort->readAll();
-        const char nl = '\n';
 
-        if (data.indexOf(nl) != -1)
-        {
-            serialBuffer += data.left(data.indexOf(nl)-1);
+        foreach (char c, data)
+            displayRxChar(c);
 
-            ui->SerialDisplaylistWidget->addItem(serialBuffer);
-
-            serialBuffer = data.right(data.length()-serialBuffer.length());
-
-        } else
-        {
-
-            QListWidgetItem *lastline = ui->SerialDisplaylistWidget->item(ui->SerialDisplaylistWidget->count()-1);
-
-            qDebug() << lastline->text().toLatin1();
-
-            serialBuffer += data;
-        }
-
-    } else {
+    } else
         refreshSerialPorts();
-    }
 
 }
 
@@ -253,7 +264,7 @@ bool CommunicatorSerialWidget::writewithEcho(const QString linetosend)
         do
         {
             const QByteArray rcvdata = serialPort->readAll();
-            foreach (QChar r, rcvdata)
+            foreach (char r, rcvdata)
             {
                 if (r==c)
                 {
@@ -270,8 +281,33 @@ bool CommunicatorSerialWidget::writewithEcho(const QString linetosend)
 
 }
 
-void CommunicatorSerialWidget::displayRxChar(QChar c)
+void CommunicatorSerialWidget::displayRxChar(char c)
 {
+    QListWidgetItem *lastline;
+    const char nl = '\n';
+
+    if (ui->SerialDisplaylistWidget->count() == 0)
+    {
+        lastline = new QListWidgetItem();
+        ui->SerialDisplaylistWidget->addItem(lastline);
+    } else
+    {
+        lastline = ui->SerialDisplaylistWidget->item(ui->SerialDisplaylistWidget->count()-1);
+    }
+
+    if ((serialBuffer[0]==c) && (serialBuffer.size()>0))
+    {
+        // No need to display echo characters
+        serialBuffer.remove(0,1);
+        return;
+    }
+
+    if (c == nl)
+    {
+        lastline = new QListWidgetItem();
+        ui->SerialDisplaylistWidget->addItem(lastline);
+    } else
+        lastline->setText(lastline->text() + c);
 
 }
 
@@ -315,3 +351,4 @@ void CommunicatorSerialWidget::on_portSelectiontreeWidget_itemPressed(QTreeWidge
     }
 
 }
+

@@ -31,7 +31,7 @@ public:
     inline void setMainWindow(MainWindow *main) { mainwindow = main; }
 
     bool writewithEcho(const QString linetosend);
-    void displayRxChar(QChar c);
+    void displayRxChar(char c);
 
 private slots:
     void on_commandLinkButton_pressed();
