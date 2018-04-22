@@ -25,6 +25,9 @@ CommunicatorSerialWidget::CommunicatorSerialWidget(QWidget *parent) :
     serialTimer->setSingleShot(false);
     connect(serialTimer, SIGNAL(timeout()),this,SLOT(on_TimerEvent()));
 
+    // QLineEdit *le = ui->SendInput->lineEdit();
+    // connect(ui->SendInput->lineEdit(), SIGNAL(returnPressed()),ui->sendButton,SIGNAL(clicked()));
+
 }
 
 CommunicatorSerialWidget::~CommunicatorSerialWidget()
@@ -352,3 +355,7 @@ void CommunicatorSerialWidget::on_portSelectiontreeWidget_itemPressed(QTreeWidge
 
 }
 
+void CommunicatorSerialWidget::on_SendInput_editTextChanged(const QString &arg1)
+{
+
+}

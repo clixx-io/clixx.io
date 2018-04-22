@@ -47,6 +47,8 @@ private slots:
 
     void on_portSelectiontreeWidget_itemPressed(QTreeWidgetItem *item, int column);
 
+    void on_SendInput_editTextChanged(const QString &arg1);
+
 private:
     Ui::CommunicatorSerialWidget *ui;
 
