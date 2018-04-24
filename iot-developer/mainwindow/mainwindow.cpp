@@ -85,23 +85,7 @@
 #include "hardwaregpio.h"
 #include "newhardwareitemdialog.h"
 #include "newconnectionitemdialog.h"
-
-static const char message[] =
-    "<p><b>Clixx.io Development IDE</b></p>"
-
-    "<p>This is the Development IDE for Clixx.io Software.</p>"
-
-    "<p>The tool bar and dock widgets can be dragged around and rearranged "
-    "using the mouse or via the menu.</p>"
-
-    "<p>Each dock widget contains a colored frame and a context "
-    "(right-click) menu.</p>"
-
-#ifdef Q_OS_MAC
-    "<p>On OS X, the \"Black\" dock widget has been created as a "
-    "<em>Drawer</em>, which is a special kind of QDockWidget.</p>"
-#endif
-    ;
+#include "newgraphicitemdialog.h"
 
 Q_DECLARE_METATYPE(QDockWidget::DockWidgetFeatures)
 
@@ -114,8 +98,19 @@ MainWindow::MainWindow(const CustomSizeHintMap &customSizeHints,
     QCoreApplication::setOrganizationDomain("clixx.io");
     QCoreApplication::setApplicationName("IoT-Designer");
 
+    const char *platformname;
+    #ifdef Q_OS_MAC
+     platformname = "Mac";
+    #elif defined(Q_OS_LINUX)
+     platformname = "Linux";
+    #elif defined(Q_OS_WINDOWS)
+     platformname = "Windows"
+    #else
+     platformname = "other Operating System";
+    #endif
+
     setObjectName("MainWindow");
-    setWindowTitle("IoT-Designer for RaspberryPi");
+    setWindowTitle(tr("IoT-Designer for %1").arg(platformname));
 
     Projects = new ClixxIoTProjects();
     currentProject = new ClixxIoTProject();
@@ -154,6 +149,10 @@ void MainWindow::setupMenuBar()
     menu->addSeparator();
     menu->addAction(tr("&Save"), this, &MainWindow::saveFile);
     menu->addSeparator();
+
+    menu->addAction(tr("Print Pre&view"), this, &MainWindow::printPreview);
+    menu->addAction(tr("&Print"), this, &MainWindow::printFile);
+    menu->addSeparator();
     menu->addAction(tr("&Quit"), this, &QWidget::close);
 
     EditMenu = menuBar()->addMenu(tr("&Edit"));
@@ -181,15 +180,23 @@ void MainWindow::setupMenuBar()
     QMenu *toolBarMenu = menuBar()->addMenu(tr("&Design"));
     toolBarMenu->addAction(tr("System"),this, &MainWindow::architectureSystem);
     toolBarMenu->addAction(tr("GPIO Connections"),this, &MainWindow::architectureGpio);
-    toolBarMenu->addAction(tr("Sensors/Actuators"), this, &MainWindow::architectureSensorsActuators);
+//  toolBarMenu->addAction(tr("Sensors/Actuators"), this, &MainWindow::architectureSensorsActuators);
     toolBarMenu->addAction(tr("Logic"), this, &MainWindow::architectureLogic);
     toolBarMenu->addAction(tr("Connectivity"), this, &MainWindow::architectureConnectivity);
-    toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::architectureBuses);
-    toolBarMenu->addAction(tr("Software Interrupts"), this, &MainWindow::architectureInterrupts);
-    toolBarMenu->addAction(tr("Deployment Architecture"), this, &MainWindow::architectureDeployment);
-    toolBarMenu->addAction(tr("Operating System"), this, &MainWindow::architectureOS);
-//    for (int i = 0; i < toolBars.count(); ++i)
-//        toolBarMenu->addMenu(toolBars.at(i)->toolbarMenu());
+//  toolBarMenu->addAction(tr("Communication Buses"), this, &MainWindow::architectureBuses);
+//  toolBarMenu->addAction(tr("Software Interrupts"), this, &MainWindow::architectureInterrupts);
+    QMenu* submenuA = toolBarMenu->addMenu(tr("Deployment Architecture"));
+    QAction* actionNodeMcu = submenuA->addAction( "NodeMCU" );
+    actionNodeMcu->setCheckable(true);
+
+    QAction* actionLinuxCplus = submenuA->addAction( "Linux C++" );
+    actionLinuxCplus->setCheckable(true);
+
+    QAction* actionClixxIot = submenuA->addAction( "Clixx.io IoT C++" );
+    actionClixxIot->setCheckable(true);
+    actionClixxIot->setChecked(true);
+
+//  toolBarMenu->addAction(tr("Operating System"), this, &MainWindow::architectureOS);
 
     NetworkMenu = menuBar()->addMenu(tr("&Analyse"));
     NetworkMenu->addAction(tr("Generate Visualisation"), this, &MainWindow::Visualise);
@@ -236,7 +243,7 @@ void MainWindow::setupMenuBar()
     connect(action, &QAction::toggled, this, &MainWindow::setDockOptions);
 
     dockWidgetMenu = menuBar()->addMenu(tr("&Help"));
-    action = dockWidgetMenu->addAction(tr("About"));
+    dockWidgetMenu->addAction(tr("About.."), this, &MainWindow::aboutDialog);
 
 }
 
@@ -809,6 +816,22 @@ void MainWindow::saveFile()
     showStatusMessage(tr("Saved"));
 }
 
+void MainWindow::printPreview()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
+void MainWindow::printFile()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+
+    return;
+}
+
 void MainWindow::loadDesignDiagram()
 {
     architectureSystem();
@@ -877,10 +900,57 @@ void MainWindow::AddConnection()
 
 }
 
+void MainWindow::AddConnectableGraphic()
+{
+    QJsonObject userchoices;
+
+    architectureSystem();
+
+    NewGraphicItemDialog *dlg = new NewGraphicItemDialog(this, &userchoices);
+    if (dlg->exec())
+    {
+
+        systemDesign->addGraphicToScene(userchoices["id"].toString(),
+                userchoices["name"].toString(),
+                userchoices["x"].toDouble(),
+                userchoices["y"].toDouble(),
+                userchoices["picturefilename"].toString(),
+                userchoices["width"].toDouble(),userchoices["height"].toDouble()
+                );
+
+    }
+
+    delete dlg;
+}
+
 void MainWindow::newProjectWizard()
 {
     QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("New Project Wizard is not yet implemented"),QMessageBox::Ok);
     msgBox.exec();
+}
+
+void MainWindow::aboutDialog()
+{
+
+    static const char message[] =
+        "<p><b>Clixx.io Development IDE</b></p>"
+
+        "<p>This is the Development IDE for Clixx.io Software used "
+        "to Design and Document IoT, Microprocessor and Computer"
+        "System Designs.</p>"
+
+        "<p>Lay out your design using new or existing Components "
+        "then save or share them over the Internet.</p>"
+
+    #ifdef Q_OS_MAC
+        "<p>On OS X, the \"Black\" dock widget has been created as a "
+        "<em>Drawer</em>, which is a special kind of QDockWidget.</p>"
+    #endif
+        ;
+
+    QMessageBox msgBox(QMessageBox::Information, tr("About"), tr(message),QMessageBox::Ok);
+    msgBox.exec();
+
 }
 
 void MainWindow::showStatusMessage(const QString &message)

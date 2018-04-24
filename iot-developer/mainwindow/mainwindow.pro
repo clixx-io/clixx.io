@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += widgets serialport
+QT += widgets serialport printsupport
 
 HEADERS += colorswatch.h mainwindow.h toolbar.h \
     codeeditor.h \
@@ -12,7 +12,8 @@ HEADERS += colorswatch.h mainwindow.h toolbar.h \
     clixxiotprojects.h \
     hardwaregpio.h \
     newhardwareitemdialog.h \
-    newconnectionitemdialog.h
+    newconnectionitemdialog.h \
+    newgraphicitemdialog.h
 SOURCES += colorswatch.cpp mainwindow.cpp toolbar.cpp main.cpp \
     codeeditor.cpp \
     outputwidget.cpp \
@@ -24,7 +25,8 @@ SOURCES += colorswatch.cpp mainwindow.cpp toolbar.cpp main.cpp \
     clixxiotprojects.cpp \
     hardwaregpio.cpp \
     newhardwareitemdialog.cpp \
-    newconnectionitemdialog.cpp
+    newconnectionitemdialog.cpp \
+    newgraphicitemdialog.cpp
 build_all:!build_pass {
     CONFIG -= build_all
     CONFIG += release
@@ -45,4 +47,5 @@ FORMS += \
     hardwarelayoutwidget.ui \
     hardwaregpio.ui \
     newhardwareitemdialog.ui \
-    newconnectionitemdialog.ui
+    newconnectionitemdialog.ui \
+    newgraphicitemdialog.ui

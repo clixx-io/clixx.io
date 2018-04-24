@@ -25,13 +25,10 @@ public:
 private slots:
     void on_buttonBox_accepted();
 
-    void on_toolButton_clicked();
-
-    void on_PastetoolButton_pressed();
-
     void on_BoardNameslistWidget_itemSelectionChanged();
 
     void on_searchlineEdit_textChanged(const QString &arg1);
+
 
 private:
     Ui::NewHardwareItemDialog *ui;

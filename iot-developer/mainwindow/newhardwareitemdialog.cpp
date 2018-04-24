@@ -113,45 +113,6 @@ void NewHardwareItemDialog::on_buttonBox_accepted()
     *completed = object;
 }
 
-void NewHardwareItemDialog::on_toolButton_clicked()
-{
-    QStringList files = QFileDialog::getOpenFileNames(
-                            this,
-                            "Select an Image to load",
-                            "..",
-                            "Images (*.png *.xpm *.jpg)");
-
-    if (files.count()>0)
-    {
-        QPixmap pixmap(files[0]);
-
-        ui->ComponentPicturelabel->setPixmap(pixmap);
-        ui->ComponentPicturelabel->setScaledContents(true);
-        ui->ComponentPicturelabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored );
-
-        ui->ComponentPicturelabel->update();
-
-        m_imagefilename = files[0];
-    }
-
-    qDebug() << files[0] << "loaded";
-
-}
-
-void NewHardwareItemDialog::on_PastetoolButton_pressed()
-{
-    QClipboard *clipboard = QGuiApplication::clipboard();
-    const QMimeData *mimeData = clipboard->mimeData();
-
-    if (mimeData->hasImage()) {
-        ui->ComponentPicturelabel->setPixmap(qvariant_cast<QPixmap>(mimeData->imageData()));
-    }
-    else
-    {
-        qDebug() << tr("Cannot display data");
-    }
-}
-
 void NewHardwareItemDialog::searchLibrary(QString searchString)
 {
     ui->BoardNameslistWidget->clear();
@@ -230,3 +191,4 @@ void NewHardwareItemDialog::on_BoardNameslistWidget_itemSelectionChanged()
     ui->rowscomboBox->setCurrentText(boardfile.value("gpio/rows",ui->rowscomboBox->currentText()).toString());
 
 }
+

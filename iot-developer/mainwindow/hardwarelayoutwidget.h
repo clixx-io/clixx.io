@@ -43,6 +43,9 @@ public:
 
     void addCableConnection(connectableCable *cable);
 
+    QPoint getPrimaryConnectionPoint();
+    void setPrimaryConnectionPoint(QPoint point);
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     virtual QRectF boundingRect() const;
@@ -56,6 +59,9 @@ protected:
 private:
     QString m_id, m_name, m_boardfile, m_type, m_imagefilename;
     double m_width, m_height;
+
+    QList <QPoint> m_connectionpoints;
+
     QPixmap *m_image = nullptr;
     int m_pins, m_rows;
 
@@ -103,6 +109,53 @@ private:
 
 };
 
+class connectableGraphic : public QGraphicsItem
+{
+public:
+
+    connectableGraphic(QString ID, QString name, qreal width, qreal height, QString graphicfile, QGraphicsItem *parent = Q_NULLPTR);
+//    connectableGraphic(QString ID, QGraphicsItem *parent = Q_NULLPTR);
+
+    enum { Type = UserType + 1 };
+    int type() const
+    {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return Type;
+    }
+
+    QString getID(){ return(m_id); }
+    QString getName(){ return(m_name); }
+    QString getImageFilename(){ return(m_imagefilename); }
+    double getWidth(){ return(m_width); }
+    double getHeight(){ return(m_height); }
+
+    void addCableConnection(connectableCable *cable);
+
+    QPoint getPrimaryConnectionPoint();
+    void setPrimaryConnectionPoint(QPoint point);
+
+protected:
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual QRectF boundingRect() const;
+
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    /*
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    */
+
+private:
+    QString m_id, m_name, m_imagefilename;
+    double m_width, m_height;
+
+    QList <QPoint> m_connectionpoints;
+
+    QPixmap *m_image = nullptr;
+
+    QList <connectableCable *> cables;
+
+};
+
 class HardwareLayoutWidget : public QWidget
 {
     Q_OBJECT
@@ -116,6 +169,7 @@ public:
 
     connectableHardware *addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows);
     connectableCable *addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor = QColor(255, 0, 0, 127));
+    connectableGraphic * addGraphicToScene(QString componentID, QString componentName, double x, double y, QString componentImageName, double componentWidth, double componentHeight);
 
     connectableHardware *findByID(QString componentID);
     connectableHardware *findByName(QString componentName);
@@ -124,11 +178,16 @@ public:
     QString getNextName(QString prefix);
     QList <connectableHardware *> getHardwareComponents();
 
+    void print();
+    void printPreview();
+
 private slots:
     void on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void SelectionChanged();
 
     void on_componentslistWidget_itemClicked(QListWidgetItem *item);
+
+    void on_componentslistWidget_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::HardwareLayoutWidget *ui;

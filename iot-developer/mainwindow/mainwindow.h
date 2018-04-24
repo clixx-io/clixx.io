@@ -106,6 +106,8 @@ public slots:
     void loadProject();
     void loadDesignDiagram();
     void saveFile();
+    void printPreview();
+    void printFile();
 
     void actionTriggered(QAction *action);
     void saveLayout();
@@ -144,6 +146,9 @@ public slots:
 
     void AddHardware();
     void AddConnection();
+    void AddConnectableGraphic();
+
+    void aboutDialog();
 
 private:
     void setupToolBar();

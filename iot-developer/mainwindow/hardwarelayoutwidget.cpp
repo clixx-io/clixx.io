@@ -4,6 +4,10 @@
 #include <QInputDialog>
 #include <QTreeWidgetItem>
 
+#include <QtPrintSupport/QPrintDialog>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintPreviewDialog>
+
 #include "hardwarelayoutwidget.h"
 #include "ui_hardwarelayoutwidget.h"
 #include "hardwaregpio.h"
@@ -536,6 +540,21 @@ connectableHardware* HardwareLayoutWidget::findByName(QString componentName)
     return(result);
 }
 
+QPoint connectableHardware::getPrimaryConnectionPoint()
+{
+    QPoint result;
+
+    if (m_connectionpoints.size())
+        return(m_connectionpoints[0]);
+    else
+        return(result);
+}
+
+void connectableHardware::setPrimaryConnectionPoint(QPoint point)
+{
+    m_connectionpoints.append(point);
+}
+
 void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     bool ok;
@@ -625,6 +644,77 @@ connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QS
     return(cable);
 }
 
+connectableGraphic::connectableGraphic(QString ID, QString name, qreal width, qreal height, QString graphicfile, QGraphicsItem *parent)
+    : QGraphicsItem(parent),
+    m_id(ID), m_name(name),
+    m_width(width), m_height(height)
+{
+    if (graphicfile.length())
+    {
+        m_image = new QPixmap(graphicfile);
+        m_imagefilename = graphicfile;
+    }
+}
+
+connectableGraphic * HardwareLayoutWidget::addGraphicToScene(QString componentID, QString componentName, double x, double y, QString componentImageName, double componentWidth, double componentHeight)
+{
+    if (componentID.length() == 0)
+        componentID = getNextID();
+
+    connectableGraphic *item = new connectableGraphic(componentID,componentName,componentWidth,componentHeight,componentImageName);
+
+    item->setX(x);
+    item->setY(y);
+
+    item->setFlag(QGraphicsItem::ItemIsSelectable);
+    item->setFlag(QGraphicsItem::ItemIsMovable);
+    item->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    scene->addItem(item);
+
+    QListWidgetItem *newItem = new QListWidgetItem;
+    newItem->setText(item->getName());
+    QVariant id(item->getID());
+    newItem->setData(Qt::UserRole, id);
+    ui->componentslistWidget->insertItem(ui->componentslistWidget->count(), newItem);
+
+    return(item);
+}
+
+void connectableGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->drawImage(boundingRect(),m_image->toImage());
+}
+
+QRectF connectableGraphic::boundingRect() const
+{
+    return(QRectF(0,0,m_width, m_height));
+}
+
+QPoint connectableGraphic::getPrimaryConnectionPoint()
+{
+    QPoint result;
+
+    if (m_connectionpoints.size())
+        return(m_connectionpoints[0]);
+    else
+        return(result);
+}
+
+void connectableGraphic::setPrimaryConnectionPoint(QPoint point)
+{
+    m_connectionpoints.append(point);
+}
+
+void connectableGraphic::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug() << "Clicked:" << this->m_name;
+
+    this->setSelected(!this->isSelected());
+
+    return QGraphicsItem::mousePressEvent(event);
+
+}
+
 // Zoom in works
 // ui->graphicsView->scale(1.5,1.5);
 
@@ -650,5 +740,36 @@ void HardwareLayoutWidget::on_componentslistWidget_itemClicked(QListWidgetItem *
     QGraphicsItem *sceneitem = findGraphicsItemByID(id);
     if (sceneitem)
         sceneitem->setSelected(true);
+
+}
+
+void HardwareLayoutWidget::print()
+{
+
+    QPrinter printer;
+    if (QPrintDialog(&printer).exec() == QDialog::Accepted) {
+        QPainter painter(&printer);
+        painter.setRenderHint(QPainter::Antialiasing);
+        scene->render(&painter);
+    }
+
+}
+
+void HardwareLayoutWidget::printPreview()
+{
+
+    QPrinter printer;
+    if (QPrintPreviewDialog(&printer).exec() == QDialog::Accepted) {
+        QPainter painter(&printer);
+        painter.setRenderHint(QPainter::Antialiasing);
+        scene->render(&painter);
+    }
+
+}
+
+
+void HardwareLayoutWidget::on_componentslistWidget_doubleClicked(const QModelIndex &index)
+{
+    printPreview();
 
 }
