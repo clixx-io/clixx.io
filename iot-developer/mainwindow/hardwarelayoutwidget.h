@@ -77,7 +77,7 @@ class connectableCable : public QGraphicsLineItem
 {
 public:
 
-    connectableCable(QString componentID, connectableHardware *startItem, connectableHardware *endItem, int wires=-1, int rows=-1, QColor cablecolor=QColor(12,56,99), QGraphicsItem *parent = Q_NULLPTR);
+    connectableCable(QString componentID, QGraphicsItem *startItem, QGraphicsItem *endItem, int wires=-1, int rows=-1, QColor cablecolor=QColor(12,56,99), QGraphicsItem *parent = Q_NULLPTR);
 
     enum { Type = UserType + 2 };
     int type() const
@@ -88,8 +88,8 @@ public:
 
     QString getID(){ return(m_id); }
     QString getName(){ return(m_name); }
-    connectableHardware *getStartItem(){ return(m_startItem); }
-    connectableHardware *getEndItem(){ return(m_endItem); }
+    QGraphicsItem *getStartItem(){ return(m_startItem); }
+    QGraphicsItem *getEndItem(){ return(m_endItem); }
     QString getType(){ return(m_type); }
     QColor getColor(){ return m_cablecolor; }
     int getWireCount(){ return m_wires; }
@@ -102,7 +102,7 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    connectableHardware *m_startItem = nullptr, *m_endItem = nullptr;
+    QGraphicsItem *m_startItem = nullptr, *m_endItem = nullptr;
     QString m_id, m_name, m_type;
     QColor m_cablecolor;
     int m_wires, m_rows;
@@ -171,7 +171,7 @@ public:
     connectableCable *addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor = QColor(255, 0, 0, 127));
     connectableGraphic * addGraphicToScene(QString componentID, QString componentName, double x, double y, QString componentImageName, double componentWidth, double componentHeight);
 
-    connectableHardware *findByID(QString componentID);
+    QGraphicsItem *findByID(QString componentID);
     connectableHardware *findByName(QString componentName);
     QGraphicsItem* findGraphicsItemByID(QString componentID);
     QString getNextID(){ return(QString::number(scene->items().count()+1));}

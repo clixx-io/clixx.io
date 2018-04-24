@@ -123,10 +123,10 @@ void NewGraphicItemDialog::on_buttonBox_accepted()
 {
     QJsonObject object
     {
+        {"name", ui->nameLineEdit->text()},
         {"width", ui->WidthSpinBox->value()},
         {"height", ui->HeightSpinBox->value()},
         {"picturefilename", m_imagefilename}
-
     };
 
     *completed = object;

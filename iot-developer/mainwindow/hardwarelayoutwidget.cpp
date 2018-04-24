@@ -65,15 +65,37 @@ QVariant connectableHardware::itemChange(GraphicsItemChange change, const QVaria
     {
         foreach (connectableCable *cable, cables)
         {
-            connectableHardware * hw1 = cable->getStartItem();
-            connectableHardware * hw2 = cable->getEndItem();
+            QGraphicsItem * g1 = cable->getStartItem();
+            QGraphicsItem * g2 = cable->getEndItem();
 
-            if (hw1 == this)
+            if (g1 == this)
             {
-                cable->setLine(pos().x(),pos().y(),hw2->x(),hw2->y());
+                connectableHardware *hw2 = qgraphicsitem_cast<connectableHardware *>(g2);
+                if (hw2)
+                {
+                    cable->setLine(pos().x(),pos().y(),hw2->x(),hw2->y());
+                }
+
+                connectableGraphic *gf2 = qgraphicsitem_cast<connectableGraphic *>(g2);
+                if (gf2)
+                {
+                    cable->setLine(pos().x(),pos().y(),gf2->x(),gf2->y());
+                }
+
             } else
             {
-                cable->setLine(hw1->x(),hw1->y(),pos().x(),pos().y());
+                connectableHardware *hw1 = qgraphicsitem_cast<connectableHardware *>(g1);
+                if (hw1)
+                {
+                    cable->setLine(hw1->x(),hw1->y(),pos().x(),pos().y());
+                }
+
+                connectableGraphic *gf1 = qgraphicsitem_cast<connectableGraphic *>(g1);
+                if (gf1)
+                {
+                    cable->setLine(gf1->x(),gf1->y(),pos().x(),pos().y());
+                }
+
             }
 
         }
@@ -124,7 +146,7 @@ void connectableHardware::addCableConnection(connectableCable *cable)
     cables.append(cable);
 }
 
-connectableCable::connectableCable(QString componentID, connectableHardware *startItem, connectableHardware *endItem, int wires, int rows, QColor cablecolor, QGraphicsItem *parent)
+connectableCable::connectableCable(QString componentID, QGraphicsItem *startItem, QGraphicsItem *endItem, int wires, int rows, QColor cablecolor, QGraphicsItem *parent)
     : QGraphicsLineItem(startItem->x(),startItem->y(),endItem->x(),endItem->y(),parent),
       m_startItem(startItem),
       m_endItem(endItem),
@@ -237,6 +259,12 @@ void HardwareLayoutWidget::SelectionChanged()
             itemPinCount = tr("%1").arg(cbl->getWireCount());
             ItemColumns =  tr("%1").arg(cbl->getRows());
             // itemPinAssignments = cbl->getPinAssignments();
+        }
+
+        connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(scene->selectedItems()[0]);
+        if (gfx)
+        {
+            itemName = gfx->getName();
         }
 
         ui->componentslistWidget->clearSelection();
@@ -376,8 +404,8 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
             QString c = boardfile.value("color",0).toString();
             QColor cv(Qt::gray);
 
-            connectableHardware *startitem = findByID(si);
-            connectableHardware *enditem = findByID(ei);
+            QGraphicsItem *startitem = findByID(si);
+            QGraphicsItem *enditem = findByID(ei);
 
             connectableCable *cb = new connectableCable(compID,startitem,enditem,wc,rc,cv);
 
@@ -431,6 +459,7 @@ bool HardwareLayoutWidget::SaveComponents(const QString filename)
             boardfile.setValue("name",cbl->getName());
             boardfile.setValue("class","Cable");
 
+            /*
             if (cbl->getStartItem())
                 boardfile.setValue("startitem",cbl->getStartItem()->getID());
             else
@@ -440,7 +469,7 @@ bool HardwareLayoutWidget::SaveComponents(const QString filename)
                 boardfile.setValue("enditem",cbl->getEndItem()->getID());
             else
                 boardfile.setValue("enditem","");
-
+            */
             boardfile.setValue("type",cbl->getType());
             boardfile.setValue("color",cbl->getColor().name(QColor::HexRgb));
             boardfile.setValue("wirecount",cbl->getWireCount());
@@ -500,9 +529,9 @@ QGraphicsItem* HardwareLayoutWidget::findGraphicsItemByID(QString componentID)
     return(result);
 }
 
-connectableHardware* HardwareLayoutWidget::findByID(QString componentID)
+QGraphicsItem* HardwareLayoutWidget::findByID(QString componentID)
 {
-    connectableHardware* result = nullptr;
+    QGraphicsItem* result = nullptr;
 
     foreach (QGraphicsItem *item, scene->items())
     {
@@ -512,6 +541,15 @@ connectableHardware* HardwareLayoutWidget::findByID(QString componentID)
             if (hw->getID() == componentID)
             {
                 result = hw;
+                break;
+            }
+        }
+        connectableGraphic *gf = qgraphicsitem_cast<connectableGraphic *>(item);
+        if (gf)
+        {
+            if (gf->getID() == componentID)
+            {
+                result = gf;
                 break;
             }
         }
@@ -623,13 +661,32 @@ connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QS
     if (componentID.length() == 0)
         componentID = getNextID();
 
-    connectableHardware *c1 = findByID(startItem);
-    connectableHardware *c2 = findByID(endItem);
+    QGraphicsItem *c1 = findByID(startItem);
+    QGraphicsItem *c2 = findByID(endItem);
 
     connectableCable *cable = new connectableCable(componentID, c1, c2, wires, rows, cablecolor);
 
-    c1->addCableConnection(cable);
-    c2->addCableConnection(cable);
+    connectableHardware *hw1 = qgraphicsitem_cast<connectableHardware *>(c1);
+    if (hw1)
+    {
+        hw1->addCableConnection(cable);
+    }
+    connectableGraphic *gf1 = qgraphicsitem_cast<connectableGraphic *>(c1);
+    if (gf1)
+    {
+        gf1->addCableConnection(cable);
+    }
+
+    connectableHardware *hw2 = qgraphicsitem_cast<connectableHardware *>(c2);
+    if (hw2)
+    {
+        hw2->addCableConnection(cable);
+    }
+    connectableGraphic *gf2 = qgraphicsitem_cast<connectableGraphic *>(c2);
+    if (gf2)
+    {
+        gf2->addCableConnection(cable);
+    }
 
     cable->setFlag(QGraphicsItem::ItemIsSelectable);
     cable->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
@@ -690,6 +747,11 @@ QRectF connectableGraphic::boundingRect() const
     return(QRectF(0,0,m_width, m_height));
 }
 
+void connectableGraphic::addCableConnection(connectableCable *cable)
+{
+    cables.append(cable);
+}
+
 QPoint connectableGraphic::getPrimaryConnectionPoint()
 {
     QPoint result;
@@ -728,7 +790,6 @@ QGraphicsItem *item = scene->items()[i];
 item->setRotation(item->rotation()+45);
 
 */
-
 
 void HardwareLayoutWidget::on_componentslistWidget_itemClicked(QListWidgetItem *item)
 {
