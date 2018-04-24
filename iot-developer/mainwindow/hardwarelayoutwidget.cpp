@@ -160,6 +160,7 @@ connectableCable::connectableCable(QString componentID, QGraphicsItem *startItem
     // Copy over the cable color
     QPen pen;
     pen.setColor(cablecolor);
+
     setPen(pen);
 
 }
@@ -239,6 +240,7 @@ void HardwareLayoutWidget::SelectionChanged()
 
     if (scene->selectedItems().count()==1)
     {
+        qDebug() << "Entering selection block";
 
         connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(scene->selectedItems()[0]);
         if (h)
@@ -261,11 +263,14 @@ void HardwareLayoutWidget::SelectionChanged()
             // itemPinAssignments = cbl->getPinAssignments();
         }
 
+        qDebug() << "checking connectablegraphic";
         connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(scene->selectedItems()[0]);
         if (gfx)
         {
+            qDebug() << "Graphics Item found";
             itemName = gfx->getName();
         }
+        qDebug() << "End selection block";
 
         ui->componentslistWidget->clearSelection();
         QList<QListWidgetItem *> founditems = ui->componentslistWidget->findItems(itemName, Qt::MatchExactly);
@@ -500,6 +505,24 @@ QList <connectableHardware *> HardwareLayoutWidget::getHardwareComponents()
     return(results);
 }
 
+QList <connectableGraphic *> HardwareLayoutWidget::getGraphicComponents()
+{
+    QList <connectableGraphic *> results;
+
+    for (int i=0; i < scene->items().count(); i++)
+    {
+        QGraphicsItem *item = scene->items()[i];
+
+        connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(item);
+        if (gfx)
+        {
+            results.append(gfx);
+        }
+    }
+
+    return(results);
+}
+
 QGraphicsItem* HardwareLayoutWidget::findGraphicsItemByID(QString componentID)
 {
     QGraphicsItem* result = nullptr;
@@ -664,6 +687,8 @@ connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QS
     QGraphicsItem *c1 = findByID(startItem);
     QGraphicsItem *c2 = findByID(endItem);
 
+    qDebug() << "Adding to Scene";
+
     connectableCable *cable = new connectableCable(componentID, c1, c2, wires, rows, cablecolor);
 
     connectableHardware *hw1 = qgraphicsitem_cast<connectableHardware *>(c1);
@@ -697,6 +722,8 @@ connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QS
     QVariant id(cable->getID());
     newItem->setData(Qt::UserRole, id);
     ui->componentslistWidget->insertItem(ui->componentslistWidget->count(), newItem);
+
+    qDebug() << "Add to Scene Complete";
 
     return(cable);
 }
@@ -745,6 +772,60 @@ void connectableGraphic::paint(QPainter *painter, const QStyleOptionGraphicsItem
 QRectF connectableGraphic::boundingRect() const
 {
     return(QRectF(0,0,m_width, m_height));
+}
+
+QVariant connectableGraphic::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    qDebug() << "Change:" << change;
+
+    if (change == GraphicsItemChange::ItemPositionChange)
+    {
+        foreach (connectableCable *cable, cables)
+        {
+            QGraphicsItem * g1 = cable->getStartItem();
+            QGraphicsItem * g2 = cable->getEndItem();
+
+            if (g1 == this)
+            {
+                connectableHardware *hw2 = qgraphicsitem_cast<connectableHardware *>(g2);
+                if (hw2)
+                {
+                    cable->setLine(pos().x(),pos().y(),hw2->x(),hw2->y());
+                }
+
+                connectableGraphic *gf2 = qgraphicsitem_cast<connectableGraphic *>(g2);
+                if (gf2)
+                {
+                    cable->setLine(pos().x(),pos().y(),gf2->x(),gf2->y());
+                }
+
+            } else
+            {
+                connectableHardware *hw1 = qgraphicsitem_cast<connectableHardware *>(g1);
+                if (hw1)
+                {
+                    cable->setLine(hw1->x(),hw1->y(),pos().x(),pos().y());
+                }
+
+                connectableGraphic *gf1 = qgraphicsitem_cast<connectableGraphic *>(g1);
+                if (gf1)
+                {
+                    cable->setLine(gf1->x(),gf1->y(),pos().x(),pos().y());
+                }
+
+            }
+
+        }
+
+    } else if (change == GraphicsItemChange::ItemSelectedChange)
+    {
+        if (value.toBool())
+            qDebug() << "Selected:" << this->m_name;
+        else
+            qDebug() << "unSelected:" << this->m_name;
+    }
+
+    return QGraphicsItem::itemChange(change, value);
 }
 
 void connectableGraphic::addCableConnection(connectableCable *cable)

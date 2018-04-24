@@ -116,7 +116,7 @@ public:
     connectableGraphic(QString ID, QString name, qreal width, qreal height, QString graphicfile, QGraphicsItem *parent = Q_NULLPTR);
 //    connectableGraphic(QString ID, QGraphicsItem *parent = Q_NULLPTR);
 
-    enum { Type = UserType + 1 };
+    enum { Type = UserType + 3 };
     int type() const
     {
         // Enable the use of qgraphicsitem_cast with this item.
@@ -139,9 +139,9 @@ protected:
     virtual QRectF boundingRect() const;
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     /*
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     */
 
 private:
@@ -177,6 +177,7 @@ public:
     QString getNextID(){ return(QString::number(scene->items().count()+1));}
     QString getNextName(QString prefix);
     QList <connectableHardware *> getHardwareComponents();
+    QList <connectableGraphic *> getGraphicComponents();
 
     void print();
     void printPreview();

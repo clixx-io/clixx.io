@@ -872,10 +872,16 @@ void MainWindow::AddConnection()
 
     // Find all the components of the Scene that can be joined
     int c(1);
-    foreach (connectableHardware *item, systemDesign->getHardwareComponents())
+    foreach (connectableHardware *hwitem, systemDesign->getHardwareComponents())
     {
-        userchoices[tr("component_%1_id").arg(c)] = item->getID();
-        userchoices[tr("component_%1_name").arg(c)] = item->getName();
+        userchoices[tr("component_%1_id").arg(c)] = hwitem->getID();
+        userchoices[tr("component_%1_name").arg(c)] = hwitem->getName();
+        c++;
+    }
+    foreach (connectableGraphic *gfitem, systemDesign->getGraphicComponents())
+    {
+        userchoices[tr("component_%1_id").arg(c)] = gfitem->getID();
+        userchoices[tr("component_%1_name").arg(c)] = gfitem->getName();
         c++;
     }
     userchoices["component_count"] = c;
