@@ -126,6 +126,7 @@ public slots:
     void UserSettings();
 
     void newProjectWizard();
+    void addComponentWizard();
     void buildProject();
     void deployProject();
     void cleanProject();

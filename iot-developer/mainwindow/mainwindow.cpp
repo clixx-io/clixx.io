@@ -818,16 +818,28 @@ void MainWindow::saveFile()
 
 void MainWindow::printPreview()
 {
-    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
-    msgBox.exec();
+    if (systemDesign)
+    {
+        systemDesign->printPreview();
+    } else
+    {
+        QMessageBox msgBox(QMessageBox::Critical, tr("Error"), tr("Design Window not Active"),QMessageBox::Ok);
+        msgBox.exec();
+    }
 
     return;
 }
 
 void MainWindow::printFile()
 {
-    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Not yet implemented"),QMessageBox::Ok);
-    msgBox.exec();
+    if (systemDesign)
+    {
+        systemDesign->print();
+    } else
+    {
+        QMessageBox msgBox(QMessageBox::Critical, tr("Error"), tr("Design Window not Active"),QMessageBox::Ok);
+        msgBox.exec();
+    }
 
     return;
 }
@@ -932,6 +944,12 @@ void MainWindow::AddConnectableGraphic()
 void MainWindow::newProjectWizard()
 {
     QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("New Project Wizard is not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+}
+
+void MainWindow::addComponentWizard()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("New Component Wizard is not yet implemented"),QMessageBox::Ok);
     msgBox.exec();
 }
 

@@ -100,6 +100,10 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
 
     QAction *projectWizard = menu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Run Project Wizard"));
     connect(projectWizard, &QAction::triggered, mainwindow, &MainWindow::newProjectWizard);
+
+    QAction *AddComponentWizard = menu->addAction(genIcon(iconSize(), "A", Qt::blue), tr("Add Component Wizard"));
+    connect(AddComponentWizard, &QAction::triggered, mainwindow, &MainWindow::addComponentWizard);
+
     addAction(menu->menuAction());
 
     const QIcon saveIcon(QPixmap(":/res/res/save-32.png"));

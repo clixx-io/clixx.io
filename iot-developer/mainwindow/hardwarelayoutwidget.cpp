@@ -2,8 +2,9 @@
 #include <QString>
 #include <QDebug>
 #include <QInputDialog>
+#include <QMessageBox>
 #include <QTreeWidgetItem>
-
+#include <QShortcut>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintPreviewDialog>
@@ -229,6 +230,28 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(SelectionChanged()));
 
+    QShortcut* delshortcut = new QShortcut(QKeySequence(Qt::Key_Delete), ui->componentslistWidget);
+    connect(delshortcut, SIGNAL(activated()), this, SLOT(deleteItem()));
+
+    QShortcut* zoominshortcut = new QShortcut(QKeySequence(Qt::Key_Plus), ui->graphicsView);
+    connect(zoominshortcut, SIGNAL(activated()), this, SLOT(zoomin()));
+
+    QShortcut* zoomoutshortcut = new QShortcut(QKeySequence(Qt::Key_Minus), ui->graphicsView);
+    connect(zoomoutshortcut, SIGNAL(activated()), this, SLOT(zoomout()));
+
+    QShortcut* fitshortcut = new QShortcut(QKeySequence(Qt::Key_F), ui->graphicsView);
+    connect(fitshortcut, SIGNAL(activated()), this, SLOT(zoomtofit()));
+
+    QShortcut* leftshortcut = new QShortcut(QKeySequence(Qt::Key_Left), ui->graphicsView);
+    connect(leftshortcut, SIGNAL(activated()), this, SLOT(panleft()));
+    QShortcut* rightshortcut = new QShortcut(QKeySequence(Qt::Key_Right), ui->graphicsView);
+    connect(rightshortcut, SIGNAL(activated()), this, SLOT(panright()));
+    QShortcut* upshortcut = new QShortcut(QKeySequence(Qt::Key_Up), ui->graphicsView);
+    connect(upshortcut, SIGNAL(activated()), this, SLOT(panup()));
+    QShortcut* downshortcut = new QShortcut(QKeySequence(Qt::Key_Down), ui->graphicsView);
+    connect(downshortcut, SIGNAL(activated()), this, SLOT(pandown()));
+
+
 }
 
 void HardwareLayoutWidget::SelectionChanged()
@@ -240,8 +263,6 @@ void HardwareLayoutWidget::SelectionChanged()
 
     if (scene->selectedItems().count()==1)
     {
-        qDebug() << "Entering selection block";
-
         connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(scene->selectedItems()[0]);
         if (h)
         {
@@ -263,14 +284,11 @@ void HardwareLayoutWidget::SelectionChanged()
             // itemPinAssignments = cbl->getPinAssignments();
         }
 
-        qDebug() << "checking connectablegraphic";
         connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(scene->selectedItems()[0]);
         if (gfx)
         {
-            qDebug() << "Graphics Item found";
             itemName = gfx->getName();
         }
-        qDebug() << "End selection block";
 
         ui->componentslistWidget->clearSelection();
         QList<QListWidgetItem *> founditems = ui->componentslistWidget->findItems(itemName, Qt::MatchExactly);
@@ -899,19 +917,67 @@ void HardwareLayoutWidget::print()
 
 void HardwareLayoutWidget::printPreview()
 {
-
     QPrinter printer;
     if (QPrintPreviewDialog(&printer).exec() == QDialog::Accepted) {
         QPainter painter(&printer);
         painter.setRenderHint(QPainter::Antialiasing);
         scene->render(&painter);
     }
-
 }
 
-
-void HardwareLayoutWidget::on_componentslistWidget_doubleClicked(const QModelIndex &index)
+void HardwareLayoutWidget::deleteItem()
 {
-    printPreview();
-
+    QMessageBox msgBox;
+    msgBox.setText(tr("Please confirm that you wish to delete this item."));
+    msgBox.setInformativeText(tr("Do you really wish to delete this item?"));
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+    if (ret == QMessageBox::Ok)
+    {
+        delete ui->componentslistWidget->currentItem();
+    }
 }
+
+void HardwareLayoutWidget::zoomin()
+{
+    ui->graphicsView->scale(1.2,1.2);
+}
+
+void HardwareLayoutWidget::zoomout()
+{
+    ui->graphicsView->scale(0.8,0.8);
+}
+
+void HardwareLayoutWidget::panleft()
+{
+    ui->graphicsView->setSceneRect(ui->graphicsView->sceneRect().x()-10,
+                                   ui->graphicsView->sceneRect().y(),
+                                   ui->graphicsView->sceneRect().width(),
+                                   ui->graphicsView->sceneRect().height());
+}
+
+void HardwareLayoutWidget::panright()
+{
+    ui->graphicsView->setSceneRect(ui->graphicsView->sceneRect().x()+10,
+                                   ui->graphicsView->sceneRect().y(),
+                                   ui->graphicsView->sceneRect().width(),
+                                   ui->graphicsView->sceneRect().height());
+}
+
+void HardwareLayoutWidget::panup()
+{
+    ui->graphicsView->setSceneRect(ui->graphicsView->sceneRect().x(),
+                                   ui->graphicsView->sceneRect().y()-10,
+                                   ui->graphicsView->sceneRect().width(),
+                                   ui->graphicsView->sceneRect().height());
+}
+
+void HardwareLayoutWidget::pandown()
+{
+    ui->graphicsView->setSceneRect(ui->graphicsView->sceneRect().x(),
+                                   ui->graphicsView->sceneRect().y()+10,
+                                   ui->graphicsView->sceneRect().width(),
+                                   ui->graphicsView->sceneRect().height());
+}
+

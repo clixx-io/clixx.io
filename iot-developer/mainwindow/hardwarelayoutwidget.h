@@ -188,7 +188,13 @@ private slots:
 
     void on_componentslistWidget_itemClicked(QListWidgetItem *item);
 
-    void on_componentslistWidget_doubleClicked(const QModelIndex &index);
+    void deleteItem();
+    void zoomin();
+    void zoomout();
+    void panleft();
+    void panright();
+    void panup();
+    void pandown();
 
 private:
     Ui::HardwareLayoutWidget *ui;
