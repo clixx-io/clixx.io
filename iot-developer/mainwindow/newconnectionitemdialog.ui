@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>409</width>
-    <height>383</height>
+    <width>357</width>
+    <height>419</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,14 +16,14 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>38</y>
-     <width>81</width>
-     <height>241</height>
+     <x>80</x>
+     <y>370</y>
+     <width>261</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Vertical</enum>
+    <enum>Qt::Horizontal</enum>
    </property>
    <property name="standardButtons">
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
@@ -33,8 +33,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
-     <width>301</width>
+     <y>120</y>
+     <width>331</width>
      <height>241</height>
     </rect>
    </property>
@@ -169,7 +169,7 @@
      <rect>
       <x>10</x>
       <y>80</y>
-      <width>281</width>
+      <width>311</width>
       <height>151</height>
      </rect>
     </property>
@@ -197,8 +197,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>20</y>
-     <width>301</width>
+     <y>10</y>
+     <width>331</width>
      <height>101</height>
     </rect>
    </property>
@@ -210,7 +210,7 @@
      <rect>
       <x>70</x>
       <y>32</y>
-      <width>221</width>
+      <width>251</width>
       <height>22</height>
      </rect>
     </property>
@@ -220,7 +220,7 @@
      <rect>
       <x>70</x>
       <y>64</y>
-      <width>221</width>
+      <width>251</width>
       <height>22</height>
      </rect>
     </property>
