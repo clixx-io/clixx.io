@@ -22,6 +22,7 @@ class connectableHardware : public QGraphicsItem
 public:
 
     connectableHardware(QString ID, QString name, QString boardfile, int pins, int rows, qreal width, qreal height, QString graphicfile, QGraphicsItem *parent = Q_NULLPTR);
+    ~connectableHardware();
 
     enum { Type = UserType + 1 };
     int type() const
@@ -178,6 +179,7 @@ public:
     QString getNextName(QString prefix);
     QList <connectableHardware *> getHardwareComponents();
     QList <connectableGraphic *> getGraphicComponents();
+    void deleteComponent(QString ID);
 
     void print();
     void printPreview();

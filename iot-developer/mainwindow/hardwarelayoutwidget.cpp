@@ -27,6 +27,13 @@ connectableHardware::connectableHardware(QString ID, QString name, QString board
 
 }
 
+connectableHardware::~connectableHardware()
+{
+    if (m_image)
+        delete m_image;
+
+}
+
 void connectableHardware::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
@@ -505,6 +512,19 @@ bool HardwareLayoutWidget::SaveComponents(const QString filename)
     return(false);
 }
 
+void HardwareLayoutWidget::deleteComponent(QString ID)
+{
+    QGraphicsItem *item = findByID(ID);
+
+    qDebug() << "Removing Item";
+
+    if (item)
+    {
+        scene->clearSelection();
+        scene->removeItem(item);
+    }
+}
+
 QList <connectableHardware *> HardwareLayoutWidget::getHardwareComponents()
 {
     QList <connectableHardware *> results;
@@ -928,14 +948,34 @@ void HardwareLayoutWidget::printPreview()
 void HardwareLayoutWidget::deleteItem()
 {
     QMessageBox msgBox;
-    msgBox.setText(tr("Please confirm that you wish to delete this item."));
-    msgBox.setInformativeText(tr("Do you really wish to delete this item?"));
+
+    if (ui->componentslistWidget->selectedItems().size() == 0)
+        return;
+    else if (ui->componentslistWidget->selectedItems().size() > 1)
+    {
+        msgBox.setText(tr("Please confirm that you wish to delete these items."));
+        msgBox.setInformativeText(tr("Do you really wish to delete these items?"));
+    } else
+    {
+        msgBox.setText(tr("Please confirm that you wish to delete this item."));
+        msgBox.setInformativeText(tr("Do you really wish to delete this item?"));
+    }
+
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Ok);
     int ret = msgBox.exec();
     if (ret == QMessageBox::Ok)
     {
-        delete ui->componentslistWidget->currentItem();
+
+        foreach (QListWidgetItem *item, ui->componentslistWidget->selectedItems())
+        {
+            QVariant data = item->data(Qt::UserRole);
+            QString id = data.toString();
+
+            deleteComponent(id);
+
+            delete item;
+        }
     }
 }
 
