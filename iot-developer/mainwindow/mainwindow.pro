@@ -1,7 +1,7 @@
 TEMPLATE = app
 QT += widgets serialport printsupport
 
-HEADERS += colorswatch.h mainwindow.h toolbar.h \
+HEADERS += mainwindow.h toolbar.h \
     codeeditor.h \
     outputwidget.h \
     projectwidget.h \
@@ -14,7 +14,7 @@ HEADERS += colorswatch.h mainwindow.h toolbar.h \
     newhardwareitemdialog.h \
     newconnectionitemdialog.h \
     newgraphicitemdialog.h
-SOURCES += colorswatch.cpp mainwindow.cpp toolbar.cpp main.cpp \
+SOURCES += mainwindow.cpp toolbar.cpp main.cpp \
     codeeditor.cpp \
     outputwidget.cpp \
     projectwidget.cpp \
@@ -35,7 +35,7 @@ build_all:!build_pass {
 RESOURCES += mainwindow.qrc
 
 # install
-target.path = $$[QT_INSTALL_EXAMPLES]/widgets/mainwindows/mainwindow
+target.path = $$[QT_INSTALL_EXAMPLES]/mainwindow
 INSTALLS += target
 
 FORMS += \

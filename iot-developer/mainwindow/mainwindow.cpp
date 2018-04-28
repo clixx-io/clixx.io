@@ -79,7 +79,6 @@
 #include "projectwidget.h"
 #include "clixxiotprojects.h"
 #include "mainwindow.h"
-#include "colorswatch.h"
 #include "toolbar.h"
 #include "hardwarelayoutwidget.h"
 #include "hardwaregpio.h"
@@ -346,44 +345,6 @@ void MainWindow::setupDockWidgets(const CustomSizeHintMap &customSizeHints)
     addCornerAction(tr("Right dock area"), this, cornerMenu, group, Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 
     dockWidgetMenu->addSeparator();
-
-    static const struct Set {
-        const char * name;
-        uint flags;
-        Qt::DockWidgetArea area;
-    } sets [] = {
-#ifndef Q_OS_MAC
-        { "Black", 0, Qt::LeftDockWidgetArea },
-#else
-        { "Black", Qt::Drawer, Qt::LeftDockWidgetArea },
-#endif
-        { "White", 0, Qt::RightDockWidgetArea },
-        { "Red", 0, Qt::TopDockWidgetArea },
-        { "Green", 0, Qt::TopDockWidgetArea },
-        { "Blue", 0, Qt::BottomDockWidgetArea },
-        { "Yellow", 0, Qt::BottomDockWidgetArea }
-    };
-    const int setCount = sizeof(sets) / sizeof(Set);
-
-    const QIcon qtIcon(QPixmap(":/res/qt.png"));
-    for (int i = 0; i < setCount; ++i) {
-        ColorSwatch *swatch = new ColorSwatch(tr(sets[i].name), this, Qt::WindowFlags(sets[i].flags));
-        if (i % 2)
-            swatch->setWindowIcon(qtIcon);
-        if (qstrcmp(sets[i].name, "Blue") == 0) {
-            BlueTitleBar *titlebar = new BlueTitleBar(swatch);
-            swatch->setTitleBarWidget(titlebar);
-            connect(swatch, &QDockWidget::topLevelChanged, titlebar, &BlueTitleBar::updateMask);
-            connect(swatch, &QDockWidget::featuresChanged, titlebar, &BlueTitleBar::updateMask, Qt::QueuedConnection);
-        }
-
-        QString name = QString::fromLatin1(sets[i].name);
-        if (customSizeHints.contains(name))
-            swatch->setCustomSizeHint(customSizeHints.value(name));
-
-        addDockWidget(sets[i].area, swatch);
-        dockWidgetMenu->addMenu(swatch->colorSwatchMenu());
-    }
 
     destroyDockWidgetMenu = new QMenu(tr("Destroy dock widget"), this);
     destroyDockWidgetMenu->setEnabled(false);

@@ -124,6 +124,11 @@ ToolBar::ToolBar(const QString &title, QWidget *parent)
     addConnectionAction = systemmenu->addAction(genIcon(iconSize(), "B", Qt::blue), tr("Add Connectable Graphic / Icon"));
     connect(addConnectionAction, &QAction::triggered, mainwindow, &MainWindow::AddConnectableGraphic);
 
+    /*
+    addEventAnimationAction = systemmenu->addAction(genIcon(iconSize(), "B", Qt::blue), tr("Add Events / Animation"));
+    connect(addEventAnimationAction, &QAction::triggered, mainwindow, &MainWindow::AddEventAnimation);
+    */
+
     addAction(systemmenu->menuAction());
 
     const QIcon logicIcon(QPixmap(":/res/res/logic-32.png"));
