@@ -125,12 +125,7 @@
         </item>
         <item>
          <property name="text">
-          <string>Position</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Orientation</string>
+          <string>Connects</string>
          </property>
         </item>
        </item>

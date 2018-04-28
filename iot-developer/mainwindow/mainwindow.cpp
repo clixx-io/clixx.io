@@ -941,6 +941,12 @@ void MainWindow::AddConnectableGraphic()
     delete dlg;
 }
 
+void MainWindow::AddEventAnimation()
+{
+    QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("Add Event Animation is not yet implemented"),QMessageBox::Ok);
+    msgBox.exec();
+}
+
 void MainWindow::newProjectWizard()
 {
     QMessageBox msgBox(QMessageBox::Critical, tr("Problem"), tr("New Project Wizard is not yet implemented"),QMessageBox::Ok);
@@ -997,3 +1003,4 @@ QMainWindow* getMainWindow()
             return (QMainWindow*) (*i);
     return NULL;
 }
+

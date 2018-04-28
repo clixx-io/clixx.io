@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>541</width>
-    <height>486</height>
+    <width>442</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,14 +28,14 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>30</y>
-     <width>81</width>
-     <height>241</height>
+     <x>140</x>
+     <y>480</y>
+     <width>291</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Vertical</enum>
+    <enum>Qt::Horizontal</enum>
    </property>
    <property name="standardButtons">
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>

@@ -15,7 +15,7 @@
 
 connectableHardware::connectableHardware(QString ID, QString name, QString boardfile, int pins, int rows, qreal width, qreal height, QString graphicfile, QGraphicsItem *parent)
     : QGraphicsItem(parent), m_id(ID), m_name(name), m_boardfile(boardfile), hardwareType(0),
-      m_pins(pins), m_rows(rows), m_width(width), m_height(height)
+      m_pins(pins), m_rows(rows), m_width(width), m_height(height), m_connectionpoint(0)
 {
     if (graphicfile.length())
     {
@@ -80,29 +80,25 @@ QVariant connectableHardware::itemChange(GraphicsItemChange change, const QVaria
             {
                 connectableHardware *hw2 = qgraphicsitem_cast<connectableHardware *>(g2);
                 if (hw2)
-                {
-                    cable->setLine(pos().x(),pos().y(),hw2->x(),hw2->y());
-                }
+                    cable->setLine(pos().x()+getPrimaryConnectionPoint().x(), pos().y()+getPrimaryConnectionPoint().y(),
+                                   hw2->x()+hw2->getPrimaryConnectionPoint().x(),hw2->y()+hw2->getPrimaryConnectionPoint().y());
 
                 connectableGraphic *gf2 = qgraphicsitem_cast<connectableGraphic *>(g2);
                 if (gf2)
-                {
-                    cable->setLine(pos().x(),pos().y(),gf2->x(),gf2->y());
-                }
+                    cable->setLine(pos().x()+getPrimaryConnectionPoint().x(), pos().y()+getPrimaryConnectionPoint().y(),
+                                   gf2->x()+gf2->getPrimaryConnectionPoint().x(),gf2->y()+gf2->getPrimaryConnectionPoint().y());
 
             } else
             {
                 connectableHardware *hw1 = qgraphicsitem_cast<connectableHardware *>(g1);
                 if (hw1)
-                {
-                    cable->setLine(hw1->x(),hw1->y(),pos().x(),pos().y());
-                }
+                    cable->setLine(hw1->x()+hw1->getPrimaryConnectionPoint().x(),hw1->y()+hw1->getPrimaryConnectionPoint().y(),
+                                   pos().x()+getPrimaryConnectionPoint().x(), pos().y()+getPrimaryConnectionPoint().y());
 
                 connectableGraphic *gf1 = qgraphicsitem_cast<connectableGraphic *>(g1);
                 if (gf1)
-                {
-                    cable->setLine(gf1->x(),gf1->y(),pos().x(),pos().y());
-                }
+                    cable->setLine(gf1->x()+gf1->getPrimaryConnectionPoint().x(),gf1->y()+getPrimaryConnectionPoint().y(),
+                                   pos().x()+getPrimaryConnectionPoint().x(), pos().y()+getPrimaryConnectionPoint().y());
 
             }
 
@@ -168,9 +164,28 @@ connectableCable::connectableCable(QString componentID, QGraphicsItem *startItem
     // Copy over the cable color
     QPen pen;
     pen.setColor(cablecolor);
-
     setPen(pen);
 
+    // Adjust the starting position
+    QPoint startPos(startItem->x(),startItem->y());
+    connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(startItem);
+    if (hw)
+        startPos += hw->getPrimaryConnectionPoint();
+    connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(startItem);
+    if (gfx)
+        startPos += gfx->getPrimaryConnectionPoint();
+
+    // Adjust the ending position
+    QPoint endPos(endItem->x(),endItem->y());
+    hw = qgraphicsitem_cast<connectableHardware *>(endItem);
+    if (hw)
+        endPos += hw->getPrimaryConnectionPoint();
+    gfx = qgraphicsitem_cast<connectableGraphic *>(endItem);
+    if (gfx)
+        endPos += gfx->getPrimaryConnectionPoint();
+
+    // Now use this line
+    setLine(startPos.x(),startPos.y(),endPos.x(),endPos.y());
 }
 
 void connectableCable::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -237,18 +252,18 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(SelectionChanged()));
 
+    // Shortcuts for deleting items
     QShortcut* delshortcut = new QShortcut(QKeySequence(Qt::Key_Delete), ui->componentslistWidget);
     connect(delshortcut, SIGNAL(activated()), this, SLOT(deleteItem()));
 
+    // Shortcuts for zoomin + zoomout
     QShortcut* zoominshortcut = new QShortcut(QKeySequence(Qt::Key_Plus), ui->graphicsView);
     connect(zoominshortcut, SIGNAL(activated()), this, SLOT(zoomin()));
 
     QShortcut* zoomoutshortcut = new QShortcut(QKeySequence(Qt::Key_Minus), ui->graphicsView);
     connect(zoomoutshortcut, SIGNAL(activated()), this, SLOT(zoomout()));
 
-    QShortcut* fitshortcut = new QShortcut(QKeySequence(Qt::Key_F), ui->graphicsView);
-    connect(fitshortcut, SIGNAL(activated()), this, SLOT(zoomtofit()));
-
+    // Shortcuts for cursor keys
     QShortcut* leftshortcut = new QShortcut(QKeySequence(Qt::Key_Left), ui->graphicsView);
     connect(leftshortcut, SIGNAL(activated()), this, SLOT(panleft()));
     QShortcut* rightshortcut = new QShortcut(QKeySequence(Qt::Key_Right), ui->graphicsView);
@@ -258,14 +273,15 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
     QShortcut* downshortcut = new QShortcut(QKeySequence(Qt::Key_Down), ui->graphicsView);
     connect(downshortcut, SIGNAL(activated()), this, SLOT(pandown()));
 
-
 }
 
 void HardwareLayoutWidget::SelectionChanged()
 {
     qDebug() << tr("slot Selection Change, %1 items selected").arg(scene->selectedItems().count());
 
-    QString itemName, itemWidth, itemHeight, itemImage, itemPinCount,  ItemColumns, ItemPosition(tr("<unassigned>")), itemOrientation(tr("Normal"));
+    QString itemName, itemWidth, itemHeight, itemImage, itemPinCount,  ItemColumns, ItemPosition(tr("<unassigned>")), itemOrientation(tr("Normal")),
+            itemConnectionPoint(tr("Top Right"));
+
     QStringList itemPinAssignments;
 
     if (scene->selectedItems().count()==1)
@@ -280,6 +296,7 @@ void HardwareLayoutWidget::SelectionChanged()
             itemPinCount = tr("%1").arg(h->getPinCount());
             ItemColumns =  tr("%1").arg(h->getRowCount());
             itemPinAssignments = h->getPinAssignments();
+            itemConnectionPoint = getConnectionPointNames()[h->getPrimaryConnectionIndex()];
         }
 
         connectableCable *cbl = qgraphicsitem_cast<connectableCable *>(scene->selectedItems()[0]);
@@ -295,6 +312,10 @@ void HardwareLayoutWidget::SelectionChanged()
         if (gfx)
         {
             itemName = gfx->getName();
+            itemImage = gfx->getImageFilename();
+            itemWidth = tr("%1").arg(gfx->getWidth());
+            itemHeight = tr("%1").arg(gfx->getHeight());
+            itemConnectionPoint = getConnectionPointNames()[gfx->getPrimaryConnectionIndex()];
         }
 
         ui->componentslistWidget->clearSelection();
@@ -337,6 +358,10 @@ void HardwareLayoutWidget::SelectionChanged()
     clist = ui->PropertiestreeWidget->findItems(tr("Orientation"), Qt::MatchContains|Qt::MatchRecursive, 0);
     if (clist.count()==1)
         clist[0]->setText(1,itemOrientation);
+
+    clist = ui->PropertiestreeWidget->findItems(tr("Connects"), Qt::MatchContains|Qt::MatchRecursive, 0);
+    if (clist.count()==1)
+        clist[0]->setText(1,itemConnectionPoint);
 
     clist = ui->PropertiestreeWidget->findItems(tr("Pin Assignments"), Qt::MatchContains|Qt::MatchRecursive, 0);
     if (clist.count()==1)
@@ -641,7 +666,7 @@ connectableHardware* HardwareLayoutWidget::findByName(QString componentName)
 
 QPoint connectableHardware::getPrimaryConnectionPoint()
 {
-    QPoint result;
+    QPoint result(0.0,0.0);
 
     if (m_connectionpoints.size())
         return(m_connectionpoints[0]);
@@ -654,16 +679,148 @@ void connectableHardware::setPrimaryConnectionPoint(QPoint point)
     m_connectionpoints.append(point);
 }
 
+void connectableHardware::setPrimaryConnectionIndex(int index)
+{
+    QPoint cpoint;
+
+    switch (index)
+    {
+        case 0:     // Top Left
+                    cpoint.setX(0);
+                    cpoint.setY(0);
+                    break;
+
+        case 1:     // Top centre
+                    cpoint.setX(getWidth() / 2);
+                    cpoint.setY(0);
+                    break;
+
+        case 2:     // Top right
+                    cpoint.setX(getWidth());
+                    cpoint.setY(0);
+                    break;
+
+        case 3:     // middle left
+                    cpoint.setX(0);
+                    cpoint.setY(getHeight() / 2);
+                    break;
+
+        case 4:     // centre
+                    cpoint.setX(getWidth() / 2);
+                    cpoint.setY(getHeight() / 2);
+                    break;
+
+        case 5:     // middle right
+                    cpoint.setX(getWidth());
+                    cpoint.setY(getHeight() / 2);
+                    break;
+
+        case 6:     // bottom left
+                    cpoint.setX(0);
+                    cpoint.setY(getHeight());
+                    break;
+
+        default:
+        case 7:     // bottom centre
+                    cpoint.setX(getWidth() / 2);
+                    cpoint.setY(getHeight());
+                    break;
+
+        case 8:     // bottom right
+                    cpoint.setX(getWidth());
+                    cpoint.setY(getHeight());
+                    break;
+
+    }
+
+    m_connectionpoint = index;
+
+    // Only one connection point is supported
+    if (m_connectionpoints.size() == 0)
+        m_connectionpoints.append(cpoint);
+    else
+        m_connectionpoints[0] = cpoint;
+}
+
+QStringList HardwareLayoutWidget::getConnectionPointNames()
+{
+    QStringList items;
+    items << tr("Top Left") << tr("Top Centre") << tr("Top Right");
+    items << tr("Left Centre") << tr("Centre") << tr("Right Centre");
+    items << tr("Bottom Left") << tr("Bottom Centre") << tr("Bottom Right");
+    return(items);
+}
+
 void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     bool ok;
 
-    QString text = QInputDialog::getText((QWidget *) this->parentWidget(), QString("Property"),
-                                         QString(tr("%1 Value:").arg(item->text(0))), QLineEdit::Normal,
-                                         item->text(1), &ok);
-    if (ok /* && !text.isEmpty() */)
+    QString propertyname(item->text(0)),text;
+
+    if (propertyname == tr("Connects"))
     {
-        item->setText(1,text);
+
+        int selectedindex;
+        bool ok;
+        QStringList items = getConnectionPointNames();
+
+        connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(scene->selectedItems()[0]);
+        if (hw)
+            selectedindex = hw->getPrimaryConnectionIndex();
+
+        QString itemselected = QInputDialog::getItem(this, tr("Cable Connects to.."),
+                                             tr("Connect to"), items, selectedindex, false, &ok);
+        if (ok && !itemselected.isEmpty())
+        {
+            text = itemselected;
+        }
+
+        if (ok)
+        {
+            item->setText(1,text);
+            if (hw)
+                hw->setPrimaryConnectionIndex(items.indexOf(itemselected));
+
+            connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(scene->selectedItems()[0]);
+            if (gfx)
+                gfx->setPrimaryConnectionIndex(items.indexOf(itemselected));
+        }
+    }
+    else
+    if (propertyname == tr("Name"))
+    {
+        text = QInputDialog::getText((QWidget *) this->parentWidget(), QString("Property"),
+                                     QString(tr("%1 :").arg(item->text(0))), QLineEdit::Normal,
+                                     item->text(1), &ok);
+
+        if (ok)
+        {
+            item->setText(1,text);
+            ui->componentslistWidget->selectedItems()[0]->setText(text);
+
+            connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(scene->selectedItems()[0]);
+            if (hw)
+                hw->setName(text);
+
+            connectableCable *cbl = qgraphicsitem_cast<connectableCable *>(scene->selectedItems()[0]);
+            if (cbl)
+                cbl->setName(text);
+
+            connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(scene->selectedItems()[0]);
+            if (gfx)
+                gfx->setName(text);
+        }
+    }
+    else
+    {
+        text = QInputDialog::getText((QWidget *) this->parentWidget(), QString("Property"),
+                                     QString(tr("%1 Value:").arg(item->text(0))), QLineEdit::Normal,
+                                     item->text(1), &ok);
+
+        if (ok)
+        {
+            item->setText(1,text);
+        }
     }
 
 }
@@ -769,13 +926,78 @@ connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QS
 connectableGraphic::connectableGraphic(QString ID, QString name, qreal width, qreal height, QString graphicfile, QGraphicsItem *parent)
     : QGraphicsItem(parent),
     m_id(ID), m_name(name),
-    m_width(width), m_height(height)
+    m_width(width), m_height(height),
+    m_connectionpoint(0)
 {
     if (graphicfile.length())
     {
         m_image = new QPixmap(graphicfile);
         m_imagefilename = graphicfile;
     }
+}
+
+
+void connectableGraphic::setPrimaryConnectionIndex(int index)
+{
+    QPoint cpoint;
+
+    switch (index)
+    {
+        case 0:     // Top Left
+                    cpoint.setX(0);
+                    cpoint.setY(0);
+                    break;
+
+        case 1:     // Top centre
+                    cpoint.setX(getWidth() / 2);
+                    cpoint.setY(0);
+                    break;
+
+        case 2:     // Top right
+                    cpoint.setX(getWidth());
+                    cpoint.setY(0);
+                    break;
+
+        case 3:     // middle left
+                    cpoint.setX(0);
+                    cpoint.setY(getHeight() / 2);
+                    break;
+
+        case 4:     // centre
+                    cpoint.setX(getWidth() / 2);
+                    cpoint.setY(getHeight() / 2);
+                    break;
+
+        case 5:     // middle right
+                    cpoint.setX(getWidth());
+                    cpoint.setY(getHeight() / 2);
+                    break;
+
+        case 6:     // bottom left
+                    cpoint.setX(0);
+                    cpoint.setY(getHeight());
+                    break;
+
+        default:
+        case 7:     // bottom centre
+                    cpoint.setX(getWidth() / 2);
+                    cpoint.setY(getHeight());
+                    break;
+
+        case 8:     // bottom right
+                    cpoint.setX(getWidth());
+                    cpoint.setY(getHeight());
+                    break;
+
+    }
+
+    m_connectionpoint = index;
+
+    // Only one connection point is supported
+    if (m_connectionpoints.size() == 0)
+        m_connectionpoints.append(cpoint);
+    else
+        m_connectionpoints[0] = cpoint;
 }
 
 connectableGraphic * HardwareLayoutWidget::addGraphicToScene(QString componentID, QString componentName, double x, double y, QString componentImageName, double componentWidth, double componentHeight)
@@ -895,20 +1117,6 @@ void connectableGraphic::mousePressEvent(QGraphicsSceneMouseEvent *event)
     return QGraphicsItem::mousePressEvent(event);
 
 }
-
-// Zoom in works
-// ui->graphicsView->scale(1.5,1.5);
-
-// Move the viewport to the left works
-// QRectF scenepos = ui->graphicsView->sceneRect();
-// scenepos.setLeft(scenepos.x()-30);
-// ui->graphicsView->setSceneRect(scenepos);
-/*
- * int i = scene->items().count()-1;
-QGraphicsItem *item = scene->items()[i];
-item->setRotation(item->rotation()+45);
-
-*/
 
 void HardwareLayoutWidget::on_componentslistWidget_itemClicked(QListWidgetItem *item)
 {

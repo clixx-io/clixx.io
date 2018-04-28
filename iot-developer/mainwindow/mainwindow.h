@@ -148,6 +148,7 @@ public slots:
     void AddHardware();
     void AddConnection();
     void AddConnectableGraphic();
+    void AddEventAnimation();
 
     void aboutDialog();
 

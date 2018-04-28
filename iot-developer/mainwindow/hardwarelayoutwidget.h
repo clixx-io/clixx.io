@@ -42,10 +42,14 @@ public:
     double getHeight(){ return(m_height); }
     QStringList getPinAssignments(){ return(m_gpiopin_names); }
 
+    void setName(QString name){ m_name = name; }
+
     void addCableConnection(connectableCable *cable);
 
     QPoint getPrimaryConnectionPoint();
     void setPrimaryConnectionPoint(QPoint point);
+    int getPrimaryConnectionIndex(){ return(m_connectionpoint);}
+    void setPrimaryConnectionIndex(int index);
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -62,6 +66,7 @@ private:
     double m_width, m_height;
 
     QList <QPoint> m_connectionpoints;
+    int m_connectionpoint;
 
     QPixmap *m_image = nullptr;
     int m_pins, m_rows;
@@ -95,6 +100,8 @@ public:
     QColor getColor(){ return m_cablecolor; }
     int getWireCount(){ return m_wires; }
     int getRows(){ return(m_rows); }
+
+    void setName(QString name){ m_name = name; }
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -130,10 +137,15 @@ public:
     double getWidth(){ return(m_width); }
     double getHeight(){ return(m_height); }
 
+    void setName(QString name){ m_name = name; }
+
     void addCableConnection(connectableCable *cable);
 
     QPoint getPrimaryConnectionPoint();
     void setPrimaryConnectionPoint(QPoint point);
+
+    int getPrimaryConnectionIndex(){ return(m_connectionpoint);}
+    void setPrimaryConnectionIndex(int index);
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -150,6 +162,7 @@ private:
     double m_width, m_height;
 
     QList <QPoint> m_connectionpoints;
+    int m_connectionpoint;
 
     QPixmap *m_image = nullptr;
 
@@ -179,6 +192,9 @@ public:
     QString getNextName(QString prefix);
     QList <connectableHardware *> getHardwareComponents();
     QList <connectableGraphic *> getGraphicComponents();
+
+    QStringList getConnectionPointNames();
+
     void deleteComponent(QString ID);
 
     void print();
