@@ -43,6 +43,8 @@ public:
     QStringList getPinAssignments(){ return(m_gpiopin_names); }
 
     void setName(QString name){ m_name = name; }
+    void setWidth(double w){m_width = w; update(); }
+    void setHeight(double h){m_width = h; update(); }
 
     void addCableConnection(connectableCable *cable);
 
@@ -138,6 +140,8 @@ public:
     double getHeight(){ return(m_height); }
 
     void setName(QString name){ m_name = name; }
+    void setWidth(double w){m_width = w; update(); }
+    void setHeight(double h){m_width = h; update(); }
 
     void addCableConnection(connectableCable *cable);
 

@@ -879,8 +879,7 @@ void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidget
                 gfx->setPrimaryConnectionIndex(items.indexOf(itemselected));
         }
     }
-    else
-    if (propertyname == tr("Name"))
+    else if (propertyname == tr("Name"))
     {
         text = QInputDialog::getText((QWidget *) this->parentWidget(), QString("Property"),
                                      QString(tr("%1 :").arg(item->text(0))), QLineEdit::Normal,
@@ -902,6 +901,58 @@ void HardwareLayoutWidget::on_PropertiestreeWidget_itemDoubleClicked(QTreeWidget
             connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(scene->selectedItems()[0]);
             if (gfx)
                 gfx->setName(text);
+        }
+    }
+    else if (propertyname == tr("Width"))
+    {
+        double width;
+        QGraphicsItem *selected = scene->selectedItems()[0];
+
+        connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(selected);
+        if (h)
+            width = h->getWidth();
+
+        connectableGraphic *g = qgraphicsitem_cast<connectableGraphic *>(scene->selectedItems()[0]);
+        if (g)
+            width = g->getWidth();
+
+        double d = QInputDialog::getDouble(this, tr("Property"),
+                                           tr("Width:"), width, 0, 5000, 2, &ok);
+        if (ok)
+        {
+            item->setText(1,QString::number(d));
+
+            if (h)
+                h->setWidth(d);
+            if (g)
+                g->setWidth(d);
+
+        }
+    }
+    else if (propertyname == tr("Height"))
+    {
+        double height;
+        QGraphicsItem *selected = scene->selectedItems()[0];
+
+        connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(selected);
+        if (h)
+            height = h->getWidth();
+
+        connectableGraphic *g = qgraphicsitem_cast<connectableGraphic *>(scene->selectedItems()[0]);
+        if (g)
+            height = g->getWidth();
+
+        double d = QInputDialog::getDouble(this, tr("Property"),
+                                           tr("Height:"), height, 0, 5000, 2, &ok);
+        if (ok)
+        {
+            item->setText(1,QString::number(d));
+
+            if (h)
+                h->setHeight(d);
+            if (g)
+                g->setHeight(d);
+
         }
     }
     else
