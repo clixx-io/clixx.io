@@ -499,7 +499,12 @@ void MainWindow::loadProject()
                                                  | QFileDialog::DontResolveSymlinks);
 
     if (dir.length())
-        projectWindow->loadProject(dir);
+    {
+        if (systemDesign)
+            systemDesign->LoadComponents();
+        else
+            projectWindow->loadProject(dir);
+    }
 
     return;
 
@@ -604,6 +609,7 @@ void MainWindow::architectureSystem()
     {
         delete UserMsgDock;
         UserMsgDock = nullptr;
+        userMessages = nullptr;
     }
 
     // Hardware Designer
@@ -870,6 +876,7 @@ void MainWindow::AddConnection()
         color.setNamedColor(userchoices["cablecolor"].toString());
 
         systemDesign->addCableToScene("",
+                                      "",
                                       userchoices["startitem"].toString(),
                                       userchoices["enditem"].toString(),
                                       userchoices["wires"].toInt(),

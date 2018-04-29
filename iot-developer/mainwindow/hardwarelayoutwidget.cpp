@@ -150,16 +150,18 @@ void connectableHardware::addCableConnection(connectableCable *cable)
     cables.append(cable);
 }
 
-connectableCable::connectableCable(QString componentID, QGraphicsItem *startItem, QGraphicsItem *endItem, int wires, int rows, QColor cablecolor, QGraphicsItem *parent)
+connectableCable::connectableCable(QString componentID, QString componentName, QGraphicsItem *startItem, QGraphicsItem *endItem, int wires, int rows, QColor cablecolor, QGraphicsItem *parent)
     : QGraphicsLineItem(startItem->x(),startItem->y(),endItem->x(),endItem->y(),parent),
       m_startItem(startItem),
       m_endItem(endItem),
       m_wires(wires),
       m_rows(rows),
       m_cablecolor(cablecolor),
-      m_id(componentID)
+      m_id(componentID),
+      m_name(componentName)
 {
-    m_name = QObject::tr("Cable%1").arg(componentID);
+    if (m_name.size()==0)
+        m_name = QObject::tr("Cable%1").arg(componentID);
 
     // Copy over the cable color
     QPen pen;
@@ -168,21 +170,33 @@ connectableCable::connectableCable(QString componentID, QGraphicsItem *startItem
 
     // Adjust the starting position
     QPoint startPos(startItem->x(),startItem->y());
-    connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(startItem);
-    if (hw)
-        startPos += hw->getPrimaryConnectionPoint();
-    connectableGraphic *gfx = qgraphicsitem_cast<connectableGraphic *>(startItem);
-    if (gfx)
-        startPos += gfx->getPrimaryConnectionPoint();
+    connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(startItem);
+    if (h)
+    {
+        h->addCableConnection(this);
+        startPos += h->getPrimaryConnectionPoint();
+    }
+    connectableGraphic *g = qgraphicsitem_cast<connectableGraphic *>(startItem);
+    if (g)
+    {
+        g->addCableConnection(this);
+        startPos += g->getPrimaryConnectionPoint();
+    }
 
     // Adjust the ending position
     QPoint endPos(endItem->x(),endItem->y());
-    hw = qgraphicsitem_cast<connectableHardware *>(endItem);
-    if (hw)
-        endPos += hw->getPrimaryConnectionPoint();
-    gfx = qgraphicsitem_cast<connectableGraphic *>(endItem);
-    if (gfx)
-        endPos += gfx->getPrimaryConnectionPoint();
+    h = qgraphicsitem_cast<connectableHardware *>(endItem);
+    if (h)
+    {
+        h->addCableConnection(this);
+        endPos += h->getPrimaryConnectionPoint();
+    }
+    g = qgraphicsitem_cast<connectableGraphic *>(endItem);
+    if (g)
+    {
+        g->addCableConnection(this);
+        endPos += g->getPrimaryConnectionPoint();
+    }
 
     // Now use this line
     setLine(startPos.x(),startPos.y(),endPos.x(),endPos.y());
@@ -442,6 +456,7 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
     qDebug() << "loading from :" << filename;
 
     QSettings boardfile(filename, QSettings::IniFormat);
+    QStringList cpnames = getConnectionPointNames();
 
     scene->items().clear();
 
@@ -452,25 +467,36 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
 
         QString compID = boardfile.value("id").toString().toLower();
         QString compName = boardfile.value("name").toString();
-        QString compclass = boardfile.value("class").toString().toLower();
+        QString comptype = boardfile.value("type").toString().toLower();
+        QString conctpnt = boardfile.value("connection_point").toString();
+        int connectindex = cpnames.indexOf(conctpnt);
+
+        qDebug() << "Connectionpoint:" << conctpnt;
 
         int x = boardfile.value("x",0).toInt();
         int y = boardfile.value("y",0).toInt();
-        int w = boardfile.value("width",0).toInt();
-        int h = boardfile.value("height",0).toInt();
+        double w = boardfile.value("width",0).toFloat();
+        double h = boardfile.value("height",0).toFloat();
 
-        if (compclass == "component")
+        if (comptype == "hardware")
         {
-            qDebug() << tr(" - item:%1").arg(i+1);
-
             int p = boardfile.value("pins",0).toInt();
             int r = boardfile.value("rows",0).toInt();
             QString b = boardfile.value("board_file","").toString();
             QString i = boardfile.value("image_file","").toString();
 
-            addToScene(compID,compName,x,y,b,i,w,h,p,r);
+            connectableHardware *hw = addToScene(compID,compName,x,y,b,i,w,h,p,r);
 
-            ui->componentslistWidget->addItem(compName);
+            hw->setPrimaryConnectionIndex(connectindex);
+
+        }
+        if (comptype == "graphic")
+        {
+            QString i = boardfile.value("image_file","").toString();
+
+            connectableGraphic *g = addGraphicToScene(compID,compName,x,y,i,w,h);
+
+            g->setPrimaryConnectionIndex(connectindex);
 
         }
 
@@ -483,16 +509,11 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
 
         QString compID = boardfile.value("id").toString().toLower();
         QString compName = boardfile.value("name").toString();
-        QString compclass = boardfile.value("class").toString().toLower();
+        QString comptype = boardfile.value("type").toString().toLower();
 
-        int x = boardfile.value("x",0).toInt();
-        int y = boardfile.value("y",0).toInt();
-        int w = boardfile.value("width",0).toInt();
-        int h = boardfile.value("height",0).toInt();
-
-        if (compclass == "cable")
+        if (comptype == "cable")
         {
-            qDebug() << tr(" - item:%1").arg(i+1);
+            qDebug() << tr(" - cable item:%1").arg(i+1);
 
             QString si = boardfile.value("startitem","").toString();
             QString ei = boardfile.value("enditem","").toString();
@@ -501,80 +522,110 @@ bool HardwareLayoutWidget::LoadComponents(const QString filename)
             QString c = boardfile.value("color",0).toString();
             QColor cv(Qt::gray);
 
-            QGraphicsItem *startitem = findByID(si);
-            QGraphicsItem *enditem = findByID(ei);
+            addCableToScene(compID,compName,si,ei,wc,rc,cv);
 
-            connectableCable *cb = new connectableCable(compID,startitem,enditem,wc,rc,cv);
-
-            ui->componentslistWidget->addItem(compName);
         }
 
         boardfile.endGroup();
     }
+
+    loadComponentlist(ui->componentslistWidget);
 
     return(false);
 }
 
-bool HardwareLayoutWidget::SaveComponents(const QString filename)
+bool HardwareLayoutWidget::SaveComponents(QString filename)
 {
 
-    qDebug() << "Saving to :" << filename;
-
     QSettings boardfile(filename, QSettings::IniFormat);
+    QStringList cpnames = getConnectionPointNames();
 
     boardfile.setValue("overview/items",scene->items().count());
-    for (int i=0; i < scene->items().count(); i++)
+
+    int i(0);
+    foreach (QGraphicsItem *item, scene->items())
     {
-        QGraphicsItem *item = scene->items()[i];
 
         boardfile.beginGroup(tr("Item_%1").arg(i+1));
+        boardfile.remove("");
 
-        connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(item);
-        if (hw)
+        connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(item);
+        if (h)
         {
-            boardfile.setValue("id",hw->getID());
-            boardfile.setValue("name",hw->getName());
-            boardfile.setValue("class","Component");
-            boardfile.setValue("type",hw->getType());
-            boardfile.setValue("width",hw->getWidth());
-            boardfile.setValue("height",hw->getHeight());
-            boardfile.setValue("pins",hw->getPinCount());
-            boardfile.setValue("rows",hw->getRowCount());
+            boardfile.setValue("id",h->getID());
+            boardfile.setValue("name",h->getName());
+            boardfile.setValue("type","Hardware");
+            boardfile.setValue("width",h->getWidth());
+            boardfile.setValue("height",h->getHeight());
+            boardfile.setValue("pins",h->getPinCount());
+            boardfile.setValue("rows",h->getRowCount());
 
-            boardfile.setValue("board_file",hw->getBoardFile());
-            boardfile.setValue("image_file",hw->getImageFilename());
+            boardfile.setValue("board_file",h->getBoardFile());
+            boardfile.setValue("image_file",h->getImageFilename());
 
             boardfile.setValue("x",item->x());
             boardfile.setValue("y",item->y());
 
+            boardfile.setValue("connection_point",cpnames[h->getPrimaryConnectionIndex()]);
+
         }
 
-        connectableCable *cbl = qgraphicsitem_cast<connectableCable *>(item);
-        if (cbl)
+        connectableCable *c = qgraphicsitem_cast<connectableCable *>(item);
+        if (c)
         {
-            boardfile.setValue("id",cbl->getID());
-            boardfile.setValue("name",cbl->getName());
-            boardfile.setValue("class","Cable");
+            boardfile.setValue("id",c->getID());
+            boardfile.setValue("name",c->getName());
+            boardfile.setValue("type","Cable");
 
-            /*
-            if (cbl->getStartItem())
-                boardfile.setValue("startitem",cbl->getStartItem()->getID());
-            else
-                boardfile.setValue("startitem","");
+            QGraphicsItem *startitem = c->getStartItem();
+            QGraphicsItem *enditem = c->getEndItem();
 
-            if (cbl->getEndItem())
-                boardfile.setValue("enditem",cbl->getEndItem()->getID());
-            else
-                boardfile.setValue("enditem","");
-            */
-            boardfile.setValue("type",cbl->getType());
-            boardfile.setValue("color",cbl->getColor().name(QColor::HexRgb));
-            boardfile.setValue("wirecount",cbl->getWireCount());
-            boardfile.setValue("rows",cbl->getRows());
+            connectableHardware *sc = qgraphicsitem_cast<connectableHardware *>(startitem);
+            if (sc)
+                boardfile.setValue("startitem",sc->getID());
+
+            connectableGraphic *sg = qgraphicsitem_cast<connectableGraphic *>(startitem);
+            if (sg)
+                boardfile.setValue("startitem",sg->getID());
+
+            connectableHardware *ec = qgraphicsitem_cast<connectableHardware *>(enditem);
+            if (ec)
+                boardfile.setValue("enditem",ec->getID());
+
+            connectableGraphic *eg = qgraphicsitem_cast<connectableGraphic *>(enditem);
+            if (eg)
+                boardfile.setValue("enditem",eg->getID());
+
+            boardfile.setValue("color",c->getColor().name(QColor::HexRgb));
+            boardfile.setValue("wirecount",c->getWireCount());
+            boardfile.setValue("rows",c->getRows());
+
+        }
+
+        connectableGraphic *g = qgraphicsitem_cast<connectableGraphic *>(item);
+        if (g)
+        {
+            boardfile.setValue("id",g->getID());
+            boardfile.setValue("name",g->getName());
+            boardfile.setValue("type","Graphic");
+            boardfile.setValue("width",g->getWidth());
+            boardfile.setValue("height",g->getHeight());
+            boardfile.setValue("image_file",g->getImageFilename());
+
+            boardfile.setValue("x",item->x());
+            boardfile.setValue("y",item->y());
+
+            boardfile.setValue("connection_point",cpnames[g->getPrimaryConnectionIndex()]);
+
         }
 
         boardfile.endGroup();
+
+        i++;
+
     }
+
+    qDebug() << "Saved";
 
     return(false);
 }
@@ -663,21 +714,21 @@ QGraphicsItem* HardwareLayoutWidget::findByID(QString componentID)
 
     foreach (QGraphicsItem *item, scene->items())
     {
-        connectableHardware *hw = qgraphicsitem_cast<connectableHardware *>(item);
-        if (hw)
+        connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(item);
+        if (h)
         {
-            if (hw->getID() == componentID)
+            if (h->getID() == componentID)
             {
-                result = hw;
+                result = h;
                 break;
             }
         }
-        connectableGraphic *gf = qgraphicsitem_cast<connectableGraphic *>(item);
-        if (gf)
+        connectableGraphic *g = qgraphicsitem_cast<connectableGraphic *>(item);
+        if (g)
         {
-            if (gf->getID() == componentID)
+            if (g->getID() == componentID)
             {
-                result = gf;
+                result = g;
                 break;
             }
         }
@@ -915,7 +966,7 @@ connectableHardware * HardwareLayoutWidget::addToScene(QString componentID, QStr
     return(item);
 }
 
-connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor)
+connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QString componentName, QString startItem, QString endItem, int wires, int rows, QColor cablecolor)
 {
 
     if (componentID.length() == 0)
@@ -924,31 +975,7 @@ connectableCable * HardwareLayoutWidget::addCableToScene(QString componentID, QS
     QGraphicsItem *c1 = findByID(startItem);
     QGraphicsItem *c2 = findByID(endItem);
 
-    qDebug() << "Adding to Scene";
-
-    connectableCable *cable = new connectableCable(componentID, c1, c2, wires, rows, cablecolor);
-
-    connectableHardware *hw1 = qgraphicsitem_cast<connectableHardware *>(c1);
-    if (hw1)
-    {
-        hw1->addCableConnection(cable);
-    }
-    connectableGraphic *gf1 = qgraphicsitem_cast<connectableGraphic *>(c1);
-    if (gf1)
-    {
-        gf1->addCableConnection(cable);
-    }
-
-    connectableHardware *hw2 = qgraphicsitem_cast<connectableHardware *>(c2);
-    if (hw2)
-    {
-        hw2->addCableConnection(cable);
-    }
-    connectableGraphic *gf2 = qgraphicsitem_cast<connectableGraphic *>(c2);
-    if (gf2)
-    {
-        gf2->addCableConnection(cable);
-    }
+    connectableCable *cable = new connectableCable(componentID, componentName, c1, c2, wires, rows, cablecolor);
 
     cable->setFlag(QGraphicsItem::ItemIsSelectable);
     cable->setFlag(QGraphicsItem::ItemSendsGeometryChanges);

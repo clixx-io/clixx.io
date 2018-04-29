@@ -83,7 +83,7 @@ class connectableCable : public QGraphicsLineItem
 {
 public:
 
-    connectableCable(QString componentID, QGraphicsItem *startItem, QGraphicsItem *endItem, int wires=-1, int rows=-1, QColor cablecolor=QColor(12,56,99), QGraphicsItem *parent = Q_NULLPTR);
+    connectableCable(QString componentID, QString componentName, QGraphicsItem *startItem, QGraphicsItem *endItem, int wires=-1, int rows=-1, QColor cablecolor=QColor(12,56,99), QGraphicsItem *parent = Q_NULLPTR);
 
     enum { Type = UserType + 2 };
     int type() const
@@ -179,10 +179,10 @@ public:
     ~HardwareLayoutWidget();
 
     bool LoadComponents(const QString filename = "hardware.layout");
-    bool SaveComponents(const QString filename = "hardware.layout");
+    bool SaveComponents(QString filename = "hardware.layout");
 
     connectableHardware *addToScene(QString componentID, QString componentName, double x, double y, QString componentBoardFile, QString componentImageName, double componentWidth, double componentHeight, int pins, int rows);
-    connectableCable *addCableToScene(QString componentID, QString startItem, QString endItem, int wires, int rows, QColor cablecolor = QColor(255, 0, 0, 127));
+    connectableCable *addCableToScene(QString componentID, QString componentName, QString startItem, QString endItem, int wires, int rows, QColor cablecolor = QColor(255, 0, 0, 127));
     connectableGraphic * addGraphicToScene(QString componentID, QString componentName, double x, double y, QString componentImageName, double componentWidth, double componentHeight);
 
     QGraphicsItem *findByID(QString componentID);
