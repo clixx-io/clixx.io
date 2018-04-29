@@ -66,6 +66,7 @@ QT_FORWARD_DECLARE_CLASS(QSettings)
 QT_FORWARD_DECLARE_CLASS(QDockWidget)
 QT_FORWARD_DECLARE_CLASS(HardwareGPIO)
 QT_FORWARD_DECLARE_CLASS(HardwareLayoutWidget)
+QT_FORWARD_DECLARE_CLASS(QGraphicsScene)
 
 class MainWindow : public QMainWindow
 {
@@ -177,6 +178,8 @@ private:
 
     QDockWidget *UserMsgDock = nullptr;
     QListWidget *userMessages = nullptr;
+
+    QGraphicsScene *designScene = nullptr;
 
 };
 

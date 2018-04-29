@@ -175,7 +175,7 @@ class HardwareLayoutWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit HardwareLayoutWidget(QWidget *parent = 0);
+    explicit HardwareLayoutWidget(QGraphicsScene *existingScene, QWidget *parent = 0);
     ~HardwareLayoutWidget();
 
     bool LoadComponents(const QString filename = "hardware.layout");
@@ -215,6 +215,9 @@ private slots:
     void pandown();
 
 private:
+
+    void loadComponentlist(QListWidget *widget);
+
     Ui::HardwareLayoutWidget *ui;
 
     QGraphicsScene *scene = nullptr;

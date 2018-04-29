@@ -609,7 +609,10 @@ void MainWindow::architectureSystem()
     // Hardware Designer
     if (!systemDesign)
     {
-        systemDesign = new HardwareLayoutWidget(this);
+        if (!designScene)
+            designScene = new QGraphicsScene(this);
+
+        systemDesign = new HardwareLayoutWidget(designScene, this);
     }
     setCentralWidget(systemDesign);
 

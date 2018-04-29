@@ -240,13 +240,17 @@ QVariant connectableCable::itemChange(GraphicsItemChange change, const QVariant 
     return QGraphicsItem::itemChange(change, value);
 }
 
-HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
+HardwareLayoutWidget::HardwareLayoutWidget(QGraphicsScene *existingScene, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::HardwareLayoutWidget)
+    ui(new Ui::HardwareLayoutWidget),
+    scene(existingScene)
 {
     ui->setupUi(this);
 
-    scene = new QGraphicsScene(this);
+    if (!scene)
+        scene = new QGraphicsScene(this);
+    else
+        loadComponentlist(ui->componentslistWidget);
 
     ui->graphicsView->setScene(scene);
 
@@ -273,6 +277,44 @@ HardwareLayoutWidget::HardwareLayoutWidget(QWidget *parent) :
     QShortcut* downshortcut = new QShortcut(QKeySequence(Qt::Key_Down), ui->graphicsView);
     connect(downshortcut, SIGNAL(activated()), this, SLOT(pandown()));
 
+}
+
+void HardwareLayoutWidget::loadComponentlist(QListWidget *widget)
+{
+    QString itemName,itemID;
+
+    widget->clear();
+
+    foreach (QGraphicsItem *item,scene->items())
+    {
+        connectableHardware *h = qgraphicsitem_cast<connectableHardware *>(item);
+        if (h)
+        {
+            itemID = h->getID();
+            itemName = h->getName();
+        }
+
+        connectableCable *c = qgraphicsitem_cast<connectableCable *>(item);
+        if (c)
+        {
+            itemID = c->getID();
+            itemName = c->getName();
+        }
+
+        connectableGraphic *g = qgraphicsitem_cast<connectableGraphic *>(item);
+        if (g)
+        {
+            itemID = g->getID();
+            itemName = g->getName();
+        }
+
+        QListWidgetItem *newItem = new QListWidgetItem;
+        newItem->setText(itemName);
+        QVariant id(itemID);
+        newItem->setData(Qt::UserRole, id);
+        ui->componentslistWidget->insertItem(ui->componentslistWidget->count(), newItem);
+
+    }
 }
 
 void HardwareLayoutWidget::SelectionChanged()
